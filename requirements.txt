@@ -1,0 +1,27 @@
+# Core training / inference stack
+# These three versions are tightly coupled: vllm 0.4.3 pulls torch 2.3.0+cu121,
+# transformers must stay at 4.44.0 for the S4 checkpoint to load, and
+# xformers 0.0.26.post1 is the last release that supports V100 (compute 7.0).
+torch==2.3.0
+transformers==4.44.0
+vllm==0.4.3
+xformers==0.0.26.post1
+
+# Tokenizers, datasets, evaluation
+datasets>=2.16.0
+sentence-transformers>=2.7.0
+sentencepiece>=0.2.0
+bert-score>=0.3.13
+
+# External hallucination baseline
+minicheck @ https://github.com/Liyan06/MiniCheck/archive/refs/heads/main.zip
+
+# Numerics, ML, plotting
+scikit-learn>=1.3.0
+numpy>=1.24.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+
+# Text processing
+nltk>=3.8.1                # punkt_tab required for MiniCheck-7B; download separately
+fsspec>=2024.2.0           # required for `hf://` pandas URLs (RAGTruth++)

@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files — never commit
+*.parquet
+*.csv
+*.tsv
+*.jsonl
+
+# Per-example score files — too large and not essential for reproduction
+# (aggregate metric JSONs under results/ are kept; per-example ones are not)
+nli_results_*.json
+relevance_results_*.json
+consistency_results_*.json
+signal4_results_*.json
+signal5_results_*.json
+signal8_results_*.json
+minicheck_results_*.json
+halubench_*scores*.json
+halubench_per_example_scores.json
+halubench_s2s4_scores.json
+**/per_run_predictions/
+**/fold_predictions.json
+**/per_example*.json
+
+# Model checkpoints — released separately on HuggingFace, not bundled
+signal4_model/
+signal8_model/
+signal4_halubench_fewshot/
+models--*/
+
+# HuggingFace and pip caches
+.cache/
+hf_cache/
+
+# Logs and ad-hoc runs
+*.log
+nohup.out
+
+# Cluster / pod artifacts
+*.pvc
+*.tar.gz
+
+# MERLIN clinical data (not for public release)
+clinical_extension/dataset_*.pq
+clinical_extension/merlin_v1_labeling_sheet.csv
+clinical_extension/merlin_v1_raw_scores.json
+clinical_extension/merlin_v1_items.jsonl
+clinical_extension/merlin_v1_analysis/
