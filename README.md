@@ -44,7 +44,7 @@ figures/                # plots used in the thesis
 model_card.md           # HuggingFace model card for the released S4 checkpoint
 ```
 
-Per-example score files (~15k train + 2.7k test + 14k HaluBench rows) are intentionally not in this repository — they are large and not needed to verify the headline results. Aggregate metric JSONs are included under `results/`.
+Per-example score files (~15k train + 2.7k test + 14k HaluBench rows) are intentionally not stored in this Git repository because they are large intermediate artifacts. Aggregate metric JSONs are included under `results/`, but full end-to-end reproduction of the headline results requires regenerating the per-example score files or obtaining them separately.
 
 ---
 
