@@ -48,6 +48,8 @@ for f in \
   signal4_finetune.py \
   signal4_score_train.py \
   signal5_bertscore.py \
+  signal6_coverage.py \
+  signal7_pairwise.py \
   signal8_distillation.py \
   minicheck_baseline.py
 do
@@ -82,8 +84,16 @@ for f in \
   task_type_analysis.py \
   model_breakdown_analysis.py \
   clustering_analysis.py \
-  nli_conflict_analysis.py \
-  nli_baseless_analysis.py
+  nli_conflict_anlaysis.py \
+  nli_baseless_analysis.py \
+  nli_contradiction_conflict.py \
+  nli_v2_min_analysis.py \
+  relevance_v2_min_analysis.py \
+  signal5_min_analysis.py \
+  reliability_diagram.py \
+  confidence_intervals.py \
+  subtle_conflict_check.py \
+  subtle_final.py
 do
   copy_if_exists "$WS/$f" "$REPO/evaluation"
 done
@@ -145,11 +155,18 @@ for f in \
   nli_metrics_v2.json \
   relevance_metrics_v2.json \
   consistency_metrics.json \
+  consistency_metrics_v5.json \
   signal4_metrics.json \
+  signal4_metrics_ep3.json \
   signal5_metrics_mean.json \
+  signal6_metrics.json \
+  signal7_metrics.json \
   signal8_metrics.json \
   minicheck_metrics_7b.json \
-  complete_metrics_results.json
+  minicheck_metrics_roberta.json \
+  complete_metrics_results.json \
+  reliability_results.json \
+  confidence_intervals_results.json
 do
   copy_if_exists "$WS/$f" "$REPO/results/signals"
 done
@@ -161,7 +178,9 @@ for f in \
   fusion_logreg_no_s3_results.json \
   fusion_logreg_s5_results.json \
   fusion_logreg_s4_results.json \
-  fusion_results_s4.json
+  fusion_logreg_results.json \
+  fusion_results_s4.json \
+  fusion_results.json
 do
   copy_if_exists "$WS/$f" "$REPO/results/fusion"
 done
