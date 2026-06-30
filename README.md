@@ -4,7 +4,7 @@ Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augm
 
 This repository implements and evaluates a hybrid post-generation verification system for detecting hallucinations in Retrieval-Augmented Generation (RAG) outputs. The system combines five verification signals plus an external baseline (MiniCheck-7B), evaluates fusion strategies, and studies robustness across label noise, task type, generator, and out-of-domain data.
 
-The thesis contribution is **competitive performance with strong analysis across fusion, calibration, robustness, and efficiency**, not a new F1 maximum. No single system dominates all metrics: MiniCheck-7B leads on AUROC, the S2+S4 fusion leads on calibration, and the 30%-escalation cascade leads on F1.
+The thesis contribution is **competitive performance with strong analysis across fusion, calibration, robustness, and efficiency**, not a new F1 maximum. No single system dominates all metrics: MiniCheck-7B leads on AUROC, the S2+S4 fusion leads on calibration, and the cascade improves F1 through selective escalation. The 30%-escalation setting is treated as the best cost-performance operating point, while 50% escalation gives the highest observed cascade F1.
 
 ---
 
@@ -22,7 +22,7 @@ The thesis contribution is **competitive performance with strong analysis across
 | **Logreg S2+S4 fusion (+meta)** | 0.710 | 0.862 | **0.105** |
 | **Cascade @ 30% escalation** | **0.763** | — | — |
 
-S4 clears all prompting baselines including GPT-4-turbo (62.0 F1 on RAGTruth Table 5 overall response-level) but trails the original RAGTruth-paper fine-tuned Llama-2-13B (78.7). The best cascade configuration (0.763) still trails that 13B by ~2.4 F1 points.
+S4 clears all prompting baselines including GPT-4-turbo (62.0 F1 on RAGTruth Table 5 overall response-level) but trails the original RAGTruth-paper fine-tuned Llama-2-13B (78.7). The 30%-escalation cascade reaches 0.763 F1 at roughly 4× lightweight cost, while the highest observed cascade F1 is 0.765 at 50% escalation. Both cascade settings still trail the RAGTruth-paper 13B verifier by roughly 2.2–2.4 F1 points.
 
 ---
 
@@ -142,7 +142,7 @@ python efficiency/efficiency_benchmark.py       # latency, throughput, memory
 2. **The fusion is the best-calibrated system** (ECE 0.105 on RAGTruth test), beating all individual signals and MiniCheck-7B.
 3. **Within-RAGTruth generalization is strong:** AUROC 0.88–0.95 in leave-one-task and leave-one-generator splits.
 4. **Cross-domain transfer is fundamentally hard but fixable with adaptation.** S4 zero-shot on HaluBench is near-chance (AUROC 0.50); at N=2240 it reaches 0.96 aggregate — but that aggregate is dominated by halueval and DROP. FinanceBench, CovidQA, and PubMedQA plateau at 0.55–0.75 even when ~80% of available source-specific examples are used. MiniCheck-7B shows the opposite pattern, with the two verifiers exhibiting complementary domain coverage.
-5. **Cascading lightweight fusion → MiniCheck-7B at 30% escalation produces F1 0.763** on RAGTruth, beating both endpoints (lightweight 0.710, MiniCheck alone 0.726) at ~4× lightweight cost, well below MiniCheck's 11× cost.
+5. **Cascading lightweight fusion → MiniCheck-7B improves the cost-performance frontier.** The 30%-escalation setting reaches F1 0.763 on RAGTruth, beating both endpoints (lightweight 0.710, MiniCheck alone 0.726) at ~4× lightweight cost. The highest observed cascade F1 is 0.765 at 50% escalation, but that gain over 30% is only +0.0025 F1 while increasing cost from 4× to 6×.
 6. **Cascade gain comes from complementary specialization, not redundancy.** MiniCheck rescues false positives on faithful long-context summaries (75% are subtype=none, 49% Summary task); fusion catches real hallucinations on shorter QA and Data2txt outputs.
 7. **RAGTruth++ drop is calibration shift, not granularity or representation.** Retraining on RAGTruth++ labels improves AUROC only marginally over retraining on original labels with the same examples (+0.034, one fold negative); sentence-level scoring is uniformly worse than response-level on both label sets. Pos rate moves from 16% to 75% under re-annotation, so the optimal threshold shifts substantially while ranking is largely preserved.
 8. **Cross-benchmark transfer from scratch is zero.** Training from the NLI cross-encoder backbone (no S4 init) reaches val AUROC 0.85+ in-domain on HaluBench but test AUROC 0.46–0.55 on RAGTruth across all training sizes and seeds. The earlier "few-shot HaluBench" success at N=1120 only works because S4 was already pretrained on 15k RAGTruth examples — cheap adaptation requires expensive pretraining.
