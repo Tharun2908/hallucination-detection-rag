@@ -1,0 +1,28 @@
+
+================================================================================
+EFFICIENCY SUMMARY  (median per-example latency at batch=1)
+================================================================================
+Component               Params (M)   Disk (MB)    Med (ms)    p95 (ms)
+----------------------------------------------------------------------
+S2 (relevance)                22.7          88       39.49       271.2
+S4 (DeBERTa ft)              184.4         711       21.66        24.6
+Fusion (S2+S4)               207.1           —       61.15           —
+MiniCheck-7B                7000.0       14766      658.60      2501.3
+
+Throughput (batched):
+  S2 sequential:        9.2 ex/sec
+  S4 batch=32:          73.6 ex/sec
+  MiniCheck-7B batched: 1.0 ex/sec
+
+Cascade end-to-end (estimated from per-example medians, b=1):
+Escalation         Med ms/ex    vs Lightweight      vs MiniCheck
+0%                     61.15             1.00x             0.09x
+5%                     94.08             1.54x             0.14x
+10%                   127.01             2.08x             0.19x
+20%                   192.87             3.15x             0.29x
+30%                   258.73             4.23x             0.39x
+50%                   390.45             6.38x             0.59x
+75%                   555.10             9.08x             0.84x
+100%                  719.75            11.77x             1.09x
+
+Saved /workspace/efficiency/combined.json

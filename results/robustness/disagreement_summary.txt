@@ -1,0 +1,38 @@
+==============================================================================
+Disagreement / error-overlap analysis: Fusion (S2+S4) vs MiniCheck-7B
+RAGTruth test (n=2700)
+==============================================================================
+Fusion:    F1=0.7095  AUROC=0.8619  thr=0.40
+MiniCheck: F1=0.7353  AUROC=0.8754  thr=0.85
+
+Bucket                       n         %    pos_rate
+----------------------------------------------------
+both_correct              1817    67.3%       0.342
+both_wrong                 241     8.9%       0.436
+lightweight_wins           273    10.1%       0.454
+minicheck_wins             369    13.7%       0.252
+
+CASCADE GAIN BUCKET — examples where MiniCheck wins but lightweight loses:
+    (these are the examples that justify escalation)
+    n=369  pos_rate=0.252
+    by_task_type:  Data2txt=87(24%), QA=101(27%), Summary=181(49%)
+    by_model:      gpt-3.5-turbo-0613=40(11%), gpt-4-0613=44(12%), llama-2-13b-chat=70(19%), llama-2-70b-chat=59(16%), llama-2-7b-chat=85(23%), mistral-7B-instruct=71(19%)
+    by_subtype:    baseless_info=56(15%), evident_conflict=32(9%), mixed=5(1%), none=276(75%)
+    by_answer_len: Q1=72(20%), Q2=105(28%), Q3=104(28%), Q4=88(24%)
+    by_context_len:Q1=82(22%), Q2=68(18%), Q3=79(21%), Q4=140(38%)
+
+LIGHTWEIGHT WINS — examples where lightweight is correct but MiniCheck wrong:
+    (these justify NOT escalating; cost saved)
+    n=273  pos_rate=0.454
+    by_task_type:  Data2txt=83(30%), QA=128(47%), Summary=62(23%)
+    by_model:      gpt-3.5-turbo-0613=27(10%), gpt-4-0613=22(8%), llama-2-13b-chat=55(20%), llama-2-70b-chat=48(18%), llama-2-7b-chat=59(22%), mistral-7B-instruct=62(23%)
+    by_subtype:    baseless_info=64(23%), evident_conflict=49(18%), mixed=11(4%), none=149(55%)
+
+BOTH WRONG — genuinely hard examples for both verifiers:
+    n=241  pos_rate=0.436
+    by_task_type:  Data2txt=93(39%), QA=82(34%), Summary=66(27%)
+    by_subtype:    baseless_info=39(16%), evident_conflict=62(26%), mixed=4(2%), none=136(56%)
+
+Concentration check: largest task_type share in 'minicheck_wins' bucket:
+    Summary: 181/369 = 49.1%
+    llama-2-7b-chat: 85/369 = 23.0%

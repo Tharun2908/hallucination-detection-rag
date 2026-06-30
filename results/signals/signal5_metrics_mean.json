@@ -1,0 +1,38 @@
+{
+  "aggregation_mode": "mean",
+  "best_threshold": 0.9,
+  "train_metrics": {
+    "threshold": 0.9,
+    "f1": 0.4523,
+    "precision": 0.6056,
+    "recall": 0.361,
+    "auroc": 0.6652,
+    "confusion_matrix": [
+      [
+        6789,
+        1580
+      ],
+      [
+        4295,
+        2426
+      ]
+    ]
+  },
+  "test_metrics": {
+    "threshold": 0.9,
+    "f1": 0.4481,
+    "precision": 0.5557,
+    "recall": 0.3754,
+    "auroc": 0.6969,
+    "confusion_matrix": [
+      [
+        1474,
+        283
+      ],
+      [
+        589,
+        354
+      ]
+    ]
+  }
+}

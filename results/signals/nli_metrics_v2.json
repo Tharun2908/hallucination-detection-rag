@@ -1,0 +1,44 @@
+{
+  "aggregation_mode": "mean",
+  "train_threshold_sweep": {
+    "threshold": 0.65,
+    "accuracy": 0.5193,
+    "precision": 0.48,
+    "recall": 0.9519,
+    "f1": 0.6382,
+    "auroc": 0.605,
+    "confusion_matrix": [
+      [
+        1438,
+        6931
+      ],
+      [
+        323,
+        6398
+      ]
+    ],
+    "n_examples": 15090,
+    "n_errors": 0
+  },
+  "best_threshold": 0.65,
+  "test_metrics": {
+    "threshold": 0.65,
+    "accuracy": 0.4519,
+    "precision": 0.386,
+    "recall": 0.9639,
+    "f1": 0.5512,
+    "auroc": 0.5965,
+    "confusion_matrix": [
+      [
+        311,
+        1446
+      ],
+      [
+        34,
+        909
+      ]
+    ],
+    "n_examples": 2700,
+    "n_errors": 0
+  }
+}

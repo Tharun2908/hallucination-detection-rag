@@ -1,0 +1,18 @@
+{
+  "best_threshold": 0.45,
+  "train_f1": 0.7243,
+  "test_f1": 0.6257,
+  "test_precision": 0.5208,
+  "test_recall": 0.7837,
+  "test_auroc": 0.761,
+  "confusion_matrix": [
+    [
+      1077,
+      680
+    ],
+    [
+      204,
+      739
+    ]
+  ]
+}

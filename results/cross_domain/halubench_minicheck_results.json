@@ -1,0 +1,70 @@
+{
+  "overall": {
+    "threshold": 0.8,
+    "f1": 0.7206,
+    "precision": 0.8234,
+    "recall": 0.6407,
+    "auroc": 0.7959,
+    "auprc": 0.8345,
+    "ece": 0.1764,
+    "n": 14000,
+    "pos_rate": 0.501
+  },
+  "per_domain": {
+    "DROP": {
+      "threshold": 0.8,
+      "f1": 0.514,
+      "precision": 0.4808,
+      "recall": 0.552,
+      "auroc": 0.4932,
+      "auprc": 0.5475,
+      "ece": 0.3378,
+      "n": 1000,
+      "pos_rate": 0.5
+    },
+    "FinanceBench": {
+      "threshold": 0.8,
+      "f1": 0.6284,
+      "precision": 0.5327,
+      "recall": 0.766,
+      "auroc": 0.5763,
+      "auprc": 0.5901,
+      "ece": 0.3128,
+      "n": 1000,
+      "pos_rate": 0.5
+    },
+    "covidQA": {
+      "threshold": 0.8,
+      "f1": 0.7363,
+      "precision": 0.9737,
+      "recall": 0.592,
+      "auroc": 0.9121,
+      "auprc": 0.929,
+      "ece": 0.0552,
+      "n": 1000,
+      "pos_rate": 0.5
+    },
+    "halueval": {
+      "threshold": 0.8,
+      "f1": 0.7489,
+      "precision": 0.9491,
+      "recall": 0.6184,
+      "auroc": 0.8143,
+      "auprc": 0.8782,
+      "ece": 0.1678,
+      "n": 10000,
+      "pos_rate": 0.501
+    },
+    "pubmedQA": {
+      "threshold": 0.8,
+      "f1": 0.8015,
+      "precision": 0.7386,
+      "recall": 0.876,
+      "auroc": 0.8574,
+      "auprc": 0.8155,
+      "ece": 0.2991,
+      "n": 1000,
+      "pos_rate": 0.5
+    }
+  }
+}

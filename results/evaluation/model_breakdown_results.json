@@ -1,0 +1,152 @@
+{
+  "gpt-3.5-turbo-0613": {
+    "n": 450,
+    "positives": 46,
+    "pos_rate": 0.1022,
+    "signals": {
+      "NLI": {
+        "F1": 0.2143,
+        "Precision": 0.1203,
+        "Recall": 0.9783,
+        "AUROC": 0.485
+      },
+      "Relevance": {
+        "F1": 0.3333,
+        "Precision": 0.205,
+        "Recall": 0.8913,
+        "AUROC": 0.8016
+      },
+      "Consistency": {
+        "F1": 0.1962,
+        "Precision": 0.1087,
+        "Recall": 1.0,
+        "AUROC": 0.4922
+      }
+    }
+  },
+  "gpt-4-0613": {
+    "n": 450,
+    "positives": 42,
+    "pos_rate": 0.0933,
+    "signals": {
+      "NLI": {
+        "F1": 0.1949,
+        "Precision": 0.1092,
+        "Recall": 0.9048,
+        "AUROC": 0.5611
+      },
+      "Relevance": {
+        "F1": 0.3318,
+        "Precision": 0.2071,
+        "Recall": 0.8333,
+        "AUROC": 0.7591
+      },
+      "Consistency": {
+        "F1": 0.1783,
+        "Precision": 0.0981,
+        "Recall": 0.9762,
+        "AUROC": 0.46
+      }
+    }
+  },
+  "llama-2-13b-chat": {
+    "n": 450,
+    "positives": 207,
+    "pos_rate": 0.46,
+    "signals": {
+      "NLI": {
+        "F1": 0.6624,
+        "Precision": 0.4976,
+        "Recall": 0.9903,
+        "AUROC": 0.5942
+      },
+      "Relevance": {
+        "F1": 0.7473,
+        "Precision": 0.6855,
+        "Recall": 0.8213,
+        "AUROC": 0.81
+      },
+      "Consistency": {
+        "F1": 0.6359,
+        "Precision": 0.4662,
+        "Recall": 1.0,
+        "AUROC": 0.5755
+      }
+    }
+  },
+  "llama-2-70b-chat": {
+    "n": 450,
+    "positives": 171,
+    "pos_rate": 0.38,
+    "signals": {
+      "NLI": {
+        "F1": 0.5799,
+        "Precision": 0.4123,
+        "Recall": 0.9766,
+        "AUROC": 0.5933
+      },
+      "Relevance": {
+        "F1": 0.6699,
+        "Precision": 0.5726,
+        "Recall": 0.807,
+        "AUROC": 0.7515
+      },
+      "Consistency": {
+        "F1": 0.5579,
+        "Precision": 0.3869,
+        "Recall": 1.0,
+        "AUROC": 0.5586
+      }
+    }
+  },
+  "llama-2-7b-chat": {
+    "n": 450,
+    "positives": 226,
+    "pos_rate": 0.5022,
+    "signals": {
+      "NLI": {
+        "F1": 0.679,
+        "Precision": 0.5213,
+        "Recall": 0.9735,
+        "AUROC": 0.5477
+      },
+      "Relevance": {
+        "F1": 0.6747,
+        "Precision": 0.6176,
+        "Recall": 0.7434,
+        "AUROC": 0.6488
+      },
+      "Consistency": {
+        "F1": 0.6657,
+        "Precision": 0.5011,
+        "Recall": 0.9912,
+        "AUROC": 0.5071
+      }
+    }
+  },
+  "mistral-7B-instruct": {
+    "n": 450,
+    "positives": 251,
+    "pos_rate": 0.5578,
+    "signals": {
+      "NLI": {
+        "F1": 0.7256,
+        "Precision": 0.5939,
+        "Recall": 0.9323,
+        "AUROC": 0.4906
+      },
+      "Relevance": {
+        "F1": 0.7175,
+        "Precision": 0.7436,
+        "Recall": 0.6932,
+        "AUROC": 0.7291
+      },
+      "Consistency": {
+        "F1": 0.7176,
+        "Precision": 0.5688,
+        "Recall": 0.9721,
+        "AUROC": 0.4922
+      }
+    }
+  }
+}

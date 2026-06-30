@@ -1,0 +1,34 @@
+{
+  "method": "Logistic Regression S1+S2+S4+S5 (no S3)",
+  "best_threshold": 0.35,
+  "train_f1": 0.8726,
+  "test_f1": 0.7092,
+  "test_precision": 0.6442,
+  "test_recall": 0.789,
+  "test_auroc": 0.8625,
+  "coefficients": {
+    "NLI score": -0.2019,
+    "Relevance score": -0.6688,
+    "Signal4 score": 5.6467,
+    "BERTScore": -1.1551,
+    "task_type_Data2txt": -0.2169,
+    "task_type_QA": -0.786,
+    "task_type_Summary": -0.1661,
+    "model_gpt-3.5-turbo-0613": -0.4732,
+    "model_gpt-4-0613": -0.5873,
+    "model_llama-2-13b-chat": -0.1429,
+    "model_llama-2-70b-chat": -0.6959,
+    "model_llama-2-7b-chat": -0.0749,
+    "model_mistral-7B-instruct": 0.8052
+  },
+  "confusion_matrix": [
+    [
+      1346,
+      411
+    ],
+    [
+      199,
+      744
+    ]
+  ]
+}

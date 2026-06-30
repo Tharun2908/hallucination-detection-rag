@@ -1,0 +1,58 @@
+[
+  {
+    "escalation_rate": 0,
+    "f1": 0.3943,
+    "precision": 0.485,
+    "recall": 0.3322,
+    "cost": 1.0
+  },
+  {
+    "escalation_rate": 5,
+    "f1": 0.4023,
+    "precision": 0.5003,
+    "recall": 0.3364,
+    "cost": 1.5
+  },
+  {
+    "escalation_rate": 10,
+    "f1": 0.4135,
+    "precision": 0.5179,
+    "recall": 0.3441,
+    "cost": 2.0
+  },
+  {
+    "escalation_rate": 20,
+    "f1": 0.4382,
+    "precision": 0.5536,
+    "recall": 0.3626,
+    "cost": 3.0
+  },
+  {
+    "escalation_rate": 30,
+    "f1": 0.4718,
+    "precision": 0.5954,
+    "recall": 0.3907,
+    "cost": 4.0
+  },
+  {
+    "escalation_rate": 50,
+    "f1": 0.559,
+    "precision": 0.695,
+    "recall": 0.4675,
+    "cost": 6.0
+  },
+  {
+    "escalation_rate": 75,
+    "f1": 0.6666,
+    "precision": 0.7841,
+    "recall": 0.5797,
+    "cost": 8.5
+  },
+  {
+    "escalation_rate": 100,
+    "f1": 0.7205,
+    "precision": 0.823,
+    "recall": 0.6407,
+    "cost": 11.0
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "best_epoch": 3,
+  "best_val_f1": 0.7459,
+  "best_threshold": 0.35,
+  "test_metrics": {
+    "f1": 0.687,
+    "precision": 0.601,
+    "recall": 0.8017,
+    "auroc": 0.847
+  },
+  "confusion_matrix": [
+    [
+      1255,
+      502
+    ],
+    [
+      187,
+      756
+    ]
+  ]
+}

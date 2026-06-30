@@ -1,0 +1,13 @@
+{
+  "train_size": 1120,
+  "val_size": 280,
+  "test_size": 12600,
+  "best_epoch": 3,
+  "best_val_auroc": 0.9204591836734693,
+  "best_threshold": 0.15,
+  "test_f1": 0.841,
+  "test_precision": 0.7567,
+  "test_recall": 0.9463,
+  "test_auroc": 0.9302,
+  "test_auprc": 0.938
+}

@@ -1,0 +1,33 @@
+{
+  "method": "Logistic Regression Fusion (one-hot, train-tuned threshold)",
+  "best_threshold": 0.45,
+  "train_f1": 0.7383,
+  "test_f1": 0.6991,
+  "test_precision": 0.6402,
+  "test_recall": 0.7699,
+  "test_auroc": 0.8578,
+  "coefficients": {
+    "NLI score": -0.9759,
+    "Relevance score": -1.6473,
+    "Consistency score": 1.8926,
+    "task_type_Data2txt": 0.9023,
+    "task_type_QA": -0.9326,
+    "task_type_Summary": -0.6769,
+    "model_gpt-3.5-turbo-0613": -1.9272,
+    "model_gpt-4-0613": -1.9042,
+    "model_llama-2-13b-chat": 0.7147,
+    "model_llama-2-70b-chat": 0.1898,
+    "model_llama-2-7b-chat": 0.887,
+    "model_mistral-7B-instruct": 1.3326
+  },
+  "confusion_matrix": [
+    [
+      1349,
+      408
+    ],
+    [
+      217,
+      726
+    ]
+  ]
+}

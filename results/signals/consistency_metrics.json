@@ -1,0 +1,43 @@
+{
+  "train_threshold_sweep": {
+    "threshold": 0.95,
+    "accuracy": 0.4677,
+    "precision": 0.4546,
+    "recall": 0.9757,
+    "f1": 0.6202,
+    "auroc": 0.5494,
+    "confusion_matrix": [
+      [
+        500,
+        7869
+      ],
+      [
+        163,
+        6558
+      ]
+    ],
+    "n_examples": 15090,
+    "n_errors": 0
+  },
+  "best_threshold": 0.95,
+  "test_metrics": {
+    "threshold": 0.95,
+    "accuracy": 0.3778,
+    "precision": 0.3584,
+    "recall": 0.9894,
+    "f1": 0.5262,
+    "auroc": 0.5727,
+    "confusion_matrix": [
+      [
+        87,
+        1670
+      ],
+      [
+        10,
+        933
+      ]
+    ],
+    "n_examples": 2700,
+    "n_errors": 0
+  }
+}

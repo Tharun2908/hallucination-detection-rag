@@ -1,0 +1,192 @@
+[
+  {
+    "name": "Signal 1 (NLI mean)",
+    "threshold": 0.35,
+    "train_f1": 0.6382,
+    "test_f1": 0.5512,
+    "test_precision": 0.386,
+    "test_recall": 0.9639,
+    "test_auroc": 0.5965,
+    "confusion_matrix": [
+      [
+        311,
+        1446
+      ],
+      [
+        34,
+        909
+      ]
+    ]
+  },
+  {
+    "name": "Signal 2 (Relevance min)",
+    "threshold": 0.45,
+    "train_f1": 0.6808,
+    "test_f1": 0.6269,
+    "test_precision": 0.4936,
+    "test_recall": 0.859,
+    "test_auroc": 0.7234,
+    "confusion_matrix": [
+      [
+        926,
+        831
+      ],
+      [
+        133,
+        810
+      ]
+    ]
+  },
+  {
+    "name": "Signal 3 (Consistency mean)",
+    "threshold": 0.05,
+    "train_f1": 0.6201,
+    "test_f1": 0.5262,
+    "test_precision": 0.3584,
+    "test_recall": 0.9894,
+    "test_auroc": 0.5727,
+    "confusion_matrix": [
+      [
+        87,
+        1670
+      ],
+      [
+        10,
+        933
+      ]
+    ]
+  },
+  {
+    "name": "Signal 4 (Finetuned DeBERTa)",
+    "threshold": 0.45,
+    "train_f1": 0.8675,
+    "test_f1": 0.7003,
+    "test_precision": 0.6358,
+    "test_recall": 0.7794,
+    "test_auroc": 0.847,
+    "confusion_matrix": [
+      [
+        1336,
+        421
+      ],
+      [
+        208,
+        735
+      ]
+    ]
+  },
+  {
+    "name": "Fusion: Simple Average (S1+S2+S3+S4)",
+    "threshold": 0.5,
+    "train_f1": 0.8151,
+    "test_f1": 0.6998,
+    "test_precision": 0.6586,
+    "test_recall": 0.7466,
+    "test_auroc": 0.829,
+    "confusion_matrix": [
+      [
+        1392,
+        365
+      ],
+      [
+        239,
+        704
+      ]
+    ]
+  },
+  {
+    "name": "Fusion: Weighted S4-heavy (0.15/0.25/0.10/0.50)",
+    "threshold": 0.55,
+    "train_f1": 0.859,
+    "test_f1": 0.7065,
+    "test_precision": 0.6714,
+    "test_recall": 0.7455,
+    "test_auroc": 0.8494,
+    "confusion_matrix": [
+      [
+        1413,
+        344
+      ],
+      [
+        240,
+        703
+      ]
+    ]
+  },
+  {
+    "name": "Fusion: S2+S4",
+    "threshold": 0.55,
+    "train_f1": 0.8449,
+    "test_f1": 0.6959,
+    "test_precision": 0.6386,
+    "test_recall": 0.7646,
+    "test_auroc": 0.8445,
+    "confusion_matrix": [
+      [
+        1349,
+        408
+      ],
+      [
+        222,
+        721
+      ]
+    ]
+  },
+  {
+    "name": "Fusion: S1+S4",
+    "threshold": 0.6,
+    "train_f1": 0.8509,
+    "test_f1": 0.7,
+    "test_precision": 0.65,
+    "test_recall": 0.7582,
+    "test_auroc": 0.8217,
+    "confusion_matrix": [
+      [
+        1372,
+        385
+      ],
+      [
+        228,
+        715
+      ]
+    ]
+  },
+  {
+    "name": "Fusion: S3+S4",
+    "threshold": 0.3,
+    "train_f1": 0.8526,
+    "test_f1": 0.6872,
+    "test_precision": 0.6145,
+    "test_recall": 0.7794,
+    "test_auroc": 0.831,
+    "confusion_matrix": [
+      [
+        1296,
+        461
+      ],
+      [
+        208,
+        735
+      ]
+    ]
+  },
+  {
+    "name": "Fusion: Weighted S1+S2+S3 (0.25/0.50/0.25)",
+    "threshold": 0.45,
+    "train_f1": 0.6821,
+    "test_f1": 0.6263,
+    "test_precision": 0.4975,
+    "test_recall": 0.8452,
+    "test_auroc": 0.7449,
+    "confusion_matrix": [
+      [
+        952,
+        805
+      ],
+      [
+        146,
+        797
+      ]
+    ]
+  }
+]

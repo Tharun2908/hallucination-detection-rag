@@ -1,0 +1,19 @@
+{
+  "method": "Logistic Regression S2+S4 only",
+  "best_threshold": 0.35,
+  "train_f1": 0.8726,
+  "test_f1": 0.7099,
+  "test_precision": 0.6445,
+  "test_recall": 0.79,
+  "test_auroc": 0.8617,
+  "confusion_matrix": [
+    [
+      1346,
+      411
+    ],
+    [
+      198,
+      745
+    ]
+  ]
+}

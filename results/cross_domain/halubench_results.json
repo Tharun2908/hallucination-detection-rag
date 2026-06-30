@@ -1,0 +1,94 @@
+{
+  "overall": {
+    "S2 (Relevance-approx)": {
+      "threshold": 0.45,
+      "f1": 0.3732,
+      "precision": 0.4681,
+      "recall": 0.3103,
+      "auroc": 0.4742,
+      "auprc": 0.4915,
+      "ece": 0.3103,
+      "n": 14000,
+      "pos_rate": 0.501
+    },
+    "Signal 4 (Finetuned)": {
+      "threshold": 0.45,
+      "f1": 0.4837,
+      "precision": 0.5153,
+      "recall": 0.4558,
+      "auroc": 0.5276,
+      "auprc": 0.5025,
+      "ece": 0.2905,
+      "n": 14000,
+      "pos_rate": 0.501
+    },
+    "Fusion S2+S4": {
+      "threshold": 0.5,
+      "f1": 0.3943,
+      "precision": 0.485,
+      "recall": 0.3322,
+      "auroc": 0.5027,
+      "auprc": 0.4975,
+      "ece": 0.2168,
+      "n": 14000,
+      "pos_rate": 0.501
+    }
+  },
+  "per_domain_s4": {
+    "DROP": {
+      "threshold": 0.45,
+      "f1": 0.6436,
+      "precision": 0.4978,
+      "recall": 0.91,
+      "auroc": 0.4695,
+      "auprc": 0.4814,
+      "ece": 0.3528,
+      "n": 1000,
+      "pos_rate": 0.5
+    },
+    "FinanceBench": {
+      "threshold": 0.45,
+      "f1": 0.3584,
+      "precision": 0.5111,
+      "recall": 0.276,
+      "auroc": 0.515,
+      "auprc": 0.5221,
+      "ece": 0.2415,
+      "n": 1000,
+      "pos_rate": 0.5
+    },
+    "covidQA": {
+      "threshold": 0.45,
+      "f1": 0.6176,
+      "precision": 0.5077,
+      "recall": 0.788,
+      "auroc": 0.5261,
+      "auprc": 0.529,
+      "ece": 0.2423,
+      "n": 1000,
+      "pos_rate": 0.5
+    },
+    "halueval": {
+      "threshold": 0.45,
+      "f1": 0.4419,
+      "precision": 0.5228,
+      "recall": 0.3826,
+      "auroc": 0.5407,
+      "auprc": 0.5068,
+      "ece": 0.3018,
+      "n": 10000,
+      "pos_rate": 0.501
+    },
+    "pubmedQA": {
+      "threshold": 0.45,
+      "f1": 0.5424,
+      "precision": 0.5079,
+      "recall": 0.582,
+      "auroc": 0.5178,
+      "auprc": 0.5057,
+      "ece": 0.2315,
+      "n": 1000,
+      "pos_rate": 0.5
+    }
+  }
+}

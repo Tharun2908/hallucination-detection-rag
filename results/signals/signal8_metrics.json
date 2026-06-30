@@ -1,0 +1,19 @@
+{
+  "best_epoch": 5,
+  "best_val_auroc": 0.7823114012630141,
+  "best_threshold": 0.8,
+  "test_f1": 0.6432,
+  "test_precision": 0.5973,
+  "test_recall": 0.6967,
+  "test_auroc": 0.7942,
+  "confusion_matrix": [
+    [
+      1314,
+      443
+    ],
+    [
+      286,
+      657
+    ]
+  ]
+}

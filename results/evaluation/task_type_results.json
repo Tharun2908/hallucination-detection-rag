@@ -1,0 +1,77 @@
+{
+  "Summary": {
+    "n": 900,
+    "positives": 204,
+    "pos_rate": 0.2267,
+    "signals": {
+      "NLI": {
+        "F1": 0.3883,
+        "Precision": 0.2446,
+        "Recall": 0.9412,
+        "AUROC": 0.6068
+      },
+      "Relevance": {
+        "F1": 0.3565,
+        "Precision": 0.4129,
+        "Recall": 0.3137,
+        "AUROC": 0.6667
+      },
+      "Consistency": {
+        "F1": 0.3729,
+        "Precision": 0.2292,
+        "Recall": 1.0,
+        "AUROC": 0.5815
+      }
+    }
+  },
+  "QA": {
+    "n": 900,
+    "positives": 160,
+    "pos_rate": 0.1778,
+    "signals": {
+      "NLI": {
+        "F1": 0.3467,
+        "Precision": 0.2137,
+        "Recall": 0.9188,
+        "AUROC": 0.6013
+      },
+      "Relevance": {
+        "F1": 0.3648,
+        "Precision": 0.2744,
+        "Recall": 0.5438,
+        "AUROC": 0.6809
+      },
+      "Consistency": {
+        "F1": 0.3138,
+        "Precision": 0.1872,
+        "Recall": 0.9688,
+        "AUROC": 0.575
+      }
+    }
+  },
+  "Data2txt": {
+    "n": 900,
+    "positives": 579,
+    "pos_rate": 0.6433,
+    "signals": {
+      "NLI": {
+        "F1": 0.7803,
+        "Precision": 0.6463,
+        "Recall": 0.9845,
+        "AUROC": 0.632
+      },
+      "Relevance": {
+        "F1": 0.7818,
+        "Precision": 0.6446,
+        "Recall": 0.9931,
+        "AUROC": 0.4251
+      },
+      "Consistency": {
+        "F1": 0.7842,
+        "Precision": 0.6486,
+        "Recall": 0.9914,
+        "AUROC": 0.6442
+      }
+    }
+  }
+}

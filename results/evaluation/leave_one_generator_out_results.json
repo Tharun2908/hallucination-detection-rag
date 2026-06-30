@@ -1,0 +1,152 @@
+{
+  "gpt-3.5-turbo-0613": {
+    "no_metadata": {
+      "threshold": 0.4,
+      "f1": 0.5398,
+      "precision": 0.5882,
+      "recall": 0.4988,
+      "auroc": 0.886,
+      "auprc": 0.6068,
+      "ece": 0.0421,
+      "n": 2965,
+      "pos_rate": 0.135
+    },
+    "with_metadata": {
+      "threshold": 0.5,
+      "f1": 0.5612,
+      "precision": 0.6011,
+      "recall": 0.5262,
+      "auroc": 0.8867,
+      "auprc": 0.5945,
+      "ece": 0.0751,
+      "n": 2965,
+      "pos_rate": 0.135
+    },
+    "n_train": 14825
+  },
+  "gpt-4-0613": {
+    "no_metadata": {
+      "threshold": 0.3,
+      "f1": 0.6015,
+      "precision": 0.5379,
+      "recall": 0.6823,
+      "auroc": 0.8929,
+      "auprc": 0.6098,
+      "ece": 0.0453,
+      "n": 2965,
+      "pos_rate": 0.137
+    },
+    "with_metadata": {
+      "threshold": 0.35,
+      "f1": 0.601,
+      "precision": 0.5076,
+      "recall": 0.7365,
+      "auroc": 0.8903,
+      "auprc": 0.6124,
+      "ece": 0.0876,
+      "n": 2965,
+      "pos_rate": 0.137
+    },
+    "n_train": 14825
+  },
+  "llama-2-13b-chat": {
+    "no_metadata": {
+      "threshold": 0.3,
+      "f1": 0.8836,
+      "precision": 0.8342,
+      "recall": 0.9392,
+      "auroc": 0.9348,
+      "auprc": 0.9432,
+      "ece": 0.0394,
+      "n": 2965,
+      "pos_rate": 0.566
+    },
+    "with_metadata": {
+      "threshold": 0.35,
+      "f1": 0.8805,
+      "precision": 0.8278,
+      "recall": 0.9404,
+      "auroc": 0.9337,
+      "auprc": 0.9413,
+      "ece": 0.0343,
+      "n": 2965,
+      "pos_rate": 0.566
+    },
+    "n_train": 14825
+  },
+  "llama-2-70b-chat": {
+    "no_metadata": {
+      "threshold": 0.3,
+      "f1": 0.8427,
+      "precision": 0.7592,
+      "recall": 0.947,
+      "auroc": 0.9239,
+      "auprc": 0.8981,
+      "ece": 0.0595,
+      "n": 2965,
+      "pos_rate": 0.47
+    },
+    "with_metadata": {
+      "threshold": 0.35,
+      "f1": 0.8406,
+      "precision": 0.7544,
+      "recall": 0.9491,
+      "auroc": 0.9148,
+      "auprc": 0.8877,
+      "ece": 0.0787,
+      "n": 2965,
+      "pos_rate": 0.47
+    },
+    "n_train": 14825
+  },
+  "llama-2-7b-chat": {
+    "no_metadata": {
+      "threshold": 0.3,
+      "f1": 0.8593,
+      "precision": 0.8113,
+      "recall": 0.9132,
+      "auroc": 0.8835,
+      "auprc": 0.9143,
+      "ece": 0.061,
+      "n": 2965,
+      "pos_rate": 0.618
+    },
+    "with_metadata": {
+      "threshold": 0.45,
+      "f1": 0.8607,
+      "precision": 0.8256,
+      "recall": 0.899,
+      "auroc": 0.8762,
+      "auprc": 0.909,
+      "ece": 0.0436,
+      "n": 2965,
+      "pos_rate": 0.618
+    },
+    "n_train": 14825
+  },
+  "mistral-7B-instruct": {
+    "no_metadata": {
+      "threshold": 0.4,
+      "f1": 0.8908,
+      "precision": 0.9231,
+      "recall": 0.8607,
+      "auroc": 0.9232,
+      "auprc": 0.9502,
+      "ece": 0.1123,
+      "n": 2965,
+      "pos_rate": 0.659
+    },
+    "with_metadata": {
+      "threshold": 0.45,
+      "f1": 0.8939,
+      "precision": 0.9245,
+      "recall": 0.8653,
+      "auroc": 0.9246,
+      "auprc": 0.9489,
+      "ece": 0.0879,
+      "n": 2965,
+      "pos_rate": 0.659
+    },
+    "n_train": 14825
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "S2": {
+    "params_M": 22.713601,
+    "disk_MB": 87.56236839294434,
+    "latency_b1_median_ms": 39.494169410318136,
+    "latency_b1_p95_ms": 271.19876984506783,
+    "throughput_seq_eps": 9.226092079800855,
+    "peak_mem_b1_GB": 4.669834136962891
+  },
+  "S4": {
+    "params_M": 184.423682,
+    "disk_MB": 711.4990100860596,
+    "latency_b1_median_ms": 21.66076097637415,
+    "latency_b1_p95_ms": 24.579880479723215,
+    "throughput_b32_eps": 73.60965244661027,
+    "peak_mem_b1_GB": 0.7966761589050293
+  },
+  "Fusion_S2+S4": {
+    "params_M": 207.13728300000002,
+    "latency_b1_median_ms": 61.154930386692286,
+    "throughput_estimate_eps": 16.3519113451171
+  },
+  "MiniCheck-7B": {
+    "params_M": 7000,
+    "disk_MB": 14765.636365890503,
+    "latency_b1_median_ms": 658.5970581509173,
+    "latency_b1_p95_ms": 2501.273868838324,
+    "throughput_batched_eps": 1.0487101272457833,
+    "gpu_total_GB": 31.7325439453125
+  },
+  "cascade_estimates": {
+    "0%": {
+      "median_ms_per_example": 61.154930386692286,
+      "rel_to_lightweight": 1.0,
+      "rel_to_minicheck": 0.09285636737945868
+    },
+    "5%": {
+      "median_ms_per_example": 94.08478329423815,
+      "rel_to_lightweight": 1.5384660353519366,
+      "rel_to_minicheck": 0.14285636737945867
+    },
+    "10%": {
+      "median_ms_per_example": 127.01463620178401,
+      "rel_to_lightweight": 2.076932070703873,
+      "rel_to_minicheck": 0.1928563673794587
+    },
+    "20%": {
+      "median_ms_per_example": 192.87434201687574,
+      "rel_to_lightweight": 3.153864141407746,
+      "rel_to_minicheck": 0.2928563673794587
+    },
+    "30%": {
+      "median_ms_per_example": 258.7340478319675,
+      "rel_to_lightweight": 4.230796212111619,
+      "rel_to_minicheck": 0.39285636737945867
+    },
+    "50%": {
+      "median_ms_per_example": 390.45345946215093,
+      "rel_to_lightweight": 6.384660353519365,
+      "rel_to_minicheck": 0.5928563673794587
+    },
+    "75%": {
+      "median_ms_per_example": 555.1027239998803,
+      "rel_to_lightweight": 9.076990530279048,
+      "rel_to_minicheck": 0.8428563673794587
+    },
+    "100%": {
+      "median_ms_per_example": 719.7519885376096,
+      "rel_to_lightweight": 11.76932070703873,
+      "rel_to_minicheck": 1.0928563673794587
+    }
+  }
+}
