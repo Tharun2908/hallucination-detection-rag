@@ -4,14 +4,16 @@ Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augm
 
 This repository implements and evaluates a hybrid post-generation verification system for detecting hallucinations in Retrieval-Augmented Generation (RAG) outputs. The system combines five verification signals plus an external baseline (MiniCheck-7B), evaluates fusion strategies, and studies robustness across label noise, task type, generator, and out-of-domain data.
 
-The thesis contribution is **competitive performance with strong analysis across fusion, calibration, robustness, and efficiency**, not a new F1 maximum. No single system dominates all metrics: MiniCheck-7B leads on AUROC, the S2+S4 fusion leads on calibration, and the cascade improves F1 through selective escalation. The 30%-escalation setting is treated as the best cost-performance operating point, while 50% escalation gives the highest observed cascade F1.
+The thesis contribution is **competitive performance with strong analysis across fusion, calibration, robustness, and efficiency**, not a new F1 maximum. No single system dominates all metrics: MiniCheck-7B leads on AUROC, the S2+S4 fusion leads on calibration, and the cascade improves F1 through selective escalation. The 30%-escalation setting is treated as the best cost-performance operating point, while 50% escalation gives the highest observed cascade F1. Because thresholded F1 depends on operating-point selection, AUROC, calibration, and robustness are reported alongside F1 rather than treating one headline number as definitive.
 
 ---
 
 ## At a glance
 
+> **Threshold protocol note.** The thresholded F1 values below are not all selected under the same protocol. Individual signal rows are diagnostic test-set operating points from `evaluation/complete_metrics.py`, while the S2+S4 fusion uses a threshold selected on the training split. Therefore, AUROC and ECE are the fairest direct comparisons across rows. Thresholded F1 should be interpreted as operating-point performance, not as a uniformly train-tuned ranking.
+
 | Component | RAGTruth test F1 | AUROC | ECE |
-| --- | --- | --- | --- |
+| --- | ---: | ---: | ---: |
 | S1 — NLI (DeBERTa) | 0.551 | 0.597 | 0.291 |
 | S2 — Relevance (MS-MARCO) | 0.630 | 0.723 | 0.231 |
 | S3 — Consistency (Mistral-7B) | 0.526 | 0.573 | 0.221 |
