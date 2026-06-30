@@ -21,12 +21,12 @@ The thesis contribution is **competitive performance with strong analysis across
 | S5 — BERTScore | 0.448 | 0.697 | 0.265 |
 | S8 — Distillation (DeBERTa, soft) | 0.643 | 0.794 | — |
 | MiniCheck-7B (baseline) | 0.726 | **0.875** | 0.270 |
-| **Logreg S2+S4 fusion (+meta)** | 0.710 | 0.862 | **0.105** |
-| **Cascade @ 30% escalation** | **0.763** | — | — |
+| **Logreg S2+S4 fusion (+meta, OOF S4 train scores)** | 0.726 | 0.875 | — |
+| **Cascade @ 30% escalation** | **0.766** | — | — |
 
 S2 is reported as **S2-min** in the headline table because the final fusion and complete-metrics scripts use the minimum relevance feature. Earlier standalone relevance experiments also evaluated an S2-mean variant; those results are kept in the signal-level JSONs but are not the canonical S2 row in this table.
 
-S4 clears all prompting baselines including GPT-4-turbo (62.0 F1 on RAGTruth Table 5 overall response-level) but trails the original RAGTruth-paper fine-tuned Llama-2-13B (78.7). The 30%-escalation cascade reaches 0.763 F1 at roughly 4× lightweight cost, while the highest observed cascade F1 is 0.765 at 50% escalation. Both cascade settings still trail the RAGTruth-paper 13B verifier by roughly 2.2–2.4 F1 points.
+S4 clears all prompting baselines including GPT-4-turbo (62.0 F1 on RAGTruth Table 5 overall response-level) but trails the original RAGTruth-paper fine-tuned Llama-2-13B (78.7). After switching fusion training to out-of-fold S4 train scores, the 30%-escalation cascade reaches 0.766 F1 at roughly 4× lightweight cost. This remains below the RAGTruth-paper 13B verifier by roughly 2.1 F1 points, but uses a lightweight fusion model plus selective MiniCheck escalation rather than a full 13B verifier.
 
 ---
 
@@ -109,6 +109,8 @@ python fusion/fusion_logreg_s2s4.py
 
 This is the logistic-regression S2+S4 fusion with task-type and generator one-hot metadata. It assumes S2 and S4 scoring outputs already exist on disk.
 
+The fusion model is trained using out-of-fold S4 predictions for the RAGTruth training split. Each training example is scored by an S4 fold model that did not train on that example, avoiding in-sample S4 features for the logistic-regression meta-classifier. Test-time S4 scores are produced by the final S4 checkpoint trained on the full RAGTruth training split.
+
 ### Robustness
 
 ```bash
@@ -146,7 +148,7 @@ python efficiency/efficiency_benchmark.py       # latency, throughput, memory
 2. **The fusion is the best-calibrated system** (ECE 0.105 on RAGTruth test), beating all individual signals and MiniCheck-7B.
 3. **Within-RAGTruth generalization is strong:** AUROC 0.88–0.95 in leave-one-task and leave-one-generator splits.
 4. **Cross-domain transfer is fundamentally hard but fixable with adaptation.** S4 zero-shot on HaluBench is near-chance (AUROC 0.50); at N=2240 it reaches 0.96 aggregate — but that aggregate is dominated by halueval and DROP. FinanceBench, CovidQA, and PubMedQA plateau at 0.55–0.75 even when ~80% of available source-specific examples are used. MiniCheck-7B shows the opposite pattern, with the two verifiers exhibiting complementary domain coverage.
-5. **Cascading lightweight fusion → MiniCheck-7B improves the cost-performance frontier.** The 30%-escalation setting reaches F1 0.763 on RAGTruth, beating both endpoints (lightweight 0.710, MiniCheck alone 0.726) at ~4× lightweight cost. The highest observed cascade F1 is 0.765 at 50% escalation, but that gain over 30% is only +0.0025 F1 while increasing cost from 4× to 6×.
+5. **Cascading lightweight fusion → MiniCheck-7B improves the cost-performance frontier.** With out-of-fold S4 train scores, the lightweight S2+S4 fusion reaches F1 0.726 on RAGTruth, matching MiniCheck-7B alone at roughly 1/11th of the cost. Selective escalation improves further: 20% escalation reaches F1 0.766 at ~3× lightweight cost, and 30% escalation gives the highest observed cascade F1 of 0.766 at ~4× cost. Both settings outperform using MiniCheck on every example.
 6. **Cascade gain comes from complementary specialization, not redundancy.** MiniCheck rescues false positives on faithful long-context summaries (75% are subtype=none, 49% Summary task); fusion catches real hallucinations on shorter QA and Data2txt outputs.
 7. **RAGTruth++ drop is calibration shift, not granularity or representation.** Retraining on RAGTruth++ labels improves AUROC only marginally over retraining on original labels with the same examples (+0.034, one fold negative); sentence-level scoring is uniformly worse than response-level on both label sets. Pos rate moves from 16% to 75% under re-annotation, so the optimal threshold shifts substantially while ranking is largely preserved.
 8. **Cross-benchmark transfer from scratch is zero.** Training from the NLI cross-encoder backbone (no S4 init) reaches val AUROC 0.85+ in-domain on HaluBench but test AUROC 0.46–0.55 on RAGTruth across all training sizes and seeds. The earlier "few-shot HaluBench" success at N=1120 only works because S4 was already pretrained on 15k RAGTruth examples — cheap adaptation requires expensive pretraining.
