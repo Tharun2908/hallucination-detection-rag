@@ -78,9 +78,9 @@ For comparison within the thesis system: MiniCheck-7B (7B params) reaches AUROC 
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
-tokenizer = AutoTokenizer.from_pretrained("[hf-org]/s4-hallucination-detector")
+tokenizer = AutoTokenizer.from_pretrained("Tharun2908/s4-hallucination-detector")
 model = AutoModelForSequenceClassification.from_pretrained(
-    "[hf-org]/s4-hallucination-detector",
+    "Tharun2908/s4-hallucination-detector",
     ignore_mismatched_sizes=True,   # required for the size-mismatched head
 )
 model.eval()
@@ -122,7 +122,7 @@ The full training script (`signal4_finetune.py`), scoring scripts, and evaluatio
 ```bibtex
 @mastersthesis{thesis2026hallucination,
   title  = {Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification},
-  author = {[Author]},
+  author = {Tharun johny},
   school = {BHT Berlin},
   year   = {2026}
 }
