@@ -171,7 +171,7 @@ If this work is useful to you, please cite the thesis:
 ```bibtex
 @mastersthesis{thesis2026hallucination,
   title  = {Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification},
-  author = {Tharun johny},
+  author = {Tharun Johny},
   school = {BHT Berlin},
   year   = {2026}
 }

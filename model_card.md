@@ -122,7 +122,7 @@ The full training script (`signal4_finetune.py`), scoring scripts, and evaluatio
 ```bibtex
 @mastersthesis{thesis2026hallucination,
   title  = {Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification},
-  author = {Tharun johny},
+  author = {Tharun Johny},
   school = {BHT Berlin},
   year   = {2026}
 }
