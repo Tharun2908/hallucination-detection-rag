@@ -15,7 +15,7 @@ The thesis contribution is **competitive performance with strong analysis across
 | Component | RAGTruth test F1 | AUROC | ECE |
 | --- | ---: | ---: | ---: |
 | S1 — NLI (DeBERTa) | 0.551 | 0.597 | 0.291 |
-| S2 — Relevance (MS-MARCO) | 0.630 | 0.723 | 0.231 |
+| S2-min — Relevance (MS-MARCO) | 0.630 | 0.723 | 0.231 |
 | S3 — Consistency (Mistral-7B) | 0.526 | 0.573 | 0.221 |
 | **S4 — Fine-tuned DeBERTa (184M)** | 0.687 | 0.847 | **0.129** |
 | S5 — BERTScore | 0.448 | 0.697 | 0.265 |
@@ -23,6 +23,8 @@ The thesis contribution is **competitive performance with strong analysis across
 | MiniCheck-7B (baseline) | 0.726 | **0.875** | 0.270 |
 | **Logreg S2+S4 fusion (+meta)** | 0.710 | 0.862 | **0.105** |
 | **Cascade @ 30% escalation** | **0.763** | — | — |
+
+S2 is reported as **S2-min** in the headline table because the final fusion and complete-metrics scripts use the minimum relevance feature. Earlier standalone relevance experiments also evaluated an S2-mean variant; those results are kept in the signal-level JSONs but are not the canonical S2 row in this table.
 
 S4 clears all prompting baselines including GPT-4-turbo (62.0 F1 on RAGTruth Table 5 overall response-level) but trails the original RAGTruth-paper fine-tuned Llama-2-13B (78.7). The 30%-escalation cascade reaches 0.763 F1 at roughly 4× lightweight cost, while the highest observed cascade F1 is 0.765 at 50% escalation. Both cascade settings still trail the RAGTruth-paper 13B verifier by roughly 2.2–2.4 F1 points.
 
