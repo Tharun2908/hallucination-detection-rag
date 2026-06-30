@@ -155,7 +155,7 @@ python efficiency/efficiency_benchmark.py       # latency, throughput, memory
 
 ## Released artifacts
 
-- **S4 checkpoint** (fine-tuned DeBERTa, 184M params, RAGTruth) — see [HuggingFace link to be added on release]. Model card in `model_card.md`.
+- **S4 checkpoint** (fine-tuned DeBERTa, 184M params, RAGTruth) — planned for HuggingFace release. The model card is included in `model_card.md`; the checkpoint link will be added after upload.
 - **Aggregate results JSONs** under `results/`.
 - **Thesis plots** under `figures/`.
 
