@@ -1,0 +1,57 @@
+{
+  "Signal 1 (NLI)": {
+    "threshold": 0.35,
+    "f1": 0.8019,
+    "precision": 0.7761,
+    "recall": 0.8295,
+    "auroc": 0.544,
+    "auprc": 0.7533,
+    "ece": 0.2645,
+    "n": 408,
+    "pos_rate": 0.748
+  },
+  "Signal 2 (Relevance)": {
+    "threshold": 0.45,
+    "f1": 0.564,
+    "precision": 0.8333,
+    "recall": 0.4262,
+    "auroc": 0.6539,
+    "auprc": 0.8121,
+    "ece": 0.3193,
+    "n": 408,
+    "pos_rate": 0.748
+  },
+  "Signal 4 (Finetuned)": {
+    "threshold": 0.45,
+    "f1": 0.463,
+    "precision": 0.8509,
+    "recall": 0.318,
+    "auroc": 0.6783,
+    "auprc": 0.848,
+    "ece": 0.4643,
+    "n": 408,
+    "pos_rate": 0.748
+  },
+  "MiniCheck-7B": {
+    "threshold": 0.8,
+    "f1": 0.4811,
+    "precision": 0.8571,
+    "recall": 0.3344,
+    "auroc": 0.6824,
+    "auprc": 0.8417,
+    "ece": 0.2633,
+    "n": 408,
+    "pos_rate": 0.748
+  },
+  "Fusion S2+S4": {
+    "threshold": 0.5,
+    "f1": 0.4773,
+    "precision": 0.8772,
+    "recall": 0.3279,
+    "auroc": 0.6765,
+    "auprc": 0.8517,
+    "ece": 0.3752,
+    "n": 408,
+    "pos_rate": 0.748
+  }
+}
