@@ -26,7 +26,7 @@ with open('/workspace/nli_results_train_v2.json') as f:
     s1_train = {r['idx']: r for r in json.load(f)}
 with open('/workspace/relevance_results_train_v2.json') as f:
     s2_train = {r['idx']: r for r in json.load(f)}
-with open('/workspace/signal4_results_train.json') as f:
+with open('/workspace/signal4_results_train_oof.json') as f:
     s4_train = {r['idx']: r for r in json.load(f)}
 
 with open('/workspace/nli_results_test_v2.json') as f:

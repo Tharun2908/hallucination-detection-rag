@@ -52,7 +52,7 @@ from sklearn.preprocessing import StandardScaler
 # Config — paths and signal-direction conventions
 # =============================================================================
 S4_TEST = "/workspace/signal4_results_test.json"
-S4_TRAIN = "/workspace/signal4_results_train.json"
+S4_TRAIN = "/workspace/signal4_results_train_oof.json"
 S2_TEST = "/workspace/relevance_results_test_v2.json"
 S2_TRAIN = "/workspace/relevance_results_train_v2.json"
 MINICHECK_TEST = "/workspace/minicheck_results_test_7b.json"

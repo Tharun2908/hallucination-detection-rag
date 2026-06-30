@@ -1,0 +1,38 @@
+==============================================================================
+Disagreement / error-overlap analysis: Fusion (S2+S4) vs MiniCheck-7B
+RAGTruth test (n=2700)
+==============================================================================
+Fusion:    F1=0.7261  AUROC=0.8749  thr=0.45
+MiniCheck: F1=0.7353  AUROC=0.8754  thr=0.85
+
+Bucket                       n         %    pos_rate
+----------------------------------------------------
+both_correct              1850    68.5%       0.339
+both_wrong                 232     8.6%       0.444
+lightweight_wins           282    10.4%       0.447
+minicheck_wins             336    12.4%       0.259
+
+CASCADE GAIN BUCKET — examples where MiniCheck wins but lightweight loses:
+    (these are the examples that justify escalation)
+    n=336  pos_rate=0.259
+    by_task_type:  Data2txt=74(22%), QA=113(34%), Summary=149(44%)
+    by_model:      gpt-3.5-turbo-0613=19(6%), gpt-4-0613=16(5%), llama-2-13b-chat=70(21%), llama-2-70b-chat=54(16%), llama-2-7b-chat=85(25%), mistral-7B-instruct=92(27%)
+    by_subtype:    baseless_info=54(16%), evident_conflict=29(9%), mixed=4(1%), none=249(74%)
+    by_answer_len: Q1=78(23%), Q2=93(28%), Q3=94(28%), Q4=71(21%)
+    by_context_len:Q1=86(26%), Q2=66(20%), Q3=71(21%), Q4=113(34%)
+
+LIGHTWEIGHT WINS — examples where lightweight is correct but MiniCheck wrong:
+    (these justify NOT escalating; cost saved)
+    n=282  pos_rate=0.447
+    by_task_type:  Data2txt=82(29%), QA=128(45%), Summary=72(26%)
+    by_model:      gpt-3.5-turbo-0613=30(11%), gpt-4-0613=21(7%), llama-2-13b-chat=54(19%), llama-2-70b-chat=50(18%), llama-2-7b-chat=57(20%), mistral-7B-instruct=70(25%)
+    by_subtype:    baseless_info=64(23%), evident_conflict=51(18%), mixed=11(4%), none=156(55%)
+
+BOTH WRONG — genuinely hard examples for both verifiers:
+    n=232  pos_rate=0.444
+    by_task_type:  Data2txt=94(41%), QA=82(35%), Summary=56(24%)
+    by_subtype:    baseless_info=39(17%), evident_conflict=60(26%), mixed=4(2%), none=129(56%)
+
+Concentration check: largest task_type share in 'minicheck_wins' bucket:
+    Summary: 149/336 = 44.3%
+    mistral-7B-instruct: 92/336 = 27.4%

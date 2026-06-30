@@ -1,0 +1,45 @@
+================================================================================================
+Sentence-level S4 on RAGTruth++ matched examples  [clean-test-only]
+================================================================================================
+n_examples: 402  avg n_sentences/example: 6.0
+
+NOTE: response_s4 here is the original S4 score on these examples (NOT the CV-baseline
+       from the retraining experiment). F1 thresholds are tuned on the same data (small sample);
+       AUROC/AUPRC are threshold-free and are the primary metrics.
+
+------------------------------------------------------------------------------------------------
+Target: RAGTruth++ labels
+------------------------------------------------------------------------------------------------
+Scorer                    F1   Precision    Recall     AUROC     AUPRC     thr
+response_s4           0.7925      0.8191    0.7674    0.6756    0.8468    0.05
+sent_max              0.8223      0.7688    0.8837    0.5729    0.7814    0.05
+sent_mean             0.7967      0.7864    0.8073    0.5659    0.7691    0.05
+sent_top2_mean        0.8113      0.7701    0.8571    0.5722    0.7753    0.05
+sent_noisy_or         0.8484      0.7558    0.9668    0.5730    0.7874    0.05
+
+------------------------------------------------------------------------------------------------
+Target: Original RAGTruth labels
+------------------------------------------------------------------------------------------------
+Scorer                    F1   Precision    Recall     AUROC     AUPRC     thr
+response_s4           0.4398      0.3307    0.6562    0.7527    0.3899    0.40
+sent_max              0.3423      0.2119    0.8906    0.6420    0.2399    0.20
+sent_mean             0.3110      0.1932    0.7969    0.5853    0.1882    0.10
+sent_top2_mean        0.3375      0.2109    0.8438    0.6166    0.2088    0.20
+sent_noisy_or         0.3386      0.2118    0.8438    0.6214    0.2227    0.45
+
+================================================================================================
+Hypothesis test: aggregator vs response_s4, per label set
+(Granularity hypothesis holds best when ΔAUROC > 0 for ++ AND ≈ 0 (or negative) for original)
+================================================================================================
+
+  vs response_s4 on RAGTruth++:
+    sent_max            ΔAUROC=-0.1027  ΔAUPRC=-0.0653  ΔF1=+0.0298
+    sent_mean           ΔAUROC=-0.1097  ΔAUPRC=-0.0776  ΔF1=+0.0043
+    sent_top2_mean      ΔAUROC=-0.1034  ΔAUPRC=-0.0715  ΔF1=+0.0189
+    sent_noisy_or       ΔAUROC=-0.1026  ΔAUPRC=-0.0594  ΔF1=+0.0559
+
+  vs response_s4 on Original RAGTruth:
+    sent_max            ΔAUROC=-0.1107  ΔAUPRC=-0.1500  ΔF1=-0.0974
+    sent_mean           ΔAUROC=-0.1674  ΔAUPRC=-0.2017  ΔF1=-0.1288
+    sent_top2_mean      ΔAUROC=-0.1360  ΔAUPRC=-0.1811  ΔF1=-0.1023
+    sent_noisy_or       ΔAUROC=-0.1313  ΔAUPRC=-0.1672  ΔF1=-0.1012

@@ -99,7 +99,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 S4_MODEL_DIR = "/workspace/signal4_model"
 MATCHED_PATH = Path("/workspace/ragtruth_pp_retrain/matched_data.json")
 S4_TEST_PATH = "/workspace/signal4_results_test.json"
-S4_TRAIN_PATH = "/workspace/signal4_results_train.json"
+S4_TRAIN_PATH = "/workspace/signal4_results_train_oof.json"
 
 OUT_DIR = Path("/workspace/sentence_level_s4")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
