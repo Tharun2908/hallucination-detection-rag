@@ -6,7 +6,7 @@ from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_sco
 
 with open('/workspace/relevance_results_train_v2.json') as f:
     rel_train = {ex['idx']: ex for ex in json.load(f)}
-with open('/workspace/signal4_results_train.json') as f:
+with open('/workspace/signal4_results_train_oof.json') as f:
     s4_train = {ex['idx']: ex for ex in json.load(f)}
 
 with open('/workspace/relevance_results_test_v2.json') as f:
