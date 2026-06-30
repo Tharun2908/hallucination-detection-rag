@@ -4,7 +4,7 @@ Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augm
 
 This repository implements and evaluates a hybrid post-generation verification system for detecting hallucinations in Retrieval-Augmented Generation (RAG) outputs. The system combines five verification signals plus an external baseline (MiniCheck-7B), evaluates fusion strategies, and studies robustness across label noise, task type, generator, and out-of-domain data.
 
-The thesis contribution is **competitive performance with strong analysis across fusion, calibration, robustness, and efficiency**, not a new F1 maximum. No single system dominates all metrics: MiniCheck-7B leads on AUROC, the S2+S4 fusion leads on calibration, and the cascade improves F1 through selective escalation. The 30%-escalation setting is treated as the best cost-performance operating point, while 50% escalation gives the highest observed cascade F1. Because thresholded F1 depends on operating-point selection, AUROC, calibration, and robustness are reported alongside F1 rather than treating one headline number as definitive.
+The thesis contribution is **competitive performance with strong analysis across fusion, calibration, robustness, and efficiency**, not a new F1 maximum. No single system dominates all metrics: MiniCheck-7B leads marginally on AUROC and AUPRC, the S2+S4 fusion leads on calibration, and the cascade improves F1 through selective escalation. With the out-of-fold S4 fusion protocol, 30% escalation gives the highest observed cascade F1, while 20% escalation is nearly tied at lower cost. Because thresholded F1 depends on operating-point selection, AUROC, calibration, and robustness are reported alongside F1 rather than treating one headline number as definitive.
 
 ---
 
@@ -17,11 +17,11 @@ The thesis contribution is **competitive performance with strong analysis across
 | S1 — NLI (DeBERTa) | 0.551 | 0.597 | 0.291 |
 | S2-min — Relevance (MS-MARCO) | 0.630 | 0.723 | 0.231 |
 | S3 — Consistency (Mistral-7B) | 0.526 | 0.573 | 0.221 |
-| **S4 — Fine-tuned DeBERTa (184M)** | 0.687 | 0.847 | **0.129** |
-| S5 — BERTScore | 0.448 | 0.697 | 0.265 |
+| **S4 — Fine-tuned DeBERTa (184M)** | 0.704 | 0.847 | 0.129 |
+| S5 — BERTScore | 0.538 | 0.697 | 0.265 |
 | S8 — Distillation (DeBERTa, soft) | 0.643 | 0.794 | — |
-| MiniCheck-7B (baseline) | 0.726 | **0.875** | 0.270 |
-| **Logreg S2+S4 fusion (+meta, OOF S4 train scores)** | 0.726 | 0.875 | — |
+| MiniCheck-7B (baseline) | 0.735 | **0.875** | 0.270 |
+| **Logreg S2+S4 fusion (+meta, OOF S4 train scores)** | 0.726 | 0.875 | **0.058** |
 | **Cascade @ 30% escalation** | **0.766** | — | — |
 
 S2 is reported as **S2-min** in the headline table because the final fusion and complete-metrics scripts use the minimum relevance feature. Earlier standalone relevance experiments also evaluated an S2-mean variant; those results are kept in the signal-level JSONs but are not the canonical S2 row in this table.
@@ -84,7 +84,7 @@ Known cross-version traps documented in the thesis notes:
 - `xformers==0.0.26.post1` is required for V100 (compute capability 7.0); newer releases raise `NotImplementedError` on this GPU.
 - MiniCheck-7B is ~15 GB and the container overlay fills up fast. Move the model cache to `/workspace` and symlink it into `/root/.cache/huggingface/hub/`.
 
-The full setup walkthrough including error-by-error fixes is preserved in `docs/INFRASTRUCTURE.md` (if you choose to add it from the thesis notes — kept here as a stub since it is environment-specific).
+Additional cluster setup notes, cache-layout details, and environment-specific troubleshooting are documented in `docs/INFRASTRUCTURE.md`.
 
 ---
 
@@ -96,8 +96,9 @@ The scripts below assume the working directory contains the relevant data and th
 
 ```bash
 python signals/relevance_verifier_full_v2.py    # S2 — best unsupervised
-python signals/signal4_finetune.py              # S4 — fine-tune DeBERTa on RAGTruth
-python signals/signal4_score_train.py           # S4 — score train split
+python signals/signal4_finetune.py              # S4 — final full-train checkpoint for test scoring
+python signals/signal4_score_train.py           # S4 — full-train scores for standalone diagnostics
+python signals/signal4_oof_train_scores.py      # S4 — out-of-fold train scores for fusion/cascade
 python signals/minicheck_baseline.py            # MiniCheck-7B external baseline
 ```
 
@@ -114,12 +115,12 @@ The fusion model is trained using out-of-fold S4 predictions for the RAGTruth tr
 ### Robustness
 
 ```bash
-python evaluation/leave_one_task_out.py         # AUROC 0.88–0.95 across held-out tasks
-python evaluation/leave_one_generator_out.py    # AUROC 0.88–0.93 across held-out generators
+python evaluation/leave_one_task_out.py         # held-out task analysis under OOF fusion protocol
+python evaluation/leave_one_generator_out.py    # held-out generator analysis under OOF fusion protocol
 python robustness/ragtruth_plusplus_eval.py     # first-pass scoring under re-annotation
-python robustness/ragtruth_pp_retrain.py        # 5-fold retraining study (~hours on V100)
+python robustness/ragtruth_pp_retrain.py        # 5-fold RAGTruth++ retraining study; GPU recommended
 python robustness/sentence_level_s4.py          # granularity ablation (negative result)
-python robustness/disagreement_analysis.py      # fusion vs MiniCheck error overlap
+python robustness/disagreement_analysis.py      # OOF fusion vs MiniCheck error overlap
 ```
 
 ### Cross-domain
@@ -145,11 +146,11 @@ python efficiency/efficiency_benchmark.py       # latency, throughput, memory
 ## Key empirical findings
 
 1. **S2+S4 is the minimal effective fusion.** Adding S1, S3, or S5 changes AUROC by less than 0.001.
-2. **The fusion is the best-calibrated system** (ECE 0.105 on RAGTruth test), beating all individual signals and MiniCheck-7B.
-3. **Within-RAGTruth generalization is strong:** AUROC 0.88–0.95 in leave-one-task and leave-one-generator splits.
+2. **The OOF S2+S4 fusion is the best-calibrated system** (ECE 0.058 on RAGTruth test), substantially better calibrated than S4 alone (ECE 0.129) and MiniCheck-7B (ECE 0.270), while nearly matching MiniCheck-7B on AUROC.
+3. **Within-RAGTruth generalization is mixed but informative:** under the out-of-fold S4 fusion protocol, leave-one-task AUROC ranges from 0.780 to 0.856 with metadata, while leave-one-generator AUROC ranges from 0.762 to 0.856. Metadata helps on some held-out groups but hurts calibration on others, so task/generator conditioning is useful in-distribution but not uniformly robust.
 4. **Cross-domain transfer is fundamentally hard but fixable with adaptation.** S4 zero-shot on HaluBench is near-chance (AUROC 0.50); at N=2240 it reaches 0.96 aggregate — but that aggregate is dominated by halueval and DROP. FinanceBench, CovidQA, and PubMedQA plateau at 0.55–0.75 even when ~80% of available source-specific examples are used. MiniCheck-7B shows the opposite pattern, with the two verifiers exhibiting complementary domain coverage.
 5. **Cascading lightweight fusion → MiniCheck-7B improves the cost-performance frontier.** With out-of-fold S4 train scores, the lightweight S2+S4 fusion reaches F1 0.726 on RAGTruth, matching MiniCheck-7B alone at roughly 1/11th of the cost. Selective escalation improves further: 20% escalation reaches F1 0.766 at ~3× lightweight cost, and 30% escalation gives the highest observed cascade F1 of 0.766 at ~4× cost. Both settings outperform using MiniCheck on every example.
-6. **Cascade gain comes from complementary specialization, not redundancy.** MiniCheck rescues false positives on faithful long-context summaries (75% are subtype=none, 49% Summary task); fusion catches real hallucinations on shorter QA and Data2txt outputs.
+6. **Cascade gain comes from complementary specialization, not redundancy.** In the OOF fusion disagreement analysis, MiniCheck uniquely fixes 12.4% of test examples, mostly faithful cases that the lightweight fusion over-flags (74% subtype=none, 44% Summary task, 34% longest-context quartile). The lightweight fusion uniquely fixes 10.4%, with wins concentrated more in QA and Data2txt, showing that MiniCheck is useful for selective escalation but not a strict replacement.
 7. **RAGTruth++ drop is calibration shift, not granularity or representation.** Retraining on RAGTruth++ labels improves AUROC only marginally over retraining on original labels with the same examples (+0.034, one fold negative); sentence-level scoring is uniformly worse than response-level on both label sets. Pos rate moves from 16% to 75% under re-annotation, so the optimal threshold shifts substantially while ranking is largely preserved.
 8. **Cross-benchmark transfer from scratch is zero.** Training from the NLI cross-encoder backbone (no S4 init) reaches val AUROC 0.85+ in-domain on HaluBench but test AUROC 0.46–0.55 on RAGTruth across all training sizes and seeds. The earlier "few-shot HaluBench" success at N=1120 only works because S4 was already pretrained on 15k RAGTruth examples — cheap adaptation requires expensive pretraining.
 
