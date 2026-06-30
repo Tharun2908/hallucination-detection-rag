@@ -62,15 +62,15 @@ It is **not** intended for:
 ## Evaluation on RAGTruth test (n=2,700)
 
 | Metric | Value |
-| --- | --- |
-| F1 | 0.687 |
-| Precision | 0.601 |
-| Recall | 0.802 |
+| --- | ---: |
+| F1 | 0.704 |
+| Precision | 0.675 |
+| Recall | 0.735 |
 | AUROC | 0.847 |
 | AUPRC | 0.772 |
 | ECE | 0.129 |
 
-For comparison within the thesis system: MiniCheck-7B (7B params) reaches AUROC 0.875 and ECE 0.270 on the same test set, while the logistic-regression S2+S4 fusion reaches AUROC 0.862 with ECE 0.105.
+For comparison within the thesis system: MiniCheck-7B (7B params) reaches F1 0.735, AUROC 0.875, AUPRC 0.806, and ECE 0.270 on the same test set. The logistic-regression S2+S4 fusion using out-of-fold S4 train scores reaches F1 0.726, AUROC 0.875, AUPRC 0.796, and ECE 0.058.
 
 ## Usage
 

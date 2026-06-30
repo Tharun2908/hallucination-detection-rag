@@ -192,8 +192,7 @@ def main():
     print(f"\nFusion refit: thr={fusion_t:.2f}  "
           f"train_F1={fusion_train_f1:.4f}  test_F1={fusion_test_f1:.4f}  "
           f"test_AUROC={fusion_test_auroc:.4f}")
-    print("  (Should be close to thesis-notes F1=0.7099 AUROC=0.8617; "
-          "may differ slightly due to scaling / random init.)")
+    print("  (Uses out-of-fold S4 train scores for the fusion refit.)")
 
     # MiniCheck hallucination probability = 1 - support
     mc_by_idx = {r["idx"]: r for r in mc_test}
