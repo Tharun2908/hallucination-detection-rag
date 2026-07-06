@@ -1,0 +1,64 @@
+{
+  "signal_name": "signal5_bertscore_v2_precision",
+  "model_type": "roberta-large",
+  "aggregation_mode": "mean",
+  "score_direction": "high_support_low_hallucination",
+  "candidate_reference_direction": {
+    "candidate": "answer_sentence",
+    "reference": "context_sentence",
+    "bertscore_component_used": "precision",
+    "reason": "BERTScore Precision measures how much of the answer sentence is covered by the context sentence."
+  },
+  "threshold_selection": {
+    "method": "train_f1_sweep",
+    "best_threshold_from_train": 0.92,
+    "threshold_min": 0.0,
+    "threshold_max": 1.0,
+    "threshold_step": 0.01
+  },
+  "train_metrics_at_best_threshold": {
+    "n": 15090,
+    "threshold": 0.92,
+    "positive_rate_hallucination": 0.4454,
+    "f1": 0.6686,
+    "precision": 0.5532,
+    "recall": 0.845,
+    "confusion_matrix": [
+      [
+        3782,
+        4587
+      ],
+      [
+        1042,
+        5679
+      ]
+    ],
+    "confusion_matrix_order": "[[TN, FP], [FN, TP]]",
+    "auroc": 0.7165
+  },
+  "test_metrics": {
+    "n": 2700,
+    "threshold": 0.92,
+    "positive_rate_hallucination": 0.3493,
+    "f1": 0.6007,
+    "precision": 0.4573,
+    "recall": 0.8749,
+    "confusion_matrix": [
+      [
+        778,
+        979
+      ],
+      [
+        118,
+        825
+      ]
+    ],
+    "confusion_matrix_order": "[[TN, FP], [FN, TP]]",
+    "auroc": 0.7537
+  },
+  "output_files": {
+    "train_results": "/workspace/signal5_v2_precision_results_train_mean.json",
+    "test_results": "/workspace/signal5_v2_precision_results_test_mean.json",
+    "metrics": "/workspace/signal5_v2_precision_metrics_mean.json"
+  }
+}
