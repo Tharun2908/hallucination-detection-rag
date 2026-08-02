@@ -1,0 +1,20 @@
+{
+  "method": "Logistic Regression S2+S4 (no metadata, OOF S4 train scores)",
+  "best_threshold": 0.45,
+  "train_f1": 0.7384,
+  "test_f1": 0.7065,
+  "test_precision": 0.6705,
+  "test_recall": 0.7466,
+  "test_auroc": 0.8494,
+  "confusion_matrix": [
+    [1411, 346],
+    [239, 704]
+  ],
+  "confusion_matrix_order": "[[TN, FP], [FN, TP]]",
+  "notes": {
+    "s4_train": "/workspace/signal4_results_train_oof.json",
+    "s4_test": "/workspace/signal4_results_test.json",
+    "metadata": false,
+    "source_log": "fusion_s2s4_no_meta_oof_rerun.log"
+  }
+}

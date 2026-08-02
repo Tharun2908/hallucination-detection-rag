@@ -1,0 +1,23 @@
+{
+  "method": "Logistic Regression S2+S4+S8/S6 (OOF S4 train scores)",
+  "best_threshold": 0.40,
+  "train_f1": 0.7890,
+  "test_f1": 0.7262,
+  "test_precision": 0.6758,
+  "test_recall": 0.7847,
+  "test_auroc": 0.8731,
+  "n_train": 13581,
+  "n_test": 2700,
+  "confusion_matrix": [
+    [1402, 355],
+    [203, 740]
+  ],
+  "confusion_matrix_order": "[[TN, FP], [FN, TP]]",
+  "notes": {
+    "s4_train": "/workspace/signal4_results_train_oof.json",
+    "s4_test": "/workspace/signal4_results_test.json",
+    "s8_name_in_code": "Signal 8",
+    "s6_name_in_thesis": "S6 Distilled MiniCheck",
+    "source_log": "fusion_s2s4s8_oof_rerun.log"
+  }
+}
