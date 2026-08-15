@@ -1,0 +1,101 @@
+{
+  "experiment": "Final sentence-level S2 and frozen RAGTruth-trained metadata-free S2+S4 LogReg on HaluBench",
+  "halubench_n": 14000,
+  "positive_rate": 0.5007142857142857,
+  "s2_method": {
+    "model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "sentence_split": "(?<=[.!?])\\s+",
+    "pairing": "each answer sentence against every context sentence",
+    "per_answer_aggregation": "maximum relevance over context sentences",
+    "fusion_aggregation": "minimum across answer-sentence best scores",
+    "train_min": -11.43,
+    "train_max": 10.641
+  },
+  "ragtruth_logreg": {
+    "train_n": 15090,
+    "coefficient_s2_support": -1.359009650504923,
+    "coefficient_s4": 3.1555282346796876,
+    "intercept": -1.4168645142264538,
+    "best_threshold": 0.45,
+    "train_f1": 0.7383929854822481
+  },
+  "halubench_results": {
+    "final_sentence_level_s2": {
+      "threshold": 0.45,
+      "f1": 0.35226526592252133,
+      "precision": 0.4147661383842288,
+      "recall": 0.30613409415121257,
+      "auroc": 0.5110645940093755,
+      "auprc": 0.5237940508408001,
+      "ece": 0.277105630238651,
+      "confusion_matrix": [
+        [
+          3962,
+          3028
+        ],
+        [
+          4864,
+          2146
+        ]
+      ]
+    },
+    "s4_existing": {
+      "threshold": 0.45,
+      "f1": 0.4838392248883506,
+      "precision": 0.5154007418158362,
+      "recall": 0.4559201141226819,
+      "auroc": 0.5275536888850794,
+      "auprc": 0.5025564045372557,
+      "ece": 0.29047789285714287,
+      "confusion_matrix": [
+        [
+          3985,
+          3005
+        ],
+        [
+          3814,
+          3196
+        ]
+      ]
+    },
+    "simple_average_corrected_s2s4": {
+      "threshold": 0.5,
+      "f1": 0.3726492605440935,
+      "precision": 0.5174949290060852,
+      "recall": 0.2911554921540656,
+      "auroc": 0.5325942501923473,
+      "auprc": 0.5184246445839785,
+      "ece": 0.18248949676929682,
+      "confusion_matrix": [
+        [
+          5087,
+          1903
+        ],
+        [
+          4969,
+          2041
+        ]
+      ]
+    },
+    "ragtruth_trained_logreg_s2s4": {
+      "threshold": 0.45,
+      "f1": 0.36468885672937773,
+      "precision": 0.4982698961937716,
+      "recall": 0.2875891583452211,
+      "auroc": 0.5324255763787273,
+      "auprc": 0.5126981038078231,
+      "ece": 0.25089773892015754,
+      "confusion_matrix": [
+        [
+          4960,
+          2030
+        ],
+        [
+          4994,
+          2016
+        ]
+      ]
+    }
+  },
+  "note": "S4 scores are reused from the previously saved HaluBench per-example file and are stored to four decimal places."
+}
