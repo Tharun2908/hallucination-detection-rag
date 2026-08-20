@@ -1,0 +1,143 @@
+{
+  "experiment": "Cross-domain cascade on fixed 8000-example HaluBench test split",
+  "n_test": 8000,
+  "positive_rate": 0.500625,
+  "fusion": {
+    "training_domain": "RAGTruth",
+    "metadata_free": true,
+    "coef_s2_support": -1.359009650504923,
+    "coef_s4": 3.1555282346796876,
+    "intercept": -1.4168645142264538,
+    "threshold": 0.45,
+    "s2_source": "final sentence-level minimum relevance"
+  },
+  "minicheck_threshold": 0.8,
+  "routing": "ascending abs(fusion_probability - 0.5)",
+  "cost_model": "1 + 10*r",
+  "full14k_final_fusion_self_check": {
+    "f1": 0.36468885672937773,
+    "precision": 0.4982698961937716,
+    "recall": 0.2875891583452211,
+    "auroc": 0.5324255763787273,
+    "auprc": 0.5126981038078231,
+    "ece": 0.2508977389201576
+  },
+  "fixed8k_fusion_endpoint": {
+    "f1": 0.3585292725264321,
+    "precision": 0.48713550600343053,
+    "recall": 0.283645443196005,
+    "auroc": 0.5256529775827774,
+    "auprc": 0.5079090250526613,
+    "ece": 0.2557317854899419
+  },
+  "fixed8k_minicheck_endpoint": {
+    "f1": 0.727451255435545,
+    "precision": 0.8300256081946222,
+    "recall": 0.6474406991260924,
+    "auroc": 0.8021384095912649,
+    "auprc": 0.8365105697296418,
+    "ece": 0.17434896249999998
+  },
+  "results": [
+    {
+      "escalation_rate": 0,
+      "n_escalated": 0,
+      "cost": 1.0,
+      "f1": 0.3585292725264321,
+      "precision": 0.48713550600343053,
+      "recall": 0.283645443196005,
+      "auroc": 0.5256529775827774,
+      "auprc": 0.5079090250526613,
+      "ece": 0.2557317854899419
+    },
+    {
+      "escalation_rate": 5,
+      "n_escalated": 400,
+      "cost": 1.5,
+      "f1": 0.35249671484888306,
+      "precision": 0.5151224195871339,
+      "recall": 0.2679151061173533,
+      "auroc": 0.5397663746349604,
+      "auprc": 0.5452538911892519,
+      "ece": 0.25412111372150703
+    },
+    {
+      "escalation_rate": 10,
+      "n_escalated": 800,
+      "cost": 2.0,
+      "f1": 0.3448864606453816,
+      "precision": 0.5453563714902808,
+      "recall": 0.25218476903870163,
+      "auroc": 0.5508915170179953,
+      "auprc": 0.5706700993731036,
+      "ece": 0.2513733200339046
+    },
+    {
+      "escalation_rate": 20,
+      "n_escalated": 1600,
+      "cost": 3.0,
+      "f1": 0.3622933520928597,
+      "precision": 0.6127305175490779,
+      "recall": 0.2571785268414482,
+      "auroc": 0.5692966082759505,
+      "auprc": 0.6111915211059831,
+      "ece": 0.256328254105085
+    },
+    {
+      "escalation_rate": 30,
+      "n_escalated": 2400,
+      "cost": 4.0,
+      "f1": 0.3927998574229193,
+      "precision": 0.6861768368617683,
+      "recall": 0.2751560549313358,
+      "auroc": 0.5856721026126603,
+      "auprc": 0.6406462220875041,
+      "ece": 0.2491395932877189
+    },
+    {
+      "escalation_rate": 50,
+      "n_escalated": 4000,
+      "cost": 6.0,
+      "f1": 0.5036935234495791,
+      "precision": 0.8072687224669604,
+      "recall": 0.3660424469413233,
+      "auroc": 0.6235961931190518,
+      "auprc": 0.6934123561266001,
+      "ece": 0.2373580098533516
+    },
+    {
+      "escalation_rate": 75,
+      "n_escalated": 6000,
+      "cost": 8.5,
+      "f1": 0.65536384096024,
+      "precision": 0.8210526315789474,
+      "recall": 0.5453183520599251,
+      "auroc": 0.7152736176150276,
+      "auprc": 0.779109211106771,
+      "ece": 0.20346265888865606
+    },
+    {
+      "escalation_rate": 100,
+      "n_escalated": 8000,
+      "cost": 11.0,
+      "f1": 0.727451255435545,
+      "precision": 0.8300256081946222,
+      "recall": 0.6474406991260924,
+      "auroc": 0.8021384095912649,
+      "auprc": 0.8365105697296418,
+      "ece": 0.17434896249999998
+    }
+  ],
+  "best_f1_operating_point": {
+    "escalation_rate": 100,
+    "n_escalated": 8000,
+    "cost": 11.0,
+    "f1": 0.727451255435545,
+    "precision": 0.8300256081946222,
+    "recall": 0.6474406991260924,
+    "auroc": 0.8021384095912649,
+    "auprc": 0.8365105697296418,
+    "ece": 0.17434896249999998
+  },
+  "f1_non_decreasing": false
+}
