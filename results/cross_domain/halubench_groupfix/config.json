@@ -1,0 +1,25 @@
+{
+  "test_size": 8000,
+  "train_pool_size": 6000,
+  "train_sizes": [
+    112,
+    280,
+    560,
+    1120,
+    2240
+  ],
+  "seeds": [
+    42,
+    123,
+    2024
+  ],
+  "model_dir": "/workspace/signal4_model",
+  "max_length": 512,
+  "batch_size": 16,
+  "learning_rate": 2e-05,
+  "max_epochs": 5,
+  "patience": 2,
+  "minicheck_auroc_ref": 0.7974,
+  "smoke": false,
+  "notes": "The fixed 8000-example test set is group-disjoint from the 6000-example adaptation pool using source + normalized question + normalized passage as the group key. Train sampling remains balanced by source-label. Inner train/validation partitions are also group-disjoint. Small-N validation sets remain noisy and are reported as a limitation."
+}

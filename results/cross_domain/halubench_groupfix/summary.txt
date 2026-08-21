@@ -1,0 +1,23 @@
+==============================================================================
+HaluBench adaptation curve — sample efficiency of S4
+==============================================================================
+Fixed test set: 8000 examples (proportionally stratified by source x label)
+Train pool:     6000 examples
+Seeds per N:    3  Total runs: 15
+
+Reference points:
+  Zero-shot S4:    F1=0.4432  AUROC=0.5272  AUPRC=0.5025
+                   (F1 uses threshold=0.5; AUROC/AUPRC are threshold-free)
+  MiniCheck-7B:    AUROC=0.7974  (prior result from halubench_minicheck_results.json)
+
+N_train       AUROC mean   AUROC std   F1 mean    F1 std   seeds
+----------------------------------------------------------------
+112               0.5008      0.0091    0.6432    0.0252       3
+280               0.5477      0.0178    0.6325    0.0179       3
+560               0.5865      0.0276    0.6422    0.0270       3
+1120              0.8332      0.0429    0.7685    0.0285       3
+2240              0.9616      0.0019    0.8814    0.0029       3
+
+Adapted S4 matches/beats MiniCheck-7B at N >= 1120
+
+Note: small-N val sets (28 examples at N=112) are noisy; variance across seeds at small N is likely large.
