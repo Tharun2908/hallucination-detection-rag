@@ -1,0 +1,23 @@
+{
+  "base_model_dir": "/workspace/nli_deberta_v3_base_original",
+  "base_model_origin": "cross-encoder/nli-deberta-v3-base",
+  "train_n": 2240,
+  "val_ratio": 0.25,
+  "seeds": [
+    42,
+    123,
+    2024
+  ],
+  "max_length": 512,
+  "batch_size": 16,
+  "learning_rate": 2e-05,
+  "max_epochs": 5,
+  "patience": 2,
+  "halubench_split": "/workspace/halubench_group_split.json",
+  "design": {
+    "base_hb_to_hb": "Base NLI -> HaluBench N=2240 -> corrected HaluBench 8k",
+    "base_hb_to_rt": "Same HaluBench-trained base model -> RAGTruth test",
+    "base_rt_to_hb": "Base NLI -> RAGTruth N=2240 -> corrected HaluBench 8k"
+  },
+  "notes": "HaluBench train/validation sampling reuses halubench_curve_groupfix.py exactly. RAGTruth matched-N sampling reuses cross_direction.py. Thresholds are selected only on the source-domain validation split."
+}
