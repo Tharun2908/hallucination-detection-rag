@@ -1,0 +1,14 @@
+Corrected RAGTruth disagreement analysis
+=======================================================
+Fusion threshold: 0.4
+MiniCheck hallucination threshold: 0.8
+
+both_correct: 1806 (66.89%)
+both_wrong: 243 (9.00%)
+lightweight_wins: 327 (12.11%)
+minicheck_wins: 324 (12.00%)
+
+Fusion correct: 2133/2700 (79.00%)
+MiniCheck correct: 2130/2700 (78.89%)
+At least one correct: 2457/2700 (91.00%)
+Both wrong: 243/2700 (9.00%)

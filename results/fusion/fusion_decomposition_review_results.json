@@ -1,0 +1,150 @@
+{
+  "purpose": "Supervisor-review fusion decomposition and meta-model threshold diagnostic",
+  "protocol": {
+    "s4_train_source": "signal4_results_train_oof.json",
+    "s4_test_source": "signal4_results_test.json",
+    "meta_threshold": "5-fold stratified out-of-fold predictions of logistic-regression meta-model",
+    "threshold_grid": "0.05 to 0.95 inclusive, step 0.05",
+    "random_state": 42
+  },
+  "results": {
+    "S4_logistic": {
+      "features": {
+        "numeric": [
+          "s4"
+        ],
+        "metadata": false
+      },
+      "old_train_fit_threshold": {
+        "train_threshold": 0.45,
+        "train_f1": 0.7383,
+        "test_metrics": {
+          "threshold": 0.45,
+          "f1": 0.7024,
+          "precision": 0.6598,
+          "recall": 0.7508,
+          "auroc": 0.847,
+          "auprc": 0.7724,
+          "ece": 0.0443
+        }
+      },
+      "meta_oof_threshold": {
+        "train_threshold": 0.45,
+        "oof_train_f1": 0.7382,
+        "test_metrics": {
+          "threshold": 0.45,
+          "f1": 0.7024,
+          "precision": 0.6598,
+          "recall": 0.7508,
+          "auroc": 0.847,
+          "auprc": 0.7724,
+          "ece": 0.0443
+        }
+      }
+    },
+    "S4_metadata": {
+      "features": {
+        "numeric": [
+          "s4"
+        ],
+        "metadata": true
+      },
+      "old_train_fit_threshold": {
+        "train_threshold": 0.4,
+        "train_f1": 0.7696,
+        "test_metrics": {
+          "threshold": 0.4,
+          "f1": 0.7308,
+          "precision": 0.6744,
+          "recall": 0.7975,
+          "auroc": 0.871,
+          "auprc": 0.7934,
+          "ece": 0.061
+        }
+      },
+      "meta_oof_threshold": {
+        "train_threshold": 0.4,
+        "oof_train_f1": 0.7691,
+        "test_metrics": {
+          "threshold": 0.4,
+          "f1": 0.7308,
+          "precision": 0.6744,
+          "recall": 0.7975,
+          "auroc": 0.871,
+          "auprc": 0.7934,
+          "ece": 0.061
+        }
+      }
+    },
+    "S2_S4": {
+      "features": {
+        "numeric": [
+          "s2",
+          "s4"
+        ],
+        "metadata": false
+      },
+      "old_train_fit_threshold": {
+        "train_threshold": 0.45,
+        "train_f1": 0.7384,
+        "test_metrics": {
+          "threshold": 0.45,
+          "f1": 0.7065,
+          "precision": 0.6705,
+          "recall": 0.7466,
+          "auroc": 0.8494,
+          "auprc": 0.7664,
+          "ece": 0.0547
+        }
+      },
+      "meta_oof_threshold": {
+        "train_threshold": 0.45,
+        "oof_train_f1": 0.738,
+        "test_metrics": {
+          "threshold": 0.45,
+          "f1": 0.7065,
+          "precision": 0.6705,
+          "recall": 0.7466,
+          "auroc": 0.8494,
+          "auprc": 0.7664,
+          "ece": 0.0547
+        }
+      }
+    },
+    "S2_S4_metadata": {
+      "features": {
+        "numeric": [
+          "s2",
+          "s4"
+        ],
+        "metadata": true
+      },
+      "old_train_fit_threshold": {
+        "train_threshold": 0.4,
+        "train_f1": 0.7685,
+        "test_metrics": {
+          "threshold": 0.4,
+          "f1": 0.7262,
+          "precision": 0.6667,
+          "recall": 0.7975,
+          "auroc": 0.8749,
+          "auprc": 0.7959,
+          "ece": 0.0583
+        }
+      },
+      "meta_oof_threshold": {
+        "train_threshold": 0.4,
+        "oof_train_f1": 0.7679,
+        "test_metrics": {
+          "threshold": 0.4,
+          "f1": 0.7262,
+          "precision": 0.6667,
+          "recall": 0.7975,
+          "auroc": 0.8749,
+          "auprc": 0.7959,
+          "ece": 0.0583
+        }
+      }
+    }
+  }
+}

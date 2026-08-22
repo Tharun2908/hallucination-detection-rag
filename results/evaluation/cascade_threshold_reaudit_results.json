@@ -1,0 +1,119 @@
+{
+  "protocol": {
+    "dataset": "RAGTruth test",
+    "n": 2700,
+    "fusion": "canonical S2+S4+task+generator logistic regression",
+    "fusion_threshold": 0.4,
+    "minicheck_support_threshold": 0.19999999999999996,
+    "minicheck_hallucination_threshold": 0.8,
+    "threshold_selection": "all component thresholds selected from train-side scores; no test threshold tuning",
+    "escalation_rule": "lowest absolute fusion confidence |p-0.5| first",
+    "relative_cost_formula": "C(r) = 1 + 10.77*r"
+  },
+  "fusion_endpoint": {
+    "f1": 0.7262192177691936,
+    "precision": 0.6666666666666666,
+    "recall": 0.7974549310710498,
+    "auroc": 0.8748511483531107,
+    "auprc": 0.7959474765054442,
+    "ece": 0.05830448261038721
+  },
+  "minicheck_endpoint": {
+    "f1": 0.7259615384615384,
+    "precision": 0.6640281442392261,
+    "recall": 0.8006362672322376,
+    "auroc": 0.8754365962901915,
+    "auprc": 0.8054896655227513,
+    "ece": 0.2695504444444444
+  },
+  "cascade": [
+    {
+      "escalation_pct": 0,
+      "n_escalated": 0,
+      "relative_cost": 1.0,
+      "f1": 0.7262192177691936,
+      "precision": 0.6666666666666666,
+      "recall": 0.7974549310710498,
+      "auroc": 0.8748511483531107,
+      "auprc": 0.7959474765054442,
+      "ece": 0.05830448261038721
+    },
+    {
+      "escalation_pct": 5,
+      "n_escalated": 135,
+      "relative_cost": 1.5385,
+      "f1": 0.7367891293407146,
+      "precision": 0.7011494252873564,
+      "recall": 0.7762460233297985,
+      "auroc": 0.873926502745268,
+      "auprc": 0.7870897483641384,
+      "ece": 0.06438418431081092
+    },
+    {
+      "escalation_pct": 10,
+      "n_escalated": 270,
+      "relative_cost": 2.077,
+      "f1": 0.7457983193277311,
+      "precision": 0.7388137356919875,
+      "recall": 0.7529162248144221,
+      "auroc": 0.8728500631619862,
+      "auprc": 0.7715686841577809,
+      "ece": 0.07154550448815941
+    },
+    {
+      "escalation_pct": 20,
+      "n_escalated": 540,
+      "relative_cost": 3.154,
+      "f1": 0.7656004195070791,
+      "precision": 0.7572614107883817,
+      "recall": 0.7741251325556734,
+      "auroc": 0.8750322147254037,
+      "auprc": 0.765207799371479,
+      "ece": 0.09202943334835063
+    },
+    {
+      "escalation_pct": 30,
+      "n_escalated": 810,
+      "relative_cost": 4.231,
+      "f1": 0.7659357470678225,
+      "precision": 0.737721021611002,
+      "recall": 0.7963944856839873,
+      "auroc": 0.8695872471332666,
+      "auprc": 0.741611638540697,
+      "ece": 0.11759976725192552
+    },
+    {
+      "escalation_pct": 50,
+      "n_escalated": 1350,
+      "relative_cost": 6.385,
+      "f1": 0.759493670886076,
+      "precision": 0.7020702070207021,
+      "recall": 0.8271474019088016,
+      "auroc": 0.8692969373830236,
+      "auprc": 0.7423265274224221,
+      "ece": 0.17555681991023878
+    },
+    {
+      "escalation_pct": 75,
+      "n_escalated": 2025,
+      "relative_cost": 9.0775,
+      "f1": 0.7480769230769231,
+      "precision": 0.6842568161829375,
+      "recall": 0.8250265111346765,
+      "auroc": 0.8895875368394623,
+      "auprc": 0.8091581649123993,
+      "ece": 0.21935918864828827
+    },
+    {
+      "escalation_pct": 100,
+      "n_escalated": 2700,
+      "relative_cost": 11.77,
+      "f1": 0.7259615384615384,
+      "precision": 0.6640281442392261,
+      "recall": 0.8006362672322376,
+      "auroc": 0.8754365962901915,
+      "auprc": 0.8054896655227513,
+      "ece": 0.2695504444444444
+    }
+  ]
+}
