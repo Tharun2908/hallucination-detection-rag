@@ -1,0 +1,171 @@
+{
+  "protocol": {
+    "dataset": "RAGTruth test",
+    "n": 2700,
+    "n_bootstrap": 5000,
+    "bootstrap": "stratified nonparametric paired bootstrap",
+    "strata": "ground-truth hallucination label",
+    "ci": "95% percentile",
+    "fusion_threshold": 0.4,
+    "minicheck_hallucination_threshold": 0.8,
+    "selected_cascade_escalation_pct": 20,
+    "selected_cascade_n_escalated": 540,
+    "cascade_selection_rule": "lowest absolute fusion confidence |p-0.5| first",
+    "cascade_bootstrap_treatment": "20% cascade vector reconstructed once on original test set; same paired bootstrap indices applied to all systems.",
+    "important_note": "CIs quantify test-sample uncertainty for fixed trained models and fixed 20% operating point; they do not capture training uncertainty or uncertainty from post-hoc selection of 20% after inspecting the test cascade curve."
+  },
+  "point_estimates": {
+    "fusion": {
+      "f1": 0.7262192177691936,
+      "auroc": 0.8748511483531107,
+      "auprc": 0.7959474765054442,
+      "ece": 0.05830448261038723
+    },
+    "minicheck_7b": {
+      "f1": 0.7259615384615384,
+      "auroc": 0.8754365962901915,
+      "auprc": 0.8054896655227513,
+      "ece": 0.2695504444444444
+    },
+    "cascade_20pct": {
+      "f1": 0.7656004195070791,
+      "auroc": 0.8750322147254037,
+      "auprc": 0.765207799371479,
+      "ece": 0.09202943334835065
+    }
+  },
+  "bootstrap": {
+    "fusion": {
+      "f1": {
+        "mean": 0.7262781320863957,
+        "lower_95": 0.7064035182463243,
+        "upper_95": 0.7450806370264379
+      },
+      "auroc": {
+        "mean": 0.8749081423736956,
+        "lower_95": 0.8608015446168665,
+        "upper_95": 0.8879424884917232
+      },
+      "auprc": {
+        "mean": 0.7962452407171662,
+        "lower_95": 0.7706379356791524,
+        "upper_95": 0.8202214591610323
+      },
+      "ece": {
+        "mean": 0.05865038314710032,
+        "lower_95": 0.04961030395839606,
+        "upper_95": 0.0679607325703337
+      }
+    },
+    "minicheck_7b": {
+      "f1": {
+        "mean": 0.7259104051625359,
+        "lower_95": 0.7059372887085869,
+        "upper_95": 0.745305729417429
+      },
+      "auroc": {
+        "mean": 0.8754364259670907,
+        "lower_95": 0.8611916672048361,
+        "upper_95": 0.8888838751945709
+      },
+      "auprc": {
+        "mean": 0.8056728211243078,
+        "lower_95": 0.78285072728807,
+        "upper_95": 0.8277813132692222
+      },
+      "ece": {
+        "mean": 0.26959991502222225,
+        "lower_95": 0.2597430074074073,
+        "upper_95": 0.2798105166666667
+      }
+    },
+    "cascade_20pct": {
+      "f1": {
+        "mean": 0.7655687734783536,
+        "lower_95": 0.7450360518014388,
+        "upper_95": 0.7848633030831671
+      },
+      "auroc": {
+        "mean": 0.8750988732239654,
+        "lower_95": 0.8607852637322246,
+        "upper_95": 0.8882436622243037
+      },
+      "auprc": {
+        "mean": 0.7656074451440622,
+        "lower_95": 0.7380559234664863,
+        "upper_95": 0.7933762438808387
+      },
+      "ece": {
+        "mean": 0.09218719435853327,
+        "lower_95": 0.08205538385016915,
+        "upper_95": 0.10287514304421877
+      }
+    },
+    "fusion_minus_minicheck": {
+      "f1": {
+        "mean": 0.0003677269238597037,
+        "lower_95": -0.022144398600933663,
+        "upper_95": 0.022281994532310556
+      },
+      "auroc": {
+        "mean": -0.0005282835933949432,
+        "lower_95": -0.014679405390104403,
+        "upper_95": 0.013736109945915488
+      },
+      "auprc": {
+        "mean": -0.009427580407141655,
+        "lower_95": -0.03715646834803939,
+        "upper_95": 0.018047821047697393
+      },
+      "ece": {
+        "mean": -0.2109495318751219,
+        "lower_95": -0.22106334079665008,
+        "upper_95": -0.2005232541515842
+      }
+    },
+    "cascade20_minus_fusion": {
+      "f1": {
+        "mean": 0.03929064139195808,
+        "lower_95": 0.024525185906958326,
+        "upper_95": 0.05375532914652836
+      },
+      "auroc": {
+        "mean": 0.0001907308502695794,
+        "lower_95": -0.007190492687634542,
+        "upper_95": 0.0074838805662068115
+      },
+      "auprc": {
+        "mean": -0.03063779557310393,
+        "lower_95": -0.05622993317354208,
+        "upper_95": -0.005605829542145725
+      },
+      "ece": {
+        "mean": 0.03353681121143295,
+        "lower_95": 0.02783461597135233,
+        "upper_95": 0.03916252347796687
+      }
+    },
+    "cascade20_minus_minicheck": {
+      "f1": {
+        "mean": 0.03965836831581778,
+        "lower_95": 0.022066194446267954,
+        "upper_95": 0.05708793417667239
+      },
+      "auroc": {
+        "mean": -0.0003375527431253638,
+        "lower_95": -0.013497328667454064,
+        "upper_95": 0.012939206663725264
+      },
+      "auprc": {
+        "mean": -0.040065375980245586,
+        "lower_95": -0.06750086127076022,
+        "upper_95": -0.012663509556360024
+      },
+      "ece": {
+        "mean": -0.17741272066368893,
+        "lower_95": -0.18712788925183857,
+        "upper_95": -0.167924423962529
+      }
+    }
+  }
+}
