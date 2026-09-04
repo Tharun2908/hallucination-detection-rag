@@ -1,173 +1,448 @@
 # Hallucination Detection in RAG Using Hybrid External Verification
 
-Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin).
+Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin, 2026).
 
-This repository implements and evaluates a hybrid post-generation verification system for detecting hallucinations in Retrieval-Augmented Generation (RAG) outputs. The system combines five core verification signals (S1–S5) plus a distillation variant (S8) and an external baseline (MiniCheck-7B), evaluates fusion strategies, and studies robustness across label noise, task type, generator, and out-of-domain data. Signal numbering is intentionally non-contiguous: S6 and S7 were exploratory experiments excluded from the final system.
+This repository studies **post-generation, response-level faithfulness verification** for Retrieval-Augmented Generation (RAG). Given a generated answer and its retrieved evidence, the goal is to detect unsupported or contradictory content without modifying the retriever, generator, or decoding process.
 
-The thesis contribution is **competitive performance with strong analysis across fusion, calibration, robustness, and efficiency**, not a new F1 maximum. No single system dominates all metrics: MiniCheck-7B leads marginally on AUROC and AUPRC, the S2+S4 fusion leads on calibration, and the cascade improves F1 through selective escalation. With the out-of-fold S4 fusion protocol, 30% escalation gives the highest observed cascade F1, while 20% escalation is nearly tied at lower cost. Because thresholded F1 depends on operating-point selection, AUROC, calibration, and robustness are reported alongside F1 rather than treating one headline number as definitive.
+The thesis evaluates heterogeneous verification signals, a compact learned fusion model, calibration, multiple forms of robustness, and cost-aware escalation to a stronger external verifier. The central result is:
+
+> **Strong in-domain hallucination detection does not imply robust verification under distribution shift.**
+
+On RAGTruth, the lightweight S2+S4+metadata fusion nearly matches MiniCheck-7B in discrimination while being much better calibrated. Under severe zero-shot transfer to HaluBench, however, the RAGTruth-trained lightweight verifier falls close to chance while MiniCheck-7B remains substantially stronger. Target-domain supervision can recover the lightweight architecture strongly, but recovery is highly source-dependent and direct cross-benchmark transfer remains near chance in both directions.
 
 ---
 
-## At a glance
+## Final thesis results at a glance
 
-> **Threshold protocol note.** The thresholded F1 values below are not all selected under the same protocol. Individual signal rows are diagnostic test-set operating points from `evaluation/complete_metrics.py`, while the S2+S4 fusion uses a threshold selected on the training split. Therefore, AUROC and ECE are the fairest direct comparisons across rows. Thresholded F1 should be interpreted as operating-point performance, not as a uniformly train-tuned ranking.
+### RAGTruth — in-distribution verification
 
-| Component | RAGTruth test F1 | AUROC | ECE |
+| System | F1 | AUROC | AUPRC | ECE |
+| --- | ---: | ---: | ---: | ---: |
+| S4 — fine-tuned DeBERTa | 0.7024 | 0.8470 | 0.7724 | 0.1289 |
+| MiniCheck-7B | 0.7260 | **0.8754** | **0.8055** | 0.2696 |
+| **S2+S4+metadata fusion** | **0.7262** | 0.8749 | 0.7959 | **0.0583** |
+
+All threshold-dependent values above use operating points selected from **training-side information only**. Test labels are not used for threshold selection.
+
+The final fusion therefore has essentially the same RAGTruth discrimination as MiniCheck-7B, but substantially lower calibration error. Paired bootstrap intervals show no stable F1/AUROC/AUPRC advantage between fusion and MiniCheck-7B on RAGTruth, while the ECE difference strongly favors the lightweight fusion.
+
+### HaluBench — zero-shot cross-benchmark transfer
+
+The HaluBench numbers below use the corrected **group-disjoint fixed 8,000-example test set**.
+
+| System | F1 | AUROC | AUPRC | ECE |
+| --- | ---: | ---: | ---: | ---: |
+| RAGTruth-trained S4 | 0.4148 | 0.5272 | 0.5025 | 0.2894 |
+| RAGTruth-trained metadata-free S2+S4 fusion | 0.3622 | 0.5319 | 0.5142 | 0.2500 |
+| **MiniCheck-7B** | **0.7283** | **0.7974** | **0.8359** | **0.1784** |
+
+This is the strongest robustness result in the thesis: the lightweight systems that are highly competitive on RAGTruth do **not** transfer reliably to the HaluBench benchmark distribution.
+
+### RAGTruth cascade
+
+MiniCheck-7B has a measured median-latency ratio of **10.77×** relative to the lightweight S2+S4 pipeline. Sequential cascade cost is:
+
+```text
+C(r) = 1 + 10.77r
+```
+
+where `r` is the fraction escalated to MiniCheck-7B.
+
+The submitted-thesis cascade uses the final train-selected thresholds. The strongest observed test-set trade-off is a **post-hoc 20–30% escalation region**:
+
+| Escalation | F1 | Relative sequential cost |
+| ---: | ---: | ---: |
+| 0% | 0.7262 | 1.00× |
+| 20% | 0.7656 | 3.15× |
+| 30% | **0.7659** | 4.23× |
+| 100% | 0.7260 | 11.77× |
+
+The 20–30% region was identified by inspecting the test curve and is **not** presented as a validation-selected deployment optimum. The fixed 20% point has a bootstrap-supported F1 gain over both standalone endpoints. On HaluBench, the same interior advantage disappears: more escalation progressively moves performance toward MiniCheck-7B, and no intermediate rate exceeds the MiniCheck endpoint.
+
+---
+
+## Verification methods
+
+The final thesis evaluates six verification signals plus two MiniCheck baselines:
+
+| Thesis name | Method | Main idea |
+| --- | --- | --- |
+| S1 | NLI entailment | Sentence-level entailment of answer content from retrieved evidence |
+| S2 | Relevance | Weak-link semantic relevance using an MS MARCO cross-encoder |
+| S3 | Cross-model consistency | Agreement between the candidate answer and fixed alternative generations |
+| S5 | BERTScore precision | Token-level semantic coverage of answer content by evidence |
+| S4 | Supervised verifier | DeBERTa-v3 fine-tuned directly on RAGTruth response-level labels |
+| S6 | Distilled verifier | Compact DeBERTa student trained on continuous MiniCheck-7B teacher scores |
+| MiniCheck-RoBERTa | External verifier | Compact MiniCheck grounded-verification baseline |
+| MiniCheck-7B | External verifier | Strong grounded-verification baseline and cascade second stage |
+
+The final in-distribution fusion is logistic regression over **S2 + S4 + task-type metadata + generator metadata**.
+
+> **Legacy naming note:** some repository filenames still use `signal8` for the distilled MiniCheck student. The submitted thesis calls this experiment **S6**. Those legacy filenames refer to the same distillation line of work and are retained to avoid breaking historical experiment paths.
+
+### Final standalone RAGTruth results
+
+| Method | F1 | AUROC | AUPRC | ECE |
+| --- | ---: | ---: | ---: | ---: |
+| S1 NLI | 0.5512 | 0.5965 | 0.3827 | 0.2921 |
+| S2 Relevance | 0.6269 | 0.7234 | 0.4879 | 0.2314 |
+| S3 Cross-model consistency | 0.5262 | 0.5727 | 0.3744 | 0.2206 |
+| **S4 Fine-tuned DeBERTa** | **0.7024** | **0.8470** | **0.7724** | **0.1289** |
+| S5 BERTScore precision | 0.6007 | 0.7537 | 0.5472 | 0.2568 |
+| S6 Distilled MiniCheck | 0.6432 | 0.7942 | 0.6931 | 0.2650 |
+| MiniCheck-RoBERTa | 0.5187 | 0.6213 | 0.4406 | 0.1700 |
+| **MiniCheck-7B** | **0.7260** | **0.8754** | **0.8055** | 0.2696 |
+
+S4 is the strongest lightweight standalone verifier; MiniCheck-7B has the strongest standalone discrimination.
+
+---
+
+## What the fusion result actually means
+
+The final thesis decomposes the fusion rather than attributing all gains to “combining S2 and S4.”
+
+| Configuration | F1 | AUROC | AUPRC | ECE |
+| --- | ---: | ---: | ---: | ---: |
+| Raw S4 | 0.7024 | 0.8470 | 0.7724 | 0.1289 |
+| **LogReg S4 only (no S2, no metadata)** | **0.7024** | **0.8470** | **0.7724** | **0.0443** |
+| S4 + metadata | **0.7308** | 0.8710 | 0.7934 | 0.0610 |
+| S2 + S4 | 0.7065 | 0.8494 | 0.7664 | 0.0547 |
+| S2 + S4 + metadata | 0.7262 | **0.8749** | **0.7959** | 0.0583 |
+
+The supported interpretation is:
+
+- **LogReg S4 only isolates the calibration effect:** F1, AUROC, and AUPRC remain unchanged relative to raw S4, while ECE drops from **0.1289 to 0.0443**. This shows that most of the final pipeline's calibration improvement comes from logistic remapping rather than from adding S2 or metadata;
+- **task/generator metadata** contributes most of the additional in-distribution discrimination over S4;
+- **S2** adds a smaller additional ranking benefit;
+- adding still more signals produces only small neighboring changes, so those ablations are not treated as evidence that a larger feature set is meaningfully better without additional uncertainty analysis.
+
+---
+
+## Protocol integrity and final audit decisions
+
+Several review cycles focused specifically on preventing optimistic or ambiguous evaluation. The submitted thesis uses the following canonical protocols.
+
+### 1. Train-side threshold selection
+
+All reported standalone RAGTruth operating thresholds are selected using training-side predictions and then applied unchanged to the held-out test set. For S4, the threshold is selected from out-of-fold training predictions. The final S4 hallucination threshold is **0.55**.
+
+The fusion threshold is also selected from **out-of-fold meta-model predictions** rather than from RAGTruth test labels.
+
+### 2. Leakage-resistant stacking
+
+Because S4 is itself supervised on RAGTruth, using in-sample S4 train predictions as fusion features would leak label information into the meta-classifier. Fusion training therefore uses **five-fold out-of-fold S4 scores**: every RAGTruth training example is scored by an S4 fold model that did not train on that example.
+
+### 3. Exact RAGTruth++ alignment
+
+RAGTruth++ is aligned with RAGTruth through:
+
+```text
+meta.original_id -> RAGTruth id
+```
+
+not by response-prefix matching. The final integrity audit resolves **408 / 408** examples exactly, with exact response text and generator-model agreement. All 408 originate from the original RAGTruth **test** split.
+
+Under the revised labels:
+
+```text
+Original RAGTruth positive rate: 15.93%
+RAGTruth++ positive rate:        74.75%
+Changed labels:                  240 / 408
+```
+
+### 4. Group-disjoint HaluBench evaluation
+
+After excluding HaluBench rows derived from RAGTruth, 14,000 examples remain. Related rows are grouped using:
+
+```text
+source_ds + normalized question + normalized passage
+```
+
+and kept in the same partition. The final split contains:
+
+```text
+adaptation pool: 6,000
+fixed test set:  8,000
+train/test group overlap: 0
+```
+
+Inner train/validation splits used during target-domain adaptation are also group-disjoint. The corrected adaptation curve was rerun for all **5 train sizes × 3 seeds = 15 runs**.
+
+### 5. Fusion-layer holdouts are not full end-to-end holdouts
+
+Leave-one-task-type-out and leave-one-generator-out experiments retrain the **fusion layer** using only the original RAGTruth training split after excluding the held-out group, then evaluate on the corresponding RAGTruth test subset.
+
+The underlying S4 verifier remains fixed and may have encountered that task or generator during its original supervised training. These experiments therefore measure **fusion-layer transfer**, not fully end-to-end unseen-task or unseen-generator generalization.
+
+### 6. Bootstrap uncertainty
+
+The main RAGTruth and HaluBench comparisons include paired bootstrap confidence intervals. These intervals measure **test-sample uncertainty for fixed trained models**; they do not include retraining uncertainty and are not presented as a comprehensive formal hypothesis-testing framework.
+
+---
+
+## Robustness findings
+
+### RAGTruth++: annotation-scheme shift
+
+RAGTruth++ changes the target definition and positive prevalence dramatically while keeping the underlying responses aligned.
+
+At the original RAGTruth operating points, S4 retains moderate ranking information on RAGTruth++ (`AUROC = 0.6837`) but has high precision and low recall, yielding `F1 = 0.4268`. This is an operating-point failure under annotation shift, not a sudden disappearance of all ranking information.
+
+The 5-fold retraining experiment uses all 408 matched examples:
+
+| Condition | F1 | AUROC | AUPRC |
 | --- | ---: | ---: | ---: |
-| S1 — NLI (DeBERTa) | 0.551 | 0.597 | 0.291 |
-| S2-min — Relevance (MS-MARCO) | 0.630 | 0.723 | 0.231 |
-| S3 — Consistency (Mistral-7B) | 0.526 | 0.573 | 0.221 |
-| **S4 — Fine-tuned DeBERTa (184M)** | 0.704 | 0.847 | 0.129 |
-| S5 — BERTScore | 0.538 | 0.697 | 0.265 |
-| S8 — Distillation (DeBERTa, soft) | 0.643 | 0.794 | — |
-| MiniCheck-7B (baseline) | 0.735 | **0.875** | 0.270 |
-| **Logreg S2+S4 fusion (+meta, OOF S4 train scores)** | 0.726 | 0.875 | **0.058** |
-| **Cascade @ 30% escalation** | **0.766** | — | — |
+| Baseline S4, no subset-specific retraining | 0.7734 ± 0.0425 | 0.6870 ± 0.0349 | 0.8559 ± 0.0329 |
+| **Retrain on RAGTruth++ labels** | **0.8486 ± 0.0210** | **0.7290 ± 0.0545** | **0.8763 ± 0.0484** |
+| Retrain on original labels | 0.7645 ± 0.0634 | 0.7036 ± 0.0656 | 0.8671 ± 0.0355 |
 
-S2 is reported as **S2-min** in the headline table because the final fusion and complete-metrics scripts use the minimum relevance feature. Earlier standalone relevance experiments also evaluated an S2-mean variant; those results are kept in the signal-level JSONs but are not the canonical S2 row in this table.
+For this CV table, F1 uses a **fold-specific threshold selected on an inner validation split using RAGTruth++ labels for each condition**; AUROC and AUPRC remain threshold-free. The more defensible evidence of adaptation is therefore the ranking change, not the raw jump in F1. The corrected-label retraining condition has a mean AUROC gain of `+0.0421` over the baseline and `+0.0254` over the same-example original-label control, but the five-fold variation is large enough that this should be interpreted cautiously.
 
-S4 clears all prompting baselines including GPT-4-turbo (62.0 F1 on RAGTruth Table 5 overall response-level) but trails the original RAGTruth-paper fine-tuned Llama-2-13B (78.7). After switching fusion training to out-of-fold S4 train scores, the 30%-escalation cascade reaches 0.766 F1 at roughly 4× lightweight cost. This remains below the RAGTruth-paper 13B verifier by roughly 2.1 F1 points, but uses a lightweight fusion model plus selective MiniCheck escalation rather than a full 13B verifier.
+### HaluBench: target-domain adaptation
+
+The corrected group-disjoint adaptation curve is:
+
+| HaluBench train examples | AUROC mean ± std | F1 mean ± std |
+| ---: | ---: | ---: |
+| 112 | 0.5008 ± 0.0091 | 0.6432 ± 0.0252 |
+| 280 | 0.5477 ± 0.0178 | 0.6325 ± 0.0179 |
+| 560 | 0.5865 ± 0.0276 | 0.6422 ± 0.0270 |
+| 1120 | 0.8332 ± 0.0429 | 0.7685 ± 0.0285 |
+| 2240 | **0.9616 ± 0.0019** | **0.8814 ± 0.0029** |
+
+The aggregate recovery is strong but **not uniform across sources**. At N=2240, AUROC is 0.9905 on HaluEval and 0.9346 on DROP, but only 0.7456 on PubMedQA, 0.6583 on CovidQA, and 0.5560 on FinanceBench.
+
+A matched initialization control shows that strong target-domain learning does not depend on the RAGTruth-trained S4 checkpoint. Starting from the common base NLI checkpoint and training on HaluBench at N=2240 reaches `AUROC = 0.9460 ± 0.0032`; starting from RAGTruth S4 reaches `0.9616 ± 0.0019`. Prior RAGTruth supervision therefore adds a smaller benefit, while access to target-domain labels drives most of the recovery.
+
+### Bidirectional cross-benchmark transfer
+
+Using the same base NLI initialization and N=2240 in both directions:
+
+| Train | Evaluate | AUROC | AUPRC |
+| --- | --- | ---: | ---: |
+| RAGTruth | HaluBench | 0.5036 ± 0.0415 | 0.5034 ± 0.0320 |
+| HaluBench | RAGTruth | 0.4836 ± 0.0543 | 0.3279 ± 0.0216 |
+
+Direct transfer is therefore approximately chance-level in **both directions**, despite strong in-domain learnability. The thesis distinguishes target-domain learnability from benchmark-independent generalization rather than treating them as the same property.
+
+---
+
+## Cascade and error complementarity
+
+The final train-threshold disagreement audit on the 2,700-example RAGTruth test set is:
+
+| Outcome | Examples | Share |
+| --- | ---: | ---: |
+| Both correct | 1806 | 66.89% |
+| Both wrong | 243 | 9.00% |
+| Fusion correct, MiniCheck-7B wrong | 327 | 12.11% |
+| MiniCheck-7B correct, fusion wrong | 324 | 12.00% |
+
+At least one verifier is correct on **91.0%** of the test set. The nearly symmetric unique-win counts show that MiniCheck-7B is not simply a strict replacement for the lightweight verifier; the two systems make materially different errors. This complementarity helps explain why selective escalation can improve F1 on RAGTruth.
+
+Under HaluBench shift, however, the first stage itself becomes weak, so uncertainty routing no longer produces an interior performance peak. Cascading is therefore a **distribution-dependent design pattern**, not a universally beneficial deployment recipe.
 
 ---
 
 ## Repository structure
 
-```
-signals/                # individual verification signal scoring
-fusion/                 # logistic-regression fusion variants
-evaluation/             # main metrics and within-RAGTruth breakdowns
-robustness/             # RAGTruth++ label-noise, granularity, error overlap
-cross_domain/           # HaluBench transfer, adaptation curve, bidirectional study
-cascade/                # cascaded verifier (lightweight → MiniCheck escalation)
+```text
+signals/                # individual verification signal scoring/training
+fusion/                 # logistic-regression fusion and decomposition
+evaluation/             # threshold audits, bootstrap CIs, holdouts, disagreement
+robustness/             # RAGTruth++ alignment/retraining and auxiliary analyses
+cross_domain/           # HaluBench group-disjoint transfer and adaptation
+cascade/                # historical/initial cascade implementations
 efficiency/             # latency, throughput, memory benchmark
-clinical_extension/     # MERLIN-DDx V1 rationale faithfulness (in progress)
-results/                # per-experiment metric JSONs
-figures/                # plots used in the thesis
-model_card.md           # HuggingFace model card for the released S4 checkpoint
+clinical_extension/     # MERLIN-DDx V1 extension code (not a core thesis result)
+results/                # aggregate/canonical experiment outputs
+figures/                # thesis plots
+model_card.md           # model card for the S4 checkpoint
 ```
 
-Per-example score files (~15k train + 2.7k test + 14k HaluBench rows) are intentionally not stored in this Git repository because they are large intermediate artifacts. Aggregate metric JSONs are included under `results/`, but full end-to-end reproduction of the headline results requires regenerating the per-example score files or obtaining them separately.
+Per-example score files (~15k RAGTruth train + 2.7k test + 14k HaluBench rows) are not stored in this repository because they are large intermediate artifacts. Aggregate result files are included under `results/`. Full end-to-end reproduction requires regenerating the per-example scores or obtaining them separately.
 
 ---
 
 ## Datasets
 
-**This repository does not redistribute any dataset.** Each experiment loads data directly from its original source.
+**This repository does not redistribute the datasets.** Experiments load them from their original sources.
 
 | Dataset | Source | Use |
 | --- | --- | --- |
-| RAGTruth | [`wandb/RAGTruth-processed`](https://huggingface.co/datasets/wandb/RAGTruth-processed) | Primary benchmark (15,090 train / 2,700 test) |
-| HaluBench | [`PatronusAI/HaluBench`](https://huggingface.co/datasets/PatronusAI/HaluBench) | Cross-domain evaluation (filter `source_ds != 'RAGTruth'` → 14,000 examples) |
-| RAGTruth++ | [`blue-guardrails/ragtruth-plus-plus`](https://huggingface.co/datasets/blue-guardrails/ragtruth-plus-plus) | Label-noise robustness re-annotation |
+| RAGTruth | [`wandb/RAGTruth-processed`](https://huggingface.co/datasets/wandb/RAGTruth-processed) | Primary benchmark: 15,090 train / 2,700 test |
+| RAGTruth++ | [`blue-guardrails/ragtruth-plus-plus`](https://huggingface.co/datasets/blue-guardrails/ragtruth-plus-plus) | 408 exactly aligned examples for annotation-shift analysis |
+| HaluBench | [`PatronusAI/HaluBench`](https://huggingface.co/datasets/PatronusAI/HaluBench) | Cross-benchmark transfer/adaptation after removing RAGTruth-derived rows |
 
-RAGTruth uses JSON-format strings; parse with `json.loads`, not `ast.literal_eval`. RAGTruth++ comes as two CSV files joined by `message_stable_id`, and its assistant outputs are linked back to RAGTruth by text-prefix match rather than index (193 duplicate 100-char prefixes; first-occurrence wins, verified at 200 chars).
+RAGTruth++ assistant responses are linked to RAGTruth using the canonical `meta.original_id` field, **not text-prefix matching**.
 
-For HaluBench transfer, the held-out test set is a fixed 8,000-example proportionally-stratified subsample seeded at 42, with the remaining 6,000 forming the train pool. Use the same split for any reproduction (`cross_domain/halubench_curve.py` writes `test_train_pool_indices.json`).
+HaluBench evaluation uses the saved group-disjoint split under `results/cross_domain/halubench_groupfix/`. Reproduction should reuse that split rather than creating a new row-level random split.
 
 ---
 
 ## Environment
 
-Tested on a Kubernetes GPU pod (Tesla V100S-PCIE-32GB, 32 GB VRAM) with the persistent volume mounted at `/workspace`.
-
-Pinned versions matter — the combination below is the only one verified end-to-end with vLLM 0.4.3, the MiniCheck-7B baseline, and the saved S4 checkpoint loading cleanly:
+The main thesis experiments were run on a Kubernetes GPU pod with a **Tesla V100S-PCIE-32GB** and a persistent volume mounted at `/workspace`.
 
 ```bash
 pip install -r requirements.txt --break-system-packages
 python -c "import nltk; nltk.download('punkt_tab')"
 ```
 
-Known cross-version traps documented in the thesis notes:
+The verified environment has several version-sensitive dependencies:
 
-- `vllm==0.4.3` pulls `torch` back to `2.3.0+cu121`; this is intentional. Do not upgrade.
-- `transformers` must stay at `4.44.0`. Newer versions fail to load the S4 checkpoint with a `register_fake` error; some intermediate versions silently upgrade and break this on rerun.
-- `xformers==0.0.26.post1` is required for V100 (compute capability 7.0); newer releases raise `NotImplementedError` on this GPU.
-- MiniCheck-7B is ~15 GB and the container overlay fills up fast. Move the model cache to `/workspace` and symlink it into `/root/.cache/huggingface/hub/`.
+- `vllm==0.4.3` pins `torch` to the compatible 2.3.x CUDA stack used for the MiniCheck runs.
+- `transformers==4.44.0` is the verified version for loading the saved S4 checkpoint in this environment.
+- `xformers==0.0.26.post1` is the version used on the V100 (compute capability 7.0).
+- MiniCheck-7B is large enough that Hugging Face cache placement matters on small container overlays.
 
-Additional cluster setup notes, cache-layout details, and environment-specific troubleshooting are documented in `docs/INFRASTRUCTURE.md`.
+Additional cluster and cache details are documented in [`docs/INFRASTRUCTURE.md`](docs/INFRASTRUCTURE.md).
 
 ---
 
-## Reproducing the headline results
+## Reproducing the submitted-thesis results
 
-The scripts below assume the working directory contains the relevant data and that intermediate scoring outputs (`signal4_results_*.json`, etc.) are kept alongside. Each script writes its outputs to the current directory.
+The commands below highlight the **final/corrected** entry points. Some older scripts remain in the repository for provenance; see the canonical-artifact note below before using their outputs as thesis numbers.
 
-### Single signals (RAGTruth)
+### Standalone signals and threshold audit
 
 ```bash
-python signals/relevance_verifier_full_v2.py    # S2 — best unsupervised
-python signals/signal4_finetune.py              # S4 — final full-train checkpoint for test scoring
-python signals/signal4_score_train.py           # S4 — full-train scores for standalone diagnostics
-python signals/signal4_oof_train_scores.py      # S4 — out-of-fold train scores for fusion/cascade
-python signals/minicheck_baseline.py            # MiniCheck-7B external baseline
+python signals/nli_verifier_full_v2.py
+python signals/relevance_verifier_full_v2.py
+python signals/signal4_finetune.py
+python signals/signal4_oof_train_scores.py
+python signals/signal5_bertscore_v2_precision.py
+python signals/signal8_distillation.py          # legacy filename; S6 in the thesis
+python signals/minicheck_baseline.py
+
+python evaluation/table41_threshold_audit.py   # final train-side operating-point audit
 ```
 
-### Fusion (the final system)
+### Fusion
 
 ```bash
 python fusion/fusion_logreg_s2s4.py
+python fusion/fusion_decomposition_review.py
 ```
 
-This is the logistic-regression S2+S4 fusion with task-type and generator one-hot metadata. It assumes S2 and S4 scoring outputs already exist on disk.
+Fusion training uses out-of-fold S4 train features; test-time S4 scores come from the final S4 checkpoint trained on the complete RAGTruth training split.
 
-The fusion model is trained using out-of-fold S4 predictions for the RAGTruth training split. Each training example is scored by an S4 fold model that did not train on that example, avoiding in-sample S4 features for the logistic-regression meta-classifier. Test-time S4 scores are produced by the final S4 checkpoint trained on the full RAGTruth training split.
-
-### Robustness
+### RAGTruth++
 
 ```bash
-python evaluation/leave_one_task_out.py         # held-out task analysis under OOF fusion protocol
-python evaluation/leave_one_generator_out.py    # held-out generator analysis under OOF fusion protocol
-python robustness/ragtruth_plusplus_eval.py     # first-pass scoring under re-annotation
-python robustness/ragtruth_pp_retrain.py        # 5-fold RAGTruth++ retraining study; GPU recommended
-python robustness/sentence_level_s4.py          # granularity ablation (negative result)
-python robustness/disagreement_analysis.py      # OOF fusion vs MiniCheck error overlap
+python robustness/ragtruth_plusplus_eval_thresholdfix.py
+python robustness/ragtruth_pp_retrain_idfix.py
 ```
 
-### Cross-domain
+These are the corrected exact-ID / final-threshold paths. Do not use the old response-prefix matching interpretation for thesis reproduction.
+
+### Fusion-layer task and generator transfer
 
 ```bash
-python cross_domain/halubench_eval.py           # zero-shot transfer
-python cross_domain/halubench_fewshot.py        # 1,120-example adaptation
-python cross_domain/halubench_curve.py          # full adaptation curve (5 sizes × 3 seeds)
-python cross_domain/per_source_breakdown.py     # per-source AUROC heterogeneity
-python cross_domain/cross_direction.py          # bidirectional from-scratch (RT↔HB)
+python evaluation/leave_one_strict_review.py
 ```
 
-### Cascade and efficiency
+This is the stricter review protocol that fits the fusion layer only on the original RAGTruth training split after removing the held-out group.
+
+### HaluBench group-disjoint transfer and adaptation
 
 ```bash
-python cascade/cascaded_verifier.py             # in-domain (RAGTruth) — sweet spot at 30% escalation
-python cascade/cascaded_verifier_halubench.py   # out-of-domain (no sweet spot)
-python efficiency/efficiency_benchmark.py       # latency, throughput, memory
+python cross_domain/halubench_curve_groupfix.py
+python cross_domain/halubench_per_source_groupfix.py
+python cross_domain/halubench_groupfix_thresholdfix.py
+python cross_domain/cross_direction_n2240_groupfix.py
 ```
+
+The `groupfix` experiments use the corrected 6,000/8,000 group-disjoint split and group-disjoint inner train/validation partitions.
+
+### Cascade, disagreement, bootstrap and efficiency
+
+```bash
+python evaluation/cascade_threshold_reaudit.py
+python evaluation/disagreement_threshold_reaudit.py
+python evaluation/bootstrap_ragtruth_main.py
+python cross_domain/bootstrap_halubench_groupfix_thresholdfix.py
+python efficiency/efficiency_benchmark.py
+```
+
+---
+
+## Canonical result artifacts
+
+The repository contains historical outputs from earlier experiment iterations. For the **submitted thesis**, prefer the following files:
+
+```text
+results/evaluation/table41_threshold_audit_results.json
+results/fusion/fusion_decomposition_review_results.json
+
+results/robustness/ragtruth_pp_idfix/
+  ragtruth_plusplus_results_thresholdfix.json
+  full/results.json
+  full/summary.txt
+
+results/evaluation/leave_one_strict_review_results.json
+
+results/cross_domain/halubench_groupfix/
+  halubench_group_split.json
+  halubench_split_integrity_audit_results.json
+  halubench_groupfix_thresholdfix_results.json
+  results.json
+  per_source_results_groupfix.json
+
+results/cross_domain/cross_direction_n2240_groupfix/
+  results.json
+  summary.txt
+
+results/evaluation/cascade_threshold_reaudit_results.json
+results/evaluation/disagreement_threshold_reaudit_results.json
+results/evaluation/disagreement_threshold_reaudit_summary.txt
+
+results/bootstrap/bootstrap_ragtruth_main_results.json
+results/cross_domain/halubench_groupfix/bootstrap_halubench_groupfix_thresholdfix_results.json
+
+results/efficiency/combined.json
+```
+
+> **Historical-output warning:** older files without the relevant `idfix`, `groupfix`, `thresholdfix`, `strict_review`, or re-audit qualification may reflect superseded matching, split, or threshold protocols. They are retained for provenance but should not be copied as the submitted-thesis numbers without checking against the canonical artifacts above.
 
 ---
 
 ## Key empirical findings
 
-1. **S2+S4 is the minimal effective fusion.** Adding S1, S3, or S5 changes AUROC by less than 0.001.
-2. **The OOF S2+S4 fusion is the best-calibrated system** (ECE 0.058 on RAGTruth test), substantially better calibrated than S4 alone (ECE 0.129) and MiniCheck-7B (ECE 0.270), while nearly matching MiniCheck-7B on AUROC.
-3. **Within-RAGTruth generalization is mixed but informative:** under the out-of-fold S4 fusion protocol, leave-one-task AUROC ranges from 0.780 to 0.856 with metadata, while leave-one-generator AUROC ranges from 0.762 to 0.856. Metadata helps on some held-out groups but hurts calibration on others, so task/generator conditioning is useful in-distribution but not uniformly robust.
-4. **Cross-domain transfer is fundamentally hard but fixable with adaptation.** S4 zero-shot on HaluBench is near-chance (AUROC 0.50). With adaptation, FinanceBench, CovidQA, and PubMedQA plateau at AUROC 0.55–0.75 even when ~80% of source-specific examples are used at N=2240. The aggregate AUROC at N=2240 reaches 0.96, but this is driven by halueval and DROP and should not be cited as a flat headline. MiniCheck-7B shows the opposite pattern, with the two verifiers exhibiting complementary domain coverage.
-5. **Cascading lightweight fusion → MiniCheck-7B improves the cost-performance frontier.** With out-of-fold S4 train scores, the lightweight S2+S4 fusion reaches F1 0.726 on RAGTruth, matching MiniCheck-7B alone at roughly 1/11th of the cost. Selective escalation improves further: 20% and 30% escalation both reach F1 0.766 — the highest observed in the sweep — at ~3× and ~4× lightweight cost respectively. Both settings outperform using MiniCheck on every example.
-6. **Cascade gain comes from complementary specialization, not redundancy.** In the OOF fusion disagreement analysis, MiniCheck uniquely fixes 12.4% of test examples, mostly faithful cases that the lightweight fusion over-flags (74% subtype=none, 44% Summary task, 34% longest-context quartile). The lightweight fusion uniquely fixes 10.4%, with wins concentrated more in QA and Data2txt, showing that MiniCheck is useful for selective escalation but not a strict replacement.
-7. **RAGTruth++ drop is calibration shift, not granularity or representation.** Retraining on RAGTruth++ labels improves AUROC only marginally over retraining on original labels with the same examples (+0.034, one fold negative); sentence-level scoring is uniformly worse than response-level on both label sets. Pos rate moves from 16% to 75% under re-annotation, so the optimal threshold shifts substantially while ranking is largely preserved.
-8. **Cross-benchmark transfer from scratch is zero.** Training from the NLI cross-encoder backbone (no S4 init) reaches val AUROC 0.85+ in-domain on HaluBench but test AUROC 0.46–0.55 on RAGTruth across all training sizes and seeds. The earlier "few-shot HaluBench" success at N=1120 only works because S4 was already pretrained on 15k RAGTruth examples — cheap adaptation requires expensive pretraining.
+1. **Direct supervision is the strongest lightweight standalone strategy in-domain.** S4 reaches AUROC 0.8470 on RAGTruth, well above the generic entailment, relevance, similarity, and cross-model consistency signals.
+
+2. **The final fusion nearly matches MiniCheck-7B in RAGTruth discrimination but is much better calibrated.** Fusion AUROC is 0.8749 versus 0.8754 for MiniCheck-7B, while ECE is 0.0583 versus 0.2696.
+
+3. **Fusion gains have different causes.** Logistic regression supplies most of the calibration improvement; task/generator metadata supplies most of the additional in-distribution discrimination; S2 contributes a smaller ranking increment.
+
+4. **RAGTruth++ is a large annotation/operating-point shift, not ordinary random label noise.** The positive rate changes from 15.93% to 74.75%, 240/408 labels change, and original operating thresholds transfer poorly even when ranking remains partially useful.
+
+5. **Zero-shot cross-benchmark robustness strongly favors MiniCheck-7B.** On group-disjoint HaluBench, S4/fusion AUROC is about 0.53 while MiniCheck-7B reaches 0.7974.
+
+6. **Target-domain supervision can recover the lightweight architecture, but recovery is source-dependent.** Adapted S4 reaches aggregate AUROC 0.9616 ± 0.0019 at N=2240, driven especially by HaluEval and DROP; FinanceBench, CovidQA, and PubMedQA remain substantially harder.
+
+7. **The recovery is mostly target-supervision driven rather than inherited from RAGTruth.** At N=2240, the common base NLI initialization already reaches HaluBench AUROC 0.9460 ± 0.0032; RAGTruth-S4 initialization raises this to 0.9616 ± 0.0019.
+
+8. **Strong in-domain learnability does not imply direct transfer.** Matched-size bidirectional transfer from a common base remains near chance: 0.5036 AUROC for RAGTruth→HaluBench and 0.4836 for HaluBench→RAGTruth.
+
+9. **Cascading is useful only when the first stage remains informative and complementary.** On RAGTruth, 20–30% escalation gives the strongest observed post-hoc F1/cost region; on HaluBench, the interior advantage disappears.
+
+10. **The two RAGTruth verifier stages have complementary rather than nested errors.** Fusion uniquely wins on 327 examples and MiniCheck-7B on 324, while both are wrong on 243 of 2,700 examples.
 
 ---
 
 ## Released artifacts
 
-- **S4 checkpoint** (fine-tuned DeBERTa, 184M params, RAGTruth) — planned for HuggingFace release. The model card is included in `model_card.md`; the checkpoint link will be added after upload.
-- **Aggregate results JSONs** under `results/`.
+- **Aggregate result JSONs** under `results/`.
 - **Thesis plots** under `figures/`.
+- **S4 model card** in [`model_card.md`](model_card.md); the checkpoint link can be added if/when the model is released publicly.
 
-Not released (deliberately):
+Not redistributed here:
 
-- The MiniCheck-7B weights (not ours to redistribute; available from [`bespokelabs/Bespoke-MiniCheck-7B`](https://huggingface.co/bespokelabs/Bespoke-MiniCheck-7B)).
-- Per-example score files (~ tens of MB each; available on request).
-- The HaluBench few-shot S4 checkpoint (released conditionally — see the model card).
-- MERLIN-DDx data (clinical pipeline collaboration; the analysis pipeline `clinical_extension/analyze_merlin_v1.py` is public, the labeling sheet and patient-derived data are not).
+- MiniCheck-7B weights (available from [`bespokelabs/Bespoke-MiniCheck-7B`](https://huggingface.co/bespokelabs/Bespoke-MiniCheck-7B)).
+- Original benchmark datasets.
+- Large per-example score files used as intermediate artifacts.
+- MERLIN-DDx patient-derived data from the separate clinical extension.
 
 ---
 
@@ -176,10 +451,10 @@ Not released (deliberately):
 If this work is useful to you, please cite the thesis:
 
 ```bibtex
-@mastersthesis{thesis2026hallucination,
+@mastersthesis{mekala2026hallucination,
   title  = {Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification},
-  author = {Tharun Johny},
-  school = {BHT Berlin},
+  author = {Tharun Johny Mekala},
+  school = {Berliner Hochschule fuer Technik (BHT)},
   year   = {2026}
 }
 ```
@@ -188,6 +463,6 @@ If this work is useful to you, please cite the thesis:
 
 ## License
 
-This code is released under the MIT License — see `LICENSE`. The released S4 checkpoint inherits its license from the base model (`cross-encoder/nli-deberta-v3-base`) and is intended for research use; see `model_card.md` for details.
+The code is released under the MIT License; see [`LICENSE`](LICENSE).
 
-The datasets used here are governed by their own licenses (see their HuggingFace pages). MiniCheck-7B is released under its own terms — see the [Bespoke Labs model card](https://huggingface.co/bespokelabs/Bespoke-MiniCheck-7B).
+The datasets used by the experiments remain governed by their original licenses. MiniCheck-7B is released under its own terms; see the [Bespoke Labs model card](https://huggingface.co/bespokelabs/Bespoke-MiniCheck-7B).
