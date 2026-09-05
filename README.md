@@ -272,13 +272,14 @@ robustness/             # RAGTruth++ exact alignment and retraining
 cross_domain/           # HaluBench group-disjoint transfer and adaptation
 efficiency/             # latency, throughput, memory benchmark
 clinical_extension/     # MERLIN-DDx V1 extension code (not a core thesis result)
+docs/                   # infrastructure and reproducibility notes
 results/                # aggregate/canonical experiment outputs
 figures/                # active final-protocol plots
 legacy/                 # earlier experiment iterations retained for provenance
 model_card.md           # model card for the S4 checkpoint
 ```
 
-Per-example score files (~15k RAGTruth train + 2.7k test + 14k HaluBench rows) are not stored in this repository because they are large intermediate artifacts. Aggregate result files are included under `results/`. Full end-to-end reproduction requires regenerating the per-example scores or obtaining them separately.
+Most per-example score files are not stored in this repository because they are large intermediate artifacts. The final audited HaluBench caches required by the canonical cross-domain analyses are committed under `results/cross_domain/`; other per-example score files must be regenerated or obtained separately. Aggregate result files are included under `results/`.
 
 ---
 
