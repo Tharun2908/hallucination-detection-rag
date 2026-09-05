@@ -266,15 +266,16 @@ Under HaluBench shift, however, the first stage itself becomes weak, so uncertai
 
 ```text
 signals/                # individual verification signal scoring/training
-fusion/                 # logistic-regression fusion and decomposition
+fusion/                 # audited logistic-regression fusion and decomposition
 evaluation/             # threshold audits, bootstrap CIs, holdouts, disagreement
-robustness/             # RAGTruth++ alignment/retraining and auxiliary analyses
+robustness/             # RAGTruth++ exact alignment and retraining
 cross_domain/           # HaluBench group-disjoint transfer and adaptation
-cascade/                # historical/initial cascade implementations
+cascade/                # corrected HaluBench fixed-8k cascade analysis
 efficiency/             # latency, throughput, memory benchmark
 clinical_extension/     # MERLIN-DDx V1 extension code (not a core thesis result)
 results/                # aggregate/canonical experiment outputs
-figures/                # thesis plots
+figures/                # active final-protocol plots
+legacy/                 # earlier experiment iterations retained for provenance
 model_card.md           # model card for the S4 checkpoint
 ```
 
@@ -451,7 +452,7 @@ results/efficiency/combined.json
 ## Released artifacts
 
 - **Aggregate result JSONs** under `results/`.
-- **Thesis plots** under `figures/`.
+- **Active final-protocol plots** under `figures/`; earlier experiment plots are retained under `legacy/figures/`.
 - **S4 model card** in [`model_card.md`](model_card.md); the checkpoint link can be added if/when the model is released publicly.
 
 Not redistributed here:
