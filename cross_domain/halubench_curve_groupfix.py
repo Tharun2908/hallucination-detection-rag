@@ -1,55 +1,59 @@
-#!/usr/bin/env python
 """
 HaluBench adaptation curve — sample-efficiency experiment for the thesis
-chapter on domain adaptation.
+cross-domain robustness analysis.
 
-Question: how many HaluBench training examples are needed for the supervised
-verifier (S4) to close the cross-domain gap, and where does the curve cross
-MiniCheck-7B (the strong domain-robust baseline)?
+Question
+========
+How many HaluBench training examples are needed for the supervised verifier
+(S4) to recover after poor zero-shot transfer?
 
-Design
-======
-- HaluBench filtered to remove RAGTruth source -> 14,000 examples
-- Fixed 8000-example test set with PROPORTIONAL stratification by source x
-  label, held out once (preserves natural HaluBench distribution)
-- Train pool = remaining 6000 examples
-- Train sizes: 112 / 280 / 560 / 1120 / 2240 (Option 3 from design discussion)
-- Train/val split: 80/20 within each size, source x label stratified
-  Sizes: 112/28, 280/70, 560/140, 1120/280, 2240/560
-- 3 seeds per training size -> 15 runs total
-- Same training logic everywhere (max 5 epochs, save best by val AUROC):
-  small-N val is noisy and we note this as a limitation
-- Initialise from RAGTruth-finetuned S4 (NOT from DeBERTa base)
-- Train sampling uses BALANCED source-label sampling so all sources are
-  represented at every N (not proportional — proportional sampling at N=112
-  would miss whole minority sources)
-- Do not save model weights to disk (15 x 700MB would be wasteful);
-  save predictions on the fixed test set per run, with original HaluBench
-  indices for traceability
+Protocol
+========
+- Load HaluBench and remove examples whose source_ds is RAGTruth,
+  leaving 14,000 examples.
+- Load the canonical split from /workspace/halubench_group_split.json:
+    - 6,000-example adaptation pool
+    - 8,000-example fixed test set
+- Groups are defined by:
+    source_ds + normalized question + normalized passage
+- The adaptation pool and fixed test set are group-disjoint.
+- PASS/FAIL paired groups do not cross the outer split.
+- Train sizes: 112 / 280 / 560 / 1120 / 2240.
+- Three seeds per train size: 42 / 123 / 2024.
+- Training examples are sampled approximately balanced by source and label.
+- Each sampled adaptation set is divided into train/validation subsets using
+  a group-disjoint split.
+- Validation size is 25% of the requested training size:
+  112/28, 280/70, 560/140, 1120/280, 2240/560.
+- Models are initialized from the RAGTruth-finetuned S4 checkpoint.
+- Training uses up to five epochs with validation-AUROC model selection and
+  early stopping.
+- Model weights are not retained for every run; per-example predictions on
+  the fixed test set are saved for audit and downstream analysis.
 
 Outputs
 =======
-    /workspace/halubench_curve/
-        config.json                  - run config + design choices
-        results.json                 - per-run metrics + per-N aggregates
-        results_incremental.json     - updated after each run
-        per_run_predictions/*.json   - test predictions per run (with indices)
-        summary.txt                  - readable summary
-        curve_plot.png               - AUROC vs N with seed shading
+    /workspace/halubench_curve_groupfix/
+        config.json
+        results.json
+        results_incremental.json
+        test_train_pool_indices.json
+        per_run_predictions/*.json
+        summary.txt
+        curve_plot.png
 
-Reference points to plot alongside the curve:
-    - zero-shot S4 on the fixed test set (computed in this script)
-    - MiniCheck-7B AUROC on HaluBench (already known: 0.7959 from notes)
+Reference points
+================
+- Zero-shot S4 AUROC on the same fixed test set.
+- MiniCheck-7B AUROC reference for comparison.
 
 Usage
 =====
-    # Smoke test (single small run, ~2 min)
-    python /workspace/halubench_curve.py --smoke
+    # Smoke test
+    python /workspace/halubench_curve_groupfix.py --smoke
 
-    # Full run (~3-7 hours on V100)
-    nohup python -u /workspace/halubench_curve.py \\
-        > /workspace/halubench_curve.log 2>&1 &
-    tail -f /workspace/halubench_curve.log
+    # Full run
+    python /workspace/halubench_curve_groupfix.py
 """
 
 import argparse
@@ -71,7 +75,7 @@ from sklearn.metrics import (
     f1_score, precision_score, recall_score,
     roc_auc_score, average_precision_score, brier_score_loss,
 )
-from sklearn.model_selection import train_test_split, GroupShuffleSplit
+from sklearn.model_selection import GroupShuffleSplit
 from transformers import (
     AutoTokenizer, AutoModelForSequenceClassification,
     get_linear_schedule_with_warmup,
@@ -177,23 +181,6 @@ def load_halubench():
         )
 
     return examples
-
-def hold_out_fixed_test(examples, test_size, seed=42):
-    """PROPORTIONAL stratified train_pool / test split by (source, label).
-
-    Preserves the natural HaluBench distribution in the test set so AUROC
-    is comparable to the original HaluBench evaluation. The train pool gets
-    the rest, also proportionally distributed.
-    """
-    strata = [f"{e['source']}__{e['label']}" for e in examples]
-    indices = np.arange(len(examples))
-    train_pool_idx, test_idx = train_test_split(
-        indices,
-        test_size=test_size,
-        random_state=seed,
-        stratify=strata,
-    )
-    return np.array(sorted(train_pool_idx)), np.array(sorted(test_idx))
 
 
 def balanced_stratified_indices(strata, n_take, seed):
