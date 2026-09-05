@@ -402,7 +402,6 @@ results/evaluation/leave_one_strict_review_results.json
 
 results/cross_domain/halubench_groupfix/
   halubench_group_split.json
-  halubench_split_integrity_audit_results.json
   halubench_groupfix_thresholdfix_results.json
   results.json
   per_source_results_groupfix.json
