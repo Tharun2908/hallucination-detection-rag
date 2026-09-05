@@ -270,7 +270,6 @@ fusion/                 # audited logistic-regression fusion and decomposition
 evaluation/             # threshold audits, bootstrap CIs, holdouts, disagreement
 robustness/             # RAGTruth++ exact alignment and retraining
 cross_domain/           # HaluBench group-disjoint transfer and adaptation
-cascade/                # corrected HaluBench fixed-8k cascade analysis
 efficiency/             # latency, throughput, memory benchmark
 clinical_extension/     # MERLIN-DDx V1 extension code (not a core thesis result)
 results/                # aggregate/canonical experiment outputs
