@@ -18,7 +18,7 @@ Both environments were Kubernetes pods in a shared namespace, with a persistent 
 ```
 /workspace                    # persistent volume (PVC, ~50 GB)
   ├── *.py                    # working scripts (not all are in the repo)
-  ├── *_results_*.json        # per-example score files (large, not in Git)
+  ├── *_results_*.json        # per-example score files (mostly not in Git; selected canonical caches are committed)
   ├── *_metrics_*.json        # aggregate metrics (in Git, under results/)
   ├── signal4_model/          # final S4 checkpoint (not in Git; HuggingFace release planned)
   ├── signal4_oof_models/     # OOF fold checkpoints (not in Git)
@@ -44,7 +44,7 @@ ln -s /workspace/models--bespokelabs--Bespoke-MiniCheck-7B \
 
 The symlink itself does not persist across pod recreation (it lives on the overlay), so it has to be recreated each time. The model weights, however, are safe on `/workspace`.
 
-**Per-example score files are intermediate artifacts.** Files like `signal4_results_train_oof.json`, `relevance_results_test_v2.json`, and the HaluBench per-example scores stay on `/workspace` and are excluded from Git. Aggregate metric JSONs (`signal4_metrics.json`, `complete_metrics_results.json`, etc.) are committed under `results/`.
+**Most per-example score files are intermediate artifacts.** Files such as `signal4_results_train_oof.json` and `relevance_results_test_v2.json` stay on `/workspace` and are excluded from Git. The final audited HaluBench caches required by the canonical cross-domain analyses are committed under `results/cross_domain/`: `halubench_final_s2s4_scores.json` and `halubench_per_example_scores.json`. Aggregate metric JSONs are committed under the corresponding `results/` subdirectories.
 
 ## Pod operation
 
@@ -140,4 +140,4 @@ The OOF script is `signals/signal4_oof_train_scores.py`. It writes:
 - `/workspace/signal4_oof_metrics.json` — per-fold and aggregate metrics
 - `/workspace/signal4_oof_models/fold_*/` — fold checkpoints (kept for diagnostic purposes; not in Git)
 
-All fusion, cascade, and downstream evaluation scripts in the repository read `signal4_results_train_oof.json`. The one script that intentionally reads the original (non-OOF) `signal4_results_train.json` is `signals/signal4_score_train.py`, whose purpose is to *produce* that file for standalone-S4 diagnostics. This is not a holdout that needs fixing.
+The active fusion and downstream evaluation scripts that require training-side S4 features read `signal4_results_train_oof.json`. The one script that intentionally reads the original (non-OOF) `signal4_results_train.json` is `signals/signal4_score_train.py`, whose purpose is to *produce* that file for standalone-S4 diagnostics. This is not a holdout that needs fixing.
