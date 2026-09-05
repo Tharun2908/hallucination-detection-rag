@@ -35,19 +35,16 @@ if __name__ == '__main__':
         if (i+BATCH_SIZE) % 1000 == 0:
             print(f"  MC: {min(i+BATCH_SIZE, len(examples))}/{len(examples)}", flush=True)
 
-    # Load S2+S4 scores
-    s2s4 = json.load(open('/workspace/halubench_s2s4_scores.json'))
-
-    # Merge
+    # Save MiniCheck scores with stable HaluBench alignment metadata.
+    # Final S2/S4 scores are stored separately in
+    # /workspace/halubench_final_s2s4_scores.json.
     results = []
     for i, ex in enumerate(examples):
         results.append({
-            'idx':      i,
-            'label':    ex['label'],
-            'source':   ex['source'],
-            's2_hall':  s2s4[i]['s2_hall'],
-            's4_score': s2s4[i]['s4_score'],
-            'mc_hall':  round(float(mc_scores[i]), 4),
+            'idx':     i,
+            'label':   ex['label'],
+            'source':  ex['source'],
+            'mc_hall': round(float(mc_scores[i]), 4),
         })
 
     with open('/workspace/halubench_per_example_scores.json', 'w') as f:
