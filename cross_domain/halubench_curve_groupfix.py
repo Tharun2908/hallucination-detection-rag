@@ -835,8 +835,8 @@ def main():
     print(f"  train pool: {len(train_pool)}  test: {len(test_set)}", flush=True)
 
     test_strata = Counter((e["source"], e["label"]) for e in test_set)
-    print("  test set strata (source, label) — PROPORTIONAL to natural dist:",
-          flush=True)
+    print("  test set strata (source, label) for canonical group-disjoint split:",
+      flush=True)
     for k, v in sorted(test_strata.items()):
         print(f"    {k}: {v}", flush=True)
 
@@ -937,7 +937,7 @@ def main():
     lines.append("HaluBench adaptation curve — sample efficiency of S4")
     lines.append("=" * 78)
     lines.append(f"Fixed test set: {len(test_set)} examples "
-                 f"(proportionally stratified by source x label)")
+             f"(canonical group-disjoint split)")
     lines.append(f"Train pool:     {len(train_pool)} examples")
     lines.append(f"Seeds per N:    {len(SEEDS)}  Total runs: {len(results)}")
     lines.append("")
@@ -948,7 +948,7 @@ def main():
     lines.append(f"                   (F1 uses threshold=0.5; AUROC/AUPRC are "
                  f"threshold-free)")
     lines.append(f"  MiniCheck-7B:    AUROC={MINICHECK_AUROC_REF:.4f}  "
-                 f"(prior result from halubench_minicheck_results.json)")
+             f"(canonical fixed-8k reference)")
     lines.append("")
     lines.append(f"{'N_train':<10}{'AUROC mean':>14}{'AUROC std':>12}"
                  f"{'F1 mean':>10}{'F1 std':>10}{'seeds':>8}")
