@@ -13,6 +13,7 @@ import torch
 import torch.nn as nn
 from torch.optim import AdamW
 from torch.utils.data import Dataset, DataLoader
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
     f1_score,
     precision_score,
@@ -21,6 +22,7 @@ from sklearn.metrics import (
     average_precision_score,
     brier_score_loss,
 )
+from datasets import load_dataset
 from transformers import (
     AutoTokenizer,
     AutoModelForSequenceClassification,
@@ -33,7 +35,6 @@ from transformers import (
 sys.path.insert(0, "/workspace/repo/cross_domain")
 
 import halubench_curve_groupfix as hbfix
-import cross_direction as old_cross
 
 
 # =====================================================================
@@ -70,6 +71,95 @@ RESULTS_FINAL = OUT_DIR / "results.json"
 # =====================================================================
 # BASIC HELPERS
 # =====================================================================
+
+def is_hallucinated(example):
+    labels = example['hallucination_labels_processed']
+    return labels['evident_conflict'] > 0 or labels['baseless_info'] > 0
+
+
+def load_ragtruth():
+    print('Loading RAGTruth...', flush=True)
+    ds_train = load_dataset('wandb/RAGTruth-processed', split='train')
+    ds_test = load_dataset('wandb/RAGTruth-processed', split='test')
+
+    train = []
+    for i in range(len(ds_train)):
+        ex = ds_train[i]
+        train.append({
+            'source_idx': i,
+            'context': ex['context'],
+            'answer': ex['output'],
+            'label': int(is_hallucinated(ex)),
+            'domain': ex.get('task_type', 'unknown'),
+        })
+
+    test = []
+    for i in range(len(ds_test)):
+        ex = ds_test[i]
+        test.append({
+            'source_idx': i,
+            'context': ex['context'],
+            'answer': ex['output'],
+            'label': int(is_hallucinated(ex)),
+            'domain': ex.get('task_type', 'unknown'),
+        })
+
+    print(f'  RAGTruth train: {len(train)}  test: {len(test)}', flush=True)
+    return train, test
+
+
+def balanced_stratified_indices(strata, n_take, seed):
+    rng = np.random.RandomState(seed)
+    strata = np.array(strata)
+    unique = np.unique(strata)
+    per_strata = max(1, n_take // len(unique))
+    chosen = []
+
+    for stratum in unique:
+        idxs = np.where(strata == stratum)[0]
+        rng.shuffle(idxs)
+        chosen.extend(idxs[:per_strata].tolist())
+
+    chosen_set = set(chosen)
+    remaining = [i for i in range(len(strata)) if i not in chosen_set]
+    rng.shuffle(remaining)
+    needed = n_take - len(chosen)
+
+    if needed > 0:
+        chosen.extend(remaining[:needed])
+
+    return np.array(sorted(chosen[:n_take]))
+
+
+def sample_train_val(pool_examples, n_train, val_ratio, seed):
+    n_val = max(1, int(round(n_train * val_ratio)))
+    n_total = n_train + n_val
+
+    if n_total > len(pool_examples):
+        raise ValueError(f'Requested {n_total} > pool size {len(pool_examples)}')
+
+    strata = [f"{e['domain']}__{e['label']}" for e in pool_examples]
+    chosen_local = balanced_stratified_indices(strata, n_total, seed)
+    chosen_examples = [pool_examples[i] for i in chosen_local]
+    chosen_strata = [strata[i] for i in chosen_local]
+
+    try:
+        train_set, val_set = train_test_split(
+            chosen_examples,
+            test_size=n_val,
+            random_state=seed,
+            stratify=chosen_strata,
+        )
+    except ValueError:
+        train_set, val_set = train_test_split(
+            chosen_examples,
+            test_size=n_val,
+            random_state=seed,
+            stratify=[e['label'] for e in chosen_examples],
+        )
+
+    return train_set, val_set
+
 
 class PairDataset(Dataset):
     def __init__(self, examples, tokenizer):
@@ -690,7 +780,7 @@ def main():
     # ------------------------------------------------------------
 
     rt_train_pool, rt_test = (
-        old_cross.load_ragtruth()
+        load_ragtruth()
     )
 
     print(
@@ -1066,7 +1156,7 @@ def main():
         print("=" * 88)
 
         rt_train, rt_val = (
-            old_cross.sample_train_val(
+            sample_train_val(
                 rt_train_pool,
                 TRAIN_N,
                 VAL_RATIO,
