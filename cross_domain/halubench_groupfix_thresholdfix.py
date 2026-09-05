@@ -12,7 +12,7 @@ from sklearn.metrics import (
 SPLIT = "/workspace/halubench_group_split.json"
 S2S4 = "/workspace/halubench_final_s2s4_scores.json"
 MC = "/workspace/halubench_per_example_scores.json"
-OUT = "/workspace/halubench_groupfix_reindex_results.json"
+OUT = "/workspace/halubench_groupfix_thresholdfix_results.json"
 
 COEF_S2 = -1.359009650504923
 COEF_S4 = 3.1555282346796876
