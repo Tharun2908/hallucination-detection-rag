@@ -61,69 +61,83 @@ It is **not** intended for:
 
 ## Evaluation on RAGTruth test (n=2,700)
 
+The final audited operating threshold is selected from out-of-fold RAGTruth training predictions and then applied unchanged to the held-out test set.
+
 | Metric | Value |
 | --- | ---: |
-| F1 | 0.704 |
-| Precision | 0.675 |
-| Recall | 0.735 |
-| AUROC | 0.847 |
-| AUPRC | 0.772 |
-| ECE | 0.129 |
+| F1 | 0.7024 |
+| Precision | 0.6607 |
+| Recall | 0.7497 |
+| AUROC | 0.8470 |
+| AUPRC | 0.7724 |
+| ECE | 0.1289 |
+| Hallucination threshold | 0.55 |
 
-For comparison within the thesis system: MiniCheck-7B (7B params) reaches F1 0.735, AUROC 0.875, AUPRC 0.806, and ECE 0.270 on the same test set. The logistic-regression S2+S4 fusion using out-of-fold S4 train scores reaches F1 0.726, AUROC 0.875, AUPRC 0.796, and ECE 0.058.
+For comparison within the thesis system, MiniCheck-7B reaches F1 0.7260, AUROC 0.8754, AUPRC 0.8055, and ECE 0.2696 on the same RAGTruth test set. The metadata-free S2+S4 logistic-regression fusion reaches F1 0.7065, AUROC 0.8494, AUPRC 0.7664, and ECE 0.0547. The benchmark-aware S2+S4+task/generator-metadata fusion reaches F1 0.7262, AUROC 0.8749, AUPRC 0.7959, and ECE 0.0583.
 
 ## Usage
+
+After training or obtaining the S4 checkpoint, load the saved model directory with Transformers:
 
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
-tokenizer = AutoTokenizer.from_pretrained("Tharun2908/s4-hallucination-detector")
-model = AutoModelForSequenceClassification.from_pretrained(
-    "Tharun2908/s4-hallucination-detector",
-    ignore_mismatched_sizes=True,   # required for the size-mismatched head
-)
+MODEL_PATH = "/path/to/signal4_model"
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
 model.eval()
 
-answer  = "The treaty was signed in 1815 in Vienna."
+answer = "The treaty was signed in 1815 in Vienna."
 context = "The Congress of Vienna concluded in June 1815..."
 
 inputs = tokenizer(
-    answer, context,
-    truncation=True, max_length=512,
+    answer,
+    context,
+    truncation=True,
+    max_length=512,
     return_tensors="pt",
 )
+
 with torch.no_grad():
     logits = model(**inputs).logits
     probs = torch.softmax(logits, dim=-1)
 
-hallucination_prob = probs[0, 1].item()   # higher = more likely hallucinated
+hallucination_prob = probs[0, 1].item()
 print(f"P(hallucination) = {hallucination_prob:.3f}")
 ```
 
+Higher class-1 probability means a higher estimated probability of hallucination. The final audited RAGTruth operating threshold is 0.55; for other domains, the threshold should be revalidated rather than transferred blindly.
+
 ## Limitations and biases
 
-**Domain.** Fine-tuned only on RAGTruth: three task types (Summary, QA, Data2txt) over six generators (gpt-3.5-turbo, gpt-4, llama-2-7b/13b/70b-chat, mistral-7b-instruct). Cross-domain transfer to other hallucination benchmarks is weak: on HaluBench zero-shot, AUROC drops to roughly 0.53. Fine-tuning on ~1,120 target examples brings AUROC up considerably (~0.80 on the HaluBench mix), but performance varies substantially by source: DROP and halueval adapt fast, biomedical (PubMedQA, CovidQA) and FinanceBench plateau at 0.55–0.75 even when most available source-specific examples are used.
+**Domain.** The model is fine-tuned only on RAGTruth, covering three task types (Summary, QA, Data2txt) and six generator models. Direct cross-benchmark transfer is weak: on the corrected group-disjoint HaluBench test set, zero-shot S4 reaches AUROC 0.5272. Target-domain supervision substantially improves performance: with 1,120 HaluBench training examples, mean AUROC reaches 0.8332 ± 0.0429, and with 2,240 examples it reaches 0.9616 ± 0.0019. This aggregate recovery is highly source-dependent, however: at N=2240, source-level AUROC ranges from 0.9905 on HaluEval and 0.9346 on DROP to 0.7456 on PubMedQA, 0.6583 on CovidQA, and 0.5560 on FinanceBench. The model should therefore not be treated as benchmark-independent without target-domain validation or adaptation.
 
 **Calibration.** ECE is reasonable in-domain (0.129) but should be re-calibrated for any out-of-domain use. The thesis includes a calibration-only ablation showing this.
 
-**Label noise.** The training labels are RAGTruth's original human annotations. Re-annotation work (RAGTruth++) suggests roughly 59% of items have their label flipped, with the positive rate moving from 16% to 75%. The model's discrimination is largely preserved under re-annotation (AUROC drops ~0.04 on a matched subset after retraining), but the optimal operating threshold shifts substantially.
+**Annotation shift.** The training labels are the original RAGTruth annotations. In the exactly aligned 408-example RAGTruth++ subset, 240 examples change label and the positive rate rises from 15.93% to 74.75%. At the original RAGTruth operating point, S4 retains moderate ranking information (AUROC 0.6837) but its F1 falls to 0.4268 because the transferred threshold has high precision and low recall under the revised label definition. In 5-fold retraining experiments on the matched subset, training with RAGTruth++ labels reaches mean AUROC 0.7290 ± 0.0545, compared with 0.6870 ± 0.0349 for the no-retraining baseline. These results show that both the annotation policy and the operating threshold materially affect apparent verifier performance.
 
 **Absence claims.** Like other entailment-based verifiers, the model treats absence claims (e.g. "the document does not mention X") as a difficult case. In the clinical extension to MERLIN-DDx, absence rationales were observed to score higher hallucination than presence rationales across all verifiers, including this one. This is a known structural limitation.
 
 **Subgroups.** Per-generator and per-task analyses are in the thesis. No specific protected-attribute fairness evaluation has been done; this model is intended for research and not for any decision affecting individuals.
 
+
 ## Reproducibility
 
-The full training script (`signal4_finetune.py`), scoring scripts, and evaluation pipeline are in the companion code repository.
+The checkpoint training code is provided in `signals/signal4_finetune.py`. That script uses a stratified 90/10 train/validation split of the RAGTruth training set, selects the checkpoint by validation F1 with early stopping, and saves the resulting S4 model.
+
+The final thesis evaluation should not be taken directly from the training script's original validation-threshold output. The submitted-thesis metrics use the audited train-side protocol: out-of-fold S4 predictions are generated with `signals/signal4_oof_train_scores.py`, and the final operating point is verified by `evaluation/table41_threshold_audit.py`. Under that protocol, the hallucination threshold is 0.55.
+
+The companion repository also contains the fusion, robustness, cross-domain, bootstrap, and cascade audits used in the final thesis analysis.
 
 ## Citation
 
 ```bibtex
-@mastersthesis{thesis2026hallucination,
+@mastersthesis{mekala2026hallucination,
   title  = {Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification},
-  author = {Tharun Johny},
-  school = {BHT Berlin},
+  author = {Tharun Johny Mekala},
+  school = {Berliner Hochschule fuer Technik (BHT)},
   year   = {2026}
 }
 ```
