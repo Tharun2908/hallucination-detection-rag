@@ -11,7 +11,7 @@ from sklearn.metrics import (
     average_precision_score,
 )
 
-OUT = "/workspace/ragtruth_plusplus_results_idfix.json"
+OUT = "/workspace/ragtruth_plusplus_results_thresholdfix.json"
 
 S2_MIN, S2_MAX = -11.430, 10.641
 
