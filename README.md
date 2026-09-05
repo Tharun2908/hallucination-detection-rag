@@ -339,11 +339,10 @@ python evaluation/table41_threshold_audit.py   # final train-side operating-poin
 ### Fusion
 
 ```bash
-python fusion/fusion_logreg_s2s4.py
 python fusion/fusion_decomposition_review.py
 ```
 
-Fusion training uses out-of-fold S4 train features; test-time S4 scores come from the final S4 checkpoint trained on the complete RAGTruth training split.
+This audited script reproduces the S4-only, S4+metadata, metadata-free S2+S4, and S2+S4+metadata configurations. Fusion training uses out-of-fold S4 train features, and fusion operating thresholds are selected from out-of-fold meta-model predictions.
 
 ### RAGTruth++
 
