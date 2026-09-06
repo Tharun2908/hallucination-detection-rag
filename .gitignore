@@ -41,6 +41,10 @@ halubench_s2s4_scores.json
 **/fold_predictions.json
 **/per_example*.json
 
+# Canonical HaluBench caches required by final cross-domain analyses
+!results/cross_domain/halubench_final_s2s4_scores.json
+!results/cross_domain/halubench_per_example_scores.json
+
 # Model checkpoints — released separately on HuggingFace, not bundled
 signal4_model/
 signal8_model/
