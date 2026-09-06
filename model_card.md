@@ -20,7 +20,7 @@ pipeline_tag: text-classification
 
 # S4 — Fine-tuned DeBERTa for RAG Hallucination Detection
 
-A 184M-parameter DeBERTa-v3 cross-encoder fine-tuned on RAGTruth for binary hallucination detection in retrieval-augmented generation outputs. Released alongside the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin).
+A 184M-parameter DeBERTa-v3 cross-encoder fine-tuned on RAGTruth for binary hallucination detection in retrieval-augmented generation outputs. Prepared as part of the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin).
 
 This is the **S4** signal from the thesis. It is the strongest single supervised signal in the system on the RAGTruth benchmark and is the most calibrated of the individual signals (test ECE 0.129).
 
