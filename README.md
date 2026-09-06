@@ -303,6 +303,8 @@ HaluBench evaluation uses the saved group-disjoint split under `results/cross_do
 
 The main thesis experiments were run on a Kubernetes GPU pod with a **Tesla V100S-PCIE-32GB** and a persistent volume mounted at `/workspace`.
 
+Some thesis-era experiment scripts retain `/workspace` as the cluster-specific input/output location; when running outside that environment, adjust those paths to local equivalents.
+
 ```bash
 pip install -r requirements.txt --break-system-packages
 python -c "import nltk; nltk.download('punkt_tab')"
