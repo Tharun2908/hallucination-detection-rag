@@ -20,7 +20,7 @@ Both environments were Kubernetes pods in a shared namespace, with a persistent 
   ├── *.py                    # working scripts (not all are in the repo)
   ├── *_results_*.json        # per-example score files (mostly not in Git; selected canonical caches are committed)
   ├── *_metrics_*.json        # aggregate metrics (in Git, under results/)
-  ├── signal4_model/          # final S4 checkpoint (not in Git; HuggingFace release planned)
+  ├── signal4_model/          # final S4 checkpoint (not in Git; released as Primeinvincible/ragtruth-s4-deberta-hallucination-detector)
   ├── signal4_oof_models/     # OOF fold checkpoints (not in Git)
   ├── models--bespokelabs--Bespoke-MiniCheck-7B/  # ~15 GB MiniCheck cache
   └── merlin/                 # MERLIN-DDx clinical extension (data not in Git)

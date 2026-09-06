@@ -77,13 +77,13 @@ For comparison within the thesis system, MiniCheck-7B reaches F1 0.7260, AUROC 0
 
 ## Usage
 
-After training or obtaining the S4 checkpoint, load the saved model directory with Transformers:
+Load the released S4 checkpoint directly from Hugging Face with Transformers:
 
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
-MODEL_PATH = "/path/to/signal4_model"
+MODEL_PATH = "Primeinvincible/ragtruth-s4-deberta-hallucination-detector"
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)

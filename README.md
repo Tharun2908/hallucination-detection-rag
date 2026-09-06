@@ -454,7 +454,7 @@ results/efficiency/combined.json
 
 - **Aggregate result JSONs** under `results/`.
 - **Active final-protocol plots** under `figures/`; earlier experiment plots are retained under `legacy/figures/`.
-- **S4 model card** in [`model_card.md`](model_card.md); the checkpoint link can be added if/when the model is released publicly.
+- **S4 checkpoint:** [Primeinvincible/ragtruth-s4-deberta-hallucination-detector](https://huggingface.co/Primeinvincible/ragtruth-s4-deberta-hallucination-detector), with the repository model card mirrored in [`model_card.md`](model_card.md).
 
 Not redistributed here:
 
