@@ -1,0 +1,59 @@
+{
+  "study_stage": "post_thesis",
+  "scope": "paired_synthetic_development_only",
+  "run_id": "qwen3-evidence-prompt-pair-v1",
+  "case_version": "synthetic-evidence-grounding-development-v2",
+  "cases_sha256": "afe59f1545bbd3866d368372ea3c43ad0028398ce1b6b3df87016cae35731594",
+  "examples_per_arm": 26,
+  "max_generation_attempts": 52,
+  "arms": {
+    "v1": {
+      "prompt_version": "faithfulness-evidence-diagnostic-v1",
+      "prompt_sha256": "21ba57c9ec668c495a16e4635660c4504f26b5056638d4b17e6424e32ce52f4c"
+    },
+    "v2": {
+      "prompt_version": "faithfulness-evidence-diagnostic-v2",
+      "prompt_sha256": "7b43e40be9758a9eb2e210a3b4636c043eca88578b9fa62c2774ac7df5414e82"
+    }
+  },
+  "schema_version": "v3",
+  "serialized_schema_sha256": "f86a37ac3bf7ca198663ce266a345ce89018b8d9e52f046d3fb94e7dadf5fa33",
+  "expected_response_field_order": [
+    "verdict",
+    "issue_type",
+    "answer_quote",
+    "context_quote",
+    "explanation"
+  ],
+  "profile_name": "evidence-v1",
+  "profile_sha256": "4d7a4a3b0d534240e2d87c287faa97804b44320e40c2097525615975bdf2aa28",
+  "structured_output_backend_policy": "unchanged_vllm_default_auto",
+  "case_order": "frozen_fixture_order",
+  "arm_order": "v1_then_v2_even_case_index_reverse_odd",
+  "client_budget_seconds": 600,
+  "generation_invocations": 1,
+  "repeat_policy": "cache_inspection_only_after_first_invocation",
+  "unknown_window_policy": "charge_full_600_seconds_and_disable_generation",
+  "max_attempts_per_case_per_arm": 1,
+  "concurrency": 1,
+  "request_timeout_seconds": 60,
+  "max_input_tokens_per_request": 4096,
+  "max_input_tokens_total": 212992,
+  "max_output_tokens_per_request": 512,
+  "max_output_tokens_total": 26624,
+  "max_tokenization_requests": 104,
+  "full_audit_before_generation": true,
+  "truncation": "none",
+  "halt_on_error_codes": [
+    "audited_input_token_mismatch",
+    "input_token_mismatch",
+    "returned_model_mismatch",
+    "output_token_limit_exceeded",
+    "diagnostic_input_limit",
+    "invalid_token_count",
+    "input_too_long",
+    "http_400",
+    "http_422",
+    "http_500"
+  ]
+}

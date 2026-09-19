@@ -40,6 +40,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_llm_judge_evidence_execution.py -v
       - name: Check bounded schema-v2 evidence execution with offline responses
         run: python -m unittest discover -s tests -p test_llm_judge_evidence_v2_execution.py -v
+      - name: Check paired evidence prompts with offline HTTP responses
+        run: python -m unittest discover -s tests -p test_llm_judge_evidence_pair.py -v
       - name: Check bounded verdict-first execution and raw response ordering
         run: python -m unittest discover -s tests -p test_llm_judge_evidence_v3_execution.py -v
       - name: Check evidence schema dependencies against standard validator

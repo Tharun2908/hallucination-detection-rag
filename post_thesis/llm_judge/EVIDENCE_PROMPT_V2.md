@@ -1,6 +1,7 @@
 # Post-thesis: evidence prompt v2 development candidate
 
-**Offline preparation only; excluded from the submitted thesis.** The original
+**Post-thesis development candidate; excluded from the submitted thesis.**
+The original offline preparation is retained below. A [separate bounded paired runner](EVIDENCE_PAIR_RUN.md) is now available; this offline checker still makes no model calls. The original
 TRAIN evidence pilot produced 37/50 valid records, with quote extraction failures
 and incorrect rationales among valid outputs. This candidate responds to those
 [recorded findings](../../results/post_thesis/llm_judge/ragtruth_evidence_pilot_v3_20260919.md).
@@ -64,7 +65,7 @@ identical schema-v3 serialization, `evidence-v1` model profile and serving setti
 That would require a separately recorded paired plan for 52 attempts (one per
 case per prompt), fresh token-length checks and independent run identities. The
 historical 14-case result is useful provenance but cannot substitute for a matched
-26-case comparison. This step adds no live execution plan or scoring budget.
+26-case comparison. The original preparation added no live execution plan or scoring budget. The subsequent [paired execution plan](EVIDENCE_PAIR_RUN.md) records them separately.
 
 ## Review criteria before observing model output
 

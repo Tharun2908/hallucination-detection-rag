@@ -292,3 +292,15 @@ must evaluate both prompts on the same 26 cases with separately recorded token
 checks, budgets and run identities. This is adaptive development; no held-out
 claim, new scoring allowance or benchmark freeze is introduced here. Report
 null-context use and semantic rationale quality alongside validity and verdicts.
+
+## Paired synthetic execution addendum
+
+The [paired plan](EVIDENCE_PAIR_RUN.md) permits one 600-second invocation for
+26 cases per prompt (52 generation attempts maximum, one per case/arm), after
+a full audit of all 52 formatted inputs. It retains schema v3, the evidence-v1
+model profile and default auto backend policy, and balances which prompt runs
+first per case. Separate journals share one execution reservation. Subsequent
+invocations inspect the cache only; unknown windows charge the full budget.
+Report all missing outputs, null-context use, order and verdict/issue agreement,
+then manually review semantic evidence quality. This is adaptive synthetic
+development; paired model results remain pending.
