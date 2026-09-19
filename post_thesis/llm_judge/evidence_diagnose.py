@@ -5,6 +5,7 @@ import asyncio
 from dataclasses import asdict
 from datetime import datetime, timezone
 import json
+import hashlib
 import os
 from pathlib import Path
 import time
@@ -13,6 +14,8 @@ from .evidence_cases import EVIDENCE_CASE_VERSION, case_records, cases_sha256, e
 from .evidence_contract import EVIDENCE_CONTRACT_VERSION, EVIDENCE_PROMPT, EVIDENCE_SCHEMA_JSON, evidence_request
 from .evidence_runner import run_evidence
 from .evidence_schema_v2 import EVIDENCE_V2_CONTRACT_VERSION, EVIDENCE_SCHEMA_V2_JSON, evidence_request_v2
+from .evidence_schema_v3 import (EVIDENCE_V3_CONTRACT_VERSION, EVIDENCE_SCHEMA_V3_JSON,
+                                 EVIDENCE_V3_FIELD_ORDER, evidence_request_v3)
 from .judge import BackendError
 from .prompts import content_hash
 from .run_pilot import HALT_CODES, validate_server
@@ -27,23 +30,25 @@ EVIDENCE_V2_HALT_CODES = EVIDENCE_HALT_CODES + ("http_400", "http_422", "http_50
 
 
 def load_plan(schema_version="v1"):
-    if schema_version not in ("v1", "v2"):
+    if schema_version not in ("v1", "v2", "v3"):
         raise ValueError("unknown evidence schema version")
-    path = PLAN_PATH if schema_version == "v1" else PLAN_PATH.with_name("evidence_diagnostic_v2.json")
+    path = PLAN_PATH if schema_version == "v1" else PLAN_PATH.with_name("evidence_diagnostic_" + schema_version + ".json")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def native_observation():
-    path = Path(__file__).resolve().parents[2] / "results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.json"
+def native_observation(schema_version="v2"):
+    if schema_version not in ("v2", "v3"):
+        raise ValueError("no native observation for this schema")
+    path = Path(__file__).resolve().parents[2] / ("results/post_thesis/llm_judge/evidence_schema_" + schema_version + "_native_20260919.json")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def validate_v2_server(record):
+def validate_v2_server(record, schema_version="v2"):
     # Keep the previous launcher policy (automatic backend selection). Do not
     # infer which compiler served a request from the installed package list.
-    if (record.get("package_versions") != native_observation()["versions"]
+    if (record.get("package_versions") != native_observation(schema_version)["versions"]
             or record.get("command") != server_command(profile_name="evidence-v1")):
-        raise RunConflict("schema v2 needs a fresh matching environment and recorded default launcher command")
+        raise RunConflict("schema " + schema_version + " needs a fresh matching environment and recorded default launcher command")
 
 
 def comparisons(report):
@@ -85,20 +90,34 @@ def _save(path, state):
 
 
 def validate_plan(plan, backend, cases, schema_version="v1"):
-    if schema_version not in ("v1", "v2"):
+    if schema_version not in ("v1", "v2", "v3"):
         raise RunConflict("unknown evidence schema version")
-    contract = EVIDENCE_CONTRACT_VERSION if schema_version == "v1" else EVIDENCE_V2_CONTRACT_VERSION
-    schema = EVIDENCE_SCHEMA_JSON if schema_version == "v1" else EVIDENCE_SCHEMA_V2_JSON
-    if schema_version == "v2":
-        from .schema_v2_checks import checks_sha256
-        observation = native_observation()
+    contract = {"v1": EVIDENCE_CONTRACT_VERSION, "v2": EVIDENCE_V2_CONTRACT_VERSION,
+                "v3": EVIDENCE_V3_CONTRACT_VERSION}[schema_version]
+    schema = {"v1": EVIDENCE_SCHEMA_JSON, "v2": EVIDENCE_SCHEMA_V2_JSON,
+              "v3": EVIDENCE_SCHEMA_V3_JSON}[schema_version]
+    if schema_version in ("v2", "v3"):
+        if schema_version == "v2":
+            from .schema_v2_checks import checks_sha256
+            expected_checks = 38
+        else:
+            from .schema_v3_checks import checks_sha256
+            expected_checks = 44
+        observation = native_observation(schema_version)
         if (plan.get("native_observation_sha256") != content_hash(observation)
-                or observation["status"] != "passed" or observation["matching_acceptance_checks"] != 38
-                or observation["checks_total"] != 38 or observation["generation_calls"] != 0
+                or observation["status"] != "passed" or observation["matching_acceptance_checks"] != expected_checks
+                or observation["checks_total"] != expected_checks or observation["generation_calls"] != 0
                 or observation["schema_sha256"] != content_hash(json.loads(schema))
                 or observation["fixture_sha256"] != checks_sha256()
                 or plan.get("structured_output_backend_policy") != "unchanged_vllm_default_auto"):
             raise RunConflict("changed native compatibility evidence or serving policy")
+    if schema_version == "v3":
+        serialized_hash = hashlib.sha256(schema.encode("utf-8")).hexdigest()
+        if (plan.get("serialized_schema_sha256") != serialized_hash
+                or observation.get("serialized_schema_sha256") != serialized_hash
+                or plan.get("expected_response_field_order") != list(EVIDENCE_V3_FIELD_ORDER)
+                or plan.get("order_observation_policy") != "report_raw_member_order_separately_from_contract_validity"):
+            raise RunConflict("changed serialized schema or response-order observation plan")
     if (plan["study_stage"] != "post_thesis"
             or plan["run_id"] != "qwen3-evidence-synthetic-diagnostic-" + schema_version
             or plan["scope"] != "synthetic_development_only"
@@ -154,7 +173,7 @@ async def execute(*, backend, revision, server_record=None, artifact_root=None,
     # Preserve the historical default API and manifest identity.
     plan, cases = (load_plan() if schema_version == "v1" else load_plan(schema_version)), examples()
     validate_plan(plan, backend, cases, schema_version)
-    request_factory = evidence_request if schema_version == "v1" else evidence_request_v2
+    request_factory = {"v1": evidence_request, "v2": evidence_request_v2, "v3": evidence_request_v3}[schema_version]
     requests = {request_factory(ex.item, backend.config).key: request_factory(ex.item, backend.config) for ex in cases}
     directory = run_directory(plan["run_id"], artifact_root)
     control = directory / "execution"
@@ -181,7 +200,8 @@ async def execute(*, backend, revision, server_record=None, artifact_root=None,
             return await run_evidence(cases, run_id=plan["run_id"], config=backend.config,
                                      backend=guarded, revision=revision, dataset_revision=EVIDENCE_CASE_VERSION,
                                      artifact_root=artifact_root, max_new_attempts=cap, halt_codes=guarded.halt_codes,
-                                     request_factory=request_factory)
+                                     request_factory=request_factory,
+                                     expected_response_order=plan.get("expected_response_field_order"))
 
         report = await run(0)
         before = report["attempts_total"]
@@ -192,8 +212,8 @@ async def execute(*, backend, revision, server_record=None, artifact_root=None,
         caught = None
         if state["status"] == "ready" and not inspection_only:
             validate_server(server_record or {}, backend, revision)
-            if schema_version == "v2":
-                validate_v2_server(server_record or {})
+            if schema_version in ("v2", "v3"):
+                validate_v2_server(server_record or {}, schema_version)
             start = clock()
             state.update(status="started", reserved_seconds=300,
                          started_at=datetime.now(timezone.utc).isoformat(), server_session_snapshot=server_record)
@@ -266,7 +286,7 @@ async def execute(*, backend, revision, server_record=None, artifact_root=None,
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--schema-version", choices=("v1", "v2"), default="v1")
+    parser.add_argument("--schema-version", choices=("v1", "v2", "v3"), default="v1")
     parser.add_argument("--server-session-id")
     parser.add_argument("--inspect-only", action="store_true")
     args = parser.parse_args()
@@ -298,10 +318,15 @@ def main():
     for row in result["comparisons"]:
         print(','.join(str(row[k]) for k in ('sample_id', 'status', 'observed_verdict', 'observed_issue_type',
                                              'verdict_matches_expected', 'issue_matches_expected')))
+    if args.schema_version == "v3":
+        print("Raw response order:", json.dumps(report["response_order_summary"], sort_keys=True))
+        for row in report["predictions"]:
+            print("Raw field order:", row["sample_id"], json.dumps(row["response_field_order"]))
     print("Private evidence summary:", run_directory(load_plan(args.schema_version)["run_id"]) / "evidence_summary.json")
     print("Quote membership is not semantic correctness. Manual evidence review pending.")
     print("Post-thesis synthetic development only; no benchmark data or threshold fitting.")
-    return 0 if report["examples_valid"] == 14 else 1
+    return 0 if (report["examples_valid"] == 14 and
+                 (args.schema_version != "v3" or report["response_order_summary"]["matches"] == 14)) else 1
 
 
 if __name__ == "__main__":

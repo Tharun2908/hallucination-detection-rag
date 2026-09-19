@@ -25,7 +25,7 @@ development contract, strict parser and 14 synthetic controls. Its
 [v1 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
 produced 11/14 valid records and one explanation concern. The next
 [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md) has offline regression checks;
-the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). The [live v2 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) produced 14/14 valid records with two false positives. A [verdict-first candidate](EVIDENCE_ORDER_V3.md) awaits native order checks.
+the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). The [live v2 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) produced 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44. A [bounded v3 live run](EVIDENCE_V3_RUN.md) is prepared; its model results remain pending.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and

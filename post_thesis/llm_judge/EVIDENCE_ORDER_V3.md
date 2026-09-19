@@ -6,6 +6,10 @@ is 14/14 contract-valid records with two false positives and one additional
 misleading explanation. Two original response strings put non-null quotes before
 the verdict, excluding the supported branch under the v2 constraints.
 
+Update after this offline candidate was committed: the [native check passed 44/44](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md).
+A [separate bounded live plan](EVIDENCE_V3_RUN.md) is now prepared. The no-generation
+statements below describe the original offline patch and its immutable descriptor.
+
 ## Isolated candidate
 
 `evidence_schema_v3.py` builds an ordered serialization of the v2 schema:

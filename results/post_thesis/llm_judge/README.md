@@ -24,7 +24,7 @@ The [structured evidence v1 findings](evidence_diagnostic_v1_20260919.md) and
 [operator-supplied responses](evidence_diagnostic_v1_20260919.json) record 11/14
 valid synthetic outputs and one explanation concern. The next
 [schema-only v2 candidate](../../../post_thesis/llm_judge/EVIDENCE_SCHEMA_V2.md)
-passed its [native compatibility check](evidence_schema_v2_native_20260919.md) at 38/38. Its [live synthetic result](evidence_diagnostic_v2_20260919.md) has 14/14 valid records with two false positives and a persistent explanation concern. A [verdict-first candidate](../../../post_thesis/llm_judge/EVIDENCE_ORDER_V3.md) awaits native order checks. Raw answer/context text, request caches and execution
+passed its [native compatibility check](evidence_schema_v2_native_20260919.md) at 38/38. Its [live synthetic result](evidence_diagnostic_v2_20260919.md) has 14/14 valid records with two false positives and a persistent explanation concern. The [verdict-first native check](evidence_schema_v3_native_20260919.md) passed 44/44. A [bounded live run](../../../post_thesis/llm_judge/EVIDENCE_V3_RUN.md) is prepared; live results remain pending. Raw answer/context text, request caches and execution
 journals remain in ignored private artifact directories.
 
 Future run directories must use unique run IDs. Include protocol/configuration,

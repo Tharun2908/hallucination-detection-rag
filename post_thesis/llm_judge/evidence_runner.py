@@ -7,7 +7,7 @@ import time
 
 from .evidence_contract import evidence_request, parse_evidence
 from .judge import BackendError, BackendResponse, JudgeInput, TokenUsage
-from .parse import JudgeParseError
+from .parse import JudgeParseError, _unique_object, _reject_constant
 from .prompts import canonical_json
 from .runner import run_directory
 from .storage import Journal, RunConflict, atomic_json, exclusive_run
@@ -73,7 +73,21 @@ def _validated(records, requests):
     return stored
 
 
-def _report(examples, by_id, stored, new_attempts):
+def _response_order(value):
+    # Inspect original response text, never the canonicalized evidence object.
+    # Order is observational; it cannot salvage or invalidate a semantic verdict.
+    response = value.get("response") if value else None
+    if response is None:
+        return None
+    try:
+        payload = json.loads(response["text"], object_pairs_hook=_unique_object,
+                             parse_constant=_reject_constant)
+    except (ValueError, TypeError, RecursionError, JudgeParseError):
+        return None
+    return list(payload) if isinstance(payload, dict) else None
+
+
+def _report(examples, by_id, stored, new_attempts, expected_response_order=None):
     predictions = []
     usage, unknown = dict(input_tokens=0, output_tokens=0), dict(input_tokens=0, output_tokens=0)
     latencies = []
@@ -86,6 +100,10 @@ def _report(examples, by_id, stored, new_attempts):
                             "verdict": value["evidence"]["verdict"] if value and value["evidence"] else None,
                             "error_code": value["error_code"] if value else None,
                             "attempts": int(row is not None)})
+        if expected_response_order is not None:
+            order = _response_order(value)
+            predictions[-1].update(response_field_order=order,
+                                   response_order_matches_expected=None if order is None else order == list(expected_response_order))
         if value:
             latencies.append(value["latency_seconds"])
         if row:
@@ -96,7 +114,7 @@ def _report(examples, by_id, stored, new_attempts):
                 else:
                     usage[field] += count
     judged = sum(p["status"] == "ok" for p in predictions)
-    return {"study_stage": "post_thesis", "output_contract": "evidence_record_not_probability",
+    report = {"study_stage": "post_thesis", "output_contract": "evidence_record_not_probability",
             "examples_total": len(examples), "examples_valid": judged,
             "examples_terminal_failure": sum(p["status"] not in ("ok", "pending") for p in predictions),
             "examples_pending": sum(p["status"] == "pending" for p in predictions),
@@ -104,10 +122,20 @@ def _report(examples, by_id, stored, new_attempts):
             "known_token_totals": usage, "attempts_with_unknown_tokens": unknown,
             "completed_attempt_latency_seconds": latencies,
             "attempts_with_unknown_latency": len(stored) - len(latencies), "predictions": predictions}
+    if expected_response_order is not None:
+        report["response_order_summary"] = {
+            "expected_order": list(expected_response_order),
+            "matches": sum(p["response_order_matches_expected"] is True for p in predictions),
+            "mismatches": sum(p["response_order_matches_expected"] is False for p in predictions),
+            "unavailable": sum(p["response_order_matches_expected"] is None for p in predictions),
+            "independent_of_contract_validity": True,
+        }
+    return report
 
 
 async def run_evidence(examples, *, run_id, config, backend, revision, dataset_revision,
-                     artifact_root=None, max_new_attempts=0, halt_codes=(), request_factory=evidence_request):
+                     artifact_root=None, max_new_attempts=0, halt_codes=(), request_factory=evidence_request,
+                     expected_response_order=None):
     examples = tuple(examples)
     if type(max_new_attempts) is not int or not 0 <= max_new_attempts <= len(examples):
         raise ValueError("invalid attempt cap")
@@ -122,6 +150,8 @@ async def run_evidence(examples, *, run_id, config, backend, revision, dataset_r
                 "max_attempts_per_input": 1, "halt_codes": list(halt_codes),
                 "examples": [{"sample_id": sid, "request_key": r.key} for sid, r in by_id.items()],
                 "requests": {key: asdict(r) for key, r in requests.items()}}
+    if expected_response_order is not None:
+        manifest["expected_response_field_order"] = list(expected_response_order)
     directory = run_directory(run_id, artifact_root)
     with exclusive_run(directory):
         journal = Journal(directory / "journal.sqlite3", manifest)
@@ -145,7 +175,7 @@ async def run_evidence(examples, *, run_id, config, backend, revision, dataset_r
                 journal.finish(attempt, result)
                 if result["error_code"] in halt_codes:
                     break
-            report = _report(examples, by_id, _validated(journal.records(), requests), new)
+            report = _report(examples, by_id, _validated(journal.records(), requests), new, expected_response_order)
             atomic_json(directory / "summary.json", report)
             return report
         finally:

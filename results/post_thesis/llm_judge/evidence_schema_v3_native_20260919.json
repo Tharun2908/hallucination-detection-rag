@@ -1,0 +1,28 @@
+{
+  "study_stage": "post_thesis",
+  "kind": "operator_reported_CPU_schema_order_compatibility",
+  "date": "2026-09-19",
+  "schema_version": "v3",
+  "status": "passed",
+  "versions": {
+    "python": "3.12.14",
+    "torch": "2.13.0+cu130",
+    "vllm": "0.29.0",
+    "xgrammar": "0.2.7"
+  },
+  "schema_sha256": "2c933735d69532381a4f45fbe8ad7868a34b03e78478ab8ba0b0e6486bd45807",
+  "serialized_schema_sha256": "f86a37ac3bf7ca198663ce266a345ce89018b8d9e52f046d3fb94e7dadf5fa33",
+  "fixture_sha256": "4cab9f343e86b6839b5332a858d39911e9e103b41793570c2999c45f440de792",
+  "matching_acceptance_checks": 44,
+  "checks_total": 44,
+  "generation_calls": 0,
+  "reported_record_path": "/workspace/hallucination-detection-rag/.artifacts/post_thesis/llm_judge/evidence-schema-v3-compatibility-bf9610b5952945f7b3b48dc48383a04a/report.json",
+  "instructed_code_revision": "9a98256c81b2b84484274fe667b4bd0cd1845aa1",
+  "code_revision_independently_verified_from_report": false,
+  "provenance": "Operator-pasted console output; full private report and worker log not supplied.",
+  "method": "Native XGrammar compilation and complete-string matching with fixed ASCII byte vocabulary",
+  "model_tokenizer_checked": false,
+  "live_vllm_checked": false,
+  "actual_serving_backend_attested": false,
+  "semantic_evidence_quality_checked": false
+}
