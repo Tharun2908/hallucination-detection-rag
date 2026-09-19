@@ -4,7 +4,11 @@
 [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md).
 This plan checks whether schema v2 works through the actual Qwen tokenizer and
 vLLM generation endpoint, and whether the three previous supported-output
-contract failures recur. No v2 model results are available yet.
+contract failures recur. The [completed v2 result](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md)
+contains 14/14 valid records with two false positives. The commands below are
+historical instructions for scoring revision `afa92aeebdb071e0d2f35eaf19c6fb6d19e113e9`;
+preserve that run and do not rerun it from this reporting commit. Use the
+[separate CPU order check](EVIDENCE_ORDER_V3.md) next.
 
 ## Fixed comparison and serving policy
 

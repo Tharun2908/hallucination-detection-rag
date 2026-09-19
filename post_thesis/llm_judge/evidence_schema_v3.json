@@ -1,0 +1,24 @@
+{
+  "study_stage": "post_thesis",
+  "stage": "offline_verdict_first_order_candidate",
+  "contract_version": "evidence-diagnostic-request-v3",
+  "prompt_version": "faithfulness-evidence-diagnostic-v1",
+  "prompt_sha256": "21ba57c9ec668c495a16e4635660c4504f26b5056638d4b17e6424e32ce52f4c",
+  "field_order": [
+    "verdict",
+    "issue_type",
+    "answer_quote",
+    "context_quote",
+    "explanation"
+  ],
+  "schema_canonical_sha256": "2c933735d69532381a4f45fbe8ad7868a34b03e78478ab8ba0b0e6486bd45807",
+  "serialized_schema_sha256": "f86a37ac3bf7ca198663ce266a345ce89018b8d9e52f046d3fb94e7dadf5fa33",
+  "fixture_sha256": "4cab9f343e86b6839b5332a858d39911e9e103b41793570c2999c45f440de792",
+  "native_check_cases": 44,
+  "schema_title_intentionally_retained": "faithfulness_evidence_verdict_v2",
+  "validation_rules_unchanged_from": "v2",
+  "generation_enabled": false,
+  "execution_plan": null,
+  "native_order_check": "pending",
+  "live_order_check": "pending"
+}

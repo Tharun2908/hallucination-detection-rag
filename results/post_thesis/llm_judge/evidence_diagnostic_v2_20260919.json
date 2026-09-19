@@ -1,0 +1,285 @@
+{
+  "study_stage": "post_thesis",
+  "kind": "synthetic_evidence_diagnostic_observations",
+  "date": "2026-09-19",
+  "run_id": "qwen3-evidence-synthetic-diagnostic-v2",
+  "provenance": "Operator-supplied console summary, 14 parsed records and exact raw response text for two false positives. Other raw responses and private journal not supplied.",
+  "instructed_code_revision": "afa92aeebdb071e0d2f35eaf19c6fb6d19e113e9",
+  "code_revision_independently_verified_from_artifacts": false,
+  "server_session_id": "server-c1d6c592edde4952b674469c0b894658",
+  "prompt_version": "faithfulness-evidence-diagnostic-v1",
+  "prompt_sha256": "21ba57c9ec668c495a16e4635660c4504f26b5056638d4b17e6424e32ce52f4c",
+  "schema_sha256": "2c933735d69532381a4f45fbe8ad7868a34b03e78478ab8ba0b0e6486bd45807",
+  "cases_sha256": "2e7aee4037a531ff971c47ade95172c3011b9bc8d874da4cea5c124484df4936",
+  "execution": {
+    "valid_records": 14,
+    "examples_total": 14,
+    "new_attempts": 14,
+    "terminal_failures": 0,
+    "pending": 0,
+    "status": "finished",
+    "outcome": "invocation_completed",
+    "error_code": null,
+    "input_audit": "completed",
+    "client_seconds": 80.18416656414047,
+    "input_tokens": 13571,
+    "output_tokens": 918,
+    "total_tokens": 14489,
+    "attempts_with_unknown_tokens": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "synthetic_comparison": {
+    "verdict_matches": 12,
+    "issue_matches": 12,
+    "true_positives": 8,
+    "false_positives": 2,
+    "true_negatives": 4,
+    "false_negatives": 0,
+    "positive_class": "unsupported",
+    "semantic_concern_records": 3
+  },
+  "order_hypothesis": "The two supplied raw responses place non-null quotes before the verdict; this excludes the supported branch under schema v2. The reason for choosing the quotes, actual compiler and counterfactual verdict-first outcome remain unverified.",
+  "records": [
+    {
+      "sample_id": "attribute-supported-short",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The venue offers outdoor seating.",
+        "context_quote": "{'OutdoorSeating': True}.",
+        "explanation": "The context explicitly states that outdoor seating is available.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "supported",
+      "expected_issue_type": "none",
+      "verdict_matches_expected": false,
+      "issue_matches_expected": false,
+      "manual_review": "explanation_supports_answer_but_verdict_claims_contradiction",
+      "raw_response": "{\n  \"answer_quote\": \"The venue offers outdoor seating.\",\n  \"context_quote\": \"{'OutdoorSeating': True}.\",\n  \"explanation\": \"The context explicitly states that outdoor seating is available.\",\n  \"issue_type\": \"contradiction\",\n  \"verdict\": \"unsupported\"\n}"
+    },
+    {
+      "sample_id": "attribute-supported-embedded",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "expected_verdict": "supported",
+      "expected_issue_type": "none",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "attribute-contradicted-short",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The venue offers outdoor seating.",
+        "context_quote": "'OutdoorSeating': False",
+        "explanation": "The context explicitly states that outdoor seating is not available.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "unsupported",
+      "expected_issue_type": "contradiction",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "attribute-contradicted-embedded",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The venue offers outdoor seating.",
+        "context_quote": "{'OutdoorSeating': False}",
+        "explanation": "The answer claims the venue offers outdoor seating, but the context explicitly states it does not.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "unsupported",
+      "expected_issue_type": "contradiction",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "attribute-unknown-short",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The venue offers outdoor seating.",
+        "context_quote": "{'OutdoorSeating': None}",
+        "explanation": "The context explicitly states that the OutdoorSeating field is unreported (None), which means it does not confirm the presence or absence of outdoor seating.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "unsupported",
+      "expected_issue_type": "insufficient_support",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "attribute-unknown-embedded",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The venue offers outdoor seating.",
+        "context_quote": "{'OutdoorSeating': None}.",
+        "explanation": "The context explicitly states that 'OutdoorSeating' is None, indicating it is unknown or not offered.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "unsupported",
+      "expected_issue_type": "insufficient_support",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "misleading_unknown_or_not_offered_explanation",
+      "raw_response": null
+    },
+    {
+      "sample_id": "numeric-supported-short",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "expected_verdict": "supported",
+      "expected_issue_type": "none",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "numeric-supported-embedded",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "expected_verdict": "supported",
+      "expected_issue_type": "none",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "numeric-contradicted-short",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The selected group comprises the highest 60% of recorded scores.",
+        "context_quote": "The selected group comprises the lowest 60% of recorded scores.",
+        "explanation": "The answer states the group comprises the highest 60% of scores, but the context explicitly states it is the lowest 60%.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "unsupported",
+      "expected_issue_type": "contradiction",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "numeric-contradicted-embedded",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The selected group comprises the highest 60% of recorded scores.",
+        "context_quote": "The selected group comprises the lowest 60% of recorded scores.",
+        "explanation": "The answer states the selected group is the highest 60%, but the context explicitly says it is the lowest 60%.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "unsupported",
+      "expected_issue_type": "contradiction",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "absence-explicit-false-short",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The venue does not offer outdoor seating.",
+        "context_quote": "{'OutdoorSeating': False}",
+        "explanation": "The context explicitly states that outdoor seating is not available.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "supported",
+      "expected_issue_type": "none",
+      "verdict_matches_expected": false,
+      "issue_matches_expected": false,
+      "manual_review": "explanation_supports_answer_but_verdict_claims_contradiction",
+      "raw_response": "{\n  \"answer_quote\": \"The venue does not offer outdoor seating.\",\n  \"context_quote\": \"{'OutdoorSeating': False}\",\n  \"explanation\": \"The context explicitly states that outdoor seating is not available.\",\n  \"issue_type\": \"contradiction\",\n  \"verdict\": \"unsupported\"\n}"
+    },
+    {
+      "sample_id": "absence-explicit-false-embedded",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "expected_verdict": "supported",
+      "expected_issue_type": "none",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "absence-unknown-short",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The venue does not offer outdoor seating.",
+        "context_quote": "{'OutdoorSeating': None}",
+        "explanation": "The context explicitly states that the OutdoorSeating field is None, indicating no information is provided about outdoor seating.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "unsupported",
+      "expected_issue_type": "insufficient_support",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    },
+    {
+      "sample_id": "absence-unknown-embedded",
+      "status": "ok",
+      "evidence": {
+        "answer_quote": "The venue does not offer outdoor seating.",
+        "context_quote": "{'OutdoorSeating': None}.",
+        "explanation": "The context marks 'OutdoorSeating' as None, indicating the information is unknown, not explicitly false.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "expected_verdict": "unsupported",
+      "expected_issue_type": "insufficient_support",
+      "verdict_matches_expected": true,
+      "issue_matches_expected": true,
+      "manual_review": "no_issue_identified_in_fixture_review",
+      "raw_response": null
+    }
+  ],
+  "records_sha256": "619df1d42020f5ad263185b89b01bbdd9a9933aaf789263f7bf5f4ae0e2b79b0"
+}

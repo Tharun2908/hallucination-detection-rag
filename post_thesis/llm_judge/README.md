@@ -25,7 +25,7 @@ development contract, strict parser and 14 synthetic controls. Its
 [v1 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
 produced 11/14 valid records and one explanation concern. The next
 [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md) has offline regression checks;
-the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). A [bounded live v2 run](EVIDENCE_V2_RUN.md) is prepared; its model results remain pending.
+the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). The [live v2 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) produced 14/14 valid records with two false positives. A [verdict-first candidate](EVIDENCE_ORDER_V3.md) awaits native order checks.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
@@ -116,7 +116,8 @@ Passing these tests validates engineering contracts, not judge quality.
 | `evidence_runner.py` | Private evidence journal, strict cache revalidation and one attempt per input |
 | `evidence_diagnose.py` | Full-set token checks and bounded 14-case synthetic execution |
 | `evidence_schema_v2.py` | Schema-only revision of field dependencies; selected explicitly by the evidence CLI |
-| `check_evidence_schema.py` | CPU-only installed native grammar checks; no model calls |
+| `check_evidence_schema.py` | CPU-only native grammar checks for v2 or the explicit v3 order candidate; no model calls |
+| `evidence_schema_v3.py` | Offline verdict-first serialization with unchanged validation rules and order-sensitive identity |
 | `../../tests/test_llm_judge.py` | Parser failures, input boundary, request identity, failure accounting, concurrent metadata isolation |
 | `../../tests/test_llm_judge_runner.py` | Resume, retry budgets, real process death, locks, cache corruption, alignment and privacy boundaries |
 
