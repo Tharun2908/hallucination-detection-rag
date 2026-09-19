@@ -281,3 +281,14 @@ This is adaptive development with categorical evidence outputs, not a final
 benchmark freeze, probability estimator or threshold-fitting run. The [completed development run](../../results/post_thesis/llm_judge/ragtruth_evidence_pilot_v3_20260919.md) produced 37/50 valid evidence records and 13 quote-membership failures. All 50 raw responses followed the expected order, but targeted review found incorrect rationales among valid outputs. Keep failures missing and preserve the exact-quote parser. The candidate is not ready for benchmark freeze; no new inference allowance is added by recording these results. Preserve all historical runs and unresolved research
 questions, including the embedded unknown-absence failure and native-source
 exclusion audit.
+
+## Offline evidence prompt revision after the TRAIN pilot
+
+The [prompt-v2 candidate](EVIDENCE_PROMPT_V2.md) changes instructions only; schema
+v3, parser, model profile and historical artifacts are preserved. The synthetic
+suite retains the original 14 inputs and adds 12 authored cases targeting observed
+failure mechanisms. All expectations remain offline. A future live comparison
+must evaluate both prompts on the same 26 cases with separately recorded token
+checks, budgets and run identities. This is adaptive development; no held-out
+claim, new scoring allowance or benchmark freeze is introduced here. Report
+null-context use and semantic rationale quality alongside validity and verdicts.
