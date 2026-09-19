@@ -6,7 +6,8 @@
 implemented. Qwen3-32B on a self-hosted vLLM/H200 profile is the initial development
 candidate. The operator completed two six-example H200 synthetic runs and a
 cache reuse check; a reproducible absence-claim failure remains. TRAIN pilot
-preparation is implemented; pilot scoring and final configuration remain pending.
+manifest is prepared and token-only audit tooling is implemented; cluster length
+auditing, pilot scoring and final configuration remain pending.
 See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
 Study design unchanged.
 
@@ -242,4 +243,6 @@ Synthetic GPU execution is recorded in the [post-thesis smoke observations](../.
 The first 50-example TRAIN selection rule is recorded in [PILOT.md](PILOT.md).
 Shared-context groups are a source proxy; native-source overlap auditing remains
 required before claiming strict source-disjoint threshold development. Pilot
-scoring, formatted-length auditing and resource limits are still pending.
+scoring, the actual cluster formatted-length audit and inference resource limits
+are still pending. See [PILOT.md](PILOT.md) for the token-only audit's separate
+50-request/300-second invocation limits and immutable preparation manifest hash.

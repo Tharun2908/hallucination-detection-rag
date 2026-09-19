@@ -129,17 +129,30 @@ class VLLMBackend:
             raise ValueError("request configuration does not match this pinned adapter")
         return await self._bounded(self._complete(request))
 
-    async def _complete(self, request):
-        p = self.profile
-        common = {"model": request.config.model,
-                  "messages": [asdict(m) for m in request.messages],
-                  "chat_template_kwargs": {"enable_thinking": False},
-                  "add_generation_prompt": True, "add_special_tokens": False}
-        tokens = await self._request("POST", "/tokenize", common)
+    def _input_payload(self, request):
+        return {"model": request.config.model,
+                "messages": [asdict(m) for m in request.messages],
+                "chat_template_kwargs": {"enable_thinking": False},
+                "add_generation_prompt": True, "add_special_tokens": False}
+
+    async def count_input_tokens(self, request):
+        """Count the exact generation input, even if too long. Never generates."""
+        if request.config != self.config:
+            raise ValueError("request configuration does not match this pinned adapter")
+        return await self._bounded(self._count_input_tokens(request))
+
+    async def _count_input_tokens(self, request):
+        tokens = await self._request("POST", "/tokenize", self._input_payload(request))
         count = tokens.get("count")
         if (type(count) is not int or count < 1
-                or tokens.get("max_model_len") != p["max_model_len"]):
+                or tokens.get("max_model_len") != self.profile["max_model_len"]):
             raise BackendError("invalid_token_count")
+        return count
+
+    async def _complete(self, request):
+        p = self.profile
+        common = self._input_payload(request)
+        count = await self._count_input_tokens(request)
         if count + request.config.max_output_tokens > p["max_model_len"]:
             raise BackendError("input_too_long")
         payload = dict(common, temperature=request.config.temperature,

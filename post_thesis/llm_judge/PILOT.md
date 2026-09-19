@@ -94,13 +94,83 @@ The checksum-protected manifest has separate `pilot_inputs`,
 `Example` objects whose `JudgeInput` contains **only answer and context**. Never
 send an entire manifest, label record, task/model metadata, or query to the judge.
 
-## Next gate before any pilot inference
+## Recorded cluster preparation
 
-Review the preparation output. Then implement and record an exact chat-template
-token-length audit, the pinned serving profile, bounded attempts/time budget,
-resource accounting, and a resumable pilot scoring command. Overlength inputs
-must fail explicitly without silent truncation or substitution. No inference
-command is added by this preparation patch.
+The operator prepared this manifest at commit
+`c44f4cf172811a086437e69c4f45b15fcda3ed16` with the expected counts above:
+`ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25`.
+Rebuilding from the pinned TRAIN file and that preparation commit reproduced
+the same manifest hash locally. No judge scores were produced.
+
+**Keep that manifest. Do not rerun preparation after updating the code:** its
+recorded preparation commit is intentionally different from a later audit or
+scoring commit. New stages reference its hash rather than rewriting it.
+
+## Formatted token-length audit (no generation)
+
+Apply, commit and push the audit code, then pull it on the cluster. Start the
+pinned server in terminal A, retaining the printed server session directory:
+
+```bash
+source .venv-judge-serving/bin/activate &&
+export CC=/usr/bin/gcc &&
+export CXX=/usr/bin/g++ &&
+export HF_HOME=/root/llm-judge-hf-cache &&
+export CUDA_HOME=/usr/local/cuda-13.0 &&
+export PATH="$CUDA_HOME/bin:$PATH" &&
+export LD_LIBRARY_PATH="$CUDA_HOME/lib64:${LD_LIBRARY_PATH:-}" &&
+python -m post_thesis.llm_judge.serve --device 0
+```
+
+Wait for `Application startup complete` in the new server log. In terminal B,
+activate the serving environment and run from the same committed checkout:
+
+```bash
+python -m post_thesis.llm_judge.audit_pilot \
+  --expected-manifest-sha256 ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25
+```
+
+The command checks manifest integrity, input alignment and unchanged prompt
+identity before contacting the server. It checks `/version` and `/v1/models`,
+then sends only the exact fixed prompt and answer/context messages to `/tokenize`.
+It uses the same tokenization payload as generation: non-thinking chat template,
+generation prompt enabled, and no extra special tokens. Labels, IDs and metadata
+remain outside these requests. It never calls `/v1/chat/completions` or any other
+generation endpoint, and never creates probabilities or evaluation metrics.
+
+Each count is saved before proceeding. Limits: one tokenization attempt per
+example, 50 examples, sequential execution, at most 60 seconds per HTTP operation
+and 300 seconds for each invocation's preflight/counting window. Oversized inputs
+are reported unchanged; no truncation, replacement or filtering is performed.
+The fit criterion is `formatted_input_tokens + 128 <= 32768`.
+
+Default private directory:
+`.artifacts/post_thesis/llm_judge/ragtruth-train-pilot-50-token-audit-v1/`.
+`audit.json` holds checksum-protected per-example counts, request identities,
+prompt/configuration and code revision. A separate `client-window-*.json` records
+every invocation, including status, attempted tokenizations, summary and elapsed
+resource window. Same-ID reruns reuse completed counts; a fully cached replay
+makes no HTTP requests. Incompatible configuration or corrupted records stop
+before network activity. Failed/interrupted attempts are terminal for that audit
+ID; inspect and fix the cause before deliberately using a new `--audit-id`.
+Such a new ID may recount inputs and retains the old evidence.
+
+Review `examples_counted: 50`, `overlength_ids: []`, `all_inputs_fit: true`,
+`generation_calls: 0` and the maximum/total formatted input tokens. These are
+expected conditions, not claimed results: the actual cluster audit is pending.
+Keep the supervised server records; advertised model aliases cannot attest
+weights. Tokenization timing is not generation latency. Client windows overlap
+the server lifetime and must not be added to it; rental cost remains unknown.
+The audit deadline does not stop the server. Stop terminal A after the audit if
+no further work is running, so its supervisor saves the final resource record.
+
+## Gate before pilot scoring
+
+Use the measured lengths to record the bounded inference attempt/time budget
+and resource accounting, then add a resumable pilot scoring command. A successful
+token audit does not itself authorize or perform scoring. Overlength inputs must
+fail explicitly without silent truncation or substitution. The threshold subset
+and native-source overlap audit remain separate pending tasks.
 
 Synthetic checks and this pilot are development evidence. Any prompt revision
 must get a new version and separately identified runs. Freeze the final prompt

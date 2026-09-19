@@ -22,6 +22,8 @@ jobs:
         run: python -m pip install -r post_thesis/llm_judge/requirements-client.txt
       - name: Check vLLM HTTP contract with offline responses
         run: python -m unittest discover -s tests -p test_vllm_backend.py -v
+      - name: Check token-only pilot audit with offline responses
+        run: python -m unittest discover -s tests -p test_llm_judge_token_audit.py -v
   cached-audit:
     runs-on: ubuntu-latest
     steps:

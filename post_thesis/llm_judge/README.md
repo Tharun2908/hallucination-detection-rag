@@ -7,8 +7,8 @@
 implemented. No benchmark judge scores have been collected.** The
 [synthetic observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md)
 record a repeatable absence-claim failure as well as successful cache reuse.
-Next: [prepare the 50-example TRAIN pilot](PILOT.md), with labels kept offline
-and shared-context group exclusions recorded.
+The 50-example TRAIN manifest is prepared, with labels kept offline and
+shared-context group exclusions recorded. Next: the [token-only audit](PILOT.md).
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
@@ -61,8 +61,9 @@ Use IDs, hashes, configuration, and aggregate metrics for public artifacts.
 
 Model comparison and paid execution follow the protocol stages. The only real
 model command currently supplied is the bounded synthetic smoke test.
-`prepare_pilot.py` creates a TRAIN manifest without model calls; a bounded pilot
-scoring command, formatted-length audit and final resource budget remain pending.
+`prepare_pilot.py` creates a TRAIN manifest without model calls; `audit_pilot.py`
+checks formatted lengths via tokenization without generation. The actual cluster
+length audit, bounded pilot scoring command and inference budget remain pending.
 
 ## Offline foundation
 
@@ -86,6 +87,7 @@ Passing these tests validates engineering contracts, not judge quality.
 | `vllm_backend.py` | HTTP adapter, token counting, schema-constrained requests and response validation |
 | `serve.py` / `smoke.py` | Explicit server launcher, resource windows, six synthetic examples |
 | `prepare_pilot.py` | Pinned TRAIN file check, label-blind selection, group exclusions and private manifest |
+| `audit_pilot.py` | Exact formatted token counts, incremental records and resource windows; no generation |
 | `../../tests/test_llm_judge.py` | Parser failures, input boundary, request identity, failure accounting, concurrent metadata isolation |
 | `../../tests/test_llm_judge_runner.py` | Resume, retry budgets, real process death, locks, cache corruption, alignment and privacy boundaries |
 
@@ -235,8 +237,8 @@ latency. Costs currently have `amount: null` and `status: not_configured`; this
 does not mean execution is free. The serving wrapper now writes separate measured
 GPU-time windows, with an optional declared rental-rate estimate. These windows must not be double-counted
 or mistaken for a full rental invoice; see [SERVING.md](SERVING.md). The benchmark
-preparation is implemented; the actual cluster manifest and pilot resource budget
-remain pending until the preparation/preflight steps complete. Either a hosted API or
+manifest is prepared; the cluster token audit and pilot inference resource budget
+remain pending. Either a hosted API or
 self-hosted open-weight backend can implement the existing interface. GPU
 availability does not change the evaluation protocol or thesis boundary.
 
