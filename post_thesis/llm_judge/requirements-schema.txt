@@ -1,0 +1,2 @@
+# CPU schema validation for development tests, separate from GPU serving dependencies.
+jsonschema==4.23.0

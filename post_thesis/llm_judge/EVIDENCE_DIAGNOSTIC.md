@@ -2,9 +2,11 @@
 
 **Development only. Excluded from the submitted thesis.** This step freezes a
 new diagnostic prompt/output contract, implements a strict parser and defines
-synthetic controls. **No model responses have been collected for this contract.**
-The separate [bounded synthetic runner](EVIDENCE_RUN.md) is now ready, with a
-committed profile, full-set token checks and an invocation budget. The final
+synthetic controls. The [completed v1 synthetic run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
+has 11/14 valid records and one explanation concern. A
+[schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md) now enforces the field dependencies,
+with installed native compatibility checks pending. Preserve the original contract
+and [completed run](EVIDENCE_RUN.md). The final
 benchmark prompt is not frozen.
 
 The [binary TRAIN result](../../results/post_thesis/llm_judge/ragtruth_binary_pilot_20260919.md)

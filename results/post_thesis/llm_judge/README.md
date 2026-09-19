@@ -20,9 +20,11 @@ excluded from the submitted thesis results. **No final test results are availabl
 
 Probability pilots, synthetic diagnostics, the binary TRAIN pilot and the focused
 error review are complete. All remain adaptively inspected development results.
-The [structured evidence diagnostic](../../../post_thesis/llm_judge/EVIDENCE_DIAGNOSTIC.md)
-has a [bounded synthetic runner](../../../post_thesis/llm_judge/EVIDENCE_RUN.md)
-ready; no model results have been collected. Raw answer/context text, request caches and execution
+The [structured evidence v1 findings](evidence_diagnostic_v1_20260919.md) and
+[operator-supplied responses](evidence_diagnostic_v1_20260919.json) record 11/14
+valid synthetic outputs and one explanation concern. The next
+[schema-only v2 candidate](../../../post_thesis/llm_judge/EVIDENCE_SCHEMA_V2.md)
+has no model results; native compatibility checks are pending. Raw answer/context text, request caches and execution
 journals remain in ignored private artifact directories.
 
 Future run directories must use unique run IDs. Include protocol/configuration,
