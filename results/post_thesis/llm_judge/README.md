@@ -40,3 +40,9 @@ The [evidence-v3 original TRAIN token audit](ragtruth_evidence_v3_audit_20260919
 is complete: 50/50 counted, no overlength inputs and zero generation calls.
 The [bounded scoring plan](../../../post_thesis/llm_judge/EVIDENCE_PILOT_RUN.md)
 was executed: the [evidence TRAIN findings](ragtruth_evidence_pilot_v3_20260919.md) record 37/50 valid outputs, 13 quote failures and targeted semantic review. These are adaptive development results; full claim-level review remains incomplete.
+
+The [paired evidence prompt findings](evidence_prompt_pair_v1_20260919.md) record
+26/26 valid outputs per prompt, 24 versus 25 expected verdict matches, one
+corrected absence verdict, one v2 rationale regression and one shared missed
+false-absence claim. All paired exported evidence and assistant review tags are
+preserved in the accompanying JSON. This remains adaptive synthetic development.

@@ -303,4 +303,4 @@ first per case. Separate journals share one execution reservation. Subsequent
 invocations inspect the cache only; unknown windows charge the full budget.
 Report all missing outputs, null-context use, order and verdict/issue agreement,
 then manually review semantic evidence quality. This is adaptive synthetic
-development; paired model results remain pending.
+development; the [paired results](../../results/post_thesis/llm_judge/evidence_prompt_pair_v1_20260919.md) are recorded. Both prompts have full structural coverage; v2 gains one expected verdict but introduces an unknown-as-absence rationale error, while both miss a false context-absence assertion. Stop tuning on these fixtures and retain v2 as a fixed candidate for a separately prepared original-50 TRAIN token audit. This findings update adds no new generation allowance or benchmark freeze.

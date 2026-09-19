@@ -4,7 +4,7 @@
 Compare evidence prompts v1 and v2 on exactly the same 26 fixtures. The
 [committed plan](configs/evidence_prompt_pair_v1.json) pins both prompt hashes,
 the fixture digest, unchanged schema-v3 wire digest and `evidence-v1` profile.
-No model results from this comparison are recorded yet.
+The [completed findings](../../results/post_thesis/llm_judge/evidence_prompt_pair_v1_20260919.md) record all 52 valid outputs and the mixed semantic result. The run completed at revision `6abf9c9eb7e809341c61e5ca62d95c1a3f8fa877`; preserve its artifacts. The commands below are historical and do not provide a new generation allowance at another revision.
 
 The earlier 14 cases are retained alongside 12 new authored controls. References,
 expected verdicts and case metadata remain offline: each model request contains
@@ -67,7 +67,7 @@ or request identity mismatches fail closed. Do not delete or rename artifacts to
 recover attempts. Schema-valid but wrongly ordered outputs remain valid records
 with an independent order mismatch; invalid raw verdicts are never salvaged.
 
-## H200 commands after commit, push and CI
+## Historical H200 commands at revision 6abf9c9
 
 Stop the previous launcher with Ctrl+C to finalize its resource record. Restart
 the same profile from the newly committed revision in terminal A:
@@ -116,7 +116,7 @@ paired runner owns the live plan and budget.
 
 ## Review before another experiment
 
-Return the console summary first. The private paired summary retains every
+The console summary and paired export were returned and reviewed; see the findings. The private paired summary retains every
 case's expected verdict/issue alongside both arms' statuses, predictions and
 comparison flags, plus full evidence in each arm report. Missing predictions
 have null comparison flags; never drop them from the attempted-case denominator.

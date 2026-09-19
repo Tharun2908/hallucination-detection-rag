@@ -5,7 +5,7 @@ The original offline preparation is retained below. A [separate bounded paired r
 TRAIN evidence pilot produced 37/50 valid records, with quote extraction failures
 and incorrect rationales among valid outputs. This candidate responds to those
 [recorded findings](../../results/post_thesis/llm_judge/ragtruth_evidence_pilot_v3_20260919.md).
-It has not been run on the model or frozen for benchmark evaluation.
+The [paired synthetic model run](../../results/post_thesis/llm_judge/evidence_prompt_pair_v1_20260919.md) is now complete with mixed findings. The candidate is not frozen for benchmark evaluation.
 
 ## Controlled change
 
