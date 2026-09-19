@@ -2,8 +2,9 @@
 
 **Protocol ID:** `post_thesis_llm_judge_v1`
 
-**Stage:** design recorded; offline interface/parser implemented. Provider,
-runner, pilot, and final-run configuration pending. Study design unchanged.
+**Stage:** design recorded; offline interface/parser and resumable runner
+implemented. Model/backend, pilot, and final-run configuration pending. Study
+design unchanged; either a hosted API or self-hosted open-weight backend may be used.
 
 **Scope:** research conducted after thesis submission; excluded from submitted
 thesis results. The defence is pending.
@@ -205,3 +206,18 @@ release/tag must explicitly identify the extension and preserve thesis provenanc
 
 This file freezes the study design baseline, not the unresolved operational
 values above. Record revisions in Git and retain the first frozen evaluation.
+
+### Backend deployment clarification
+
+The backend may be a hosted API or a self-hosted open-weight model. This does not
+change the answer/context input contract, development splits, evaluation rules,
+or post-thesis boundary. Select one backend for the initial pilot; GPU access
+does not itself select a model or authorize a full benchmark run.
+
+For self-hosting, pin the checkpoint and tokenizer revisions, precision or
+quantization, serving engine/version, generation configuration, GPU type/count,
+and concurrency. Record token usage and latency plus measured GPU-hours and any
+declared rental-cost basis. For APIs, record the price schedule/date and estimated
+versus billed charges. Unknown cost remains unknown, not zero. The compute/time
+budget replaces an API-spend budget when self-hosting; freeze the applicable
+resource limit before the pilot.

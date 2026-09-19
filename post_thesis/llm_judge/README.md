@@ -3,8 +3,8 @@
 > The experiments below were conducted after thesis submission and are not part
 > of the submitted thesis results.
 
-**Status: offline interface, development prompt, strict parser, and contract tests
-implemented. No provider adapter, pilot, paid API call, or new evaluation result
+**Status: offline interface, development prompt, strict parser, resumable runner,
+and contract tests implemented. No provider adapter, pilot, model call, or new evaluation result
 is included.** The notice above identifies the scope of this section; it does not
 claim completed experiments.
 
@@ -28,7 +28,7 @@ frozen for final evaluation.
 | Protocol and judge implementation | This directory, `post_thesis/llm_judge/` |
 | New summaries and run manifests | [results/post_thesis/llm_judge/](../../results/post_thesis/llm_judge/) |
 | New figures | [figures/post_thesis/llm_judge/](../../figures/post_thesis/llm_judge/) |
-| Local request cache and raw responses | `.artifacts/post_thesis/llm_judge/` by default; future runner must preserve `post_thesis/llm_judge/` under any configured artifact root |
+| Local request cache and raw responses | `.artifacts/post_thesis/llm_judge/<run_id>/` by default; the runner preserves `post_thesis/llm_judge/` under a configured artifact root |
 | Existing comparison-artifact identities | [baseline_manifest.json](baseline_manifest.json) |
 
 The manifest records the cleaned-up repository baseline and hashes of existing
@@ -43,8 +43,9 @@ Use IDs, hashes, configuration, and aggregate metrics for public artifacts.
 
 1. Record the protocol and post-thesis boundary — complete.
 2. Implement the judge interface, strict parser, offline tests, and resumable runner
-   — interface/parser/tests complete; runner next.
-3. Select one model and a bounded API budget; pilot on 50–100 source TRAIN examples.
+   — complete for offline injected backends.
+3. Select one model/backend and bounded API or GPU budget; implement the adapter
+   and resource accounting, then pilot on 50–100 source TRAIN examples.
 4. Freeze the prompt and use a separate source development subset for thresholding
    and any declared calibration.
 5. Evaluate the frozen system on RAGTruth test and the canonical HaluBench test set.
@@ -60,7 +61,7 @@ API-backed judge command yet.
 Requires Python 3.10+ and only the standard library. From the repository root:
 
 ```bash
-python -S -m unittest discover -s tests -p test_llm_judge.py -v
+python -S -m unittest discover -s tests -p "test_llm_judge*.py" -v
 ```
 
 The existing CPU reproduction workflow also discovers these tests. All backends
@@ -72,7 +73,10 @@ Passing these tests validates engineering contracts, not judge quality.
 | `prompts.py` | Versioned `faithfulness-development-v1` prompt and content hashing |
 | `parse.py` | Strict single-object JSON parsing, without extracting or repairing text |
 | `judge.py` | Immutable requests, injected asynchronous backend, one attempt and per-response metadata |
+| `runner.py` | Exact input manifest, sequential retries, cache reuse, coverage and attempt accounting |
+| `storage.py` | Durable SQLite journal, atomic derived reports, cross-process run lock |
 | `../../tests/test_llm_judge.py` | Parser failures, input boundary, request identity, failure accounting, concurrent metadata isolation |
+| `../../tests/test_llm_judge_runner.py` | Resume, retry budgets, real process death, locks, cache corruption, alignment and privacy boundaries |
 
 The prompt is a **development candidate**, not the frozen evaluation prompt. It
 defines the response-level target in the protocol and treats embedded instructions
@@ -94,8 +98,8 @@ provider or model is selected here.
 
 `build_request` includes a JSON response schema and hashes the exact messages,
 prompt version/hash, configuration, schema, protocol ID, and request-contract
-version. This is a request-identity primitive; **caching and persistence are not
-implemented yet**. Repeating `judge_once` invokes the supplied backend again.
+version. `run_judge` uses this identity for caching inside a run. Repeating the
+lower-level `judge_once` directly still invokes the supplied backend again.
 Mutable model aliases require a new run identity/cache policy when resolved
 versions change; a request hash alone cannot detect a provider changing an alias.
 
@@ -130,7 +134,99 @@ are no automatic retries or replacement scores. Latency measures one backend
 attempt's wall time, excluding request construction and parsing; it is not a
 cache-read or full-run latency measure.
 
-The next engineering step is the resumable runner: incremental attempt records,
-cache verification, bounded retries, run manifests, budget enforcement, and
-price-versioned cost accounting. Those features, provider integration, and pilot
-selection are still pending. Existing thesis artifacts are unchanged.
+## Resumable runner
+
+`run_judge` accepts an ordered collection of `Example(sample_id, JudgeInput(...))`,
+an injected backend, explicit code/dataset revisions, and a safe `run_id`. The
+sample ID and revision metadata never enter the model messages. It validates the
+whole input collection before any call: empty collections, duplicate IDs, invalid
+items, and missing revisions fail explicitly. Dataset adapters must surface and
+resolve invalid rows; this runner does not silently filter them.
+
+Example integration (the backend object must be supplied; no model is loaded):
+
+```python
+from post_thesis.llm_judge.runner import Example, RetryPolicy, run_judge
+from post_thesis.llm_judge.judge import JudgeInput
+
+# Inside an async function, with backend/config and pinned revisions supplied:
+report = await run_judge(
+    [Example("sample-001", JudgeInput(answer="Example answer", context="Example evidence"))],
+    run_id="development-run-001",
+    config=config,
+    backend=backend,
+    code_revision=code_revision,
+    dataset_revision=dataset_revision,
+    policy=RetryPolicy(max_attempts=2, delay_seconds=1.0),
+    max_new_attempts=10,
+)
+```
+
+This example's text is illustrative, not pilot data. For offline verification,
+run the test command above; its backends use synthetic responses only.
+
+The default artifact root follows `RAG_WORKSPACE` in `research_paths.py`; an
+explicit `artifact_root` is also supported. Both routes append
+`post_thesis/llm_judge/<run_id>/`. Store raw artifacts on a private **local disk**
+with reliable OS locking and SQLite support; network/shared filesystems are not
+supported by this implementation.
+
+| Local file | Purpose |
+| --- | --- |
+| `journal.sqlite3` | Authoritative manifest and all attempt records, committed before/after each call |
+| `manifest.json` | Exact configuration, code/data revisions, ordered IDs/request hashes, and raw requests |
+| `summary.json` | Coverage, per-ID scores/status, attempt/token/latency accounting; regenerated on resume |
+| `run.lock` | Persistent file holding an OS lock while a runner is active; do not delete it |
+
+All these files remain private under the artifact root. The manifest contains raw
+benchmark text and is **not** a public run summary. Do not commit or copy raw
+records into thesis result directories. Export of sanitized publication artifacts
+will be added with evaluation tooling.
+
+### Resume and retry semantics
+
+- Resume with the **same run ID and exact manifest**. Changed input text/order,
+  IDs, model/prompt/settings, code/data revisions, or retry policy are rejected
+  before another call. Use a new run ID for a genuinely new experiment.
+- A valid saved score is reused. Identical answer/context pairs with distinct IDs
+  are scored once within a run and aligned back to both IDs. New run IDs use
+  independent caches, allowing intentional repeated scoring for stability tests.
+- The runner validates result checksums, request identity, attempt order and
+  score parsing before any new call. It stops on corruption rather than silently
+  deleting a result and spending more compute.
+- `max_attempts` includes the initial call and interrupted attempts, across all
+  resumes. Its default is **1**. When increased, default retryable outcomes are
+  `backend_error` and `interrupted`. Invalid output/incomplete generation require
+  explicit opt-in. Refusals and successes are never retried within the same run.
+- `max_new_attempts` caps calls in one invocation. Reaching it leaves explicit
+  pending rows, which a later invocation may finish. It is **not a monetary or
+  GPU-hour budget**. The runner is sequential (`concurrency=1`).
+- A started call is committed before invoking the backend. Cancellation and
+  programming errors propagate, preserving that record. On restart it becomes
+  `interrupted`, with no score and unknown usage/latency, and consumes one attempt.
+  If the server finished just before process death, a permitted retry may repeat
+  that work. Exactly-once remote execution is not guaranteed.
+- Concurrent runners for the same run fail promptly. OS locks release on normal
+  exit or process death; a leftover lock file does not require manual deletion.
+
+### Accounting and remaining work
+
+The report retains every sample ID, including terminal failures and pending rows.
+It distinguishes total/scored/attempted examples from unique requests and actual
+attempts. Token totals include retries once per request attempt; unknown-token
+counts stay explicit. Cached results retain historical model-call latency; cache
+reads do not create fresh latency observations. `reused_success` identifies a
+prediction reused from a previous invocation or an earlier identical input in
+the current invocation. A failed attempt never becomes a score of `0.5`.
+
+Only finished calls contribute measured latency. Interrupted calls have unknown
+latency. Costs currently have `amount: null` and `status: not_configured`; this
+does not mean execution is free. Price-versioned API accounting or measured
+self-hosted GPU-hours, budget enforcement, model/serving configuration, and the
+dataset pilot manifest must be added before a real pilot. Either a hosted API or
+self-hosted open-weight backend can implement the existing interface. GPU
+availability does not change the evaluation protocol or thesis boundary.
+
+The test suite includes abrupt process death and runs in the existing Linux CPU
+workflow plus a stdlib-only Windows job. No GPU/API integration or scientific
+judge performance has been validated yet. Existing thesis artifacts are unchanged.

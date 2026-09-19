@@ -1,7 +1,7 @@
 """One asynchronous judge attempt using an injected backend; no API integration.
 
-Retries, persistence, budget enforcement, and dataset adapters belong to the
-future runner. Backend adapters must not silently retry or switch models.
+The runner owns retries and persistence. Provider-specific resource budgeting
+and dataset adapters remain pending. Backends must not silently retry or switch models.
 """
 
 from dataclasses import asdict, dataclass

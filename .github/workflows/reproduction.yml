@@ -9,6 +9,15 @@ permissions:
   contents: read
 
 jobs:
+  windows-judge:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check offline judge persistence and Windows process locks
+        run: python -S -m unittest discover -s tests -p "test_llm_judge*.py" -v
   cached-audit:
     runs-on: ubuntu-latest
     steps:
