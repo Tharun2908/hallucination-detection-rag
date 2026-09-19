@@ -20,6 +20,9 @@ detected 13/24 labeled positives with three false positives (F1 0.65). The
 [focused source review](../../results/post_thesis/llm_judge/ragtruth_binary_error_review_20260919.md)
 confirms four persistent misses and records ambiguity among apparent false positives. Original labels
 and both pilot runs remain intact; no final prompt freeze has been declared.
+The next [structured evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) has a frozen
+development contract, strict parser and 14 synthetic controls. Only offline
+checks are implemented; no evidence-diagnostic model outputs exist yet.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
@@ -105,6 +108,8 @@ Passing these tests validates engineering contracts, not judge quality.
 | `audit_pilot.py` | Exact formatted token counts, incremental records and resource windows; no generation |
 | `run_pilot.py` | Frozen audit/manifest checks, one-attempt probability scoring and cumulative client budget |
 | `run_binary_pilot.py` | Separate frozen binary TRAIN plan, string verdicts and cumulative client budget |
+| `evidence_contract.py` | Separate evidence prompt/schema and exact-quote parser; offline only |
+| `evidence_cases.py` | Fourteen fixed synthetic inputs with offline expectations |
 | `../../tests/test_llm_judge.py` | Parser failures, input boundary, request identity, failure accounting, concurrent metadata isolation |
 | `../../tests/test_llm_judge_runner.py` | Resume, retry budgets, real process death, locks, cache corruption, alignment and privacy boundaries |
 

@@ -1,0 +1,16 @@
+{
+  "study_stage": "post_thesis",
+  "stage": "offline_contract_and_parser_only",
+  "contract_version": "evidence-diagnostic-request-v1",
+  "prompt_version": "faithfulness-evidence-diagnostic-v1",
+  "prompt_sha256": "21ba57c9ec668c495a16e4635660c4504f26b5056638d4b17e6424e32ce52f4c",
+  "schema_sha256": "ecf37ce6cc1775c9af61d7b30754f5fd84c9c7ccf6a8845907a6347cc8807f12",
+  "case_version": "synthetic-evidence-attributes-numbers-v1",
+  "cases_sha256": "2e7aee4037a531ff971c47ade95172c3011b9bc8d874da4cea5c124484df4936",
+  "synthetic_examples": 14,
+  "generation_enabled": false,
+  "inference_profile": null,
+  "output_token_allowance": null,
+  "execution_plan": null,
+  "final_benchmark_prompt_frozen": false
+}

@@ -18,6 +18,9 @@ detected 13/24 labeled positives with three false positives. A
 [focused source review](../../results/post_thesis/llm_judge/ragtruth_binary_error_review_20260919.md)
 confirms four persistent misses and documents source/annotation ambiguity.
 The formulation and original labels remain unchanged. Binary outputs do not resolve the final continuous-score design.
+A [structured evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) now has a frozen
+development contract, offline parser and synthetic controls; its execution
+configuration and model runs remain pending.
 The final benchmark configuration remains pending.
 See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
 Study design unchanged.

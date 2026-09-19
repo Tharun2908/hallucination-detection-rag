@@ -15,8 +15,10 @@ and [focused review](../../results/post_thesis/llm_judge/ragtruth_binary_error_r
 The procedures below document the completed run at scoring commit
 `4b87517a7687df5d8684f9a28db7dbffe4278304`. Preserve the preparation, audits and
 run records. **Do not rerun them from this newer reporting commit.** The
-execution identity is tied to the original scoring revision. This update adds
-no prompt changes, generation calls or execution budget.
+execution identity is tied to the original scoring revision. The reporting update
+introduced no changes to the binary prompt, generation calls or execution budget.
+The next [evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) is a separate offline
+contract/parser step; the completed binary contract is unchanged.
 
 ## Fixed inputs and contract
 
