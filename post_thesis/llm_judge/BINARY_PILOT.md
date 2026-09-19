@@ -6,9 +6,9 @@ diagnostic matched all ten constructed expectations; see the
 The next question is whether the unchanged binary formulation identifies errors
 in realistic answers without excessively flagging supported answers.
 
-**Current step: token audit only.** No binary TRAIN verdicts have been generated,
-and no binary TRAIN scoring command is enabled by this patch. The cluster audit
-checksum and counts are required before committing its execution plan.
+**Current step: audit complete; bounded binary TRAIN execution ready.** No binary
+TRAIN verdicts have been generated. The committed execution plan pins the
+operator-reported audit checksum, code revision and token counts.
 
 ## Fixed inputs and contract
 
@@ -36,12 +36,11 @@ held-out evidence for choosing the final prompt, and source-group proxy
 limitations from [PILOT.md](PILOT.md) still apply. No source-disjoint threshold
 subset has been established, and neither test benchmark is loaded.
 
-## Separate binary token audit
+## Completed binary token audit — historical procedure
 
-Apply, commit and push the patch; pull it on H200 and restart the pinned launcher
-from the same clean checkout using the established CUDA/cache environment. No
-new packages are needed. After `Application startup complete`, in the client
-terminal run:
+The operator completed the following command on commit
+`32222be78c64274dd50fe8a0e6e63b51b6d94457`. Preserve this audit unchanged;
+**do not rerun it or the preparation step from the scoring commit**:
 
 ```bash
 python -m post_thesis.llm_judge.audit_pilot \
@@ -64,25 +63,80 @@ for that audit ID and blocks further counting. Do not delete or rename records
 to retry. The deadline is cooperative; preserve resource records and unknown
 states rather than treating interruptions as free compute.
 
-Check the console for the binary prompt/version, 50 counted inputs, zero
-failures/pending/overlength cases and zero generation calls. Paste the full output,
-including **audit SHA256, audit code revision, minimum/maximum/total input tokens**.
-Stop the server afterward to finalize its resource window. Tokenization timing
-is not inference latency or a price estimate.
+### Operator-reported audit evidence
 
-## Intended scoring plan — not enabled at this step
+These values come from the supplied cluster console output. The private audit
+was not downloaded for independent inspection; the scorer validates its full
+checksum, identities and per-request counts locally before any generation.
 
-After reviewing and pinning the audit, prepare a separate plan with the fixed
-run ID `qwen3-ragtruth-train-pilot-50-binary-v1`. Intended limits are 50 examples,
-one attempt each across resumes, sequential requests, 60 seconds per request,
-and 600 cumulative client seconds. Output allowance remains 128 per example
-(6,400 total). Input token totals must come from the real audit; they are not
-inferred from earlier prompts. No unused allowance transfers from previous runs.
+| Field | Value |
+|---|---|
+| Audit SHA256 | `55c8b27a10cf0f26c6dfcb35d6882d2c9b400a8fa90bb20689ab7746348f181b` |
+| Audit code revision | `32222be78c64274dd50fe8a0e6e63b51b6d94457` |
+| Counted / total | 50 / 50 |
+| Failed, pending, overlength | 0, 0, 0 |
+| Minimum / maximum input tokens | 719 / 2,984 |
+| Total input tokens | 60,474 |
+| Output allowance per example | 128 |
+| Model context limit | 32,768 |
+| All inputs fit | true |
+| Generation calls | 0 |
 
-The current `run_pilot.py` selects probability v1/v2 only, while
-`binary_diagnose.py` runs the ten synthetic cases only. Neither is a binary TRAIN
-scorer. Do not use either to attempt this pilot, edit old plans, or rerun old
-probability/tokenization jobs from the newer commit.
+Tokenization timing is not inference latency or a price estimate.
+
+## Frozen binary scoring plan
+
+The separate [execution plan](configs/ragtruth_pilot_50_binary_v1.json) fixes run ID
+`qwen3-ragtruth-train-pilot-50-binary-v1`. It allows exactly the existing 50 inputs,
+at most one generation attempt per input across resumes, sequential requests,
+60 seconds per request, and **600 cumulative client seconds**. Output allowance
+is 128 per example (6,400 total); audited input plus maximum requested output is
+**66,874 tokens**. No unused allowance transfers from previous runs.
+
+Apply, commit and push the scoring patch; pull it on H200 and restart the pinned
+launcher from that same clean checkout, using the established CUDA/cache
+environment. No new packages are needed. Keep `HF_HOME` on the larger root
+filesystem. Once the server reports `Application startup complete`, run in the
+client terminal, replacing the session name with the launcher's printed ID:
+
+```bash
+python -m post_thesis.llm_judge.run_binary_pilot \
+  --server-session-id server-REPLACE_WITH_CURRENT_SESSION
+```
+
+This command uses the original preparation manifest and the completed binary
+audit. It checks the frozen prompt, schema, request contract, model profile,
+server revision and audited request identities, then re-tokenizes each exact
+request before generation and requires its count to match. Input or returned
+model/token-limit mismatches halt further generation and block new calls on
+resume. There are no prompt, model, run-ID or budget overrides.
+
+Results remain string verdicts, `supported` or `unsupported`; failures have no
+verdict. No labels or benchmark metadata enter requests. The probability-only
+`run_pilot.py` and synthetic-only `binary_diagnose.py` remain unchanged.
+
+For a cache-only inspection from the same scoring revision, with no server calls:
+
+```bash
+python -m post_thesis.llm_judge.run_binary_pilot --max-new-attempts 0
+```
+
+A smaller `--max-new-attempts` can split execution into invocations without
+increasing the lifetime attempt or time allowance. Completed and failed attempts
+are not retried. Missing/corrupt journals, ledgers or changed identities block
+execution; do not delete records to reset a run. A window left unfinished after
+an unrecorded interruption is charged its full reserved remaining budget.
+Timeouts are cooperative and do not prove that server work stopped immediately.
+
+Private records live under
+`.artifacts/post_thesis/llm_judge/qwen3-ragtruth-train-pilot-50-binary-v1/`,
+including `binary_pilot_summary.json`, the attempt journal and execution ledger.
+The summary reports coverage, failures, pending inputs, attempts in the current
+invocation, cumulative known token usage and charged/remaining client seconds.
+Preserve all records and stop the server afterward to finalize its resource
+window. Client budget windows include preflight and runner work; startup and
+idle time are excluded. Server records and actual rental duration are needed
+for a cost analysis; this plan does not imply zero GPU cost.
 
 ## Planned analysis, fixed before collecting binary TRAIN verdicts
 

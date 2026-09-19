@@ -14,8 +14,8 @@ shows improved development ranking but persistent missed errors. The
 [probability diagnostic](../../results/post_thesis/llm_judge/synthetic_diagnostic_v1_20260919.md)
 found sharply lower scores for embedded errors. The
 [binary diagnostic](../../results/post_thesis/llm_judge/binary_diagnostic_v1_20260919.md)
-matched all ten constructed expectations. Next is the separate
-[binary TRAIN token audit](BINARY_PILOT.md), keeping the binary formulation fixed. Original labels
+matched all ten constructed expectations. The binary TRAIN token audit passed; next is
+[bounded binary TRAIN scoring](BINARY_PILOT.md), keeping the formulation fixed. Original labels
 and both pilot runs remain intact; no final prompt freeze has been declared.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
@@ -100,7 +100,8 @@ Passing these tests validates engineering contracts, not judge quality.
 | `serve.py` / `smoke.py` | Explicit server launcher, resource windows, six synthetic examples |
 | `prepare_pilot.py` | Pinned TRAIN file check, label-blind selection, group exclusions and private manifest |
 | `audit_pilot.py` | Exact formatted token counts, incremental records and resource windows; no generation |
-| `run_pilot.py` | Frozen audit/manifest checks, one-attempt scoring and cumulative client budget |
+| `run_pilot.py` | Frozen audit/manifest checks, one-attempt probability scoring and cumulative client budget |
+| `run_binary_pilot.py` | Separate frozen binary TRAIN plan, string verdicts and cumulative client budget |
 | `../../tests/test_llm_judge.py` | Parser failures, input boundary, request identity, failure accounting, concurrent metadata isolation |
 | `../../tests/test_llm_judge_runner.py` | Resume, retry budgets, real process death, locks, cache corruption, alignment and privacy boundaries |
 
@@ -137,7 +138,7 @@ normalize provider refusals/truncation into `BackendResponse.outcome`; and retur
 the reported model, response ID and token usage where available. Unknown model
 and usage stay `None`. Reject unsupported settings explicitly. Do not silently
 truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration, the v1 token audit and the bounded 50-example TRAIN
-scoring run have completed. The v2 scoring run also completed; the probability diagnostic also completed; the binary synthetic follow-up completed; its TRAIN pilot token audit is ready.
+scoring run have completed. The v2 scoring run also completed; the probability diagnostic also completed; the binary synthetic follow-up completed; its TRAIN pilot token audit passed and bounded binary scoring is ready.
 
 `await judge_once(item, config=config, backend=backend)` returns an immutable
 `JudgeResult`. Its request carries requested-model and prompt provenance; its

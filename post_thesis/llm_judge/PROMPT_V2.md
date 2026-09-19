@@ -164,4 +164,4 @@ The operator supplied the summary and paired predictions; the
 records development findings. Do not rerun this historical scoring procedure
 from a newer commit. The [synthetic probability diagnostic](DIAGNOSTIC.md) also
 completed, as did the [binary-output follow-up](BINARY_DIAGNOSTIC.md). Next is
-the [binary TRAIN token audit](BINARY_PILOT.md), preserving v2 and both pilot runs.
+the [bounded binary TRAIN scoring](BINARY_PILOT.md) after its completed token audit, preserving v2 and both pilot runs.
