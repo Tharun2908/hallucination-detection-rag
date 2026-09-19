@@ -22,7 +22,7 @@ A [structured evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) now has a frozen
 development contract, parser and synthetic controls. Its separate
 [bounded synthetic execution](EVIDENCE_RUN.md) completed with 11/14 valid records
 and one explanation concern. The [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md)
-addresses field dependencies; the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). The [v2 synthetic result](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) has 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44; a [separate bounded live run](EVIDENCE_V3_RUN.md) awaits model execution.
+addresses field dependencies; the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). The [v2 synthetic result](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) has 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44; the [v3 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md) has 14/14 valid, correctly ordered outputs and 13/14 expected verdicts. Hold this candidate fixed for the next development comparison, starting with a [token-only original TRAIN pilot audit](EVIDENCE_PILOT.md). This is not final benchmark freeze.
 The final benchmark configuration remains pending.
 See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
 Study design unchanged.

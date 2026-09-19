@@ -5,7 +5,7 @@ new diagnostic prompt/output contract, implements a strict parser and defines
 synthetic controls. The [completed v1 synthetic run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
 has 11/14 valid records and one explanation concern. A
 [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md) now enforces the field dependencies,
-with [38/38 native checks passed](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md) and the [v2 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) showing 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44, and a [bounded live run](EVIDENCE_V3_RUN.md) is prepared. Preserve the original contract
+with [38/38 native checks passed](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md) and the [v2 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) showing 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44, and the [v3 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md) has 14/14 valid outputs with one false negative. The next step is a [token-only original TRAIN pilot audit](EVIDENCE_PILOT.md). Preserve the original contract
 and [completed run](EVIDENCE_RUN.md). The final
 benchmark prompt is not frozen.
 

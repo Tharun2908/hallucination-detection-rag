@@ -3,7 +3,11 @@
 **Synthetic development only; excluded from the submitted thesis.** The
 [native order check passed 44/44](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md).
 This separately budgeted run tests emitted field order, contract validity and
-judgments on the same 14 examples. No v3 model results are available yet.
+judgments on the same 14 examples. The [completed result](../../results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md)
+contains 14/14 valid, correctly ordered outputs and 13/14 expected verdicts.
+The commands below are historical instructions for scoring revision
+`7c4823789ba0125e85d085baf0e2bab564ca417b`; preserve its run and do not rerun
+from this reporting commit. Use the [original TRAIN token audit](EVIDENCE_PILOT.md) next.
 
 ## Frozen comparison
 
