@@ -3,8 +3,9 @@
 **Protocol ID:** `post_thesis_llm_judge_v1`
 
 **Stage:** design recorded; offline interface/parser and resumable runner
-implemented. Model/backend, pilot, and final-run configuration pending. Study
-design unchanged; either a hosted API or self-hosted open-weight backend may be used.
+implemented. Qwen3-32B on a self-hosted vLLM/H200 profile is the initial development
+candidate; its adapter is tested offline. GPU validation, pilot, and final-run
+configuration remain pending. Study design unchanged.
 
 **Scope:** research conducted after thesis submission; excluded from submitted
 thesis results. The defence is pending.
@@ -221,3 +222,17 @@ declared rental-cost basis. For APIs, record the price schedule/date and estimat
 versus billed charges. Unknown cost remains unknown, not zero. The compute/time
 budget replaces an API-spend budget when self-hosting; freeze the applicable
 resource limit before the pilot.
+
+### Initial development backend
+
+The first candidate is `Qwen/Qwen3-32B`, BF16, non-thinking, temperature zero,
+with one H200 and sequential requests. Exact model/tokenizer revisions and the
+vLLM version are in [configs/qwen3_32b_h200.json](configs/qwen3_32b_h200.json).
+These are development settings, not a final evaluation freeze or a performance
+claim. The 32,768-token serving limit includes the complete formatted input and
+output allowance; overlength examples fail explicitly without truncation.
+Audit benchmark lengths before selecting the final evidence-visibility policy.
+
+The six manually constructed examples in `smoke.py` are infrastructure checks,
+not benchmark examples or a substitute for the 50–100-example TRAIN pilot.
+GPU execution, pilot selection and final resource limits are still pending.

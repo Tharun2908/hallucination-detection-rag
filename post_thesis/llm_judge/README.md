@@ -3,10 +3,13 @@
 > The experiments below were conducted after thesis submission and are not part
 > of the submitted thesis results.
 
-**Status: offline interface, development prompt, strict parser, resumable runner,
-and contract tests implemented. No provider adapter, pilot, model call, or new evaluation result
-is included.** The notice above identifies the scope of this section; it does not
-claim completed experiments.
+**Status: judge interface, strict parser, resumable runner, pinned vLLM adapter,
+and synthetic smoke command implemented and tested offline. GPU integration and
+the benchmark pilot have not run.** No new evaluation results are claimed.
+
+The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
+See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
+the distinction between measured server time and total rental cost.
 
 The thesis defence is still pending. Preserve the thesis results and their
 provenance throughout this extension.
@@ -43,7 +46,7 @@ Use IDs, hashes, configuration, and aggregate metrics for public artifacts.
 
 1. Record the protocol and post-thesis boundary — complete.
 2. Implement the judge interface, strict parser, offline tests, and resumable runner
-   — complete for offline injected backends.
+   — complete, with an offline-tested vLLM adapter.
 3. Select one model/backend and bounded API or GPU budget; implement the adapter
    and resource accounting, then pilot on 50–100 source TRAIN examples.
 4. Freeze the prompt and use a separate source development subset for thresholding
@@ -53,8 +56,9 @@ Use IDs, hashes, configuration, and aggregate metrics for public artifacts.
 7. Consider a cascade only if the standalone findings justify it.
 8. Publish a separately labeled post-thesis report and release.
 
-Model comparison and paid execution follow the protocol stages; there is no
-API-backed judge command yet.
+Model comparison and paid execution follow the protocol stages. The only real
+model command currently supplied is the bounded synthetic smoke test; benchmark
+adapters and a pilot manifest remain pending.
 
 ## Offline foundation
 
@@ -75,6 +79,8 @@ Passing these tests validates engineering contracts, not judge quality.
 | `judge.py` | Immutable requests, injected asynchronous backend, one attempt and per-response metadata |
 | `runner.py` | Exact input manifest, sequential retries, cache reuse, coverage and attempt accounting |
 | `storage.py` | Durable SQLite journal, atomic derived reports, cross-process run lock |
+| `vllm_backend.py` | HTTP adapter, token counting, schema-constrained requests and response validation |
+| `serve.py` / `smoke.py` | Explicit server launcher, resource windows, six synthetic examples |
 | `../../tests/test_llm_judge.py` | Parser failures, input boundary, request identity, failure accounting, concurrent metadata isolation |
 | `../../tests/test_llm_judge_runner.py` | Resume, retry budgets, real process death, locks, cache corruption, alignment and privacy boundaries |
 
@@ -90,11 +96,11 @@ must later record invalid rows explicitly rather than dropping them. IDs, labels
 gold answers, task/source metadata, and generator identity stay outside this input.
 
 `JudgeConfig` requires explicit provider, requested model, and `api_config_id`.
-The latter is a non-secret versioned identity for the future adapter, endpoint,
+The latter is a non-secret versioned identity for the adapter, endpoint,
 API revision, and any provider-specific settings. Change it whenever those
 settings or adapter behavior change. Never put an API key in it. Temperature
-defaults to zero, but reproducibility still depends on the provider. No real
-provider or model is selected here.
+defaults to zero, but reproducibility still depends on the provider. The vLLM
+profile now selects the development model; final evaluation settings remain unfrozen.
 
 `build_request` includes a JSON response schema and hashes the exact messages,
 prompt version/hash, configuration, schema, protocol ID, and request-contract
@@ -105,13 +111,13 @@ versions change; a request hash alone cannot detect a provider changing an alias
 
 ### Backend contract and results
 
-Implement `JudgeBackend.complete(request)` only when the provider is selected.
-An adapter must honor the request's messages, configuration and response schema;
+`VLLMBackend` implements `JudgeBackend.complete(request)` for the development
+profile. An adapter must honor the request's messages, configuration and response schema;
 normalize provider refusals/truncation into `BackendResponse.outcome`; and return
 the reported model, response ID and token usage where available. Unknown model
 and usage stay `None`. Reject unsupported settings explicitly. Do not silently
-truncate evidence, add prompts, retry, or switch models. The adapter and runner
-need their own integration tests before any paid pilot.
+truncate evidence, add prompts, retry, or switch models. GPU integration still
+needs validation before any benchmark pilot.
 
 `await judge_once(item, config=config, backend=backend)` returns an immutable
 `JudgeResult`. Its request carries requested-model and prompt provenance; its
@@ -221,12 +227,14 @@ the current invocation. A failed attempt never becomes a score of `0.5`.
 
 Only finished calls contribute measured latency. Interrupted calls have unknown
 latency. Costs currently have `amount: null` and `status: not_configured`; this
-does not mean execution is free. Price-versioned API accounting or measured
-self-hosted GPU-hours, budget enforcement, model/serving configuration, and the
-dataset pilot manifest must be added before a real pilot. Either a hosted API or
+does not mean execution is free. The serving wrapper now writes separate measured
+GPU-time windows, with an optional declared rental-rate estimate. These windows must not be double-counted
+or mistaken for a full rental invoice; see [SERVING.md](SERVING.md). The benchmark
+pilot manifest and full-run resource budget remain pending. Either a hosted API or
 self-hosted open-weight backend can implement the existing interface. GPU
 availability does not change the evaluation protocol or thesis boundary.
 
 The test suite includes abrupt process death and runs in the existing Linux CPU
-workflow plus a stdlib-only Windows job. No GPU/API integration or scientific
-judge performance has been validated yet. Existing thesis artifacts are unchanged.
+workflow plus a Windows job with separate stdlib and HTTP test steps. GPU
+integration and scientific judge performance have not been validated yet; HTTP
+contract tests use offline responses. Existing thesis artifacts are unchanged.

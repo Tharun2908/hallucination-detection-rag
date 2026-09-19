@@ -1,0 +1,2 @@
+# Isolated HTTP client; no model/torch installation needed on the caller.
+httpx==0.28.1
