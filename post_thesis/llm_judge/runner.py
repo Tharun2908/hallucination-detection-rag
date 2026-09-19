@@ -12,7 +12,7 @@ import re
 
 from research_paths import WORKSPACE
 from .judge import (
-    BackendResponse, JudgeBackend, JudgeConfig, JudgeInput, PROTOCOL_ID,
+    BackendError, BackendResponse, JudgeBackend, JudgeConfig, JudgeInput, PROTOCOL_ID,
     TokenUsage, build_request, judge_once,
 )
 from .parse import JudgeParseError, parse_score
@@ -182,7 +182,8 @@ async def run_judge(examples, *, run_id: str, config: JudgeConfig,
                     backend: JudgeBackend, code_revision: str, dataset_revision: str,
                     policy: RetryPolicy = RetryPolicy(),
                     prompt: PromptSpec = DEVELOPMENT_PROMPT,
-                    artifact_root=None, max_new_attempts: int | None = None):
+                    artifact_root=None, max_new_attempts: int | None = None,
+                    halt_on_error_codes: tuple[str, ...] = ()):
     """Run/resume an exact ordered manifest. Returns an offline summary dict.
 
     max_new_attempts is an invocation cap, not a financial budget. Model calls are
@@ -201,6 +202,10 @@ async def run_judge(examples, *, run_id: str, config: JudgeConfig,
             raise ValueError("explicit code and dataset revisions are required")
     if max_new_attempts is not None and (type(max_new_attempts) is not int or max_new_attempts < 0):
         raise ValueError("max_new_attempts must be a nonnegative integer or None")
+    if type(halt_on_error_codes) is not tuple or len(set(halt_on_error_codes)) != len(halt_on_error_codes):
+        raise ValueError("halt_on_error_codes must be a tuple of unique error codes")
+    for code in halt_on_error_codes:
+        BackendError(code)  # Validate the same sanitized vocabulary as backend errors.
     requests_by_id = {e.sample_id: build_request(e.item, config, prompt) for e in examples}
     requests = {r.key: r for r in requests_by_id.values()}
     manifest = {
@@ -211,6 +216,7 @@ async def run_judge(examples, *, run_id: str, config: JudgeConfig,
         "examples": [{"sample_id": e.sample_id, "request_key": requests_by_id[e.sample_id].key}
                      for e in examples],
         "requests": {key: asdict(request) for key, request in requests.items()},
+        **({"halt_on_error_codes": list(halt_on_error_codes)} if halt_on_error_codes else {}),
     }
     directory = run_directory(run_id, artifact_root)
     fresh_keys = set()
@@ -221,6 +227,7 @@ async def run_judge(examples, *, run_id: str, config: JudgeConfig,
             histories = _validate_records(journal.records(), requests, policy)
             journal.recover()
             atomic_json(directory / "manifest.json", manifest)
+            halted = False
             for example in examples:
                 key = requests_by_id[example.sample_id].key
                 history = histories[key]
@@ -240,7 +247,12 @@ async def run_judge(examples, *, run_id: str, config: JudgeConfig,
                     history.append({"state": "finished", "result": asdict(result)})
                     if result.status == "ok":
                         fresh_keys.add(key)
+                    if result.error_code in halt_on_error_codes:
+                        halted = True
+                        break
                 # Includes pending and terminal failures; never silently drops rows.
+                if halted:
+                    break
             report = _report(examples, requests_by_id, histories, content_hash(manifest),
                              policy, fresh_keys, new_attempts)
             atomic_json(directory / "summary.json", report)

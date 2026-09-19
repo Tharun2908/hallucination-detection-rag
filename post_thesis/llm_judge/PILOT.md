@@ -156,21 +156,125 @@ ID; inspect and fix the cause before deliberately using a new `--audit-id`.
 Such a new ID may recount inputs and retains the old evidence.
 
 Review `examples_counted: 50`, `overlength_ids: []`, `all_inputs_fit: true`,
-`generation_calls: 0` and the maximum/total formatted input tokens. These are
-expected conditions, not claimed results: the actual cluster audit is pending.
+`generation_calls: 0` and the maximum/total formatted input tokens.
 Keep the supervised server records; advertised model aliases cannot attest
 weights. Tokenization timing is not generation latency. Client windows overlap
 the server lifetime and must not be added to it; rental cost remains unknown.
 The audit deadline does not stop the server. Stop terminal A after the audit if
 no further work is running, so its supervisor saves the final resource record.
 
-## Gate before pilot scoring
+## Recorded cluster token audit
 
-Use the measured lengths to record the bounded inference attempt/time budget
-and resource accounting, then add a resumable pilot scoring command. A successful
-token audit does not itself authorize or perform scoring. Overlength inputs must
-fail explicitly without silent truncation or substitution. The threshold subset
-and native-source overlap audit remain separate pending tasks.
+The operator reported a completed audit at commit
+`02ebaced714b0196607ed66b71796391c6d27859`, with checksum
+`08dee554dbedde9c53354862af9d2f718c1f52895b33b32379fe4a9971a2b9f0`.
+All 50 inputs were counted with zero failures, pending rows, overlength inputs or
+generation calls. Input lengths: minimum 488, maximum 2,753, total 48,924 tokens.
+Including the 128-token output allowance, the largest request needs 2,881 tokens.
+These are operator-reported aggregate observations; the scoring command verifies
+the complete local audit file against this checksum before any network call.
+Do not recreate the preparation manifest or token audit after pulling scoring
+code: their historical commit identities are intentionally frozen.
+
+## First scoring pilot: frozen execution plan
+
+[configs/ragtruth_pilot_50_v1.json](configs/ragtruth_pilot_50_v1.json) fixes the
+manifest/audit checksums, their code revisions, development prompt, profile,
+token totals and the following limits before the first real TRAIN scoring call:
+
+| Setting | Frozen value |
+| --- | --- |
+| Run ID | `qwen3-ragtruth-train-pilot-50-v1` |
+| Examples | Exactly the existing 50 TRAIN development inputs |
+| Attempts | One per input, across resumes; no automatic retries |
+| Concurrency | 1 |
+| Per-attempt timeout | 60 seconds, including re-tokenization and generation |
+| Cumulative client deadline | 600 seconds across invocations |
+| Output allowance | 128 tokens per input; at most 6,400 requested across 50 inputs |
+| Audited input tokens | 48,924 across the 50 requests |
+| Truncation / fallback / prompt revision | None |
+
+The 55,324 input-plus-maximum-output token bound describes requests under this
+configuration, not a monetary price. No rental rate is known. A server reporting
+tokens above the allowance causes an explicit halt; retain its actual known usage.
+
+After committing/pushing the scoring patch, pull it on the cluster and restart
+the pinned launcher from that same clean commit (terminal A, commands above).
+Wait for `Application startup complete`. In terminal B, activate the serving
+environment, then run from the repository root, substituting the **directory
+name printed by that launcher** for `server-REPLACE_WITH_SESSION_ID`:
+
+```bash
+python -m post_thesis.llm_judge.run_pilot \
+  --server-session-id server-REPLACE_WITH_SESSION_ID
+```
+
+**This command generates the first real TRAIN pilot scores.** No new packages
+are needed in the serving environment. It loads only the existing private pilot
+manifest and token audit; it does not load either test set, select thresholds,
+compute benchmark metrics, or revise the prompt. The API sees only the fixed
+prompt plus answer/context. Labels stay offline for later development analysis.
+
+The launcher session record must describe the pinned H200 profile from this
+scoring commit and still be marked `started`. Its snapshot is retained in the
+execution ledger, and `/version` and `/v1/models` are checked before scoring.
+This links the execution to operator-controlled launcher evidence, not remote
+cryptographic attestation of weights. Keep the environment and server logs.
+Before each completion, the formatted input is counted again with the same
+payload and must equal its frozen audit count. A token/model alignment mismatch
+or excessive reported output stops the invocation and blocks further calls on
+resume. The failing result keeps known usage; subsequent rows remain pending.
+
+### Resume, inspection and budget accounting
+
+The command has a fixed run ID and no budget override. Repeating it reuses
+successful results, preserves terminal failures and scores only pending examples
+within the original remaining budget. `--max-new-attempts 10` optionally limits
+one invocation to at most ten new attempts; it does not increase lifetime limits.
+To inspect/recover the journal without network calls or a running server:
+
+```bash
+python -m post_thesis.llm_judge.run_pilot --max-new-attempts 0
+```
+
+Keep all files under
+`.artifacts/post_thesis/llm_judge/qwen3-ragtruth-train-pilot-50-v1/` (or the same
+namespace beneath `RAG_WORKSPACE`):
+
+- `journal.sqlite3` and `manifest.json`: exact requests, per-attempt outcomes and
+  raw response metadata using the existing durable runner.
+- `execution/budget.json`: checksum-protected plan/code identity and every client
+  time window, serialized by a process lock. Each window reserves the remaining
+  budget before network activity and records measured duration on orderly exit.
+- `pilot_summary.json`: current coverage, statuses, actual known token usage,
+  invocation attempt count and cumulative charged/remaining client seconds.
+
+Use `pilot_summary.json` for invocation reporting. The underlying runner's
+`summary.json` is refreshed by a final zero-call recovery pass, so its own
+`new_attempts_this_invocation` refers to that recovery pass, not the outer pilot
+invocation. Neither file drops failures or substitutes probability 0.5.
+
+The budget includes preflight, tokenization, inference and runner bookkeeping;
+local artifact validation/cache inspection and server startup/idle time are
+outside it. The timeout is cooperative: cancellation/cleanup can slightly exceed
+the client deadline, and cancellation does not prove server work instantly
+stopped. Measured overrun is retained rather than clipped. Stop the server in
+terminal A when the run finishes; its supervisor records the full serving window.
+Do not add overlapping server and client resource windows together.
+
+If the client is forcibly killed and elapsed time is unknown, the unfinished
+window is charged its full reserved remaining allowance. Cache inspection still
+works, but more inference is blocked. Missing/corrupt ledgers or journals and
+changed code/configuration also fail closed. Preserve failed runs for review;
+do not delete files, change the run ID, or edit budgets to restart spending.
+Unknown usage/cost remains unknown. Alignment failures require inspection, not
+blind retries. No stability repeat is included in this 50-example budget.
+
+Exit code zero means all 50 examples have valid scores, not that the judge is
+accurate or calibrated. Inspect coverage, endpoint saturation, score distribution,
+absence/numeric cases, usage and timings next. The threshold subset and
+native-source overlap audit remain separate pending tasks; this pilot is not a
+strict source-disjoint final evaluation.
 
 Synthetic checks and this pilot are development evidence. Any prompt revision
 must get a new version and separately identified runs. Freeze the final prompt

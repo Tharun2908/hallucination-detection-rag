@@ -129,6 +129,18 @@ class VLLMBackend:
             raise ValueError("request configuration does not match this pinned adapter")
         return await self._bounded(self._complete(request))
 
+    async def complete_counted(self, request, *, expected_input_tokens):
+        """Generate only if the exact input still matches its frozen token audit."""
+        if request.config != self.config:
+            raise ValueError("request configuration does not match this pinned adapter")
+        if type(expected_input_tokens) is not int or expected_input_tokens < 1:
+            raise ValueError("expected a positive audited input token count")
+        response = await self._bounded(self._complete(request, expected_input_tokens))
+        if (response.usage.output_tokens is not None
+                and response.usage.output_tokens > request.config.max_output_tokens):
+            raise BackendError("output_token_limit_exceeded", usage=response.usage)
+        return response
+
     def _input_payload(self, request):
         return {"model": request.config.model,
                 "messages": [asdict(m) for m in request.messages],
@@ -149,10 +161,12 @@ class VLLMBackend:
             raise BackendError("invalid_token_count")
         return count
 
-    async def _complete(self, request):
+    async def _complete(self, request, expected_input_tokens=None):
         p = self.profile
         common = self._input_payload(request)
         count = await self._count_input_tokens(request)
+        if expected_input_tokens is not None and count != expected_input_tokens:
+            raise BackendError("audited_input_token_mismatch")
         if count + request.config.max_output_tokens > p["max_model_len"]:
             raise BackendError("input_too_long")
         payload = dict(common, temperature=request.config.temperature,

@@ -7,8 +7,9 @@
 implemented. No benchmark judge scores have been collected.** The
 [synthetic observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md)
 record a repeatable absence-claim failure as well as successful cache reuse.
-The 50-example TRAIN manifest is prepared, with labels kept offline and
-shared-context group exclusions recorded. Next: the [token-only audit](PILOT.md).
+The 50-example TRAIN manifest and cluster token audit are complete, with labels
+kept offline and shared-context group exclusions recorded. Next: the
+[bounded scoring pilot](PILOT.md), using its committed execution plan.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
@@ -59,11 +60,12 @@ Use IDs, hashes, configuration, and aggregate metrics for public artifacts.
 7. Consider a cascade only if the standalone findings justify it.
 8. Publish a separately labeled post-thesis report and release.
 
-Model comparison and paid execution follow the protocol stages. The only real
-model command currently supplied is the bounded synthetic smoke test.
+Model comparison and paid execution follow the protocol stages. Real generation
+commands are the bounded synthetic smoke test and the fixed 50-example TRAIN pilot.
 `prepare_pilot.py` creates a TRAIN manifest without model calls; `audit_pilot.py`
 checks formatted lengths via tokenization without generation. The actual cluster
-length audit, bounded pilot scoring command and inference budget remain pending.
+length audit passed; `run_pilot.py` enforces the frozen inference limits across
+resumes. Actual TRAIN scoring and subsequent analysis remain pending.
 
 ## Offline foundation
 
@@ -88,6 +90,7 @@ Passing these tests validates engineering contracts, not judge quality.
 | `serve.py` / `smoke.py` | Explicit server launcher, resource windows, six synthetic examples |
 | `prepare_pilot.py` | Pinned TRAIN file check, label-blind selection, group exclusions and private manifest |
 | `audit_pilot.py` | Exact formatted token counts, incremental records and resource windows; no generation |
+| `run_pilot.py` | Frozen audit/manifest checks, one-attempt scoring and cumulative client budget |
 | `../../tests/test_llm_judge.py` | Parser failures, input boundary, request identity, failure accounting, concurrent metadata isolation |
 | `../../tests/test_llm_judge_runner.py` | Resume, retry budgets, real process death, locks, cache corruption, alignment and privacy boundaries |
 
@@ -123,8 +126,8 @@ profile. An adapter must honor the request's messages, configuration and respons
 normalize provider refusals/truncation into `BackendResponse.outcome`; and return
 the reported model, response ID and token usage where available. Unknown model
 and usage stay `None`. Reject unsupported settings explicitly. Do not silently
-truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration has been exercised; real-data
-formatted lengths and pilot resource limits still need validation.
+truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration and the pilot token audit have completed; the bounded
+scoring command is tested offline and awaits its first cluster execution.
 
 `await judge_once(item, config=config, backend=backend)` returns an immutable
 `JudgeResult`. Its request carries requested-model and prompt provenance; its
@@ -237,8 +240,8 @@ latency. Costs currently have `amount: null` and `status: not_configured`; this
 does not mean execution is free. The serving wrapper now writes separate measured
 GPU-time windows, with an optional declared rental-rate estimate. These windows must not be double-counted
 or mistaken for a full rental invoice; see [SERVING.md](SERVING.md). The benchmark
-manifest is prepared; the cluster token audit and pilot inference resource budget
-remain pending. Either a hosted API or
+manifest and cluster token audit are complete; the first pilot inference budget
+is committed in `configs/ragtruth_pilot_50_v1.json`. Actual scoring is pending. Either a hosted API or
 self-hosted open-weight backend can implement the existing interface. GPU
 availability does not change the evaluation protocol or thesis boundary.
 
