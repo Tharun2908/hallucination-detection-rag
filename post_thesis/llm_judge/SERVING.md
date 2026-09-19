@@ -221,3 +221,12 @@ passing offline suite does not certify that a particular GPU image boots vLLM.
 - [Pinned token-counting protocol](https://github.com/vllm-project/vllm/blob/v0.29.0/vllm/entrypoints/serve/tokenize/protocol.py)
 - [Pinned structured-output documentation](https://github.com/vllm-project/vllm/blob/v0.29.0/docs/features/structured_outputs.md)
 - [NVIDIA H200 specifications](https://www.nvidia.com/en-us/data-center/h200/)
+
+## Separate post-thesis evidence profile
+
+The [synthetic evidence diagnostic](EVIDENCE_RUN.md) uses the named profile
+`evidence-v1`: same pinned weights/tokenizer and decoding settings, but a distinct
+server alias and 512-token output allowance. Select it explicitly on the launcher
+with `--profile evidence-v1`. `evidence_diagnose.py` selects the matching client
+profile; old tools retain the original 128-token default. Follow the separate
+run instructions and budget; do not reuse old probability/binary run identities.

@@ -32,6 +32,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_llm_judge_binary_diagnostic.py -v
       - name: Check bounded binary TRAIN pilot with offline responses
         run: python -m unittest discover -s tests -p test_llm_judge_binary_pilot.py -v
+      - name: Check bounded evidence diagnostic with offline responses
+        run: python -m unittest discover -s tests -p test_llm_judge_evidence_execution.py -v
   cached-audit:
     runs-on: ubuntu-latest
     steps:

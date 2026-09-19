@@ -21,7 +21,8 @@ excluded from the submitted thesis results. **No final test results are availabl
 Probability pilots, synthetic diagnostics, the binary TRAIN pilot and the focused
 error review are complete. All remain adaptively inspected development results.
 The [structured evidence diagnostic](../../../post_thesis/llm_judge/EVIDENCE_DIAGNOSTIC.md)
-is at the offline contract/parser stage; no model results have been collected. Raw answer/context text, request caches and execution
+has a [bounded synthetic runner](../../../post_thesis/llm_judge/EVIDENCE_RUN.md)
+ready; no model results have been collected. Raw answer/context text, request caches and execution
 journals remain in ignored private artifact directories.
 
 Future run directories must use unique run IDs. Include protocol/configuration,

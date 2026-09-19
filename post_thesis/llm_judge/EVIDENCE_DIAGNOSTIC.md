@@ -1,10 +1,11 @@
 # Post-thesis: structured evidence-checking diagnostic
 
 **Development only. Excluded from the submitted thesis.** This step freezes a
-new diagnostic prompt/output contract, implements an offline parser and defines
+new diagnostic prompt/output contract, implements a strict parser and defines
 synthetic controls. **No model responses have been collected for this contract.**
-There is no inference runner, token audit, execution plan or generation budget
-for it yet. The final benchmark prompt is not frozen.
+The separate [bounded synthetic runner](EVIDENCE_RUN.md) is now ready, with a
+committed profile, full-set token checks and an invocation budget. The final
+benchmark prompt is not frozen.
 
 The [binary TRAIN result](../../results/post_thesis/llm_judge/ragtruth_binary_pilot_20260919.md)
 detected 13/24 labeled positives with three false positives. The
@@ -34,7 +35,8 @@ claim witness; success cannot be inferred from the absence of a witness.
 
 The [descriptor](evidence_contract_v1.json) pins the resolved prompt, response
 schema and synthetic cases. It is an offline contract record, not an execution
-configuration. Any substantive change requires a new version and a separate
+configuration; its `generation_enabled: false` describes the original offline
+step, not a runtime switch. The new execution plan is separate. Any substantive change requires a new version and a separate
 request identity; completed probability and binary contracts stay unchanged.
 
 | Field | Identity |
@@ -101,12 +103,11 @@ that the claim is complete, evidence is relevant, a contradiction exists, suppor
 is absent, or the explanation is correct. Exact quotes can still be cherry-picked,
 misleading or unrelated. Conflicting source passages require semantic review.
 
-A future runner must classify malformed/quote-invalid, refused and incomplete
+The runner must classify malformed/quote-invalid, refused and incomplete
 responses as failures with no usable verdict, preserve raw responses and known
 usage privately, and report coverage. It must not silently salvage a verdict from
-an invalid evidence record, retry, or turn a failure into supported. This module
-does not implement that runner; callers must check backend refusal/incompleteness
-before invoking the parser. Prior responses never pass through the new parser.
+an invalid evidence record, retry, or turn a failure into supported. The separate runner
+checks backend refusal/incompleteness before invoking the parser. Prior responses never pass through the new parser.
 
 ## Synthetic controls and offline checks
 
@@ -137,15 +138,14 @@ python -S -m unittest discover -s tests -p test_llm_judge_evidence_contract.py -
 The existing Linux full-suite job and Windows standard-library judge discovery
 include these tests. No new packages or GPU environment changes are required.
 
-## Subsequent execution and analysis, not enabled here
+## Execution and subsequent analysis
 
-1. Implement a separate evidence runner and versioned inference configuration,
-   preserving private response/usage records and cumulative budget controls.
-   The existing 128-token binary profile must not be silently repurposed for this
-   larger schema. Freeze the output allowance and audit the exact new requests.
-2. Record a bounded synthetic plan for the 14 fixed inputs before model calls.
-   Report valid coverage, verdict/issue correctness, exact-quote failures and
-   manual evidence quality. Do not call parser success model accuracy.
+1. The separate [evidence runner and profile](EVIDENCE_RUN.md) now preserve private
+   response/usage records and a single 300-second invocation budget. They use a
+   distinct 512-token profile and check all 14 inputs before generation.
+2. The [committed synthetic plan](configs/evidence_diagnostic_v1.json) permits only
+   the fixed 14 inputs. Report valid coverage, verdict/issue correctness, exact-quote
+   failures and manual evidence quality. Do not call parser success model accuracy.
 3. If the implementation is sound, audit the exact original 50 TRAIN inputs and
    commit a separate bounded pilot configuration before executing. No inherited
    unused time or attempt allowance carries over from completed runs.

@@ -13,8 +13,12 @@ PROFILE_PATH = Path(__file__).with_name("configs") / "qwen3_32b_h200.json"
 ADAPTER_VERSION = "vllm-http-v1"
 
 
-def load_profile():
-    return json.loads(PROFILE_PATH.read_text(encoding="utf-8"))
+def load_profile(profile_name="default"):
+    if profile_name not in ("default", "evidence-v1"):
+        raise ValueError("unknown pinned inference profile")
+    path = (PROFILE_PATH if profile_name == "default" else
+            PROFILE_PATH.with_name("qwen3_32b_h200_evidence_v1.json"))
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _object(pairs):
@@ -45,7 +49,7 @@ class VLLMBackend:
     """
 
     def __init__(self, base_url="http://127.0.0.1:8000", *, api_key=None,
-                 timeout_seconds=60.0, transport=None):
+                 timeout_seconds=60.0, transport=None, profile_name="default"):
         import httpx
         parsed = urlsplit(base_url)
         if (parsed.scheme not in ("http", "https") or not parsed.hostname
@@ -55,7 +59,7 @@ class VLLMBackend:
         if (type(timeout_seconds) not in (int, float)
                 or not 0 < timeout_seconds <= 60):
             raise ValueError("timeout_seconds must be in (0,60]")
-        self._profile_json = json.dumps(load_profile(), sort_keys=True)
+        self._profile_json = json.dumps(load_profile(profile_name), sort_keys=True)
         self.base_url = base_url.rstrip("/")
         self.timeout_seconds = timeout_seconds
         self._httpx = httpx

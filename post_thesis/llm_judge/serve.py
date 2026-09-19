@@ -42,8 +42,8 @@ def observe_gpu(device):
     return dict(zip(("name", "uuid", "memory_mib", "driver_version"), parts))
 
 
-def server_command(port=8000):
-    p = load_profile()
+def server_command(port=8000, *, profile_name="default"):
+    p = load_profile(profile_name)
     return ["vllm", "serve", p["model_repository"],
             "--revision", p["model_revision"], "--tokenizer-revision", p["tokenizer_revision"],
             "--served-model-name", p["served_model_name"],
@@ -74,6 +74,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--print-command", action="store_true", help="No GPU access or launch")
     parser.add_argument("--device", type=int, default=0)
+    parser.add_argument("--profile", choices=("default", "evidence-v1"), default="default")
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--hourly-rate", type=float)
     parser.add_argument("--currency")
@@ -81,13 +82,13 @@ def main():
     if not 1 <= args.port <= 65535 or args.device < 0:
         parser.error("invalid port or GPU index")
     resource_totals(0, 1, args.hourly_rate, args.currency)
-    command = server_command(args.port)
+    command = server_command(args.port, profile_name=args.profile)
     if args.print_command:
         print(shlex.join(command))
         return 0
     if os.name != "posix":
         parser.error("run the GPU server on Linux; the HTTP client also supports Windows")
-    p = load_profile()
+    p = load_profile(args.profile)
     if importlib.metadata.version("vllm") != p["vllm_version"]:
         raise ValueError("installed vLLM does not match the pinned profile")
     revision = code_revision()

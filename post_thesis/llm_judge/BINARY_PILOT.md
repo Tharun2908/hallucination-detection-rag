@@ -17,8 +17,8 @@ The procedures below document the completed run at scoring commit
 run records. **Do not rerun them from this newer reporting commit.** The
 execution identity is tied to the original scoring revision. The reporting update
 introduced no changes to the binary prompt, generation calls or execution budget.
-The next [evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) is a separate offline
-contract/parser step; the completed binary contract is unchanged.
+The next [evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) uses a separate
+[bounded synthetic runner](EVIDENCE_RUN.md); the completed binary contract is unchanged.
 
 ## Fixed inputs and contract
 
