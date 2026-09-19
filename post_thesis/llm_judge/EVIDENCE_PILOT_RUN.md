@@ -1,7 +1,9 @@
 # Post-thesis: bounded evidence-v3 TRAIN pilot
 
 **Adaptive TRAIN development only; excluded from the submitted thesis.**
-Run the unchanged evidence prompt v1 and verdict-first schema v3 on the original
+The run below completed at revision `dbf1bfc0e03dbf0b88d8b0914bbdbb0d224f1808` with 37/50 valid records. See the [findings](../../results/post_thesis/llm_judge/ragtruth_evidence_pilot_v3_20260919.md). Preserve its artifacts; these historical instructions do not create a fresh allowance at newer revisions.
+
+The run used the unchanged evidence prompt v1 and verdict-first schema v3 on the original
 50 examples. The synthetic result was 13/14 expected verdicts, with an embedded
 unknown-absence claim missed. Keep that failure visible; this is not a final
 benchmark freeze or independent validation.
@@ -38,7 +40,7 @@ query, generator identity and sample IDs remain offline. Outputs are categorical
 evidence records, not probabilities. No metrics, threshold fitting, prompt
 changes, TEST or HaluBench reads are performed by this command.
 
-## H200 execution after commit, push and CI
+## Historical H200 execution at revision dbf1bfc
 
 Stop the existing launcher with Ctrl+C to finalize its resource record. In
 terminal A, pull and restart the same profile; dependencies stay unchanged:
@@ -85,7 +87,7 @@ client budget, retained separately in launcher records; rental cost is unknown.
 
 ## Review the output before further experiments
 
-Return the console summary and per-example evidence records for offline review.
+The console summary and per-example evidence records were returned. Targeted review is recorded in the findings; review of every claim remains incomplete.
 Schema validity, exact quote membership and raw response field order are reported
 separately from semantic correctness. Invalid/refused/truncated outputs remain
 missing; raw verdicts are not salvaged. Valid outputs in an unexpected order

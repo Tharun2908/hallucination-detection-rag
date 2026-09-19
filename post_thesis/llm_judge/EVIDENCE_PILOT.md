@@ -92,4 +92,4 @@ terminal A's launcher afterwards to finalize its resource window.
 The [operator-reported audit](../../results/post_thesis/llm_judge/ragtruth_evidence_v3_audit_20260919.md)
 counted all 50 inputs, with 77,574 total input tokens and no overlength cases.
 The [separate bounded scoring configuration](EVIDENCE_PILOT_RUN.md) now pins that
-audit and the unchanged candidate. Evidence TRAIN scoring results remain pending.
+audit and the unchanged candidate. The [completed evidence TRAIN pilot](../../results/post_thesis/llm_judge/ragtruth_evidence_pilot_v3_20260919.md) produced 37/50 valid records. Preserve both audit and scoring artifacts.

@@ -278,7 +278,6 @@ Allow at most one generation attempt for each of the same 50 TRAIN inputs,
 512 output tokens each and 600 cumulative client seconds across resumes. The
 prompt, serialized schema, model and serving configuration remain unchanged.
 This is adaptive development with categorical evidence outputs, not a final
-benchmark freeze, probability estimator or threshold-fitting run. No scoring
-results are recorded yet. Preserve all historical runs and unresolved research
+benchmark freeze, probability estimator or threshold-fitting run. The [completed development run](../../results/post_thesis/llm_judge/ragtruth_evidence_pilot_v3_20260919.md) produced 37/50 valid evidence records and 13 quote-membership failures. All 50 raw responses followed the expected order, but targeted review found incorrect rationales among valid outputs. Keep failures missing and preserve the exact-quote parser. The candidate is not ready for benchmark freeze; no new inference allowance is added by recording these results. Preserve all historical runs and unresolved research
 questions, including the embedded unknown-absence failure and native-source
 exclusion audit.

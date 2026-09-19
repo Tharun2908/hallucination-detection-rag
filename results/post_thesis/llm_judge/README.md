@@ -39,4 +39,4 @@ do not overwrite them with this extension's outputs.
 The [evidence-v3 original TRAIN token audit](ragtruth_evidence_v3_audit_20260919.md)
 is complete: 50/50 counted, no overlength inputs and zero generation calls.
 The [bounded scoring plan](../../../post_thesis/llm_judge/EVIDENCE_PILOT_RUN.md)
-is prepared; evidence TRAIN predictions and semantic review are pending.
+was executed: the [evidence TRAIN findings](ragtruth_evidence_pilot_v3_20260919.md) record 37/50 valid outputs, 13 quote failures and targeted semantic review. These are adaptive development results; full claim-level review remains incomplete.
