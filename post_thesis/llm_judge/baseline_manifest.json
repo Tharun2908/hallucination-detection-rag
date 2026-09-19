@@ -1,0 +1,47 @@
+{
+  "study_stage": "post_thesis",
+  "protocol_id": "post_thesis_llm_judge_v1",
+  "status": "protocol_only_no_experiment_results",
+  "implementation_base_commit": "7ddc64d7aec207e801c8df125095ee5d60b5decc",
+  "submission_commit": null,
+  "submission_snapshot_status": "not_verified_do_not_infer_from_implementation_base",
+  "purpose": "Identify existing comparison inputs and label-mapping code, not certify the submitted-thesis snapshot.",
+  "artifacts": [
+    {
+      "path": "results/evaluation/table41_threshold_audit_results.json",
+      "sha256": "1a7af7f7dc7c98dca5672fb9467dc0c9402880043282ebf2a12f16503b8b1dc6"
+    },
+    {
+      "path": "results/fusion/fusion_decomposition_review_results.json",
+      "sha256": "7360563c16c5de872148537d253688e6ac3b5e4f8cefd2f95af44569386cc5fb"
+    },
+    {
+      "path": "results/cross_domain/halubench_groupfix/halubench_group_split.json",
+      "sha256": "9d78af5b4623893cfc7d761dc6be4c2e0f64278faaba11b2d10e6f829e67bb4b"
+    },
+    {
+      "path": "results/cross_domain/halubench_final_s2s4_scores.json",
+      "sha256": "8c95c2f4e6c90d80792f4d301372227c06d1fb4103fe8b704a5ba38c25b8edf9"
+    },
+    {
+      "path": "results/cross_domain/halubench_per_example_scores.json",
+      "sha256": "86b6d86eebd04fe69a458934dcc4538f48fdc4687a985564f1a1d70bb793a5d7"
+    },
+    {
+      "path": "results/cross_domain/halubench_groupfix/halubench_groupfix_thresholdfix_results.json",
+      "sha256": "7d4015d541c7319d703bac6c7d1a59192fdf4b825e9e4c32da9c231d30d454bb"
+    },
+    {
+      "path": "signals/signal4_finetune.py",
+      "sha256": "1e7942b8a20dec2df7a4436ac0299f4c36baf900d35c9a367569995e4984a005"
+    },
+    {
+      "path": "cross_domain/halubench_curve_groupfix.py",
+      "sha256": "52249fb053d6b9b5e2ebeaa358e77a84e78edc02b11db945a702b108d13119c7"
+    },
+    {
+      "path": "cross_domain/halubench_groupfix_thresholdfix.py",
+      "sha256": "17dbe47f7862a7e4be10a4ae059549a0a1362b8a39cff263c2a5007fce495777"
+    }
+  ]
+}

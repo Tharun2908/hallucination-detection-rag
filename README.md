@@ -2,6 +2,10 @@
 
 Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin, 2026).
 
+> **Post-thesis work:** a separately labeled [LLM judge extension](post_thesis/llm_judge/README.md)
+> is at the protocol stage. No extension results have been produced yet.
+
+
 This repository is a **research-engineering study of hallucination-verifier reliability under distribution shift**. It evaluates post-generation, response-level faithfulness verification for Retrieval-Augmented Generation (RAG), with particular emphasis on whether apparently strong benchmark results survive stricter evaluation protocols and transfer to a different benchmark.
 
 > **Main finding:** strong in-domain learnability does not imply a benchmark-independent verifier. Under a matched DeBERTa architecture, common NLI initialization, and the same training size (`N=2240`), direct transfer between RAGTruth and HaluBench remains approximately chance-level in both directions.
@@ -493,3 +497,21 @@ If this work is useful to you, please cite the thesis:
 The code is released under the MIT License; see [`LICENSE`](LICENSE).
 
 The datasets used by the experiments remain governed by their original licenses. MiniCheck-7B is released under its own terms; see the [Bespoke Labs model card](https://huggingface.co/bespokelabs/Bespoke-MiniCheck-7B).
+
+
+## Post-thesis experiments
+
+The experiments below were conducted after thesis submission and are not part
+of the submitted thesis results.
+
+**Current status: protocol only; no new experiments have run.** The
+[LLM judge study](post_thesis/llm_judge/README.md) will compare a prompted judge
+with the existing external verifiers on RAGTruth and the canonical HaluBench
+split. The [protocol](post_thesis/llm_judge/PROTOCOL.md) records the evaluation
+boundaries and the decisions to freeze before final evaluation.
+
+Code, results, and figures are separated under `post_thesis/llm_judge/`,
+`results/post_thesis/llm_judge/`, and `figures/post_thesis/llm_judge/`. Existing
+thesis artifacts retain their provenance and must not be overwritten.
+The cleaned-up repository baseline is recorded separately from the still
+unverified exact thesis-submission snapshot.
