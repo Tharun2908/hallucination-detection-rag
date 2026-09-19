@@ -235,7 +235,10 @@ class RunnerTests(unittest.IsolatedAsyncioTestCase):
 
     def test_paths_always_include_post_thesis_and_reject_traversal(self):
         path = run_directory("safe", self.root)
-        self.assertEqual(path, self.root / "post_thesis" / "llm_judge" / "safe")
+        # Windows temp roots can use an 8.3 alias (RUNNER~1). Compare canonical
+        # paths because run_directory resolves the artifact root before use.
+        expected = (self.root / "post_thesis" / "llm_judge" / "safe").resolve()
+        self.assertEqual(path, expected)
         for run_id in ("..", "../escape", "/tmp/run", "a/b", "a\\b", "", "a" * 81):
             with self.subTest(run_id=run_id), self.assertRaises(ValueError):
                 run_directory(run_id, self.root)
