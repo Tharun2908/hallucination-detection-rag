@@ -3,7 +3,7 @@
 Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin, 2026).
 
 > **Post-thesis work:** a separately labeled [LLM judge extension](post_thesis/llm_judge/README.md)
-> has an offline-tested judge, resumable runner, and vLLM adapter. No extension results have been produced yet.
+> has a working H200 judge, recorded synthetic smoke observations, and TRAIN pilot preparation. No benchmark judge results are available yet.
 
 
 This repository is a **research-engineering study of hallucination-verifier reliability under distribution shift**. It evaluates post-generation, response-level faithfulness verification for Retrieval-Augmented Generation (RAG), with particular emphasis on whether apparently strong benchmark results survive stricter evaluation protocols and transfer to a different benchmark.
@@ -504,7 +504,7 @@ The datasets used by the experiments remain governed by their original licenses.
 The experiments below were conducted after thesis submission and are not part
 of the submitted thesis results.
 
-**Current status: vLLM adapter and synthetic smoke tooling tested offline; GPU validation and benchmark experiments remain pending.** The
+**Current status: H200 synthetic checks completed; TRAIN pilot preparation implemented; benchmark scoring pending.** See the [synthetic observations](results/post_thesis/llm_judge/synthetic_smoke_20260919.md), including a reproducible absence-claim failure, and [pilot preparation](post_thesis/llm_judge/PILOT.md). The
 [LLM judge study](post_thesis/llm_judge/README.md) will compare a prompted judge
 with the existing external verifiers on RAGTruth and the canonical HaluBench
 split. The [protocol](post_thesis/llm_judge/PROTOCOL.md) records the evaluation

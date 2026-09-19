@@ -4,8 +4,11 @@
 
 **Stage:** design recorded; offline interface/parser and resumable runner
 implemented. Qwen3-32B on a self-hosted vLLM/H200 profile is the initial development
-candidate; its adapter is tested offline. GPU validation, pilot, and final-run
-configuration remain pending. Study design unchanged.
+candidate. The operator completed two six-example H200 synthetic runs and a
+cache reuse check; a reproducible absence-claim failure remains. TRAIN pilot
+preparation is implemented; pilot scoring and final configuration remain pending.
+See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
+Study design unchanged.
 
 **Scope:** research conducted after thesis submission; excluded from submitted
 thesis results. The defence is pending.
@@ -235,4 +238,8 @@ Audit benchmark lengths before selecting the final evidence-visibility policy.
 
 The six manually constructed examples in `smoke.py` are infrastructure checks,
 not benchmark examples or a substitute for the 50–100-example TRAIN pilot.
-GPU execution, pilot selection and final resource limits are still pending.
+Synthetic GPU execution is recorded in the [post-thesis smoke observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md).
+The first 50-example TRAIN selection rule is recorded in [PILOT.md](PILOT.md).
+Shared-context groups are a source proxy; native-source overlap auditing remains
+required before claiming strict source-disjoint threshold development. Pilot
+scoring, formatted-length auditing and resource limits are still pending.

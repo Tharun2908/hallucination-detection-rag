@@ -74,3 +74,4 @@ clinical_extension/merlin_v1_analysis/
 .artifacts/
 .venv-analysis/
 .venv-judge-serving/
+.venv-judge-data/

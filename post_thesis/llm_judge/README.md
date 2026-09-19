@@ -3,9 +3,12 @@
 > The experiments below were conducted after thesis submission and are not part
 > of the submitted thesis results.
 
-**Status: judge interface, strict parser, resumable runner, pinned vLLM adapter,
-and synthetic smoke command implemented and tested offline. GPU integration and
-the benchmark pilot have not run.** No new evaluation results are claimed.
+**Status: H200 synthetic checks completed; pinned TRAIN pilot preparation
+implemented. No benchmark judge scores have been collected.** The
+[synthetic observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md)
+record a repeatable absence-claim failure as well as successful cache reuse.
+Next: [prepare the 50-example TRAIN pilot](PILOT.md), with labels kept offline
+and shared-context group exclusions recorded.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
@@ -57,8 +60,9 @@ Use IDs, hashes, configuration, and aggregate metrics for public artifacts.
 8. Publish a separately labeled post-thesis report and release.
 
 Model comparison and paid execution follow the protocol stages. The only real
-model command currently supplied is the bounded synthetic smoke test; benchmark
-adapters and a pilot manifest remain pending.
+model command currently supplied is the bounded synthetic smoke test.
+`prepare_pilot.py` creates a TRAIN manifest without model calls; a bounded pilot
+scoring command, formatted-length audit and final resource budget remain pending.
 
 ## Offline foundation
 
@@ -81,6 +85,7 @@ Passing these tests validates engineering contracts, not judge quality.
 | `storage.py` | Durable SQLite journal, atomic derived reports, cross-process run lock |
 | `vllm_backend.py` | HTTP adapter, token counting, schema-constrained requests and response validation |
 | `serve.py` / `smoke.py` | Explicit server launcher, resource windows, six synthetic examples |
+| `prepare_pilot.py` | Pinned TRAIN file check, label-blind selection, group exclusions and private manifest |
 | `../../tests/test_llm_judge.py` | Parser failures, input boundary, request identity, failure accounting, concurrent metadata isolation |
 | `../../tests/test_llm_judge_runner.py` | Resume, retry budgets, real process death, locks, cache corruption, alignment and privacy boundaries |
 
@@ -116,8 +121,8 @@ profile. An adapter must honor the request's messages, configuration and respons
 normalize provider refusals/truncation into `BackendResponse.outcome`; and return
 the reported model, response ID and token usage where available. Unknown model
 and usage stay `None`. Reject unsupported settings explicitly. Do not silently
-truncate evidence, add prompts, retry, or switch models. GPU integration still
-needs validation before any benchmark pilot.
+truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration has been exercised; real-data
+formatted lengths and pilot resource limits still need validation.
 
 `await judge_once(item, config=config, backend=backend)` returns an immutable
 `JudgeResult`. Its request carries requested-model and prompt provenance; its
@@ -230,11 +235,13 @@ latency. Costs currently have `amount: null` and `status: not_configured`; this
 does not mean execution is free. The serving wrapper now writes separate measured
 GPU-time windows, with an optional declared rental-rate estimate. These windows must not be double-counted
 or mistaken for a full rental invoice; see [SERVING.md](SERVING.md). The benchmark
-pilot manifest and full-run resource budget remain pending. Either a hosted API or
+preparation is implemented; the actual cluster manifest and pilot resource budget
+remain pending until the preparation/preflight steps complete. Either a hosted API or
 self-hosted open-weight backend can implement the existing interface. GPU
 availability does not change the evaluation protocol or thesis boundary.
 
 The test suite includes abrupt process death and runs in the existing Linux CPU
-workflow plus a Windows job with separate stdlib and HTTP test steps. GPU
-integration and scientific judge performance have not been validated yet; HTTP
-contract tests use offline responses. Existing thesis artifacts are unchanged.
+workflow plus a Windows job with separate stdlib and HTTP test steps. The
+operator has exercised synthetic GPU integration; benchmark judge performance
+has not been evaluated. HTTP contract tests use offline responses. Existing
+thesis artifacts are unchanged.

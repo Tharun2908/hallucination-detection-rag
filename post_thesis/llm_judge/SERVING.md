@@ -1,9 +1,10 @@
 # Post-thesis Qwen judge: serving and synthetic checks
 
 This is post-thesis engineering. Nothing here changes submitted thesis results.
-The adapter and commands have been tested with offline responses; actual H200
-startup, driver compatibility, structured decoding, and judge behavior still
-require the following GPU smoke check. No benchmark scores have been collected.
+The operator completed H200 startup and two fresh synthetic smoke runs on
+2026-09-19; see the [recorded observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md).
+The absence-claim check failed reproducibly. These checks validate parts of the
+engineering path, not benchmark quality. No benchmark scores have been collected.
 
 ## Development profile
 
@@ -29,7 +30,7 @@ zero-temperature development choice. We deliberately begin with greedy decoding
 for this short score-only task; pilot checks must assess score behavior and
 stability. Neither a fixed seed nor greedy decoding guarantees bitwise identical
 GPU results. An H200 has enough nominal memory to make this a reasonable target;
-actual startup and peak memory have not yet been measured here.
+the operator reported successful startup; peak memory is not reported here.
 
 The profile file is the source of truth for request identity and launch settings.
 The adapter hashes it together with its own version, origin, and timeout. Changing
@@ -51,8 +52,10 @@ From the repository root, in a fresh Python 3.12 environment:
 ```bash
 python3.12 -m venv .venv-judge-serving
 source .venv-judge-serving/bin/activate
-python -m pip install -r post_thesis/llm_judge/requirements-serving.txt
-python -m pip install -r post_thesis/llm_judge/requirements-client.txt
+python -m pip install uv
+python -m uv pip install --python .venv-judge-serving/bin/python --torch-backend=cu130 \
+  -r post_thesis/llm_judge/requirements-serving.txt \
+  -r post_thesis/llm_judge/requirements-client.txt
 python -m post_thesis.llm_judge.serve --print-command
 ```
 
@@ -60,6 +63,50 @@ python -m post_thesis.llm_judge.serve --print-command
 does not establish CUDA/driver compatibility. The server log will expose startup
 problems; do not silently change the serving version to get past them. Record a
 new reviewed profile if an environment correction is necessary.
+
+### Prerequisites discovered on the H200 container
+
+The working stack was Python 3.12.14, vLLM 0.29.0 and torch 2.13.0+cu130,
+with NVIDIA driver 580.173.02. The initial cu129 torch installation passed
+`torch.cuda.is_available()` but vLLM's extension failed to load `libcudart.so.13`.
+Use the cu130 build for this profile; import the actual extension when checking:
+
+```bash
+python -c "import torch, vllm._C_stable_libtorch; from vllm.platforms import current_platform; print(torch.__version__, torch.version.cuda, type(current_platform).__name__)"
+```
+
+The minimal container also lacked host compilers and the CUDA toolkit compiler.
+Install a host C/C++ toolchain (on the observed Debian/Ubuntu-style image,
+`apt-get install -y build-essential`) and a CUDA 13.0 toolkit appropriate for the
+container's OS. A functioning driver/runtime alone does not supply `nvcc`.
+The operator installed the toolkit at `/usr/local/cuda-13.0`; the exact package
+installation commands were not provided. Check these paths before restarting:
+
+```bash
+export CC=/usr/bin/gcc
+export CXX=/usr/bin/g++
+export CUDA_HOME=/usr/local/cuda-13.0
+export PATH="$CUDA_HOME/bin:$PATH"
+export LD_LIBRARY_PATH="$CUDA_HOME/lib64:${LD_LIBRARY_PATH:-}"
+gcc --version
+"$CUDA_HOME/bin/nvcc" --version
+```
+
+Check disk capacity **before** downloading weights (`df -hT / /workspace`).
+The observed `/workspace` volume was only 49 GB, with 5.4 GB free; the root
+filesystem had much more room. The operator moved the existing partial model
+cache to `/root/llm-judge-hf-cache` and completed the download there. On this
+cluster, set the following on **every server start**:
+
+```bash
+export HF_HOME=/root/llm-judge-hf-cache
+mkdir -p "$HF_HOME"
+df -h "$HF_HOME" /workspace
+```
+
+The root filesystem cache may disappear when the container is recreated.
+Keep run journals and environment snapshots on the persistent workspace.
+These are observations about this cluster, not universal filesystem defaults.
 
 Create an environment snapshot under the ignored artifact directory:
 
@@ -148,6 +195,7 @@ Reports and raw messages are private local artifacts, not publication summaries.
 
 Review the GPU smoke output, record the working environment and resource usage,
 then prepare the source TRAIN pilot manifest with the frozen group/overlap rules.
+Use [PILOT.md](PILOT.md) for CPU-only pinned TRAIN preparation.
 Audit actual formatted lengths, choose the final timeout and resource limits,
 and establish a measured pilot compute budget. These six checks do not authorize
 or trigger either full benchmark. Preserve the original development prompt and

@@ -1,0 +1,2 @@
+# CPU-only pilot preparation; install in its own environment.
+pyarrow==19.0.1
