@@ -2,7 +2,8 @@
 
 **Protocol ID:** `post_thesis_llm_judge_v1`
 
-**Stage:** design recorded; implementation and final-run configuration pending.
+**Stage:** design recorded; offline interface/parser implemented. Provider,
+runner, pilot, and final-run configuration pending. Study design unchanged.
 
 **Scope:** research conducted after thesis submission; excluded from submitted
 thesis results. The defence is pending.
