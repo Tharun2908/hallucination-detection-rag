@@ -251,12 +251,15 @@ class ExecutionTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(result['report']['known_token_totals']['output_tokens'], 90)
 
     async def test_cached_verdict_must_match_raw_response(self):
+        from contextlib import closing
         import sqlite3
         from post_thesis.llm_judge.prompts import canonical_json, content_hash
         async with self.backend() as backend:
             await self.execute(backend)
             path = self.directory / 'journal.sqlite3'
-            with sqlite3.connect(path) as db:
+            # The transaction context commits but does not close the connection.
+            # Explicit closure also releases the file handle before Windows cleanup.
+            with closing(sqlite3.connect(path)) as db, db:
                 row_id, text = db.execute('SELECT id, result FROM attempts ORDER BY id LIMIT 1').fetchone()
                 result = json.loads(text)
                 result['verdict'] = 'unsupported'
