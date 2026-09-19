@@ -12,9 +12,12 @@ motivated a separate v2 prompt revision. Its token audit and 50-example scoring
 run are complete. Paired development results improve ranking but leave clear
 errors. A completed [synthetic diagnostic](DIAGNOSTIC.md) found sharply lower
 probabilities for embedded unsupported claims. A [binary-output diagnostic](BINARY_DIAGNOSTIC.md)
-matched all ten synthetic expectations. The binary TRAIN token audit passed; the next step is
-[bounded binary TRAIN scoring](BINARY_PILOT.md), without changing the binary
-formulation or v2. Binary outputs do not resolve the final continuous-score design.
+matched all ten synthetic expectations. The subsequent
+[binary TRAIN pilot](../../results/post_thesis/llm_judge/ragtruth_binary_pilot_20260919.md)
+detected 13/24 labeled positives with three false positives. A
+[focused source review](../../results/post_thesis/llm_judge/ragtruth_binary_error_review_20260919.md)
+confirms four persistent misses and documents source/annotation ambiguity.
+The formulation and original labels remain unchanged. Binary outputs do not resolve the final continuous-score design.
 The final benchmark configuration remains pending.
 See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
 Study design unchanged.

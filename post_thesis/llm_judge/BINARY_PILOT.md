@@ -3,12 +3,20 @@
 **Development only. Excluded from the submitted thesis.** The binary synthetic
 diagnostic matched all ten constructed expectations; see the
 [recorded findings](../../results/post_thesis/llm_judge/binary_diagnostic_v1_20260919.md).
-The next question is whether the unchanged binary formulation identifies errors
+This follow-up asked whether the unchanged binary formulation identifies errors
 in realistic answers without excessively flagging supported answers.
 
-**Current step: audit complete; bounded binary TRAIN execution ready.** No binary
-TRAIN verdicts have been generated. The committed execution plan pins the
-operator-reported audit checksum, code revision and token counts.
+**Current status: binary TRAIN execution and focused error review complete.**
+All 50 verdicts were valid; the judge detected 13/24 labeled positives with three
+false positives. All four previously reviewed misses persist. See the
+[recorded result](../../results/post_thesis/llm_judge/ragtruth_binary_pilot_20260919.md)
+and [focused review](../../results/post_thesis/llm_judge/ragtruth_binary_error_review_20260919.md).
+
+The procedures below document the completed run at scoring commit
+`4b87517a7687df5d8684f9a28db7dbffe4278304`. Preserve the preparation, audits and
+run records. **Do not rerun them from this newer reporting commit.** The
+execution identity is tied to the original scoring revision. This update adds
+no prompt changes, generation calls or execution budget.
 
 ## Fixed inputs and contract
 
@@ -84,7 +92,7 @@ checksum, identities and per-request counts locally before any generation.
 
 Tokenization timing is not inference latency or a price estimate.
 
-## Frozen binary scoring plan
+## Completed binary scoring — historical procedure
 
 The separate [execution plan](configs/ragtruth_pilot_50_binary_v1.json) fixes run ID
 `qwen3-ragtruth-train-pilot-50-binary-v1`. It allows exactly the existing 50 inputs,
@@ -138,7 +146,7 @@ window. Client budget windows include preflight and runner work; startup and
 idle time are excluded. Server records and actual rental duration are needed
 for a cost analysis; this plan does not imply zero GPU cost.
 
-## Planned analysis, fixed before collecting binary TRAIN verdicts
+## Analysis plan, fixed before collecting binary TRAIN verdicts
 
 Use `unsupported` as the positive class and preserve original labels. Report all
 50 IDs with verdict/status, then confusion counts, precision, recall and F1 on

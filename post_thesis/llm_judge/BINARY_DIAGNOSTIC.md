@@ -5,7 +5,7 @@ selected after inspecting the completed
 [probability diagnostic](../../results/post_thesis/llm_judge/synthetic_diagnostic_v1_20260919.md).
 It is not held-out validation. This run is complete: all ten verdicts matched
 expectations; see the [recorded findings](../../results/post_thesis/llm_judge/binary_diagnostic_v1_20260919.md).
-Preserve this run. The binary TRAIN token audit passed; next is [bounded binary TRAIN scoring](BINARY_PILOT.md).
+Preserve this run. The subsequent [binary TRAIN pilot](BINARY_PILOT.md) and focused error review are complete; four previously reviewed realistic errors remain missed.
 
 ## Question and controlled inputs
 

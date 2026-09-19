@@ -3,7 +3,7 @@
 > The experiments below were conducted after thesis submission and are not part
 > of the submitted thesis results.
 
-**Status: paired v1/v2 50-example TRAIN development pilots are complete; no final
+**Status: probability v1/v2 and binary 50-example TRAIN development pilots are complete; no final
 test-set judge scores have been collected.** The
 [synthetic observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md)
 record a repeatable absence-claim failure as well as successful cache reuse.
@@ -14,8 +14,11 @@ shows improved development ranking but persistent missed errors. The
 [probability diagnostic](../../results/post_thesis/llm_judge/synthetic_diagnostic_v1_20260919.md)
 found sharply lower scores for embedded errors. The
 [binary diagnostic](../../results/post_thesis/llm_judge/binary_diagnostic_v1_20260919.md)
-matched all ten constructed expectations. The binary TRAIN token audit passed; next is
-[bounded binary TRAIN scoring](BINARY_PILOT.md), keeping the formulation fixed. Original labels
+matched all ten constructed expectations. The subsequent
+[binary TRAIN pilot](../../results/post_thesis/llm_judge/ragtruth_binary_pilot_20260919.md)
+detected 13/24 labeled positives with three false positives (F1 0.65). The
+[focused source review](../../results/post_thesis/llm_judge/ragtruth_binary_error_review_20260919.md)
+confirms four persistent misses and records ambiguity among apparent false positives. Original labels
 and both pilot runs remain intact; no final prompt freeze has been declared.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
@@ -138,7 +141,7 @@ normalize provider refusals/truncation into `BackendResponse.outcome`; and retur
 the reported model, response ID and token usage where available. Unknown model
 and usage stay `None`. Reject unsupported settings explicitly. Do not silently
 truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration, the v1 token audit and the bounded 50-example TRAIN
-scoring run have completed. The v2 scoring run also completed; the probability diagnostic also completed; the binary synthetic follow-up completed; its TRAIN pilot token audit passed and bounded binary scoring is ready.
+scoring run have completed. The v2 scoring run also completed; the probability diagnostic also completed; the binary synthetic follow-up completed; its TRAIN pilot and focused error review are complete. Preserve the completed runs; the next experiment remains a design decision.
 
 `await judge_once(item, config=config, backend=backend)` returns an immutable
 `JudgeResult`. Its request carries requested-model and prompt provenance; its

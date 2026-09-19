@@ -1,0 +1,213 @@
+{
+  "study_stage": "post_thesis",
+  "scope": "adaptively_inspected_TRAIN_development_only",
+  "provenance": {
+    "verdicts_and_execution": "operator_supplied_console_and_CSV; private journal not independently inspected",
+    "scoring_code_revision": "4b87517a7687df5d8684f9a28db7dbffe4278304",
+    "csv_sha256": "a13bc3a520b34363c9a5623dedec263315477885fbd089e08f897a8e4a7649c3",
+    "paired_probability_csv_sha256": "59332ea5cc84513642df94ca1f7cc2c822f583e8983ce7ae385245a7181c0805",
+    "execution_plan_file_sha256": "d49545321f5076c2e1adfe53a8be2d1c14a61e0611a2a6ab82cee73a70305793",
+    "execution_plan": {
+      "study_stage": "post_thesis",
+      "protocol_id": "post_thesis_llm_judge_v1",
+      "execution_plan_version": "ragtruth_pilot_50_binary_v1",
+      "run_id": "qwen3-ragtruth-train-pilot-50-binary-v1",
+      "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+      "preparation_code_revision": "c44f4cf172811a086437e69c4f45b15fcda3ed16",
+      "audit_sha256": "55c8b27a10cf0f26c6dfcb35d6882d2c9b400a8fa90bb20689ab7746348f181b",
+      "audit_code_revision": "32222be78c64274dd50fe8a0e6e63b51b6d94457",
+      "prompt_version": "faithfulness-binary-diagnostic-v1",
+      "prompt_sha256": "e6b7d43ec5f34b07de69d11dacae6212d8c59e97b69b7375375ea8f289544683",
+      "profile_sha256": "634eb8385c47ba3495c7568029520d1e9471dcd0b190c7931a9c87d614b9f9d5",
+      "examples": 50,
+      "audited_input_tokens": 60474,
+      "audited_min_input_tokens": 719,
+      "audited_max_input_tokens": 2984,
+      "max_output_tokens_per_example": 128,
+      "max_output_tokens_total": 6400,
+      "max_attempts_per_input": 1,
+      "halt_on_error_codes": [
+        "audited_input_token_mismatch",
+        "input_token_mismatch",
+        "returned_model_mismatch",
+        "output_token_limit_exceeded"
+      ],
+      "concurrency": 1,
+      "request_timeout_seconds": 60,
+      "client_budget_seconds_across_resumes": 600,
+      "unknown_window_policy": "charge_full_reserved_remaining_budget",
+      "truncation": "none",
+      "scope": "TRAIN_development_binary_verdicts_not_probabilities",
+      "request_contract": "binary-diagnostic-request-v1",
+      "response_schema_sha256": "5886d9b585118965edf88708970ec5784a9489329874ae85788beebde3608935"
+    }
+  },
+  "operator_reported_execution": {
+    "status": "invocation_completed",
+    "examples_judged": 50,
+    "new_attempts": 50,
+    "terminal_failures": 0,
+    "pending": 0,
+    "charged_client_seconds": 53.16031185211614,
+    "remaining_client_seconds": 546.8396881478839,
+    "input_tokens": 60474,
+    "output_tokens": 400,
+    "total_tokens": 60874,
+    "attempts_with_unknown_tokens": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "rental_cost": null,
+    "timing_scope": "client preflight and runner windows; excludes server startup and idle; not a matched speed comparison"
+  },
+  "positive_class": "unsupported",
+  "overall": {
+    "examples_total": 50,
+    "examples_valid": 50,
+    "coverage": 1.0,
+    "class_coverage": {
+      "0": {
+        "total": 26,
+        "valid": 26,
+        "failures": 0,
+        "pending": 0
+      },
+      "1": {
+        "total": 24,
+        "valid": 24,
+        "failures": 0,
+        "pending": 0
+      }
+    },
+    "confusion": {
+      "TN": 23,
+      "FP": 3,
+      "FN": 11,
+      "TP": 13
+    },
+    "precision": 0.8125,
+    "recall": 0.5416666666666666,
+    "f1": 0.65,
+    "accuracy": 0.72
+  },
+  "by_task": {
+    "QA": {
+      "examples_total": 18,
+      "examples_valid": 18,
+      "coverage": 1.0,
+      "class_coverage": {
+        "0": {
+          "total": 11,
+          "valid": 11,
+          "failures": 0,
+          "pending": 0
+        },
+        "1": {
+          "total": 7,
+          "valid": 7,
+          "failures": 0,
+          "pending": 0
+        }
+      },
+      "confusion": {
+        "TN": 11,
+        "FP": 0,
+        "FN": 4,
+        "TP": 3
+      },
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "accuracy": 0.7777777777777778
+    },
+    "Data2txt": {
+      "examples_total": 24,
+      "examples_valid": 24,
+      "coverage": 1.0,
+      "class_coverage": {
+        "0": {
+          "total": 9,
+          "valid": 9,
+          "failures": 0,
+          "pending": 0
+        },
+        "1": {
+          "total": 15,
+          "valid": 15,
+          "failures": 0,
+          "pending": 0
+        }
+      },
+      "confusion": {
+        "TN": 7,
+        "FP": 2,
+        "FN": 6,
+        "TP": 9
+      },
+      "precision": 0.8181818181818182,
+      "recall": 0.6,
+      "f1": 0.6923076923076923,
+      "accuracy": 0.6666666666666666
+    },
+    "Summary": {
+      "examples_total": 8,
+      "examples_valid": 8,
+      "coverage": 1.0,
+      "class_coverage": {
+        "0": {
+          "total": 6,
+          "valid": 6,
+          "failures": 0,
+          "pending": 0
+        },
+        "1": {
+          "total": 2,
+          "valid": 2,
+          "failures": 0,
+          "pending": 0
+        }
+      },
+      "confusion": {
+        "TN": 5,
+        "FP": 1,
+        "FN": 1,
+        "TP": 1
+      },
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "accuracy": 0.75
+    }
+  },
+  "false_positive_ids": [
+    "10044",
+    "8469",
+    "2902"
+  ],
+  "false_negative_ids": [
+    "14984",
+    "1772",
+    "10151",
+    "6352",
+    "6040",
+    "12892",
+    "6486",
+    "9317",
+    "13151",
+    "12052",
+    "9350"
+  ],
+  "persistent_reviewed_miss_ids": [
+    "6040",
+    "6486",
+    "12052",
+    "9350"
+  ],
+  "limitations": [
+    "not held-out evidence",
+    "no thresholds fitted",
+    "binary verdicts are not probabilities; no calibration or continuous-score metrics",
+    "source grouping remains a shared-context proxy",
+    "original labels retained, including disputed cases"
+  ]
+}

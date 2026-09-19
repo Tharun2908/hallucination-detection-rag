@@ -13,9 +13,13 @@ excluded from the submitted thesis results. **No final test results are availabl
 - [Binary diagnostic findings](binary_diagnostic_v1_20260919.md) and
   [operator-supplied verdicts](binary_diagnostic_v1_20260919.json).
 
-Both probability pilots and both synthetic diagnostics are complete. The binary TRAIN token audit passed and
-[bounded binary TRAIN scoring](../../../post_thesis/llm_judge/BINARY_PILOT.md) is ready;
-no binary TRAIN verdicts have been collected. Raw answer/context text, request caches and execution
+- [Binary TRAIN pilot findings](ragtruth_binary_pilot_20260919.md),
+  [operator-supplied verdicts](ragtruth_binary_pilot_20260919.csv) and
+  [metrics/provenance](ragtruth_binary_pilot_20260919.json).
+- [Focused binary error review](ragtruth_binary_error_review_20260919.md).
+
+Probability pilots, synthetic diagnostics, the binary TRAIN pilot and the focused
+error review are complete. All remain adaptively inspected development results. Raw answer/context text, request caches and execution
 journals remain in ignored private artifact directories.
 
 Future run directories must use unique run IDs. Include protocol/configuration,
