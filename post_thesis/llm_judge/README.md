@@ -3,14 +3,16 @@
 > The experiments below were conducted after thesis submission and are not part
 > of the submitted thesis results.
 
-**Status: the first 50-example TRAIN development pilot is complete; no final
+**Status: paired v1/v2 50-example TRAIN development pilots are complete; no final
 test-set judge scores have been collected.** The
 [synthetic observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md)
 record a repeatable absence-claim failure as well as successful cache reuse.
 The [v1 TRAIN pilot report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md)
 records valid scores but a compressed probability range and missed errors.
-Next: the separately budgeted [development-v2 scoring run](PROMPT_V2.md), after
-a successful 50-input token audit, keeping the same inputs, model and decoding configuration. Original labels and v1 artifacts remain intact.
+The [paired comparison](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md)
+shows improved development ranking but persistent missed errors. Next is a
+[bounded synthetic diagnostic](DIAGNOSTIC.md), with v2 unchanged. Original labels
+and both pilot runs remain intact; no final prompt freeze has been declared.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
@@ -62,11 +64,12 @@ Use IDs, hashes, configuration, and aggregate metrics for public artifacts.
 8. Publish a separately labeled post-thesis report and release.
 
 Model comparison and paid execution follow the protocol stages. Real generation
-commands are the bounded synthetic smoke test and the fixed 50-example TRAIN pilot.
+commands are the bounded synthetic smoke test, fixed 50-example TRAIN pilots
+and separately bounded ten-example synthetic diagnostic.
 `prepare_pilot.py` creates a TRAIN manifest without model calls; `audit_pilot.py`
 checks formatted lengths via tokenization without generation. The actual cluster
 length audit passed; `run_pilot.py` enforces the frozen inference limits across
-resumes. v1 scoring and initial development analysis are complete. v2 token auditing is complete; `--pilot-version v2` selects its separate
+resumes. v1 scoring and initial development analysis are complete. v2 scoring and paired development analysis are complete; `--pilot-version v2` selects its separate
 committed scoring plan, run directory and cumulative budget. Omitting this flag
 still selects v1.
 
@@ -130,7 +133,7 @@ normalize provider refusals/truncation into `BackendResponse.outcome`; and retur
 the reported model, response ID and token usage where available. Unknown model
 and usage stay `None`. Reject unsupported settings explicitly. Do not silently
 truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration, the v1 token audit and the bounded 50-example TRAIN
-scoring run have completed. The v2 token audit also passed; its separate scoring run is ready.
+scoring run have completed. The v2 scoring run also completed; the next synthetic diagnostic is tested offline only.
 
 `await judge_once(item, config=config, backend=backend)` returns an immutable
 `JudgeResult`. Its request carries requested-model and prompt provenance; its
@@ -245,7 +248,7 @@ GPU-time windows, with an optional declared rental-rate estimate. These windows 
 or mistaken for a full rental invoice; see [SERVING.md](SERVING.md). The benchmark
 manifest and cluster token audit are complete; the first pilot inference budget
 is committed in `configs/ragtruth_pilot_50_v1.json` and that run is complete. A separate
-v2 scoring plan is committed in `configs/ragtruth_pilot_50_v2.json`; execution is pending. Either a hosted API or
+v2 scoring plan is committed in `configs/ragtruth_pilot_50_v2.json` and that run is complete. Either a hosted API or
 self-hosted open-weight backend can implement the existing interface. GPU
 availability does not change the evaluation protocol or thesis boundary.
 

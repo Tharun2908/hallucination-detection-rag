@@ -1,0 +1,19 @@
+{
+  "study_stage": "post_thesis",
+  "run_id": "qwen3-v2-synthetic-diagnostic-v1",
+  "case_version": "synthetic-attributes-numbers-v1",
+  "cases_sha256": "92e8287dfd4559a8722c47d0047f122fb65036d319efd4d669651973dab9aff2",
+  "prompt_version": "faithfulness-development-v2",
+  "prompt_sha256": "7771610009b40b5cce476fa4abda9ecb6bd025ecf71d635d7d3e7feb3c70135a",
+  "profile_sha256": "634eb8385c47ba3495c7568029520d1e9471dcd0b190c7931a9c87d614b9f9d5",
+  "examples": 10,
+  "concurrency": 1,
+  "max_attempts_per_input": 1,
+  "max_input_tokens_per_example": 4096,
+  "max_output_tokens_per_example": 128,
+  "request_timeout_seconds": 60,
+  "client_budget_seconds": 300,
+  "generation_invocations": 1,
+  "repeat_policy": "cache_inspection_only_after_first_invocation",
+  "scope": "synthetic_development_not_benchmark_evaluation"
+}

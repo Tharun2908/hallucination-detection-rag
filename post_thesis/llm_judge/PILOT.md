@@ -8,8 +8,8 @@ None of these steps reads RAGTruth TEST or HaluBench.
 **Status:** the first v1 run is complete; see the
 [pilot findings](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md).
 Preserve its prompt, preparation manifest, audit and execution records. The
-[next v2 step](PROMPT_V2.md) uses those same selected inputs in a separately
-budgeted scoring run after its completed token audit. Do not recreate historical artifacts from a newer code revision; the
+[v2 step](PROMPT_V2.md) completed its separately budgeted scoring run on those
+same inputs; see the [paired findings](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md). Do not recreate historical artifacts from a newer code revision; the
 commands below document their original procedure.
 
 ## Recorded selection rule

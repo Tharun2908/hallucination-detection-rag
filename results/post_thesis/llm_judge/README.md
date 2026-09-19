@@ -6,10 +6,11 @@ excluded from the submitted thesis results. **No final test results are availabl
 - [Synthetic H200 smoke findings](synthetic_smoke_20260919.md).
 - [First 50-example TRAIN pilot report](ragtruth_pilot_v1_20260919.md) and
   [operator-supplied predictions](ragtruth_pilot_v1_20260919.csv).
+- [Paired v1/v2 TRAIN development report](ragtruth_pilot_v1_v2_20260919.md) and
+  [paired predictions](ragtruth_pilot_v1_v2_20260919.csv).
 
-The first pilot informed a separate development prompt v2. Its
-[token audit passed](../../../post_thesis/llm_judge/PROMPT_V2.md), with zero
-generation calls; a bounded scoring plan is ready, but v2 scores remain pending. Raw answer/context text, request caches and execution
+Both pilots are complete. The next [synthetic diagnostic](../../../post_thesis/llm_judge/DIAGNOSTIC.md)
+is prepared but has no GPU results yet. Raw answer/context text, request caches and execution
 journals remain in ignored private artifact directories.
 
 Future run directories must use unique run IDs. Include protocol/configuration,

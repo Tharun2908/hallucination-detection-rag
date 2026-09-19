@@ -8,9 +8,10 @@ candidate. The operator completed two six-example H200 synthetic runs and a
 cache reuse check; a reproducible absence-claim failure remains. TRAIN pilot
 manifest is prepared, the cluster token audit passed, and the first bounded
 50-example TRAIN scoring run is complete. Inspected development outcomes
-motivate a separate v2 prompt revision. Its 50-input token audit passed, and a
-separate bounded scoring plan is implemented; v2 scores and the final benchmark
-configuration remain pending.
+motivated a separate v2 prompt revision. Its token audit and 50-example scoring
+run are complete. Paired development results improve ranking but leave clear
+errors; the next step is a separately bounded [synthetic diagnostic](DIAGNOSTIC.md).
+The final benchmark configuration remains pending.
 See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
 Study design unchanged.
 
@@ -249,7 +250,8 @@ required before claiming strict source-disjoint threshold development. The
 [first TRAIN pilot report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md)
 preserves v1 findings. See [PILOT.md](PILOT.md) for its immutable artifact hashes
 and committed 50-example/one-attempt/600-second cumulative client budget.
-[Prompt v2](PROMPT_V2.md) has passed its separate token audit and has a committed
-50-example/one-attempt/600-second scoring plan. v1 allowances are not transferred.
+[Prompt v2](PROMPT_V2.md) completed its separate 50-example/one-attempt/600-second
+scoring run; see the [paired report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md).
+Unused pilot allowances are not transferred to the synthetic diagnostic.
 The token audit's separate 50-request/300-second invocation limits are not
 the scoring budget.

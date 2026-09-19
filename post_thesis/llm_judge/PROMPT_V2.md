@@ -14,7 +14,7 @@ and its 50 predictions are preserved unchanged.
 | Source | `DEVELOPMENT_PROMPT_V2` in `prompts.py` |
 | Preparation manifest | Existing 50 examples; SHA256 `ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25` |
 | Model/decoding/schema | Same pinned Qwen3-32B H200 profile and one-field JSON schema |
-| v2 scoring | Separate pinned execution plan implemented; cluster scoring pending |
+| v2 scoring | Complete on commit `662af1dd2e94059f6cdb6f5eacf14c84577fe293`; 50/50 valid scores |
 
 The v1 pilot produced valid responses but scores only in `[0, 0.2]`. Manual
 inspection of its five zero-scored positives found clear missed additions,
@@ -112,7 +112,7 @@ The revised prompt adds 275 input tokens per example relative to v1: 13,750
 additional input tokens over 50 requests. This is a length observation, not
 inference latency or evidence of improved verification.
 
-## Next cluster action: separately bounded v2 scoring
+## Completed separately bounded v2 scoring — historical procedure
 
 [configs/ragtruth_pilot_50_v2.json](configs/ragtruth_pilot_50_v2.json) pins the
 existing preparation manifest, v2 prompt, v2 audit and unchanged model profile.
@@ -159,6 +159,8 @@ python -m post_thesis.llm_judge.run_pilot --pilot-version v2 --max-new-attempts 
 Retain the full v2 run directory and all historical v1 artifacts. Stop the server
 when finished so its resource record is finalized. Client execution time excludes
 server startup and idle time, and overlapping resource windows must not be added.
-Paste `pilot_summary.json`'s console summary for coverage, attempts, token usage
-and client time before analyzing the paired development predictions. No v2 quality
-claim can be made from the token audit or mocked tests.
+The operator supplied the summary and paired predictions; the
+[paired report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md)
+records development findings. Do not rerun this historical scoring procedure
+from a newer commit. Next is the [synthetic diagnostic](DIAGNOSTIC.md), preserving
+v2 and both pilot runs.
