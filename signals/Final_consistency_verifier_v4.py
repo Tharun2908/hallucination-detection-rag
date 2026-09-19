@@ -29,6 +29,13 @@ Output : /workspace/consistency_results_train.json
          /workspace/consistency_run.log  (nohup log)
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import os
 import random
@@ -61,7 +68,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 DTYPE  = torch.float16 if torch.cuda.is_available() else torch.float32
 
 # Output directory — persistent storage, survives pod restarts
-OUTPUT_DIR = "/workspace"
+OUTPUT_DIR = workspace_path('')
 
 # ─── Debug mode — set DEBUG=True for quick 10-example test ───────────────────
 DEBUG      = False   # ← set to True for quick test, False for full run
@@ -351,7 +358,7 @@ print(f"Test AUROC                  : {test_metrics['auroc']}")
 print(f"Test Accuracy               : {test_metrics['accuracy']}")
 print(f"Confusion matrix            : {test_metrics['confusion_matrix']}")
 print(f"{'='*50}")
-print("All done! Files saved to /workspace:")
+print('All done! Files saved to ' + workspace_path('') + ':')
 print("  consistency_results_train.json")
 print("  consistency_results_test.json")
 print("  consistency_metrics.json")

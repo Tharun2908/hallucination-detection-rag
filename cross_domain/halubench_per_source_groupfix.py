@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import cached_input, workspace_path
+
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -14,7 +21,7 @@ from sklearn.metrics import (
 
 
 CURVE_DIR = Path(
-    "/workspace/halubench_curve_groupfix"
+    workspace_path('halubench_curve_groupfix')
 )
 
 PRED_DIR = (
@@ -29,12 +36,12 @@ RESULTS_PATH = (
 
 # Full-14k cached MiniCheck scores.
 MC_PATH = Path(
-    "/workspace/halubench_per_example_scores.json"
+    cached_input('halubench_per_example_scores.json')
 )
 
 # Canonical corrected 8k split.
 SPLIT_PATH = Path(
-    "/workspace/halubench_group_split.json"
+    cached_input('halubench_group_split.json')
 )
 
 OUT_JSON = (

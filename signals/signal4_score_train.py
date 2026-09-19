@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import numpy as np
 import torch
@@ -6,7 +13,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from datasets import load_dataset
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-MODEL_DIR = "/workspace/signal4_model"
+MODEL_DIR = workspace_path('signal4_model')
 BATCH_SIZE = 16
 MAX_LENGTH = 512
 
@@ -96,7 +103,7 @@ for i, idx in enumerate(all_idxs):
         "task_type":                  ex["task_type"],
     })
 
-with open("/workspace/signal4_results_train.json", "w") as f:
+with open(workspace_path('signal4_results_train.json'), "w") as f:
     json.dump(results, f, indent=2)
 
-print(f"\nSaved {len(results)} examples to /workspace/signal4_results_train.json")
+print(f"\nSaved {len(results)} examples to {workspace_path('signal4_results_train.json')}")

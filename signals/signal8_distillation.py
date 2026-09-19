@@ -12,6 +12,13 @@ Key difference from Signal 4:
 - Signal 8: MSE on soft MiniCheck-7B probability outputs
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import os
 import random
@@ -32,7 +39,7 @@ if torch.cuda.is_available():
     torch.cuda.manual_seed_all(42)
 
 MODEL_NAME    = "cross-encoder/nli-deberta-v3-base"
-OUTPUT_DIR    = "/workspace/signal8_model"
+OUTPUT_DIR    = workspace_path('signal8_model')
 MAX_LENGTH    = 512
 BATCH_SIZE    = 16
 LEARNING_RATE = 2e-5
@@ -46,9 +53,9 @@ print(f"Device: {DEVICE}", flush=True)
 
 # --- Load teacher scores ---
 print("Loading teacher scores...", flush=True)
-with open('/workspace/minicheck_results_train_7b.json') as f:
+with open(workspace_path('minicheck_results_train_7b.json')) as f:
     teacher_train = {r['idx']: r for r in json.load(f)}
-with open('/workspace/minicheck_results_test_7b.json') as f:
+with open(workspace_path('minicheck_results_test_7b.json')) as f:
     teacher_test = {r['idx']: r for r in json.load(f)}
 
 print(f"Teacher train: {len(teacher_train)} | test: {len(teacher_test)}", flush=True)
@@ -256,7 +263,7 @@ for i, ex in enumerate(train_examples):
         "model":                      ex["model"],
         "task_type":                  ex["task_type"],
     })
-with open("/workspace/signal8_results_train.json", "w") as f:
+with open(workspace_path('signal8_results_train.json'), "w") as f:
     json.dump(train_results, f, indent=2)
 
 test_results = []
@@ -269,7 +276,7 @@ for i in range(len(test_labels)):
         "model":                      test_examples[i]["model"],
         "task_type":                  test_examples[i]["task_type"],
     })
-with open("/workspace/signal8_results_test.json", "w") as f:
+with open(workspace_path('signal8_results_test.json'), "w") as f:
     json.dump(test_results, f, indent=2)
 
 metrics = {
@@ -282,11 +289,11 @@ metrics = {
     "test_auroc":      round(roc_auc_score(test_labels, test_scores), 4),
     "confusion_matrix": cm.tolist()
 }
-with open("/workspace/signal8_metrics.json", "w") as f:
+with open(workspace_path('signal8_metrics.json'), "w") as f:
     json.dump(metrics, f, indent=2)
 
 print("\nSaved:")
-print("  /workspace/signal8_results_train.json")
-print("  /workspace/signal8_results_test.json")
-print("  /workspace/signal8_metrics.json")
-print("  /workspace/signal8_model/")
+print('  ' + workspace_path('signal8_results_train.json') + '')
+print('  ' + workspace_path('signal8_results_test.json') + '')
+print('  ' + workspace_path('signal8_metrics.json') + '')
+print('  ' + workspace_path('signal8_model/') + '')

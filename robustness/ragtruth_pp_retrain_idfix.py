@@ -42,6 +42,13 @@ Outputs:
         clean_test/  results.json fold_predictions.json fold_splits.json summary.txt
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import argparse
 import gc
 import json
@@ -62,8 +69,8 @@ from sklearn.model_selection import StratifiedKFold
 # =============================================================================
 # Config
 # =============================================================================
-S4_MODEL_DIR = "/workspace/signal4_model"
-OUT_DIR = Path("/workspace/ragtruth_pp_retrain_idfix")
+S4_MODEL_DIR = workspace_path('signal4_model')
+OUT_DIR = Path(workspace_path('ragtruth_pp_retrain_idfix'))
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 N_FOLDS = 5

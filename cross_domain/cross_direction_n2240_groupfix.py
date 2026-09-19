@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import cached_input, repo_path, workspace_path
+
 import gc
 import json
 import os
@@ -32,7 +39,7 @@ from transformers import (
 # ---------------------------------------------------------------------
 # Reuse the exact existing sampling/data-loading implementations.
 # ---------------------------------------------------------------------
-sys.path.insert(0, "/workspace/repo/cross_domain")
+sys.path.insert(0, repo_path('cross_domain'))
 
 import halubench_curve_groupfix as hbfix
 
@@ -41,10 +48,10 @@ import halubench_curve_groupfix as hbfix
 # CONFIG
 # =====================================================================
 
-BASE_MODEL_DIR = "/workspace/nli_deberta_v3_base_original"
-HB_SPLIT_PATH = "/workspace/halubench_group_split.json"
+BASE_MODEL_DIR = workspace_path('nli_deberta_v3_base_original')
+HB_SPLIT_PATH = cached_input('halubench_group_split.json')
 
-OUT_DIR = Path("/workspace/cross_direction_n2240_groupfix")
+OUT_DIR = Path(workspace_path('cross_direction_n2240_groupfix'))
 PRED_DIR = OUT_DIR / "predictions"
 SPLIT_DIR = OUT_DIR / "splits"
 
@@ -1317,7 +1324,7 @@ def main():
     comparator = None
 
     existing = Path(
-        "/workspace/halubench_curve_groupfix/results.json"
+        workspace_path('halubench_curve_groupfix/results.json')
     )
 
     if existing.exists():

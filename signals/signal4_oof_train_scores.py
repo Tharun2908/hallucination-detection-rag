@@ -15,6 +15,13 @@ Outputs:
 - /workspace/signal4_oof_models/fold_*/
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import os
 import random
@@ -46,9 +53,9 @@ from transformers import (
 
 MODEL_NAME = "cross-encoder/nli-deberta-v3-base"
 
-OUTPUT_PATH = "/workspace/signal4_results_train_oof.json"
-METRICS_PATH = "/workspace/signal4_oof_metrics.json"
-OOF_MODEL_DIR = "/workspace/signal4_oof_models"
+OUTPUT_PATH = workspace_path('signal4_results_train_oof.json')
+METRICS_PATH = workspace_path('signal4_oof_metrics.json')
+OOF_MODEL_DIR = workspace_path('signal4_oof_models')
 
 MAX_LENGTH = 512
 BATCH_SIZE = 16

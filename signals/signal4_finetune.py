@@ -11,6 +11,13 @@ Output: /workspace/signal4_model/
         /workspace/signal4_metrics.json
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import os
 import random
@@ -32,7 +39,7 @@ if torch.cuda.is_available():
 
 # --- Config ---
 MODEL_NAME     = "cross-encoder/nli-deberta-v3-base"
-OUTPUT_DIR     = "/workspace/signal4_model"
+OUTPUT_DIR     = workspace_path('signal4_model')
 MAX_LENGTH     = 512
 BATCH_SIZE     = 16
 LEARNING_RATE  = 2e-5
@@ -270,7 +277,7 @@ for i in range(len(test_idxs)):
         "task_type":                  test_task_types[i],
     })
 
-with open("/workspace/signal4_results_test.json", "w") as f:
+with open(workspace_path('signal4_results_test.json'), "w") as f:
     json.dump(test_results, f, indent=2)
 
 metrics_output = {
@@ -280,10 +287,10 @@ metrics_output = {
     "test_metrics":   test_metrics,
     "confusion_matrix": cm.tolist(),
 }
-with open("/workspace/signal4_metrics.json", "w") as f:
+with open(workspace_path('signal4_metrics.json'), "w") as f:
     json.dump(metrics_output, f, indent=2)
 
 print("\nSaved:")
-print("  /workspace/signal4_results_test.json")
-print("  /workspace/signal4_metrics.json")
-print("  /workspace/signal4_model/")
+print('  ' + workspace_path('signal4_results_test.json') + '')
+print('  ' + workspace_path('signal4_metrics.json') + '')
+print('  ' + workspace_path('signal4_model/') + '')

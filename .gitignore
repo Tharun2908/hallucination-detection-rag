@@ -69,3 +69,7 @@ clinical_extension/merlin_v1_labeling_sheet.csv
 clinical_extension/merlin_v1_raw_scores.json
 clinical_extension/merlin_v1_items.jsonl
 clinical_extension/merlin_v1_analysis/
+
+# Local reproduction outputs
+.artifacts/
+.venv-analysis/

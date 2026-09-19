@@ -41,6 +41,13 @@ Optional min aggregation:
     python signal5_bertscore_v2_precision.py --aggregation min --overwrite
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import argparse
 import json
 import os
@@ -499,7 +506,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output_dir",
         type=str,
-        default="/workspace",
+        default=workspace_path(''),
     )
 
     parser.add_argument(

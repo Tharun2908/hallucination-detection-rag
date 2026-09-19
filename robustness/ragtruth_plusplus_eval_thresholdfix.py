@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import numpy as np
 import pandas as pd
@@ -11,7 +18,7 @@ from sklearn.metrics import (
     average_precision_score,
 )
 
-OUT = "/workspace/ragtruth_plusplus_results_thresholdfix.json"
+OUT = workspace_path('ragtruth_plusplus_results_thresholdfix.json')
 
 S2_MIN, S2_MAX = -11.430, 10.641
 
@@ -195,19 +202,19 @@ def load_score_map(path):
 
 
 s1 = load_score_map(
-    "/workspace/nli_results_test_v2.json"
+    workspace_path('nli_results_test_v2.json')
 )
 
 s2 = load_score_map(
-    "/workspace/relevance_results_test_v2.json"
+    workspace_path('relevance_results_test_v2.json')
 )
 
 s4 = load_score_map(
-    "/workspace/signal4_results_test.json"
+    workspace_path('signal4_results_test.json')
 )
 
 mc = load_score_map(
-    "/workspace/minicheck_results_test_7b.json"
+    workspace_path('minicheck_results_test_7b.json')
 )
 
 

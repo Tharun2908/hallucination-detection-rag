@@ -56,6 +56,13 @@ Usage
     python /workspace/halubench_curve_groupfix.py
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import cached_input, workspace_path
+
 import argparse
 import gc
 import json
@@ -85,8 +92,8 @@ from transformers import (
 # =============================================================================
 # Config
 # =============================================================================
-S4_MODEL_DIR = "/workspace/signal4_model"
-OUT_DIR = Path("/workspace/halubench_curve_groupfix")
+S4_MODEL_DIR = workspace_path('signal4_model')
+OUT_DIR = Path(workspace_path('halubench_curve_groupfix'))
 PRED_DIR = OUT_DIR / "per_run_predictions"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 PRED_DIR.mkdir(parents=True, exist_ok=True)
@@ -754,7 +761,7 @@ def main():
     # --------------------------------------------------------
 
     canonical_split_path = (
-        "/workspace/halubench_group_split.json"
+        cached_input('halubench_group_split.json')
     )
 
     with open(

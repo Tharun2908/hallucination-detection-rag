@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import cached_input, workspace_path
+
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -24,19 +31,19 @@ COEF_S4 = 3.1555282346796876
 INTERCEPT = -1.4168645142264538
 
 S2S4_PATH = Path(
-    "/workspace/halubench_final_s2s4_scores.json"
+    cached_input('halubench_final_s2s4_scores.json')
 )
 
 MC_PATH = Path(
-    "/workspace/halubench_per_example_scores.json"
+    cached_input('halubench_per_example_scores.json')
 )
 
 SPLIT_PATH = Path(
-    "/workspace/halubench_group_split.json"
+    cached_input('halubench_group_split.json')
 )
 
 OUT = Path(
-    "/workspace/bootstrap_halubench_groupfix_thresholdfix_results.json"
+    workspace_path('bootstrap_halubench_groupfix_thresholdfix_results.json')
 )
 
 

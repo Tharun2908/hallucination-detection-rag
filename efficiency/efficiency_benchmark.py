@@ -40,6 +40,13 @@ Outputs:
     /workspace/efficiency/combined.json
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import argparse
 import gc
 import json
@@ -62,10 +69,10 @@ BATCH_THROUGHPUT = 32     # batch size for throughput measurement
 SEED = 42
 
 S2_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-S4_MODEL_DIR = "/workspace/signal4_model"
+S4_MODEL_DIR = workspace_path('signal4_model')
 MINICHECK_MODEL = "bespokelabs/Bespoke-MiniCheck-7B"
 
-OUT_DIR = Path("/workspace/efficiency")
+OUT_DIR = Path(workspace_path('efficiency'))
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -124,7 +131,7 @@ def disk_size_mb(path_or_repo):
     folder = "models--" + path_or_repo.replace("/", "--")
     candidates = [
         os.path.expanduser("~/.cache/huggingface/hub"),
-        "/workspace",  # symlink targets we moved here
+        workspace_path(''),  # symlink targets we moved here
     ]
     for c in candidates:
         full = os.path.join(c, folder)

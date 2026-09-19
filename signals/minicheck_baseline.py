@@ -13,6 +13,13 @@ Output: /workspace/minicheck_results_test.json
         /workspace/minicheck_metrics_7b.json
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import os
 import numpy as np
@@ -20,7 +27,7 @@ from datasets import load_dataset
 from minicheck.minicheck import MiniCheck
 from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score, confusion_matrix
 
-OUTPUT_DIR  = "/workspace"
+OUTPUT_DIR  = workspace_path('')
 MODEL_NAME  = "Bespoke-MiniCheck-7B"
 BATCH_SIZE  = 16
 CHECKPOINT_EVERY = 50
@@ -166,6 +173,6 @@ if __name__ == "__main__":
         }, f, indent=2)
 
     print("\nSaved:")
-    print("  /workspace/minicheck_results_train.json")
-    print("  /workspace/minicheck_results_test.json")
-    print("  /workspace/minicheck_metrics_7b.json")
+    print('  ' + workspace_path('minicheck_results_train_7b.json') + '')
+    print('  ' + workspace_path('minicheck_results_test_7b.json') + '')
+    print('  ' + workspace_path('minicheck_metrics_7b.json') + '')

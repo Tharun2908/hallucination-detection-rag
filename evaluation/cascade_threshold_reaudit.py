@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 from pathlib import Path
 
@@ -25,7 +32,7 @@ ESCALATION_RATES = [
 ]
 
 OUT = Path(
-    "/workspace/cascade_threshold_reaudit_results.json"
+    workspace_path('cascade_threshold_reaudit_results.json')
 )
 
 
@@ -125,35 +132,35 @@ def metrics(y, scores, preds):
 rel_train = {
     r["idx"]: r
     for r in load(
-        "/workspace/relevance_results_train_v2.json"
+        workspace_path('relevance_results_train_v2.json')
     )
 }
 
 rel_test = {
     r["idx"]: r
     for r in load(
-        "/workspace/relevance_results_test_v2.json"
+        workspace_path('relevance_results_test_v2.json')
     )
 }
 
 s4_train = {
     r["idx"]: r
     for r in load(
-        "/workspace/signal4_results_train_oof.json"
+        workspace_path('signal4_results_train_oof.json')
     )
 }
 
 s4_test = {
     r["idx"]: r
     for r in load(
-        "/workspace/signal4_results_test.json"
+        workspace_path('signal4_results_test.json')
     )
 }
 
 mc_test = {
     r["idx"]: r
     for r in load(
-        "/workspace/minicheck_results_test_7b.json"
+        workspace_path('minicheck_results_test_7b.json')
     )
 }
 

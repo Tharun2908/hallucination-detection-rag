@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 from pathlib import Path
 
@@ -22,7 +29,7 @@ S4_THRESHOLD = 0.55
 FUSION_THRESHOLD = 0.40
 
 OUT = Path(
-    "/workspace/bootstrap_ragtruth_main_results.json"
+    workspace_path('bootstrap_ragtruth_main_results.json')
 )
 
 
@@ -148,27 +155,27 @@ def metrics(
 # ============================================================
 
 s1_train = load_map(
-    "/workspace/nli_results_train_v2.json"
+    workspace_path('nli_results_train_v2.json')
 )
 
 s2_train = load_map(
-    "/workspace/relevance_results_train_v2.json"
+    workspace_path('relevance_results_train_v2.json')
 )
 
 s4_train = load_map(
-    "/workspace/signal4_results_train_oof.json"
+    workspace_path('signal4_results_train_oof.json')
 )
 
 s1_test = load_map(
-    "/workspace/nli_results_test_v2.json"
+    workspace_path('nli_results_test_v2.json')
 )
 
 s2_test = load_map(
-    "/workspace/relevance_results_test_v2.json"
+    workspace_path('relevance_results_test_v2.json')
 )
 
 s4_test = load_map(
-    "/workspace/signal4_results_test.json"
+    workspace_path('signal4_results_test.json')
 )
 
 

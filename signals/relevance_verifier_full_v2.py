@@ -39,6 +39,13 @@ Output : /workspace/relevance_results_train_v2.json
          /workspace/relevance_metrics_v2.json
 """
 
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import os
 import re
@@ -63,7 +70,7 @@ if torch.cuda.is_available():
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 MODEL_NAME = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-OUTPUT_DIR = "/workspace"
+OUTPUT_DIR = workspace_path('')
 DEBUG = False
 DEBUG_SIZE = 10
 CHECKPOINT_EVERY = 50
@@ -403,7 +410,7 @@ print(f"Test AUROC                  : {test_metrics['auroc']}")
 print(f"Test Accuracy               : {test_metrics['accuracy']}")
 print(f"Confusion matrix            : {test_metrics['confusion_matrix']}")
 print(f"{'='*50}")
-print("All done! Files saved to /workspace:")
+print('All done! Files saved to ' + workspace_path('') + ':')
 print("  relevance_results_train_v2.json")
 print("  relevance_results_test_v2.json")
 print("  relevance_metrics_v2.json")

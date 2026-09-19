@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import numpy as np
 from datasets import load_dataset
@@ -47,6 +54,6 @@ if __name__ == '__main__':
             'mc_hall': round(float(mc_scores[i]), 4),
         })
 
-    with open('/workspace/halubench_per_example_scores.json', 'w') as f:
+    with open(workspace_path('halubench_per_example_scores.json'), 'w') as f:
         json.dump(results, f, indent=2)
     print(f"Saved {len(results)} examples.", flush=True)

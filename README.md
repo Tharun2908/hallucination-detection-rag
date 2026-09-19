@@ -303,10 +303,15 @@ HaluBench evaluation uses the saved group-disjoint split under `results/cross_do
 
 The main thesis experiments were run on a Kubernetes GPU pod with a **Tesla V100S-PCIE-32GB** and a persistent volume mounted at `/workspace`.
 
-Some thesis-era experiment scripts retain `/workspace` as the cluster-specific input/output location; when running outside that environment, adjust those paths to local equivalents.
+Active experiment scripts now default to the ignored `.artifacts/` directory in the checkout.
+Set `RAG_WORKSPACE` to use another directory (including the original `/workspace`).
+See [the reproduction guide](docs/REPRODUCING.md) for a GPU-free quickstart, input
+checks, and the score/checkpoint dependencies needed for full experiments.
 
 ```bash
-pip install -r requirements.txt --break-system-packages
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 python -c "import nltk; nltk.download('punkt_tab')"
 ```
 
@@ -323,6 +328,7 @@ Additional cluster and cache details are documented in [`docs/INFRASTRUCTURE.md`
 
 ## Reproducing the submitted-thesis results
 
+Start with the [CPU reproduction quickstart and prerequisite map](docs/REPRODUCING.md).
 The commands below highlight the **final/corrected** entry points. Some older scripts remain in the repository for provenance; see the canonical-artifact note below before using their outputs as thesis numbers.
 
 ### Standalone signals and threshold audit
@@ -382,7 +388,9 @@ python evaluation/cascade_threshold_reaudit.py
 python evaluation/disagreement_threshold_reaudit.py
 python evaluation/bootstrap_ragtruth_main.py
 python cross_domain/bootstrap_halubench_groupfix_thresholdfix.py
-python efficiency/efficiency_benchmark.py
+python efficiency/efficiency_benchmark.py --phase lightweight
+python efficiency/efficiency_benchmark.py --phase minicheck
+python efficiency/efficiency_benchmark.py --phase combine
 ```
 
 ---

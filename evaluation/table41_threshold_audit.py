@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import numpy as np
 
@@ -189,10 +196,10 @@ results = {}
 # ============================================================
 
 tr = load(
-    "/workspace/nli_results_train_v2.json"
+    workspace_path('nli_results_train_v2.json')
 )
 te = load(
-    "/workspace/nli_results_test_v2.json"
+    workspace_path('nli_results_test_v2.json')
 )
 
 tr_support = np.array(
@@ -239,10 +246,10 @@ results["S1"] = report(
 # ============================================================
 
 tr = load(
-    "/workspace/relevance_results_train_v2.json"
+    workspace_path('relevance_results_train_v2.json')
 )
 te = load(
-    "/workspace/relevance_results_test_v2.json"
+    workspace_path('relevance_results_test_v2.json')
 )
 
 tr_raw = np.array(
@@ -314,10 +321,10 @@ print(
 # ============================================================
 
 tr = load(
-    "/workspace/signal4_results_train_oof.json"
+    workspace_path('signal4_results_train_oof.json')
 )
 te = load(
-    "/workspace/signal4_results_test.json"
+    workspace_path('signal4_results_test.json')
 )
 
 tr_score = np.array(
@@ -361,10 +368,10 @@ results["S4"] = report(
 # ============================================================
 
 tr = load(
-    "/workspace/signal5_v2_precision_results_train_mean.json"
+    workspace_path('signal5_v2_precision_results_train_mean.json')
 )
 te = load(
-    "/workspace/signal5_v2_precision_results_test_mean.json"
+    workspace_path('signal5_v2_precision_results_test_mean.json')
 )
 
 tr_support = np.array(
@@ -411,10 +418,10 @@ results["S5"] = report(
 # ============================================================
 
 tr = load(
-    "/workspace/signal8_results_train.json"
+    workspace_path('signal8_results_train.json')
 )
 te = load(
-    "/workspace/signal8_results_test.json"
+    workspace_path('signal8_results_test.json')
 )
 
 tr_score = np.array(
@@ -525,15 +532,15 @@ def audit_minicheck(
 audit_minicheck(
     "MC_roberta",
     "MiniCheck RoBERTa",
-    "/workspace/minicheck_results_train_roberta.json",
-    "/workspace/minicheck_results_test_roberta.json",
+    workspace_path('minicheck_results_train_roberta.json'),
+    workspace_path('minicheck_results_test_roberta.json'),
 )
 
 audit_minicheck(
     "MC_7B",
     "MiniCheck-7B",
-    "/workspace/minicheck_results_train_7b.json",
-    "/workspace/minicheck_results_test_7b.json",
+    workspace_path('minicheck_results_train_7b.json'),
+    workspace_path('minicheck_results_test_7b.json'),
 )
 
 
@@ -554,7 +561,7 @@ out = {
 }
 
 with open(
-    "/workspace/table41_threshold_audit_results.json",
+    workspace_path('table41_threshold_audit_results.json'),
     "w",
 ) as f:
     json.dump(
@@ -594,5 +601,5 @@ print(
 )
 
 print(
-    "\nSaved: /workspace/table41_threshold_audit_results.json"
+    '\nSaved: ' + workspace_path('table41_threshold_audit_results.json') + ''
 )

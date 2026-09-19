@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import numpy as np
 
@@ -16,12 +23,12 @@ from sklearn.metrics import (
 # Paths
 # ============================================================
 
-REL_TRAIN = "/workspace/relevance_results_train_v2.json"
-REL_TEST  = "/workspace/relevance_results_test_v2.json"
-S4_TRAIN  = "/workspace/signal4_results_train_oof.json"
-S4_TEST   = "/workspace/signal4_results_test.json"
+REL_TRAIN = workspace_path('relevance_results_train_v2.json')
+REL_TEST  = workspace_path('relevance_results_test_v2.json')
+S4_TRAIN  = workspace_path('signal4_results_train_oof.json')
+S4_TEST   = workspace_path('signal4_results_test.json')
 
-OUT_PATH = "/workspace/fusion_decomposition_review_results.json"
+OUT_PATH = workspace_path('fusion_decomposition_review_results.json')
 
 S2_MIN = -11.430
 S2_MAX = 10.641

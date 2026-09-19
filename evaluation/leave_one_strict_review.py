@@ -1,3 +1,10 @@
+
+# Resolve imports from either a direct script or a module invocation.
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from research_paths import workspace_path
+
 import json
 import numpy as np
 
@@ -18,7 +25,7 @@ S2_MAX = 10.641
 SEED = 42
 N_FOLDS = 5
 
-OUT = "/workspace/leave_one_strict_review_results.json"
+OUT = workspace_path('leave_one_strict_review_results.json')
 
 
 def norm_s2(x):
@@ -157,27 +164,27 @@ def load_map(path):
 
 
 s1_train = load_map(
-    "/workspace/nli_results_train_v2.json"
+    workspace_path('nli_results_train_v2.json')
 )
 
 s2_train = load_map(
-    "/workspace/relevance_results_train_v2.json"
+    workspace_path('relevance_results_train_v2.json')
 )
 
 s4_train = load_map(
-    "/workspace/signal4_results_train_oof.json"
+    workspace_path('signal4_results_train_oof.json')
 )
 
 s1_test = load_map(
-    "/workspace/nli_results_test_v2.json"
+    workspace_path('nli_results_test_v2.json')
 )
 
 s2_test = load_map(
-    "/workspace/relevance_results_test_v2.json"
+    workspace_path('relevance_results_test_v2.json')
 )
 
 s4_test = load_map(
-    "/workspace/signal4_results_test.json"
+    workspace_path('signal4_results_test.json')
 )
 
 

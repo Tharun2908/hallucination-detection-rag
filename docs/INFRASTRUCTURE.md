@@ -1,3 +1,9 @@
+# Current local reproduction
+
+See [REPRODUCING.md](REPRODUCING.md) for the portable path configuration and CPU
+quickstart. Set `RAG_WORKSPACE=/workspace` to retain the historical cluster layout
+described below; otherwise active scripts write under `.artifacts/` in the checkout.
+
 # Infrastructure Notes
 
 This document records the environment, storage layout, and operational details needed to reproduce the experiments in this repository. It captures the specific traps encountered during the project so that someone reproducing this work has the actual fixes, not just a list of pinned versions.
