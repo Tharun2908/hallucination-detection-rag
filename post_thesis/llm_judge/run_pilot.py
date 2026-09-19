@@ -14,7 +14,7 @@ import uuid
 from .audit_pilot import AUDIT_VERSION
 from .judge import BackendError, PROTOCOL_ID, build_request
 from .prepare_pilot import DATASET, DATASET_REVISION, TRAIN_ROWS, TRAIN_SHA256, pilot_examples
-from .prompts import DEVELOPMENT_PROMPT, content_hash
+from .prompts import DEVELOPMENT_PROMPT, content_hash, get_prompt
 from .runner import RetryPolicy, run_directory, run_judge
 from .serve import code_revision, resource_totals
 from .storage import RunConflict, atomic_json, exclusive_run
@@ -25,14 +25,33 @@ HALT_CODES = ("audited_input_token_mismatch", "input_token_mismatch",
               "returned_model_mismatch", "output_token_limit_exceeded")
 
 
-def load_plan():
-    return json.loads(PLAN_PATH.read_text(encoding="utf-8"))
+PILOT_VERSIONS = ("v1", "v2")
+
+
+def load_plan(version="v1"):
+    if version not in PILOT_VERSIONS:
+        raise ValueError("unsupported pilot version")
+    path = PLAN_PATH.with_name(f"ragtruth_pilot_50_{version}.json")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def plan_prompt(plan):
+    """Bind each recorded plan to its own prompt, audit namespace and run ID."""
+    for version in PILOT_VERSIONS:
+        if plan["execution_plan_version"] == f"ragtruth_pilot_50_{version}":
+            prompt = get_prompt(f"faithfulness-development-{version}")
+            if (plan["run_id"] != f"qwen3-ragtruth-train-pilot-50-{version}"
+                    or plan["prompt_version"] != prompt.version
+                    or plan["prompt_sha256"] != prompt.sha256):
+                raise RunConflict("pilot version, run ID and prompt must agree")
+            return prompt
+    raise RunConflict("unsupported pilot execution plan")
 
 
 def validate_inputs(bundle, audited, plan, backend):
     """Fail closed before model calls or spending the execution allowance."""
+    selected_prompt = plan_prompt(plan)
     if (plan["study_stage"] != "post_thesis" or plan["protocol_id"] != PROTOCOL_ID
-            or plan["execution_plan_version"] != "ragtruth_pilot_50_v1"
             or plan["examples"] != 50 or plan["max_attempts_per_input"] != 1
             or plan["concurrency"] != 1 or plan["truncation"] != "none"
             or plan["request_timeout_seconds"] != 60
@@ -49,8 +68,9 @@ def validate_inputs(bundle, audited, plan, backend):
             or dataset["sha256"] != TRAIN_SHA256 or dataset["rows"] != TRAIN_ROWS
             or manifest["code_revision"] != plan["preparation_code_revision"]):
         raise RunConflict("unexpected TRAIN data provenance")
-    prompt = {"version": DEVELOPMENT_PROMPT.version, "sha256": DEVELOPMENT_PROMPT.sha256}
-    if (manifest["initial_prompt"] != prompt
+    prompt = {"version": selected_prompt.version, "sha256": selected_prompt.sha256}
+    initial_prompt = {"version": DEVELOPMENT_PROMPT.version, "sha256": DEVELOPMENT_PROMPT.sha256}
+    if (manifest["initial_prompt"] != initial_prompt
             or prompt != {"version": plan["prompt_version"], "sha256": plan["prompt_sha256"]}
             or content_hash(backend.profile) != plan["profile_sha256"]
             or backend.timeout_seconds != plan["request_timeout_seconds"]):
@@ -71,7 +91,7 @@ def validate_inputs(bundle, audited, plan, backend):
         raise RunConflict("token audit must cover exactly the selected 50 examples")
     expected = {}
     for example in examples:
-        request = build_request(example.item, config=backend.config)
+        request = build_request(example.item, config=backend.config, prompt=selected_prompt)
         row = state["counts"][example.sample_id]
         count = row["input_tokens"]
         if (row["status"] != "ok" or row["request_key"] != request.key
@@ -143,6 +163,7 @@ def validate_server(record, backend, revision):
 async def execute(bundle, audited, *, plan, backend, revision, artifact_root=None,
                   server_record=None, max_new_attempts=50, clock=time.monotonic):
     examples, counts = validate_inputs(bundle, audited, plan, backend)
+    selected_prompt = plan_prompt(plan)
     if type(max_new_attempts) is not int or not 0 <= max_new_attempts <= 50:
         raise ValueError("max_new_attempts must be in [0,50]; it cannot increase the total budget")
     directory = run_directory(plan["run_id"], artifact_root)
@@ -153,7 +174,7 @@ async def execute(bundle, audited, *, plan, backend, revision, artifact_root=Non
 
     async def run(cap):
         return await run_judge(examples, run_id=plan["run_id"], config=backend.config,
-                               backend=guarded, code_revision=revision,
+                               backend=guarded, code_revision=revision, prompt=selected_prompt,
                                dataset_revision=DATASET_REVISION, policy=RetryPolicy(max_attempts=1),
                                artifact_root=artifact_root, max_new_attempts=cap,
                                halt_on_error_codes=HALT_CODES)
@@ -247,14 +268,16 @@ async def execute(bundle, audited, *, plan, backend, revision, artifact_root=Non
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--pilot-version", choices=PILOT_VERSIONS, default="v1",
+                        help="Select a committed plan; v1 remains the historical default")
     parser.add_argument("--server-session-id", help="Printed server-... directory name from this launcher")
     parser.add_argument("--max-new-attempts", type=int, default=50,
                         help="Optional smaller invocation cap, 0 for cache inspection; never resets budgets")
     args = parser.parse_args()
     revision = code_revision()
-    plan = load_plan()
+    plan = load_plan(args.pilot_version)
     bundle = json.loads((run_directory("ragtruth-train-pilot-50-v1") / "manifest.json").read_text(encoding="utf-8"))
-    audited = json.loads((run_directory("ragtruth-train-pilot-50-token-audit-v1") / "audit.json").read_text(encoding="utf-8"))
+    audited = json.loads((run_directory(f"ragtruth-train-pilot-50-token-audit-{args.pilot_version}") / "audit.json").read_text(encoding="utf-8"))
     record = None
     if args.server_session_id:
         if not args.server_session_id.startswith("server-"):
@@ -268,6 +291,8 @@ def main():
 
     output = asyncio.run(start())
     report = output["report"]
+    print("Pilot version:", args.pilot_version)
+    print("Prompt version:", plan["prompt_version"])
     print(f"Scored {report['examples_scored']}/{report['examples_total']} TRAIN development examples")
     print("New attempts:", output["new_attempts_this_invocation"])
     print("Terminal failures:", report["examples_terminal_failure"], "Pending:", report["examples_pending"])

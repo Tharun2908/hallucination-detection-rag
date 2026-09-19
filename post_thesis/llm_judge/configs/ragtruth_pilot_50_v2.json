@@ -1,0 +1,32 @@
+{
+  "study_stage": "post_thesis",
+  "protocol_id": "post_thesis_llm_judge_v1",
+  "execution_plan_version": "ragtruth_pilot_50_v2",
+  "run_id": "qwen3-ragtruth-train-pilot-50-v2",
+  "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+  "preparation_code_revision": "c44f4cf172811a086437e69c4f45b15fcda3ed16",
+  "audit_sha256": "fb28d1bab2bc2cd64d650af26dce5fad8c7374b5997acf8d6afe720d59bbeaae",
+  "audit_code_revision": "f0645464dbe1803921b8a8545fad980eaae4e424",
+  "prompt_version": "faithfulness-development-v2",
+  "prompt_sha256": "7771610009b40b5cce476fa4abda9ecb6bd025ecf71d635d7d3e7feb3c70135a",
+  "profile_sha256": "634eb8385c47ba3495c7568029520d1e9471dcd0b190c7931a9c87d614b9f9d5",
+  "examples": 50,
+  "audited_input_tokens": 62674,
+  "audited_min_input_tokens": 763,
+  "audited_max_input_tokens": 3028,
+  "max_output_tokens_per_example": 128,
+  "max_output_tokens_total": 6400,
+  "max_attempts_per_input": 1,
+  "halt_on_error_codes": [
+    "audited_input_token_mismatch",
+    "input_token_mismatch",
+    "returned_model_mismatch",
+    "output_token_limit_exceeded"
+  ],
+  "concurrency": 1,
+  "request_timeout_seconds": 60,
+  "client_budget_seconds_across_resumes": 600,
+  "unknown_window_policy": "charge_full_reserved_remaining_budget",
+  "truncation": "none",
+  "scope": "TRAIN_development_not_test_evaluation"
+}

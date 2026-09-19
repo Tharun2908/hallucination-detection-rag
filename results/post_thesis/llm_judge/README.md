@@ -7,8 +7,9 @@ excluded from the submitted thesis results. **No final test results are availabl
 - [First 50-example TRAIN pilot report](ragtruth_pilot_v1_20260919.md) and
   [operator-supplied predictions](ragtruth_pilot_v1_20260919.csv).
 
-The first pilot informed a separate development prompt v2; its token audit and
-scoring remain pending. Raw answer/context text, request caches and execution
+The first pilot informed a separate development prompt v2. Its
+[token audit passed](../../../post_thesis/llm_judge/PROMPT_V2.md), with zero
+generation calls; a bounded scoring plan is ready, but v2 scores remain pending. Raw answer/context text, request caches and execution
 journals remain in ignored private artifact directories.
 
 Future run directories must use unique run IDs. Include protocol/configuration,
