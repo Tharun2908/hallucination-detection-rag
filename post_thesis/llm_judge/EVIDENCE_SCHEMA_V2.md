@@ -5,6 +5,11 @@
 has 11/14 valid records. Three supported answers violated the null-field contract;
 one accepted unsupported explanation conflated unknown with absence.
 
+Update after this design was committed: the [operator-reported native check](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md)
+passed all 38 cases. A [separate live run plan](EVIDENCE_V2_RUN.md) is now prepared.
+The sections below describe the original schema-only patch and its pre-run checks;
+statements about that patch having no generation budget are historical.
+
 ## Isolated change
 
 `evidence_schema_v2.py` replaces the permissive field combinations with three

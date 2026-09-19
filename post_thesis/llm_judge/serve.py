@@ -88,6 +88,7 @@ def main():
         return 0
     if os.name != "posix":
         parser.error("run the GPU server on Linux; the HTTP client also supports Windows")
+    from .check_evidence_schema import package_versions
     p = load_profile(args.profile)
     if importlib.metadata.version("vllm") != p["vllm_version"]:
         raise ValueError("installed vLLM does not match the pinned profile")
@@ -97,6 +98,7 @@ def main():
     directory.mkdir(parents=True)
     record = {"study_stage": "post_thesis", "kind": "serving_session", "status": "started",
               "code_revision": revision, "profile": p, "gpu": gpu, "command": command,
+              "package_versions": package_versions(),
               "started_at": datetime.now(timezone.utc).isoformat(),
               "scope": "server_process_lifetime_including_startup_and_idle",
               "resources": None}

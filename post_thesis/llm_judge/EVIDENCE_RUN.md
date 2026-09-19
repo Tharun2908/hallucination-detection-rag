@@ -4,11 +4,11 @@
 [frozen evidence contract](EVIDENCE_DIAGNOSTIC.md) now has a durable runner and
 [committed execution plan](configs/evidence_diagnostic_v1.json). The [completed v1 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
 produced 11/14 valid records. The [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md)
-is awaiting installed native compatibility checks. No benchmark examples were loaded.
+passed its native compatibility check; see the separate [v2 run plan](EVIDENCE_V2_RUN.md). No benchmark examples were loaded.
 
 The commands below are historical instructions for scoring revision
 `15e0bb9437437c72abb1e12df9d407130742f173`. Preserve the run and do not rerun it
-from this newer reporting commit. Use the separate CPU schema check next.
+from this newer reporting commit. Use the separate v2 run instructions for the next model invocation.
 
 ## Fixed scope and budget
 

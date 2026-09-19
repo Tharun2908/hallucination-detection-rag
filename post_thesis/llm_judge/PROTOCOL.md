@@ -22,7 +22,7 @@ A [structured evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) now has a frozen
 development contract, parser and synthetic controls. Its separate
 [bounded synthetic execution](EVIDENCE_RUN.md) completed with 11/14 valid records
 and one explanation concern. The [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md)
-addresses field dependencies; installed native compatibility checks are pending.
+addresses field dependencies; the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). The [separate bounded v2 synthetic run](EVIDENCE_V2_RUN.md) has no model results yet.
 The final benchmark configuration remains pending.
 See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
 Study design unchanged.

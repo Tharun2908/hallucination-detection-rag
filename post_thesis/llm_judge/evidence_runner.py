@@ -107,13 +107,13 @@ def _report(examples, by_id, stored, new_attempts):
 
 
 async def run_evidence(examples, *, run_id, config, backend, revision, dataset_revision,
-                     artifact_root=None, max_new_attempts=0, halt_codes=()):
+                     artifact_root=None, max_new_attempts=0, halt_codes=(), request_factory=evidence_request):
     examples = tuple(examples)
     if type(max_new_attempts) is not int or not 0 <= max_new_attempts <= len(examples):
         raise ValueError("invalid attempt cap")
     if not revision or not dataset_revision:
         raise ValueError("explicit code and data revisions required")
-    by_id = {e.sample_id: evidence_request(e.item, config) for e in examples}
+    by_id = {e.sample_id: request_factory(e.item, config) for e in examples}
     requests = {r.key: r for r in by_id.values()}
     if not examples or len(by_id) != len(examples) or len(requests) != len(examples):
         raise ValueError("evidence diagnostic requires unique IDs and inputs")

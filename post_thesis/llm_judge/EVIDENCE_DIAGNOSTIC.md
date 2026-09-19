@@ -5,7 +5,7 @@ new diagnostic prompt/output contract, implements a strict parser and defines
 synthetic controls. The [completed v1 synthetic run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
 has 11/14 valid records and one explanation concern. A
 [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md) now enforces the field dependencies,
-with installed native compatibility checks pending. Preserve the original contract
+with [38/38 native checks passed](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md) and a [bounded live v2 run](EVIDENCE_V2_RUN.md) prepared. Preserve the original contract
 and [completed run](EVIDENCE_RUN.md). The final
 benchmark prompt is not frozen.
 

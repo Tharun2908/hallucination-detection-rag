@@ -12,20 +12,38 @@ import time
 from .evidence_cases import EVIDENCE_CASE_VERSION, case_records, cases_sha256, examples
 from .evidence_contract import EVIDENCE_CONTRACT_VERSION, EVIDENCE_PROMPT, EVIDENCE_SCHEMA_JSON, evidence_request
 from .evidence_runner import run_evidence
+from .evidence_schema_v2 import EVIDENCE_V2_CONTRACT_VERSION, EVIDENCE_SCHEMA_V2_JSON, evidence_request_v2
 from .judge import BackendError
 from .prompts import content_hash
 from .run_pilot import HALT_CODES, validate_server
 from .runner import run_directory
-from .serve import code_revision, resource_totals
+from .serve import code_revision, resource_totals, server_command
 from .storage import RunConflict, atomic_json, exclusive_run
 from .vllm_backend import VLLMBackend
 
 PLAN_PATH = Path(__file__).with_name("configs") / "evidence_diagnostic_v1.json"
 EVIDENCE_HALT_CODES = HALT_CODES + ("diagnostic_input_limit", "invalid_token_count", "input_too_long")
+EVIDENCE_V2_HALT_CODES = EVIDENCE_HALT_CODES + ("http_400", "http_422", "http_500")
 
 
-def load_plan():
-    return json.loads(PLAN_PATH.read_text(encoding="utf-8"))
+def load_plan(schema_version="v1"):
+    if schema_version not in ("v1", "v2"):
+        raise ValueError("unknown evidence schema version")
+    path = PLAN_PATH if schema_version == "v1" else PLAN_PATH.with_name("evidence_diagnostic_v2.json")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def native_observation():
+    path = Path(__file__).resolve().parents[2] / "results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.json"
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def validate_v2_server(record):
+    # Keep the previous launcher policy (automatic backend selection). Do not
+    # infer which compiler served a request from the installed package list.
+    if (record.get("package_versions") != native_observation()["versions"]
+            or record.get("command") != server_command(profile_name="evidence-v1")):
+        raise RunConflict("schema v2 needs a fresh matching environment and recorded default launcher command")
 
 
 def comparisons(report):
@@ -46,8 +64,9 @@ def comparisons(report):
 
 
 class PrecountedBackend:
-    def __init__(self, backend, counts):
+    def __init__(self, backend, counts, halt_codes=EVIDENCE_HALT_CODES):
         self.backend, self.counts, self.halt_code = backend, counts, None
+        self.halt_codes = halt_codes
 
     async def complete(self, request):
         row = self.counts.get(request.key)
@@ -56,7 +75,7 @@ class PrecountedBackend:
         try:
             return await self.backend.complete_counted(request, expected_input_tokens=row["input_tokens"])
         except BackendError as error:
-            if error.code in EVIDENCE_HALT_CODES:
+            if error.code in self.halt_codes:
                 self.halt_code = error.code
             raise
 
@@ -65,14 +84,28 @@ def _save(path, state):
     atomic_json(path, {"execution_sha256": content_hash(state), "execution": state})
 
 
-def validate_plan(plan, backend, cases):
+def validate_plan(plan, backend, cases, schema_version="v1"):
+    if schema_version not in ("v1", "v2"):
+        raise RunConflict("unknown evidence schema version")
+    contract = EVIDENCE_CONTRACT_VERSION if schema_version == "v1" else EVIDENCE_V2_CONTRACT_VERSION
+    schema = EVIDENCE_SCHEMA_JSON if schema_version == "v1" else EVIDENCE_SCHEMA_V2_JSON
+    if schema_version == "v2":
+        from .schema_v2_checks import checks_sha256
+        observation = native_observation()
+        if (plan.get("native_observation_sha256") != content_hash(observation)
+                or observation["status"] != "passed" or observation["matching_acceptance_checks"] != 38
+                or observation["checks_total"] != 38 or observation["generation_calls"] != 0
+                or observation["schema_sha256"] != content_hash(json.loads(schema))
+                or observation["fixture_sha256"] != checks_sha256()
+                or plan.get("structured_output_backend_policy") != "unchanged_vllm_default_auto"):
+            raise RunConflict("changed native compatibility evidence or serving policy")
     if (plan["study_stage"] != "post_thesis"
-            or plan["run_id"] != "qwen3-evidence-synthetic-diagnostic-v1"
+            or plan["run_id"] != "qwen3-evidence-synthetic-diagnostic-" + schema_version
             or plan["scope"] != "synthetic_development_only"
             or plan["case_version"] != EVIDENCE_CASE_VERSION or plan["cases_sha256"] != cases_sha256()
             or plan["prompt_version"] != EVIDENCE_PROMPT.version or plan["prompt_sha256"] != EVIDENCE_PROMPT.sha256
-            or plan["contract_version"] != EVIDENCE_CONTRACT_VERSION
-            or plan["schema_sha256"] != content_hash(json.loads(EVIDENCE_SCHEMA_JSON))
+            or plan["contract_version"] != contract
+            or plan["schema_sha256"] != content_hash(json.loads(schema))
             or plan["profile_name"] != "evidence-v1" or plan["profile_sha256"] != content_hash(backend.profile)
             or plan["examples"] != len(cases) or len(cases) != 14
             or plan["max_attempts_per_input"] != 1 or plan["concurrency"] != 1
@@ -83,7 +116,7 @@ def validate_plan(plan, backend, cases):
             or backend.config.max_output_tokens != 512 or plan["max_output_tokens_total"] != 7168
             or plan["request_timeout_seconds"] != backend.timeout_seconds or backend.timeout_seconds != 60
             or plan["max_tokenization_requests"] != 28
-            or plan["truncation"] != "none" or plan["halt_on_error_codes"] != list(EVIDENCE_HALT_CODES)
+            or plan["truncation"] != "none" or plan["halt_on_error_codes"] != list(EVIDENCE_HALT_CODES if schema_version == "v1" else EVIDENCE_V2_HALT_CODES)
             or plan["repeat_policy"] != "cache_inspection_only_after_first_invocation"):
         raise RunConflict("changed evidence diagnostic plan, prompt, cases or profile")
 
@@ -117,10 +150,12 @@ def _validate_state(state, requests):
 
 
 async def execute(*, backend, revision, server_record=None, artifact_root=None,
-                  inspection_only=False, clock=time.monotonic):
-    plan, cases = load_plan(), examples()
-    validate_plan(plan, backend, cases)
-    requests = {evidence_request(ex.item, backend.config).key: evidence_request(ex.item, backend.config) for ex in cases}
+                  inspection_only=False, clock=time.monotonic, schema_version="v1"):
+    # Preserve the historical default API and manifest identity.
+    plan, cases = (load_plan() if schema_version == "v1" else load_plan(schema_version)), examples()
+    validate_plan(plan, backend, cases, schema_version)
+    request_factory = evidence_request if schema_version == "v1" else evidence_request_v2
+    requests = {request_factory(ex.item, backend.config).key: request_factory(ex.item, backend.config) for ex in cases}
     directory = run_directory(plan["run_id"], artifact_root)
     control = directory / "execution"
     identity = {"plan": plan, "code_revision": revision, "config": asdict(backend.config)}
@@ -140,12 +175,13 @@ async def execute(*, backend, revision, server_record=None, artifact_root=None,
             state = {"identity": identity, "status": "ready", "resources": None,
                      "input_audit": {"status": "pending", "counts": {}}}
             _save(path, state)
-        guarded = PrecountedBackend(backend, state["input_audit"]["counts"])
+        guarded = PrecountedBackend(backend, state["input_audit"]["counts"], tuple(plan["halt_on_error_codes"]))
 
         async def run(cap):
             return await run_evidence(cases, run_id=plan["run_id"], config=backend.config,
                                      backend=guarded, revision=revision, dataset_revision=EVIDENCE_CASE_VERSION,
-                                     artifact_root=artifact_root, max_new_attempts=cap, halt_codes=EVIDENCE_HALT_CODES)
+                                     artifact_root=artifact_root, max_new_attempts=cap, halt_codes=guarded.halt_codes,
+                                     request_factory=request_factory)
 
         report = await run(0)
         before = report["attempts_total"]
@@ -156,6 +192,8 @@ async def execute(*, backend, revision, server_record=None, artifact_root=None,
         caught = None
         if state["status"] == "ready" and not inspection_only:
             validate_server(server_record or {}, backend, revision)
+            if schema_version == "v2":
+                validate_v2_server(server_record or {})
             start = clock()
             state.update(status="started", reserved_seconds=300,
                          started_at=datetime.now(timezone.utc).isoformat(), server_session_snapshot=server_record)
@@ -192,7 +230,8 @@ async def execute(*, backend, revision, server_record=None, artifact_root=None,
             try:
                 report = await asyncio.wait_for(work(), timeout=300)
                 if guarded.halt_code:
-                    outcome, error_code = "halted_on_alignment_error", guarded.halt_code
+                    outcome, error_code = ("halted_on_serving_error" if guarded.halt_code.startswith("http_")
+                                           else "halted_on_alignment_error"), guarded.halt_code
             except asyncio.TimeoutError:
                 outcome, error_code = "deadline_reached", "evidence_diagnostic_deadline"
             except BackendError as error:
@@ -227,6 +266,7 @@ async def execute(*, backend, revision, server_record=None, artifact_root=None,
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--schema-version", choices=("v1", "v2"), default="v1")
     parser.add_argument("--server-session-id")
     parser.add_argument("--inspect-only", action="store_true")
     args = parser.parse_args()
@@ -239,10 +279,12 @@ def main():
 
     async def start():
         async with VLLMBackend(profile_name="evidence-v1", api_key=os.environ.get("JUDGE_API_KEY")) as backend:
-            return await execute(backend=backend, revision=revision, server_record=record, inspection_only=args.inspect_only)
+            return await execute(backend=backend, revision=revision, server_record=record, inspection_only=args.inspect_only,
+                                 schema_version=args.schema_version)
 
     result = asyncio.run(start())
     report = result["report"]
+    print("Schema version:", args.schema_version)
     print("Prompt:", EVIDENCE_PROMPT.version)
     print(f"Valid evidence records: {report['examples_valid']}/14 synthetic examples")
     print("New attempts:", result["new_attempts_this_invocation"])
@@ -256,7 +298,7 @@ def main():
     for row in result["comparisons"]:
         print(','.join(str(row[k]) for k in ('sample_id', 'status', 'observed_verdict', 'observed_issue_type',
                                              'verdict_matches_expected', 'issue_matches_expected')))
-    print("Private evidence summary:", run_directory(load_plan()["run_id"]) / "evidence_summary.json")
+    print("Private evidence summary:", run_directory(load_plan(args.schema_version)["run_id"]) / "evidence_summary.json")
     print("Quote membership is not semantic correctness. Manual evidence review pending.")
     print("Post-thesis synthetic development only; no benchmark data or threshold fitting.")
     return 0 if report["examples_valid"] == 14 else 1
