@@ -3,6 +3,8 @@
 import asyncio
 from copy import deepcopy
 import json
+import contextlib
+import io
 from pathlib import Path
 import tempfile
 import unittest
@@ -13,9 +15,12 @@ try:
 except ImportError:
     httpx = None
 
-from post_thesis.llm_judge.audit_pilot import audit
+from post_thesis.llm_judge.audit_pilot import audit, main
+from post_thesis.llm_judge.judge import JudgeConfig, JudgeInput, build_request
 from post_thesis.llm_judge.prepare_pilot import build_bundle
-from post_thesis.llm_judge.prompts import content_hash
+from post_thesis.llm_judge.prompts import (
+    DEVELOPMENT_PROMPT, DEVELOPMENT_PROMPT_V2, PromptSpec, content_hash, get_prompt,
+)
 from post_thesis.llm_judge.storage import RunConflict
 from post_thesis.llm_judge.vllm_backend import VLLMBackend, load_profile
 
@@ -29,6 +34,37 @@ def pilot():
          "quality": "good", "hallucination_labels_processed":
          {"evident_conflict": i % 2, "baseless_info": 0}}
         for i in range(52)], revision="fixture-preparation")
+
+
+class PromptVersionTests(unittest.TestCase):
+    def test_v1_hash_default_and_wire_input_remain_frozen(self):
+        self.assertEqual(DEVELOPMENT_PROMPT.sha256,
+                         "e9e218764a4c7171f85468fd8f38ed698003f7538766ef692163f21cacc483c5")
+        item = JudgeInput("A statement.", "Evidence.")
+        config = JudgeConfig("offline", "model", "profile")
+        default = build_request(item, config)
+        v1 = build_request(item, config, get_prompt("faithfulness-development-v1"))
+        v2 = build_request(item, config, get_prompt("faithfulness-development-v2"))
+        self.assertEqual(default, v1)
+        self.assertNotEqual(v1.key, v2.key)
+        self.assertEqual(v1.config, v2.config)
+        self.assertEqual(v1.response_schema_json, v2.response_schema_json)
+        self.assertEqual(v1.messages[1], v2.messages[1])
+
+    def test_unknown_version_has_no_fallback(self):
+        with self.assertRaises(ValueError):
+            get_prompt("faithfulness-development-v99")
+
+    def test_cli_blocks_other_prompts_reserved_directory_before_loading_artifacts(self):
+        with patch("sys.argv", ["audit_pilot", "--expected-manifest-sha256", "fixture",
+                               "--prompt-version", "faithfulness-development-v2",
+                               "--audit-id", "ragtruth-train-pilot-50-token-audit-v1"]), \
+                patch("post_thesis.llm_judge.audit_pilot.code_revision") as revision, \
+                contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit) as stopped:
+                main()
+            self.assertEqual(stopped.exception.code, 2)
+            revision.assert_not_called()
 
 
 @unittest.skipIf(httpx is None, "HTTP audit tests run after installing the client")
@@ -54,10 +90,44 @@ class TokenAuditTests(unittest.IsolatedAsyncioTestCase):
             return httpx.Response(200, json={"count": count, "max_model_len": P["max_model_len"]})
         return VLLMBackend(transport=httpx.MockTransport(handler))
 
-    async def run_audit(self, backend, bundle=None, expected=None):
+    async def run_audit(self, backend, bundle=None, expected=None, **kwargs):
         return await audit(bundle or self.bundle,
                            expected_manifest_sha256=expected or self.bundle["manifest_sha256"],
-                           backend=backend, directory=self.directory, revision="fixture-audit")
+                           backend=backend, directory=self.directory, revision="fixture-audit", **kwargs)
+
+    async def test_v2_audit_uses_new_system_prompt_and_identical_prepared_inputs(self):
+        original = deepcopy(self.bundle)
+        async with self.backend() as backend:
+            result = await self.run_audit(backend, prompt=DEVELOPMENT_PROMPT_V2)
+            self.assertTrue(result["summary"]["all_inputs_fit"])
+            self.assertEqual(self.bundle, original)
+            tokens = [r for r in self.calls if r.url.path == "/tokenize"]
+            self.assertEqual(len(tokens), 50)
+            for wire, source in zip(tokens, original["manifest"]["pilot_inputs"]):
+                messages = json.loads(wire.content)["messages"]
+                self.assertEqual(messages[0]["content"], DEVELOPMENT_PROMPT_V2.system_text)
+                self.assertEqual(json.loads(messages[1]["content"]), source["input"])
+            saved = json.loads((self.directory / "audit.json").read_text())["audit"]
+            self.assertEqual(saved["identity"]["prompt"]["version"], DEVELOPMENT_PROMPT_V2.version)
+            self.assertEqual(saved["identity"]["pilot_manifest_sha256"], original["manifest_sha256"])
+
+    async def test_v2_cannot_reuse_or_overwrite_v1_counts(self):
+        async with self.backend() as backend:
+            await self.run_audit(backend)
+            path = self.directory / "audit.json"
+            original = path.read_bytes()
+            before = len(self.calls)
+            with self.assertRaises(RunConflict):
+                await self.run_audit(backend, prompt=DEVELOPMENT_PROMPT_V2)
+            self.assertEqual(len(self.calls), before)
+            self.assertEqual(path.read_bytes(), original)
+
+    async def test_changed_text_cannot_impersonate_recorded_prompt_version(self):
+        async with self.backend() as backend:
+            with self.assertRaises(RunConflict):
+                await self.run_audit(backend, prompt=PromptSpec(DEVELOPMENT_PROMPT_V2.version, "changed"))
+            self.assertEqual(self.calls, [])
+            self.assertFalse(self.directory.exists())
 
     async def test_fifty_exact_inputs_without_labels_or_generation_and_cached_replay(self):
         async with self.backend() as backend:

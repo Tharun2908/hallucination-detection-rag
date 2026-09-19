@@ -12,7 +12,7 @@ import uuid
 
 from .judge import BackendError, build_request
 from .prepare_pilot import pilot_examples
-from .prompts import DEVELOPMENT_PROMPT, content_hash
+from .prompts import DEVELOPMENT_PROMPT, DEVELOPMENT_PROMPT_V2, content_hash, get_prompt
 from .runner import run_directory
 from .serve import code_revision, resource_totals
 from .storage import RunConflict, atomic_json, exclusive_run
@@ -61,7 +61,8 @@ def summary(state):
             "generation_calls": 0, "scoring_authorized_by_this_audit": False}
 
 
-async def audit(bundle, *, expected_manifest_sha256, backend, directory, revision):
+async def audit(bundle, *, expected_manifest_sha256, backend, directory, revision,
+                prompt=DEVELOPMENT_PROMPT):
     # No network calls or output writes until the immutable input contract passes.
     if bundle.get("manifest_sha256") != expected_manifest_sha256:
         raise RunConflict("this is not the expected pilot manifest")
@@ -69,13 +70,15 @@ async def audit(bundle, *, expected_manifest_sha256, backend, directory, revisio
     manifest = bundle["manifest"]
     if len(examples) != 50 or manifest["initial_prompt"] != {
             "version": DEVELOPMENT_PROMPT.version, "sha256": DEVELOPMENT_PROMPT.sha256}:
-        raise RunConflict("expected the 50-example pilot with unchanged development prompt")
-    requests = {example.sample_id: build_request(example.item, config=backend.config)
+        raise RunConflict("expected the unchanged 50-example pilot prepared with v1")
+    if prompt != get_prompt(prompt.version):
+        raise RunConflict("prompt text does not match its recorded version")
+    requests = {example.sample_id: build_request(example.item, config=backend.config, prompt=prompt)
                 for example in examples}
     identity = {"study_stage": "post_thesis", "audit_version": AUDIT_VERSION,
                 "pilot_manifest_sha256": expected_manifest_sha256,
                 "code_revision": revision, "config": asdict(backend.config),
-                "profile": backend.profile, "prompt": manifest["initial_prompt"],
+                "profile": backend.profile, "prompt": {"version": prompt.version, "sha256": prompt.sha256},
                 "sample_ids": list(requests), "deadline_seconds": DEADLINE_SECONDS,
                 "max_attempts_per_input": 1, "concurrency": 1}
     directory = Path(directory)
@@ -91,6 +94,7 @@ async def audit(bundle, *, expected_manifest_sha256, backend, directory, revisio
         window = {"study_stage": "post_thesis", "kind": "pilot_token_audit",
                   "status": "started", "started_at": datetime.now(timezone.utc).isoformat(),
                   "pilot_manifest_sha256": expected_manifest_sha256,
+                  "prompt": {"version": prompt.version, "sha256": prompt.sha256},
                   "code_revision": revision, "tokenize_requests_started": 0,
                   "generation_calls": 0, "resources": None,
                   "scope": "client_window_excludes_server_startup_and_other_idle_time",
@@ -148,23 +152,36 @@ async def audit(bundle, *, expected_manifest_sha256, backend, directory, revisio
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--expected-manifest-sha256", required=True)
-    parser.add_argument("--audit-id", default="ragtruth-train-pilot-50-token-audit-v1")
+    parser.add_argument("--prompt-version", default=DEVELOPMENT_PROMPT.version,
+                        choices=[DEVELOPMENT_PROMPT.version, DEVELOPMENT_PROMPT_V2.version])
+    parser.add_argument("--audit-id", help="Defaults to a separate directory for each prompt version")
     parser.add_argument("--base-url", default="http://127.0.0.1:8000")
     args = parser.parse_args()
+    prompt = get_prompt(args.prompt_version)
+    defaults = {DEVELOPMENT_PROMPT.version: "ragtruth-train-pilot-50-token-audit-v1",
+                DEVELOPMENT_PROMPT_V2.version: "ragtruth-train-pilot-50-token-audit-v2"}
+    audit_id = args.audit_id or defaults[prompt.version]
+    if audit_id in defaults.values() and audit_id != defaults[prompt.version]:
+        parser.error("use the selected prompt's audit directory; preserve other prompt versions")
     revision = code_revision()
     manifest_path = run_directory("ragtruth-train-pilot-50-v1") / "manifest.json"
     bundle = json.loads(manifest_path.read_text(encoding="utf-8"))
-    directory = run_directory(args.audit_id)
+    directory = run_directory(audit_id)
 
     async def execute():
         async with VLLMBackend(args.base_url, api_key=os.environ.get("JUDGE_API_KEY")) as backend:
             return await audit(bundle, expected_manifest_sha256=args.expected_manifest_sha256,
-                               backend=backend, directory=directory, revision=revision)
+                               backend=backend, directory=directory, revision=revision, prompt=prompt)
 
     result = asyncio.run(execute())
     print(json.dumps(result["summary"], indent=2))
     print("New tokenization requests:", result["tokenize_requests_started"])
     print("Audit status:", result["status"])
+    print("Prompt version:", prompt.version)
+    print("Prompt SHA256:", prompt.sha256)
+    saved = json.loads((directory / "audit.json").read_text(encoding="utf-8"))
+    print("Audit SHA256:", saved["audit_sha256"])
+    print("Audit code revision:", revision)
     print("Private audit records:", directory)
     print("No scores generated. Pilot scoring budget still requires a recorded configuration.")
     return 0 if result["summary"]["all_inputs_fit"] else 1

@@ -1,8 +1,16 @@
-# Post-thesis: prepare the first RAGTruth TRAIN pilot
+# Post-thesis: first RAGTruth TRAIN pilot
 
 This is development after thesis submission, excluded from submitted thesis
-results. This step prepares data only. It does not score any example, load a
-model, read RAGTruth TEST, or read HaluBench. Keep development prompt v1 unchanged.
+results. This guide records data preparation, token auditing and the separately
+budgeted v1 scoring run. Preparation alone loads no model and generates no scores.
+None of these steps reads RAGTruth TEST or HaluBench.
+
+**Status:** the first v1 run is complete; see the
+[pilot findings](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md).
+Preserve its prompt, preparation manifest, audit and execution records. The
+[next v2 step](PROMPT_V2.md) uses those same selected inputs in a separate token
+audit. Do not recreate historical artifacts from a newer code revision; the
+commands below document their original procedure.
 
 ## Recorded selection rule
 

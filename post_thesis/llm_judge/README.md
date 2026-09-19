@@ -3,13 +3,14 @@
 > The experiments below were conducted after thesis submission and are not part
 > of the submitted thesis results.
 
-**Status: H200 synthetic checks completed; pinned TRAIN pilot preparation
-implemented. No benchmark judge scores have been collected.** The
+**Status: the first 50-example TRAIN development pilot is complete; no final
+test-set judge scores have been collected.** The
 [synthetic observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md)
 record a repeatable absence-claim failure as well as successful cache reuse.
-The 50-example TRAIN manifest and cluster token audit are complete, with labels
-kept offline and shared-context group exclusions recorded. Next: the
-[bounded scoring pilot](PILOT.md), using its committed execution plan.
+The [v1 TRAIN pilot report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md)
+records valid scores but a compressed probability range and missed errors.
+Next: a separate [development-v2 token audit](PROMPT_V2.md), keeping the same
+inputs, model and decoding configuration. Original labels and v1 artifacts remain intact.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
@@ -65,7 +66,8 @@ commands are the bounded synthetic smoke test and the fixed 50-example TRAIN pil
 `prepare_pilot.py` creates a TRAIN manifest without model calls; `audit_pilot.py`
 checks formatted lengths via tokenization without generation. The actual cluster
 length audit passed; `run_pilot.py` enforces the frozen inference limits across
-resumes. Actual TRAIN scoring and subsequent analysis remain pending.
+resumes. v1 scoring and initial development analysis are complete. v2 token-only
+auditing is supported via an explicit prompt version; v2 scoring is not yet enabled.
 
 ## Offline foundation
 
@@ -81,7 +83,7 @@ Passing these tests validates engineering contracts, not judge quality.
 
 | Module | Responsibility |
 | --- | --- |
-| `prompts.py` | Versioned `faithfulness-development-v1` prompt and content hashing |
+| `prompts.py` | Preserved v1 default, explicit development-v2 revision and content hashing |
 | `parse.py` | Strict single-object JSON parsing, without extracting or repairing text |
 | `judge.py` | Immutable requests, injected asynchronous backend, one attempt and per-response metadata |
 | `runner.py` | Exact input manifest, sequential retries, cache reuse, coverage and attempt accounting |
@@ -126,8 +128,8 @@ profile. An adapter must honor the request's messages, configuration and respons
 normalize provider refusals/truncation into `BackendResponse.outcome`; and return
 the reported model, response ID and token usage where available. Unknown model
 and usage stay `None`. Reject unsupported settings explicitly. Do not silently
-truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration and the pilot token audit have completed; the bounded
-scoring command is tested offline and awaits its first cluster execution.
+truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration, the v1 token audit and the bounded 50-example TRAIN
+scoring run have completed. The separate v2 token audit is next.
 
 `await judge_once(item, config=config, backend=backend)` returns an immutable
 `JudgeResult`. Its request carries requested-model and prompt provenance; its
@@ -241,12 +243,13 @@ does not mean execution is free. The serving wrapper now writes separate measure
 GPU-time windows, with an optional declared rental-rate estimate. These windows must not be double-counted
 or mistaken for a full rental invoice; see [SERVING.md](SERVING.md). The benchmark
 manifest and cluster token audit are complete; the first pilot inference budget
-is committed in `configs/ragtruth_pilot_50_v1.json`. Actual scoring is pending. Either a hosted API or
+is committed in `configs/ragtruth_pilot_50_v1.json` and that run is complete. A separate
+v2 scoring plan remains pending its token audit. Either a hosted API or
 self-hosted open-weight backend can implement the existing interface. GPU
 availability does not change the evaluation protocol or thesis boundary.
 
 The test suite includes abrupt process death and runs in the existing Linux CPU
 workflow plus a Windows job with separate stdlib and HTTP test steps. The
-operator has exercised synthetic GPU integration; benchmark judge performance
-has not been evaluated. HTTP contract tests use offline responses. Existing
+operator has exercised synthetic GPU integration and the first TRAIN development
+pilot; final test performance has not been evaluated. HTTP contract tests use offline responses. Existing
 thesis artifacts are unchanged.

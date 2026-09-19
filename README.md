@@ -3,7 +3,7 @@
 Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin, 2026).
 
 > **Post-thesis work:** a separately labeled [LLM judge extension](post_thesis/llm_judge/README.md)
-> has a working H200 judge, a completed TRAIN token audit, and a bounded 50-example pilot runner. No benchmark judge results are available yet.
+> has completed its first 50-example TRAIN development pilot on H200. A separate development prompt v2 is ready for token auditing. No final test results are available yet.
 
 
 This repository is a **research-engineering study of hallucination-verifier reliability under distribution shift**. It evaluates post-generation, response-level faithfulness verification for Retrieval-Augmented Generation (RAG), with particular emphasis on whether apparently strong benchmark results survive stricter evaluation protocols and transfer to a different benchmark.
@@ -504,7 +504,7 @@ The datasets used by the experiments remain governed by their original licenses.
 The experiments below were conducted after thesis submission and are not part
 of the submitted thesis results.
 
-**Current status: H200 synthetic checks and the TRAIN token audit completed; bounded 50-example TRAIN pilot scoring ready; benchmark scoring pending.** See the [synthetic observations](results/post_thesis/llm_judge/synthetic_smoke_20260919.md), including a reproducible absence-claim failure, and [pilot preparation](post_thesis/llm_judge/PILOT.md). The
+**Current status: the first 50-example TRAIN development pilot is complete; prompt v2 token auditing is next; final benchmark scoring is pending.** See the [v1 pilot findings](results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md), [synthetic observations](results/post_thesis/llm_judge/synthetic_smoke_20260919.md), and [v2 development revision](post_thesis/llm_judge/PROMPT_V2.md). The
 [LLM judge study](post_thesis/llm_judge/README.md) will compare a prompted judge
 with the existing external verifiers on RAGTruth and the canonical HaluBench
 split. The [protocol](post_thesis/llm_judge/PROTOCOL.md) records the evaluation

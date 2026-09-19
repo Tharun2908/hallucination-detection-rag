@@ -7,8 +7,9 @@ implemented. Qwen3-32B on a self-hosted vLLM/H200 profile is the initial develop
 candidate. The operator completed two six-example H200 synthetic runs and a
 cache reuse check; a reproducible absence-claim failure remains. TRAIN pilot
 manifest is prepared, the cluster token audit passed, and the first bounded
-pilot scoring command/configuration is implemented. Actual TRAIN scoring and
-the final benchmark configuration remain pending.
+50-example TRAIN scoring run is complete. Inspected development outcomes
+motivate a separate v2 prompt revision; the final benchmark configuration
+remains pending.
 See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
 Study design unchanged.
 
@@ -243,8 +244,10 @@ not benchmark examples or a substitute for the 50–100-example TRAIN pilot.
 Synthetic GPU execution is recorded in the [post-thesis smoke observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md).
 The first 50-example TRAIN selection rule is recorded in [PILOT.md](PILOT.md).
 Shared-context groups are a source proxy; native-source overlap auditing remains
-required before claiming strict source-disjoint threshold development. Pilot
-scoring is still pending. See [PILOT.md](PILOT.md) for the completed token-only
-audit, immutable artifact hashes, and the first scoring pilot's committed
-50-example/one-attempt/600-second cumulative client budget. The token audit's
-separate 50-request/300-second invocation limits are not the scoring budget.
+required before claiming strict source-disjoint threshold development. The
+[first TRAIN pilot report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md)
+preserves v1 findings. See [PILOT.md](PILOT.md) for its immutable artifact hashes
+and committed 50-example/one-attempt/600-second cumulative client budget.
+[Prompt v2](PROMPT_V2.md) requires a new token audit and separate scoring plan.
+The token audit's separate 50-request/300-second invocation limits are not
+the scoring budget.
