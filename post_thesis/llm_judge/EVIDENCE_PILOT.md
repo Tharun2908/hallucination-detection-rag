@@ -50,7 +50,9 @@ The evidence CLI rejects another audit ID. Preserve `audit.json` and all
 `client-window-*.json` records. Missing/corrupt/incompatible artifacts require
 inspection; do not delete them or rename a run to retry terminal inputs.
 
-## H200 procedure after commit, push and CI
+## Historical audit procedure at revision 9bb7dc3
+
+This audit is complete. Preserve its artifacts and use the [scoring procedure](EVIDENCE_PILOT_RUN.md) next; do not rerun these historical commands at a newer revision.
 
 Stop the prior launcher if still running, then pull the new commit and start
 the same evidence-profile server. No serving dependency changes are needed.
@@ -85,12 +87,9 @@ That distinction is intentional. Save the full console output, including token
 counts, audit SHA256, serialized schema SHA256 and audit code revision. Stop
 terminal A's launcher afterwards to finalize its resource window.
 
-## Next decision
+## Recorded outcome and next step
 
-After observing actual lengths, record a separate bounded scoring configuration
-for the unchanged candidate on these same 50 inputs. No evidence TRAIN scoring
-CLI or budget is included in this step. The next results would be adaptive
-TRAIN development evidence, not independent validation. Preserve the known
-absence-case miss as an error category. Keep native-source overlap auditing,
-threshold selection, probability/calibration design and final test evaluation
-as separate unresolved tasks in the research protocol.
+The [operator-reported audit](../../results/post_thesis/llm_judge/ragtruth_evidence_v3_audit_20260919.md)
+counted all 50 inputs, with 77,574 total input tokens and no overlength cases.
+The [separate bounded scoring configuration](EVIDENCE_PILOT_RUN.md) now pins that
+audit and the unchanged candidate. Evidence TRAIN scoring results remain pending.

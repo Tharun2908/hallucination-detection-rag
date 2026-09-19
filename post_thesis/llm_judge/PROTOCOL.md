@@ -267,3 +267,18 @@ scoring run; see the [paired report](../../results/post_thesis/llm_judge/ragtrut
 Unused pilot allowances are not transferred to the synthetic diagnostic.
 The token audit's separate 50-request/300-second invocation limits are not
 the scoring budget.
+
+## Evidence TRAIN development execution addendum — 2026-09-19
+
+The original-50 evidence-v3 token audit is complete: 77,574 input tokens, maximum
+3,326 and no overlength inputs. The separate [execution plan](EVIDENCE_PILOT_RUN.md)
+pins audit SHA256 `d08eede188c9308e2a77cc9e205e324c0cace58b293b05afa965e24a02f48939`
+and its revision `9bb7dc3a020919493aafe27e5662a50f31f7d8c0`.
+Allow at most one generation attempt for each of the same 50 TRAIN inputs,
+512 output tokens each and 600 cumulative client seconds across resumes. The
+prompt, serialized schema, model and serving configuration remain unchanged.
+This is adaptive development with categorical evidence outputs, not a final
+benchmark freeze, probability estimator or threshold-fitting run. No scoring
+results are recorded yet. Preserve all historical runs and unresolved research
+questions, including the embedded unknown-absence failure and native-source
+exclusion audit.

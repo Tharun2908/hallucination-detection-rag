@@ -25,7 +25,7 @@ development contract, strict parser and 14 synthetic controls. Its
 [v1 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
 produced 11/14 valid records and one explanation concern. The next
 [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md) has offline regression checks;
-the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). The [live v2 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) produced 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44. The [v3 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md) has 14/14 valid, correctly ordered outputs and 13/14 matching verdicts. The next step is a [token-only original TRAIN pilot audit](EVIDENCE_PILOT.md); evidence TRAIN scoring remains pending.
+the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). The [live v2 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) produced 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44. The [v3 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md) has 14/14 valid, correctly ordered outputs and 13/14 matching verdicts. The [original TRAIN token audit](../../results/post_thesis/llm_judge/ragtruth_evidence_v3_audit_20260919.md) counted all 50 inputs with no overlength cases. The [bounded evidence TRAIN pilot](EVIDENCE_PILOT_RUN.md) is prepared; scoring results remain pending.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
@@ -109,6 +109,7 @@ Passing these tests validates engineering contracts, not judge quality.
 | `serve.py` / `smoke.py` | Explicit server launcher, resource windows, six synthetic examples |
 | `prepare_pilot.py` | Pinned TRAIN file check, label-blind selection, group exclusions and private manifest |
 | `audit_pilot.py` | Exact formatted token counts, incremental records and resource windows; no generation |
+| `run_evidence_pilot.py` | Pinned evidence-v3 TRAIN audit, cumulative budget and separate raw-order reporting |
 | `run_pilot.py` | Frozen audit/manifest checks, one-attempt probability scoring and cumulative client budget |
 | `run_binary_pilot.py` | Separate frozen binary TRAIN plan, string verdicts and cumulative client budget |
 | `evidence_contract.py` | Separate evidence prompt/schema and exact-quote parser; offline only |

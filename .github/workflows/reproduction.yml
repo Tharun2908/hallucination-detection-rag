@@ -26,6 +26,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_llm_judge_token_audit.py -v
       - name: Check evidence TRAIN token audit with offline responses
         run: python -m unittest discover -s tests -p test_llm_judge_evidence_pilot_audit.py -v
+      - name: Check bounded evidence TRAIN scoring with offline responses
+        run: python -m unittest discover -s tests -p test_llm_judge_evidence_pilot.py -v
       - name: Check bounded pilot execution with offline responses
         run: python -m unittest discover -s tests -p test_llm_judge_pilot_execution.py -v
       - name: Check bounded synthetic diagnostic with offline responses

@@ -1,0 +1,30 @@
+{
+  "study_stage": "post_thesis",
+  "kind": "operator_reported_TRAIN_evidence_token_audit",
+  "date": "2026-09-19",
+  "source": "Operator-supplied H200 console output; private audit file not independently inspected here. Scoring validates its checksum before HTTP.",
+  "audit_sha256": "d08eede188c9308e2a77cc9e205e324c0cace58b293b05afa965e24a02f48939",
+  "audit_code_revision": "9bb7dc3a020919493aafe27e5662a50f31f7d8c0",
+  "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+  "prompt_version": "faithfulness-evidence-diagnostic-v1",
+  "prompt_sha256": "21ba57c9ec668c495a16e4635660c4504f26b5056638d4b17e6424e32ce52f4c",
+  "evidence_schema_version": "v3",
+  "serialized_schema_sha256": "f86a37ac3bf7ca198663ce266a345ce89018b8d9e52f046d3fb94e7dadf5fa33",
+  "audit_status": "completed",
+  "new_tokenization_requests": 50,
+  "summary": {
+    "examples_total": 50,
+    "examples_counted": 50,
+    "examples_failed_or_interrupted": 0,
+    "examples_pending": 0,
+    "overlength_ids": [],
+    "max_input_tokens": 3326,
+    "min_input_tokens": 1061,
+    "total_input_tokens": 77574,
+    "output_allowance_per_example": 512,
+    "model_limit": 32768,
+    "all_inputs_fit": true,
+    "generation_calls": 0,
+    "scoring_authorized_by_this_audit": false
+  }
+}

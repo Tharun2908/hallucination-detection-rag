@@ -35,3 +35,8 @@ them. Raw request caches belong in the ignored artifact directory described in
 
 Existing canonical results elsewhere in `results/` remain comparison inputs;
 do not overwrite them with this extension's outputs.
+
+The [evidence-v3 original TRAIN token audit](ragtruth_evidence_v3_audit_20260919.md)
+is complete: 50/50 counted, no overlength inputs and zero generation calls.
+The [bounded scoring plan](../../../post_thesis/llm_judge/EVIDENCE_PILOT_RUN.md)
+is prepared; evidence TRAIN predictions and semantic review are pending.
