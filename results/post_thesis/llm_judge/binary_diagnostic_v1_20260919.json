@@ -1,0 +1,89 @@
+{
+  "study_stage": "post_thesis",
+  "evidence_source": "operator_supplied_console_output",
+  "run_id": "qwen3-binary-synthetic-diagnostic-v1",
+  "instructed_code_revision": "d44f430ba83175914c6cf90b08bc8480c83507df",
+  "prompt_version": "faithfulness-binary-diagnostic-v1",
+  "prompt_sha256": "e6b7d43ec5f34b07de69d11dacae6212d8c59e97b69b7375375ea8f289544683",
+  "schema_sha256": "5886d9b585118965edf88708970ec5784a9489329874ae85788beebde3608935",
+  "cases_sha256": "92e8287dfd4559a8722c47d0047f122fb65036d319efd4d669651973dab9aff2",
+  "examples_total": 10,
+  "examples_judged": 10,
+  "new_attempts": 10,
+  "terminal_failures": 0,
+  "pending": 0,
+  "execution_status": "finished",
+  "outcome": "invocation_completed",
+  "error_code": null,
+  "charged_client_seconds": 7.542062098626047,
+  "known_token_totals": {
+    "input_tokens": 6285,
+    "output_tokens": 80
+  },
+  "attempts_with_unknown_tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "predictions": [
+    {
+      "sample_id": "attribute-supported-short",
+      "expected_unsupported": 0,
+      "verdict": "supported",
+      "matches_expected": true
+    },
+    {
+      "sample_id": "attribute-supported-embedded",
+      "expected_unsupported": 0,
+      "verdict": "supported",
+      "matches_expected": true
+    },
+    {
+      "sample_id": "attribute-contradicted-short",
+      "expected_unsupported": 1,
+      "verdict": "unsupported",
+      "matches_expected": true
+    },
+    {
+      "sample_id": "attribute-contradicted-embedded",
+      "expected_unsupported": 1,
+      "verdict": "unsupported",
+      "matches_expected": true
+    },
+    {
+      "sample_id": "attribute-unknown-short",
+      "expected_unsupported": 1,
+      "verdict": "unsupported",
+      "matches_expected": true
+    },
+    {
+      "sample_id": "attribute-unknown-embedded",
+      "expected_unsupported": 1,
+      "verdict": "unsupported",
+      "matches_expected": true
+    },
+    {
+      "sample_id": "numeric-supported-short",
+      "expected_unsupported": 0,
+      "verdict": "supported",
+      "matches_expected": true
+    },
+    {
+      "sample_id": "numeric-supported-embedded",
+      "expected_unsupported": 0,
+      "verdict": "supported",
+      "matches_expected": true
+    },
+    {
+      "sample_id": "numeric-contradicted-short",
+      "expected_unsupported": 1,
+      "verdict": "unsupported",
+      "matches_expected": true
+    },
+    {
+      "sample_id": "numeric-contradicted-embedded",
+      "expected_unsupported": 1,
+      "verdict": "unsupported",
+      "matches_expected": true
+    }
+  ]
+}

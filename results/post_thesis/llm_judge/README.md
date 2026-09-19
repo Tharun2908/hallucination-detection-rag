@@ -10,10 +10,12 @@ excluded from the submitted thesis results. **No final test results are availabl
   [paired predictions](ragtruth_pilot_v1_v2_20260919.csv).
 - [Probability diagnostic findings](synthetic_diagnostic_v1_20260919.md) and
   [operator-supplied results](synthetic_diagnostic_v1_20260919.json).
+- [Binary diagnostic findings](binary_diagnostic_v1_20260919.md) and
+  [operator-supplied verdicts](binary_diagnostic_v1_20260919.json).
 
-Both pilots and the probability diagnostic are complete. The next
-[binary-output diagnostic](../../../post_thesis/llm_judge/BINARY_DIAGNOSTIC.md)
-is prepared but has no GPU results yet. Raw answer/context text, request caches and execution
+Both probability pilots and both synthetic diagnostics are complete. The next
+[binary TRAIN token audit](../../../post_thesis/llm_judge/BINARY_PILOT.md) is ready;
+no binary TRAIN verdicts have been collected. Raw answer/context text, request caches and execution
 journals remain in ignored private artifact directories.
 
 Future run directories must use unique run IDs. Include protocol/configuration,

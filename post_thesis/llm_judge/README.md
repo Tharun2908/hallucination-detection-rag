@@ -12,8 +12,10 @@ records valid scores but a compressed probability range and missed errors.
 The [paired comparison](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md)
 shows improved development ranking but persistent missed errors. The
 [probability diagnostic](../../results/post_thesis/llm_judge/synthetic_diagnostic_v1_20260919.md)
-found sharply lower scores for embedded errors. Next is a separately bounded
-[binary-output diagnostic](BINARY_DIAGNOSTIC.md), with v2 unchanged. Original labels
+found sharply lower scores for embedded errors. The
+[binary diagnostic](../../results/post_thesis/llm_judge/binary_diagnostic_v1_20260919.md)
+matched all ten constructed expectations. Next is the separate
+[binary TRAIN token audit](BINARY_PILOT.md), keeping the binary formulation fixed. Original labels
 and both pilot runs remain intact; no final prompt freeze has been declared.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
@@ -135,7 +137,7 @@ normalize provider refusals/truncation into `BackendResponse.outcome`; and retur
 the reported model, response ID and token usage where available. Unknown model
 and usage stay `None`. Reject unsupported settings explicitly. Do not silently
 truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration, the v1 token audit and the bounded 50-example TRAIN
-scoring run have completed. The v2 scoring run also completed; the probability diagnostic also completed; the binary follow-up is tested offline only.
+scoring run have completed. The v2 scoring run also completed; the probability diagnostic also completed; the binary synthetic follow-up completed; its TRAIN pilot token audit is ready.
 
 `await judge_once(item, config=config, backend=backend)` returns an immutable
 `JudgeResult`. Its request carries requested-model and prompt provenance; its

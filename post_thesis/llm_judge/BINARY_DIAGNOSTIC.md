@@ -3,7 +3,9 @@
 **Development only. Excluded from the submitted thesis.** This follow-up was
 selected after inspecting the completed
 [probability diagnostic](../../results/post_thesis/llm_judge/synthetic_diagnostic_v1_20260919.md).
-It is not held-out validation. No binary GPU results are available yet.
+It is not held-out validation. This run is complete: all ten verdicts matched
+expectations; see the [recorded findings](../../results/post_thesis/llm_judge/binary_diagnostic_v1_20260919.md).
+Preserve this run. Next is a separate [binary TRAIN token audit](BINARY_PILOT.md).
 
 ## Question and controlled inputs
 
@@ -112,7 +114,7 @@ not prove server work stopped instantly. Stop the server to finalize its
 resource record. Server startup/idle time is separate; do not sum overlapping
 client/server windows. Rental cost remains unknown.
 
-## H200 execution after committing this patch
+## Historical H200 execution — do not rerun from a newer commit
 
 Pull the new commit and start the existing pinned launcher from that same clean
 checkout with the established CUDA/cache environment. No new packages are needed.

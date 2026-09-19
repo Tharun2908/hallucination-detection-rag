@@ -163,5 +163,5 @@ The operator supplied the summary and paired predictions; the
 [paired report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md)
 records development findings. Do not rerun this historical scoring procedure
 from a newer commit. The [synthetic probability diagnostic](DIAGNOSTIC.md) also
-completed; next is the [binary-output follow-up](BINARY_DIAGNOSTIC.md), preserving
-v2 and both pilot runs.
+completed, as did the [binary-output follow-up](BINARY_DIAGNOSTIC.md). Next is
+the [binary TRAIN token audit](BINARY_PILOT.md), preserving v2 and both pilot runs.

@@ -15,7 +15,8 @@ try:
 except ImportError:
     httpx = None
 
-from post_thesis.llm_judge.audit_pilot import audit, main
+from post_thesis.llm_judge.audit_pilot import AUDIT_DIRECTORIES, audit, main
+from post_thesis.llm_judge.binary_contract import BINARY_PROMPT, BINARY_SCHEMA_JSON, binary_request
 from post_thesis.llm_judge.judge import JudgeConfig, JudgeInput, build_request
 from post_thesis.llm_judge.prepare_pilot import build_bundle
 from post_thesis.llm_judge.prompts import (
@@ -67,6 +68,22 @@ class PromptVersionTests(unittest.TestCase):
             revision.assert_not_called()
 
 
+    def test_binary_and_probability_cli_namespaces_are_mutually_reserved(self):
+        for selected in AUDIT_DIRECTORIES:
+            for other, directory in AUDIT_DIRECTORIES.items():
+                if selected == other:
+                    continue
+                with self.subTest(selected=selected, other=other), \
+                        patch("sys.argv", ["audit_pilot", "--expected-manifest-sha256", "fixture",
+                                           "--prompt-version", selected, "--audit-id", directory]), \
+                        patch("post_thesis.llm_judge.audit_pilot.code_revision") as revision, \
+                        contextlib.redirect_stderr(io.StringIO()):
+                    with self.assertRaises(SystemExit) as stopped:
+                        main()
+                    self.assertEqual(stopped.exception.code, 2)
+                    revision.assert_not_called()
+
+
 @unittest.skipIf(httpx is None, "HTTP audit tests run after installing the client")
 class TokenAuditTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
@@ -94,6 +111,51 @@ class TokenAuditTests(unittest.IsolatedAsyncioTestCase):
         return await audit(bundle or self.bundle,
                            expected_manifest_sha256=expected or self.bundle["manifest_sha256"],
                            backend=backend, directory=self.directory, revision="fixture-audit", **kwargs)
+
+    async def test_binary_audit_has_exact_input_and_binary_request_identity(self):
+        original = deepcopy(self.bundle)
+        async with self.backend() as backend:
+            result = await self.run_audit(backend, prompt=BINARY_PROMPT)
+            self.assertTrue(result["summary"]["all_inputs_fit"])
+            self.assertEqual(result["summary"]["generation_calls"], 0)
+            self.assertEqual(self.bundle, original)
+            tokens = [r for r in self.calls if r.url.path == "/tokenize"]
+            self.assertEqual(len(tokens), 50)
+            saved = json.loads((self.directory / "audit.json").read_text())["audit"]
+            self.assertEqual(saved["identity"]["prompt"]["version"], BINARY_PROMPT.version)
+            self.assertEqual(saved["identity"]["request_contract"], "binary-diagnostic-request-v1")
+            self.assertEqual(saved["identity"]["response_schema_sha256"], content_hash(json.loads(BINARY_SCHEMA_JSON)))
+            for wire, source in zip(tokens, original["manifest"]["pilot_inputs"]):
+                messages = json.loads(wire.content)["messages"]
+                self.assertEqual(messages[0]["content"], BINARY_PROMPT.system_text)
+                self.assertEqual(json.loads(messages[1]["content"]), source["input"])
+                item = JudgeInput(**source["input"])
+                expected = binary_request(item, backend.config)
+                self.assertEqual(saved["counts"][source["sample_id"]]["request_key"], expected.key)
+                self.assertNotEqual(expected.key, build_request(item, backend.config, BINARY_PROMPT).key)
+            before = len(self.calls)
+            replay = await self.run_audit(backend, prompt=BINARY_PROMPT)
+            self.assertEqual(replay["tokenize_requests_started"], 0)
+            self.assertEqual(len(self.calls), before)
+
+    async def test_binary_cannot_overwrite_probability_audits(self):
+        async with self.backend() as backend:
+            for version, prompt in (("v1", DEVELOPMENT_PROMPT), ("v2", DEVELOPMENT_PROMPT_V2)):
+                self.directory = Path(self.temporary.name) / version
+                await self.run_audit(backend, prompt=prompt)
+                path = self.directory / "audit.json"
+                original, before = path.read_bytes(), len(self.calls)
+                with self.assertRaises(RunConflict):
+                    await self.run_audit(backend, prompt=BINARY_PROMPT)
+                self.assertEqual(path.read_bytes(), original)
+                self.assertEqual(len(self.calls), before)
+
+    async def test_binary_prompt_text_cannot_change_under_its_version(self):
+        async with self.backend() as backend:
+            with self.assertRaises(RunConflict):
+                await self.run_audit(backend, prompt=PromptSpec(BINARY_PROMPT.version, "changed"))
+            self.assertEqual(self.calls, [])
+            self.assertFalse(self.directory.exists())
 
     async def test_v2_audit_uses_new_system_prompt_and_identical_prepared_inputs(self):
         original = deepcopy(self.bundle)

@@ -10,6 +10,7 @@ from pathlib import Path
 import time
 import uuid
 
+from .binary_contract import BINARY_PROMPT, BINARY_SCHEMA_JSON, binary_request
 from .judge import BackendError, build_request
 from .prepare_pilot import pilot_examples
 from .prompts import DEVELOPMENT_PROMPT, DEVELOPMENT_PROMPT_V2, content_hash, get_prompt
@@ -20,6 +21,16 @@ from .vllm_backend import VLLMBackend
 
 AUDIT_VERSION = "pilot_formatted_lengths_v1"
 DEADLINE_SECONDS = 300
+AUDIT_DIRECTORIES = {
+    DEVELOPMENT_PROMPT.version: "ragtruth-train-pilot-50-token-audit-v1",
+    DEVELOPMENT_PROMPT_V2.version: "ragtruth-train-pilot-50-token-audit-v2",
+    BINARY_PROMPT.version: "ragtruth-train-pilot-50-token-audit-binary-v1",
+}
+
+
+def audit_prompt(version):
+    # Binary stays separate from the probability prompt registry and defaults.
+    return BINARY_PROMPT if version == BINARY_PROMPT.version else get_prompt(version)
 
 
 def _save(path, state):
@@ -71,16 +82,22 @@ async def audit(bundle, *, expected_manifest_sha256, backend, directory, revisio
     if len(examples) != 50 or manifest["initial_prompt"] != {
             "version": DEVELOPMENT_PROMPT.version, "sha256": DEVELOPMENT_PROMPT.sha256}:
         raise RunConflict("expected the unchanged 50-example pilot prepared with v1")
-    if prompt != get_prompt(prompt.version):
+    if prompt != audit_prompt(prompt.version):
         raise RunConflict("prompt text does not match its recorded version")
-    requests = {example.sample_id: build_request(example.item, config=backend.config, prompt=prompt)
-                for example in examples}
+    requests = {
+        example.sample_id: (binary_request(example.item, backend.config) if prompt == BINARY_PROMPT
+                            else build_request(example.item, config=backend.config, prompt=prompt))
+        for example in examples
+    }
     identity = {"study_stage": "post_thesis", "audit_version": AUDIT_VERSION,
                 "pilot_manifest_sha256": expected_manifest_sha256,
                 "code_revision": revision, "config": asdict(backend.config),
                 "profile": backend.profile, "prompt": {"version": prompt.version, "sha256": prompt.sha256},
                 "sample_ids": list(requests), "deadline_seconds": DEADLINE_SECONDS,
                 "max_attempts_per_input": 1, "concurrency": 1}
+    if prompt == BINARY_PROMPT:
+        identity.update(request_contract="binary-diagnostic-request-v1",
+                        response_schema_sha256=content_hash(json.loads(BINARY_SCHEMA_JSON)))
     directory = Path(directory)
     with exclusive_run(directory):
         path = directory / "audit.json"
@@ -153,13 +170,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--expected-manifest-sha256", required=True)
     parser.add_argument("--prompt-version", default=DEVELOPMENT_PROMPT.version,
-                        choices=[DEVELOPMENT_PROMPT.version, DEVELOPMENT_PROMPT_V2.version])
+                        choices=list(AUDIT_DIRECTORIES))
     parser.add_argument("--audit-id", help="Defaults to a separate directory for each prompt version")
     parser.add_argument("--base-url", default="http://127.0.0.1:8000")
     args = parser.parse_args()
-    prompt = get_prompt(args.prompt_version)
-    defaults = {DEVELOPMENT_PROMPT.version: "ragtruth-train-pilot-50-token-audit-v1",
-                DEVELOPMENT_PROMPT_V2.version: "ragtruth-train-pilot-50-token-audit-v2"}
+    prompt = audit_prompt(args.prompt_version)
+    defaults = AUDIT_DIRECTORIES
     audit_id = args.audit_id or defaults[prompt.version]
     if audit_id in defaults.values() and audit_id != defaults[prompt.version]:
         parser.error("use the selected prompt's audit directory; preserve other prompt versions")
