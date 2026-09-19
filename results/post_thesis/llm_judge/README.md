@@ -8,8 +8,11 @@ excluded from the submitted thesis results. **No final test results are availabl
   [operator-supplied predictions](ragtruth_pilot_v1_20260919.csv).
 - [Paired v1/v2 TRAIN development report](ragtruth_pilot_v1_v2_20260919.md) and
   [paired predictions](ragtruth_pilot_v1_v2_20260919.csv).
+- [Probability diagnostic findings](synthetic_diagnostic_v1_20260919.md) and
+  [operator-supplied results](synthetic_diagnostic_v1_20260919.json).
 
-Both pilots are complete. The next [synthetic diagnostic](../../../post_thesis/llm_judge/DIAGNOSTIC.md)
+Both pilots and the probability diagnostic are complete. The next
+[binary-output diagnostic](../../../post_thesis/llm_judge/BINARY_DIAGNOSTIC.md)
 is prepared but has no GPU results yet. Raw answer/context text, request caches and execution
 journals remain in ignored private artifact directories.
 

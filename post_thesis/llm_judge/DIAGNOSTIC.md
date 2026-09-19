@@ -2,8 +2,10 @@
 
 **Development only. Excluded from the submitted thesis.** Motivated by the
 [paired TRAIN pilot](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md).
-No diagnostic GPU results are available yet. Keep the v2 prompt, pinned model,
-non-thinking mode, temperature, JSON schema and 128-token output limit unchanged.
+This run is complete; see the [recorded findings](../../results/post_thesis/llm_judge/synthetic_diagnostic_v1_20260919.md).
+The next step is the separate [binary-output diagnostic](BINARY_DIAGNOSTIC.md).
+Preserve this historical run. Its v2 prompt, pinned model,
+non-thinking mode, temperature, JSON schema and 128-token output limit were unchanged.
 This experiment does not introduce a v3 prompt or read any benchmark dataset.
 
 ## Question and controls
@@ -89,7 +91,7 @@ cooperative deadline during cleanup. Cancellation does not attest that server
 work stopped instantly. Keep server resource records; do not sum overlapping
 client and server windows. Rental cost remains unknown.
 
-## H200 execution
+## Historical H200 execution — do not rerun from a newer commit
 
 After applying, committing and pushing the patch, pull it on the cluster and
 start the pinned launcher from that same clean commit using the established

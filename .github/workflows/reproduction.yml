@@ -28,6 +28,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_llm_judge_pilot_execution.py -v
       - name: Check bounded synthetic diagnostic with offline responses
         run: python -m unittest discover -s tests -p test_llm_judge_diagnostic.py -v
+      - name: Check binary-only diagnostic with offline responses
+        run: python -m unittest discover -s tests -p test_llm_judge_binary_diagnostic.py -v
   cached-audit:
     runs-on: ubuntu-latest
     steps:

@@ -10,7 +10,9 @@ manifest is prepared, the cluster token audit passed, and the first bounded
 50-example TRAIN scoring run is complete. Inspected development outcomes
 motivated a separate v2 prompt revision. Its token audit and 50-example scoring
 run are complete. Paired development results improve ranking but leave clear
-errors; the next step is a separately bounded [synthetic diagnostic](DIAGNOSTIC.md).
+errors. A completed [synthetic diagnostic](DIAGNOSTIC.md) found sharply lower
+probabilities for embedded unsupported claims. The next step is a separately
+bounded [binary-output diagnostic](BINARY_DIAGNOSTIC.md), without changing v2.
 The final benchmark configuration remains pending.
 See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
 Study design unchanged.

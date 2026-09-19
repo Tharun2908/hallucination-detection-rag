@@ -1,0 +1,145 @@
+{
+  "study_stage": "post_thesis",
+  "evidence_source": "operator_supplied_console_output",
+  "run_id": "qwen3-v2-synthetic-diagnostic-v1",
+  "code_revision": "772319d4cd7bee4c5619d14adfa8cc70ba48e573",
+  "prompt_version": "faithfulness-development-v2",
+  "prompt_sha256": "7771610009b40b5cce476fa4abda9ecb6bd025ecf71d635d7d3e7feb3c70135a",
+  "cases_sha256": "92e8287dfd4559a8722c47d0047f122fb65036d319efd4d669651973dab9aff2",
+  "examples_total": 10,
+  "examples_scored": 10,
+  "new_attempts": 10,
+  "terminal_failures": 0,
+  "pending": 0,
+  "execution_status": "finished",
+  "outcome": "invocation_completed",
+  "error_code": null,
+  "charged_client_seconds": 8.137147818226367,
+  "known_token_totals": {
+    "input_tokens": 6725,
+    "output_tokens": 95
+  },
+  "attempts_with_unknown_tokens": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "predictions": [
+    {
+      "sample_id": "attribute-supported-short",
+      "expected_unsupported": 0,
+      "unsupported_probability": 0.0
+    },
+    {
+      "sample_id": "attribute-supported-embedded",
+      "expected_unsupported": 0,
+      "unsupported_probability": 0.0
+    },
+    {
+      "sample_id": "attribute-contradicted-short",
+      "expected_unsupported": 1,
+      "unsupported_probability": 1.0
+    },
+    {
+      "sample_id": "attribute-contradicted-embedded",
+      "expected_unsupported": 1,
+      "unsupported_probability": 0.1
+    },
+    {
+      "sample_id": "attribute-unknown-short",
+      "expected_unsupported": 1,
+      "unsupported_probability": 1.0
+    },
+    {
+      "sample_id": "attribute-unknown-embedded",
+      "expected_unsupported": 1,
+      "unsupported_probability": 0.1
+    },
+    {
+      "sample_id": "numeric-supported-short",
+      "expected_unsupported": 0,
+      "unsupported_probability": 0.0
+    },
+    {
+      "sample_id": "numeric-supported-embedded",
+      "expected_unsupported": 0,
+      "unsupported_probability": 0.0
+    },
+    {
+      "sample_id": "numeric-contradicted-short",
+      "expected_unsupported": 1,
+      "unsupported_probability": 1.0
+    },
+    {
+      "sample_id": "numeric-contradicted-embedded",
+      "expected_unsupported": 1,
+      "unsupported_probability": 0.166666
+    }
+  ],
+  "comparisons": {
+    "support_pairs": [
+      {
+        "supported_id": "attribute-supported-short",
+        "unsupported_id": "attribute-contradicted-short",
+        "unsupported_minus_supported": 1.0,
+        "expected_direction_observed": true
+      },
+      {
+        "supported_id": "attribute-supported-embedded",
+        "unsupported_id": "attribute-contradicted-embedded",
+        "unsupported_minus_supported": 0.1,
+        "expected_direction_observed": true
+      },
+      {
+        "supported_id": "attribute-supported-short",
+        "unsupported_id": "attribute-unknown-short",
+        "unsupported_minus_supported": 1.0,
+        "expected_direction_observed": true
+      },
+      {
+        "supported_id": "attribute-supported-embedded",
+        "unsupported_id": "attribute-unknown-embedded",
+        "unsupported_minus_supported": 0.1,
+        "expected_direction_observed": true
+      },
+      {
+        "supported_id": "numeric-supported-short",
+        "unsupported_id": "numeric-contradicted-short",
+        "unsupported_minus_supported": 1.0,
+        "expected_direction_observed": true
+      },
+      {
+        "supported_id": "numeric-supported-embedded",
+        "unsupported_id": "numeric-contradicted-embedded",
+        "unsupported_minus_supported": 0.166666,
+        "expected_direction_observed": true
+      }
+    ],
+    "answer_length_changes": [
+      {
+        "short_id": "attribute-supported-short",
+        "embedded_id": "attribute-supported-embedded",
+        "embedded_minus_short": 0.0
+      },
+      {
+        "short_id": "attribute-contradicted-short",
+        "embedded_id": "attribute-contradicted-embedded",
+        "embedded_minus_short": -0.9
+      },
+      {
+        "short_id": "attribute-unknown-short",
+        "embedded_id": "attribute-unknown-embedded",
+        "embedded_minus_short": -0.9
+      },
+      {
+        "short_id": "numeric-supported-short",
+        "embedded_id": "numeric-supported-embedded",
+        "embedded_minus_short": 0.0
+      },
+      {
+        "short_id": "numeric-contradicted-short",
+        "embedded_id": "numeric-contradicted-embedded",
+        "embedded_minus_short": -0.833334
+      }
+    ]
+  }
+}

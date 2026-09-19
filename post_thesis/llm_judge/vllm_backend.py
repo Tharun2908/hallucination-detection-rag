@@ -175,7 +175,7 @@ class VLLMBackend:
                        min_p=0.0, repetition_penalty=1.0, presence_penalty=0.0,
                        frequency_penalty=0.0,
                        response_format={"type": "json_schema", "json_schema": {
-                           "name": "unsupported_probability", "strict": True,
+                           "name": json.loads(request.response_schema_json).get("title", "unsupported_probability"), "strict": True,
                            "schema": json.loads(request.response_schema_json)}})
         response = await self._request("POST", "/v1/chat/completions", payload)
         return self._response(response, count)

@@ -10,8 +10,10 @@ record a repeatable absence-claim failure as well as successful cache reuse.
 The [v1 TRAIN pilot report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md)
 records valid scores but a compressed probability range and missed errors.
 The [paired comparison](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md)
-shows improved development ranking but persistent missed errors. Next is a
-[bounded synthetic diagnostic](DIAGNOSTIC.md), with v2 unchanged. Original labels
+shows improved development ranking but persistent missed errors. The
+[probability diagnostic](../../results/post_thesis/llm_judge/synthetic_diagnostic_v1_20260919.md)
+found sharply lower scores for embedded errors. Next is a separately bounded
+[binary-output diagnostic](BINARY_DIAGNOSTIC.md), with v2 unchanged. Original labels
 and both pilot runs remain intact; no final prompt freeze has been declared.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
@@ -65,7 +67,7 @@ Use IDs, hashes, configuration, and aggregate metrics for public artifacts.
 
 Model comparison and paid execution follow the protocol stages. Real generation
 commands are the bounded synthetic smoke test, fixed 50-example TRAIN pilots
-and separately bounded ten-example synthetic diagnostic.
+and separately bounded ten-example probability and binary synthetic diagnostics.
 `prepare_pilot.py` creates a TRAIN manifest without model calls; `audit_pilot.py`
 checks formatted lengths via tokenization without generation. The actual cluster
 length audit passed; `run_pilot.py` enforces the frozen inference limits across
@@ -133,7 +135,7 @@ normalize provider refusals/truncation into `BackendResponse.outcome`; and retur
 the reported model, response ID and token usage where available. Unknown model
 and usage stay `None`. Reject unsupported settings explicitly. Do not silently
 truncate evidence, add prompts, retry, or switch models. Synthetic GPU integration, the v1 token audit and the bounded 50-example TRAIN
-scoring run have completed. The v2 scoring run also completed; the next synthetic diagnostic is tested offline only.
+scoring run have completed. The v2 scoring run also completed; the probability diagnostic also completed; the binary follow-up is tested offline only.
 
 `await judge_once(item, config=config, backend=backend)` returns an immutable
 `JudgeResult`. Its request carries requested-model and prompt provenance; its

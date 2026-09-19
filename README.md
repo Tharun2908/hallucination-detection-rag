@@ -3,7 +3,7 @@
 Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin, 2026).
 
 > **Post-thesis work:** a separately labeled [LLM judge extension](post_thesis/llm_judge/README.md)
-> has completed paired v1/v2 TRAIN development pilots on H200. A bounded synthetic diagnostic is ready to investigate remaining v2 failures. No final test results are available yet.
+> has completed paired v1/v2 TRAIN development pilots on H200. A synthetic diagnostic found sharply lower error probabilities in longer answers; a binary-output follow-up is ready. No final test results are available yet.
 
 
 This repository is a **research-engineering study of hallucination-verifier reliability under distribution shift**. It evaluates post-generation, response-level faithfulness verification for Retrieval-Augmented Generation (RAG), with particular emphasis on whether apparently strong benchmark results survive stricter evaluation protocols and transfer to a different benchmark.
@@ -504,7 +504,7 @@ The datasets used by the experiments remain governed by their original licenses.
 The experiments below were conducted after thesis submission and are not part
 of the submitted thesis results.
 
-**Current status: paired v1/v2 TRAIN development pilots are complete; a bounded synthetic diagnostic is ready; final benchmark scoring is pending.** See the [paired findings](results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md) and [diagnostic protocol](post_thesis/llm_judge/DIAGNOSTIC.md). See the [v1 pilot findings](results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md), [synthetic observations](results/post_thesis/llm_judge/synthetic_smoke_20260919.md), and [v2 development revision](post_thesis/llm_judge/PROMPT_V2.md). The
+**Current status: paired v1/v2 TRAIN development pilots are complete; the probability diagnostic is complete and a binary-output follow-up is ready; final benchmark scoring is pending.** See the [paired findings](results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md) and [diagnostic protocol](post_thesis/llm_judge/DIAGNOSTIC.md). See the [v1 pilot findings](results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md), [synthetic observations](results/post_thesis/llm_judge/synthetic_smoke_20260919.md), and [v2 development revision](post_thesis/llm_judge/PROMPT_V2.md). The
 [LLM judge study](post_thesis/llm_judge/README.md) will compare a prompted judge
 with the existing external verifiers on RAGTruth and the canonical HaluBench
 split. The [protocol](post_thesis/llm_judge/PROTOCOL.md) records the evaluation
