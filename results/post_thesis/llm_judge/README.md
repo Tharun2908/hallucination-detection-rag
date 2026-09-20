@@ -81,3 +81,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Local RAGTruth TEST alignment](test_alignment_local_20260920.json): all 2,700 native answers, 2,694 exact contexts and six pinned single-space differences; cluster preparation and baseline provenance pending.
 
 - [Legacy baseline artifact inventory](legacy_baseline_inventory_20260920.json): located six full-size caches and six S4 config paths; cluster TEST manifest hash independently reconstructed. Cache bytes and checkpoint linkage remain unverified by the report author; on-pod provenance audit pending.
+
+- [Completed cluster legacy-baseline audit](baseline_provenance_cluster_20260920.md) and [operator observations](baseline_provenance_cluster_20260920.json): complete caches, matching OOF assignments and historical TRAIN thresholds; legacy input/model provenance remains incomplete. Metadata-free fusion reconstruction is prepared, not yet run on cluster caches.

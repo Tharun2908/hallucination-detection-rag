@@ -1,0 +1,144 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "operator_supplied_console_observations",
+  "date": "2026-09-20",
+  "private_report_sha256": "2e85cc46aeb4ade600c3c70680c200338f580dd20875a1a122d71f0988575e7c",
+  "code_revision": "84a9b48158476da32844d9679bce52b9e28cdbbd",
+  "private_report_independently_received": false,
+  "private_report_hash_independently_recomputed": false,
+  "cache_checks": {
+    "signal4_results_train_oof.json": {
+      "rows": 15090,
+      "valid_scores": 15090,
+      "missing_scores": 0,
+      "label_and_metadata_alignment": true,
+      "answer_context_alignment_verified": false,
+      "sha256": "7be2eb53ac3767e17477ea737390119fa5a809764679ff3424212a51d9904b42",
+      "split": "train"
+    },
+    "signal4_results_test.json": {
+      "rows": 2700,
+      "valid_scores": 2700,
+      "missing_scores": 0,
+      "label_and_metadata_alignment": true,
+      "answer_context_alignment_verified": false,
+      "sha256": "91d38d199d6e3c6e26ec4adfdb7cbd6767496de75e3a577daed159648b47c1b2",
+      "split": "test"
+    },
+    "minicheck_results_train_7b.json": {
+      "rows": 15090,
+      "valid_scores": 15090,
+      "missing_scores": 0,
+      "label_and_metadata_alignment": true,
+      "answer_context_alignment_verified": false,
+      "sha256": "720651ed41938ebeb92f84b3925237e730db1be04ddfbf35554949b80cc373d9",
+      "split": "train"
+    },
+    "minicheck_results_test_7b.json": {
+      "rows": 2700,
+      "valid_scores": 2700,
+      "missing_scores": 0,
+      "label_and_metadata_alignment": true,
+      "answer_context_alignment_verified": false,
+      "sha256": "4e20383ab51a20c53934db5073d04e124e22079bc9a8bd99d5253eee7e320bcf",
+      "split": "test"
+    },
+    "relevance_results_train_v2.json": {
+      "rows": 15090,
+      "valid_scores": 15090,
+      "missing_scores": 0,
+      "label_and_metadata_alignment": true,
+      "answer_context_alignment_verified": false,
+      "sha256": "7377db83e163a318dac16a04e6574746c89e4bb78f93bd1698461c35b82f6647",
+      "split": "train"
+    },
+    "relevance_results_test_v2.json": {
+      "rows": 2700,
+      "valid_scores": 2700,
+      "missing_scores": 0,
+      "label_and_metadata_alignment": true,
+      "answer_context_alignment_verified": false,
+      "sha256": "93d93755b584146b63aece0eab053ecb919713408258fa8f6fb06c71709c3b36",
+      "split": "test"
+    }
+  },
+  "oof": {
+    "fold_membership_matches": true,
+    "fold_counts": {
+      "1": 3018,
+      "2": 3018,
+      "3": 3018,
+      "4": 3018,
+      "5": 3018
+    },
+    "score_type": "out_of_fold",
+    "training_exclusion_independently_proven": false
+  },
+  "threshold_reproduction": {
+    "S4": {
+      "status": "matches_historical_TRAIN_audit",
+      "score_space": "unsupported_probability",
+      "comparator": ">=",
+      "threshold": 0.55,
+      "threshold_hex": "0x1.199999999999ap-1",
+      "tp": 5147,
+      "fp": 2085,
+      "fn": 1574,
+      "f1": 0.737762488353759
+    },
+    "MC_7B": {
+      "status": "matches_historical_TRAIN_audit",
+      "score_space": "support_probability",
+      "comparator": "<",
+      "threshold": 0.20000000000000004,
+      "threshold_hex": "0x1.999999999999bp-3",
+      "tp": 5237,
+      "fp": 1976,
+      "fn": 1484,
+      "f1": 0.7516865221759724
+    }
+  },
+  "checkpoint_summaries": {
+    "signal4_model": {
+      "status": "present",
+      "weight_files_present": true,
+      "files": 4
+    },
+    "signal4_oof_models/fold_1": {
+      "status": "present",
+      "weight_files_present": true,
+      "files": 7
+    },
+    "signal4_oof_models/fold_2": {
+      "status": "present",
+      "weight_files_present": true,
+      "files": 7
+    },
+    "signal4_oof_models/fold_3": {
+      "status": "present",
+      "weight_files_present": true,
+      "files": 7
+    },
+    "signal4_oof_models/fold_4": {
+      "status": "present",
+      "weight_files_present": true,
+      "files": 7
+    },
+    "signal4_oof_models/fold_5": {
+      "status": "present",
+      "weight_files_present": true,
+      "files": 7
+    }
+  },
+  "individual_checkpoint_fingerprints_supplied": false,
+  "TEST_metrics_computed": false,
+  "generation_calls": 0,
+  "judge_fitting_calls": 0,
+  "comparison_ready": false,
+  "limitations": [
+    "Legacy caches do not contain inference answer/context hashes.",
+    "Fingerprinting current weights does not establish historical cache-to-checkpoint linkage.",
+    "Historical evidence visibility remains unverified.",
+    "Metadata-free fusion coefficients and predictions still require reconstruction."
+  ]
+}
