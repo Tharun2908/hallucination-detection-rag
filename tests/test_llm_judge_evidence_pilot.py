@@ -16,6 +16,7 @@ except ImportError:
 
 from post_thesis.llm_judge.audit_pilot import AUDIT_VERSION
 from post_thesis.llm_judge.evidence_contract import EVIDENCE_PROMPT
+from post_thesis.llm_judge.evidence_prompt_v2 import EVIDENCE_PROMPT_V2, evidence_request_prompt_v2
 from post_thesis.llm_judge.evidence_schema_v3 import EVIDENCE_SCHEMA_V3_JSON, EVIDENCE_V3_FIELD_ORDER, evidence_request_v3
 from post_thesis.llm_judge.evidence_diagnose import native_observation
 from post_thesis.llm_judge.serve import server_command
@@ -60,6 +61,8 @@ class BudgetTests(unittest.TestCase):
 
 @unittest.skipIf(httpx is None, "HTTP execution tests run after installing the client")
 class PilotExecutionTests(unittest.IsolatedAsyncioTestCase):
+    PROMPT = EVIDENCE_PROMPT
+    REQUEST_FACTORY = staticmethod(evidence_request_v3)
 
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -94,13 +97,13 @@ class PilotExecutionTests(unittest.IsolatedAsyncioTestCase):
         return VLLMBackend(profile_name="evidence-v1", transport=httpx.MockTransport(handler))
 
     def setup_inputs(self, backend):
-        self.plan = pilot.load_plan()
-        self.prompt = EVIDENCE_PROMPT
+        self.plan = pilot.load_plan(self.PROMPT.version)
+        self.prompt = self.PROMPT
         self.bundle = build_bundle(records(), revision=self.plan["preparation_code_revision"])
         self.plan["pilot_manifest_sha256"] = self.bundle["manifest_sha256"]
         examples = pilot_examples(self.bundle)
         counts = {ex.sample_id: {"status": "ok", "input_tokens": 100,
-                  "request_key": evidence_request_v3(ex.item, backend.config).key} for ex in examples}
+                  "request_key": self.REQUEST_FACTORY(ex.item, backend.config).key} for ex in examples}
         state = {"identity": {"study_stage": "post_thesis", "audit_version": AUDIT_VERSION,
                  "pilot_manifest_sha256": self.bundle["manifest_sha256"],
                  "code_revision": self.plan["audit_code_revision"], "config": asdict(backend.config),
@@ -346,6 +349,56 @@ class PilotExecutionTests(unittest.IsolatedAsyncioTestCase):
             with self.assertRaises(RunConflict):
                 await self.execute(backend)
             self.assertEqual(self.calls, [])
+
+
+class PromptV2ExecutionTests(PilotExecutionTests):
+    PROMPT = EVIDENCE_PROMPT_V2
+    REQUEST_FACTORY = staticmethod(evidence_request_prompt_v2)
+
+    async def test_v1_audit_rejected_even_when_outer_checksum_is_recomputed(self):
+        async with self.backend() as backend:
+            self.setup_inputs(backend)
+            state = self.audited["audit"]
+            state["identity"]["prompt"] = {"version": EVIDENCE_PROMPT.version, "sha256": EVIDENCE_PROMPT.sha256}
+            self.audited["audit_sha256"] = content_hash(state)
+            self.plan["audit_sha256"] = self.audited["audit_sha256"]
+            with self.assertRaisesRegex(RunConflict, "identity"):
+                await self.execute(backend)
+            self.assertEqual(self.calls, [])
+            self.assertFalse(self.run_dir.exists())
+
+    async def test_v1_request_keys_cannot_be_used_with_v2_audit_identity(self):
+        async with self.backend() as backend:
+            self.setup_inputs(backend)
+            state = self.audited["audit"]
+            for example in pilot_examples(self.bundle):
+                state["counts"][example.sample_id]["request_key"] = evidence_request_v3(example.item, backend.config).key
+            self.audited["audit_sha256"] = content_hash(state)
+            self.plan["audit_sha256"] = self.audited["audit_sha256"]
+            with self.assertRaisesRegex(RunConflict, "misaligned"):
+                await self.execute(backend)
+            self.assertEqual(self.calls, [])
+
+    async def test_cannot_spend_v2_plan_in_v1_namespace(self):
+        async with self.backend() as backend:
+            self.setup_inputs(backend)
+            self.plan["run_id"] = pilot.load_plan()["run_id"]
+            with self.assertRaisesRegex(RunConflict, "namespace"):
+                await self.execute(backend)
+            self.assertEqual(self.calls, [])
+            self.assertFalse(self.run_dir.exists())
+
+    def test_v2_plan_pins_observed_audit_and_same_compute_limits(self):
+        plan = pilot.load_plan(self.PROMPT.version)
+        self.assertEqual(plan["audit_sha256"], "06569291a3b0b620884ad1cdd213ffa83febc718c827e5a388bb133a888f92d6")
+        self.assertEqual(plan["audit_code_revision"], "6137fb47b5aa65ace9eb5de78a8bea52202850bc")
+        self.assertEqual(plan["audited_input_tokens"] + plan["max_output_tokens_total"], 103324)
+        self.assertEqual(plan["audited_max_input_tokens"] + plan["max_output_tokens_per_example"], 3841)
+        old = pilot.load_plan()
+        for key in ("pilot_manifest_sha256", "profile_sha256", "serialized_schema_sha256",
+                    "client_budget_seconds_across_resumes", "max_attempts_per_input",
+                    "max_output_tokens_per_example", "max_output_tokens_total"):
+            self.assertEqual(plan[key], old[key])
 
 
 if __name__ == "__main__":

@@ -1,6 +1,11 @@
 # Post-thesis: original TRAIN pilot token audit for evidence prompt v2
 
-**Tokenization only; adaptive development, excluded from the submitted thesis.**
+**Completed at revision `6137fb47b5aa65ace9eb5de78a8bea52202850bc`; tokenization only.**
+The [recorded audit](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_audit_20260920.md)
+counted all 50 inputs. Preserve its checkpoint and revision; do not repeat this
+historical procedure on newer code. Continue with the separately pinned
+[scoring plan](EVIDENCE_PROMPT_V2_PILOT_RUN.md). Adaptive development is excluded
+from the submitted thesis.
 The [paired synthetic findings](../../results/post_thesis/llm_judge/evidence_prompt_pair_v1_20260919.md)
 show one corrected verdict, one v2 rationale regression and a shared false-absence
 miss. Hold v2 fixed now, rather than tuning further on the 26 synthetic cases.
@@ -54,9 +59,8 @@ code revision and per-input request keys for later scoring alignment.
 
 The output always states `generation_calls: 0` and
 `scoring_authorized_by_this_audit: false`. It establishes input fit, not faithfulness,
-explanation quality, generation usage or a spending estimate. Once actual lengths,
-audit SHA256 and code revision are reported, a separate scoring configuration can
-be recorded. The existing v1 evidence scoring command remains pinned to v1; it
+explanation quality, generation usage or a spending estimate. The actual lengths, audit SHA256 and code revision are now recorded in the
+separate scoring configuration. The existing v1 evidence scoring command remains pinned to v1; it
 cannot score this v2 candidate or reuse the new audit.
 
 ## H200 procedure after commit, push and CI

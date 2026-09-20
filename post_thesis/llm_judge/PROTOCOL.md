@@ -314,3 +314,16 @@ separate fixed directory. The 512-token output allowance is a fit check; zero
 generation calls are made. Record actual counts, audit hash and revision before
 preparing any scoring budget. Existing v1 artifacts and scoring identities remain
 unchanged. Synthetic semantic limitations carry forward to the next review.
+
+## Evidence prompt-v2 original-TRAIN bounded scoring
+
+The operator-reported audit at revision `6137fb47b5aa65ace9eb5de78a8bea52202850bc`
+counted 50/50 inputs: 77,724 tokens, maximum 3,329, no overlength cases and no
+model generations. The [separate scoring plan](EVIDENCE_PROMPT_V2_PILOT_RUN.md)
+pins audit SHA256 `06569291a3b0b620884ad1cdd213ffa83febc718c827e5a388bb133a888f92d6`.
+It allows one attempt per original input, 512 output tokens each and 600 cumulative
+client seconds. The prompt, schema, parser and model remain fixed. Preserve the
+v1 default and artifacts; v2 uses an explicit selector and separate journal.
+Scoring is pending. The existing semantic failures remain review targets, and
+this adaptive TRAIN run introduces no probabilities, test metrics, threshold
+fitting or final benchmark freeze.

@@ -10,8 +10,9 @@ from pathlib import Path
 import time
 import uuid
 
-from .audit_pilot import AUDIT_VERSION
+from .audit_pilot import AUDIT_VERSION, AUDIT_DIRECTORIES
 from .evidence_contract import EVIDENCE_PROMPT
+from .evidence_prompt_v2 import EVIDENCE_PROMPT_V2, evidence_request_prompt_v2
 from .evidence_schema_v3 import (EVIDENCE_SCHEMA_V3_JSON, EVIDENCE_V3_WIRE_SHA256,
                                  EVIDENCE_V3_FIELD_ORDER, evidence_request_v3)
 from .evidence_diagnose import validate_v2_server
@@ -41,15 +42,37 @@ class EvidenceAuditedBackend(AuditedBackend):
             raise
 
 
-def load_plan():
-    return json.loads(PLAN_PATH.read_text(encoding="utf-8"))
+# V1 remains the default. Each candidate owns its audit, plan and run namespace.
+CANDIDATES = {
+    EVIDENCE_PROMPT.version: (EVIDENCE_PROMPT, evidence_request_v3,
+        "ragtruth_pilot_50_evidence_v3", "qwen3-ragtruth-train-pilot-50-evidence-v3"),
+    EVIDENCE_PROMPT_V2.version: (EVIDENCE_PROMPT_V2, evidence_request_prompt_v2,
+        "ragtruth_pilot_50_evidence_prompt_v2", "qwen3-ragtruth-train-pilot-50-evidence-prompt-v2"),
+}
+
+
+def load_plan(prompt_version=EVIDENCE_PROMPT.version):
+    if prompt_version not in CANDIDATES:
+        raise RunConflict("unsupported evidence pilot prompt")
+    name = CANDIDATES[prompt_version][2]
+    return json.loads(PLAN_PATH.with_name(name + ".json").read_text(encoding="utf-8"))
+
+
+def plan_candidate(plan):
+    candidate = CANDIDATES.get(plan.get("prompt_version"))
+    if candidate is None:
+        raise RunConflict("unsupported evidence pilot prompt")
+    prompt, factory, version, run_id = candidate
+    if (plan.get("prompt_sha256") != prompt.sha256
+            or plan.get("execution_plan_version") != version or plan.get("run_id") != run_id):
+        raise RunConflict("evidence pilot prompt, plan or run namespace mismatch")
+    return prompt, factory
 
 
 def validate_inputs(bundle, audited, plan, backend):
     """Fail closed before model calls or spending the execution allowance."""
+    selected_prompt, request_factory = plan_candidate(plan)
     if (plan["study_stage"] != "post_thesis" or plan["protocol_id"] != PROTOCOL_ID
-            or plan["execution_plan_version"] != "ragtruth_pilot_50_evidence_v3"
-            or plan["run_id"] != "qwen3-ragtruth-train-pilot-50-evidence-v3"
             or plan["request_contract"] != "evidence-diagnostic-request-v3"
             or plan["response_schema_sha256"] != content_hash(json.loads(EVIDENCE_SCHEMA_V3_JSON))
             or plan.get("serialized_schema_sha256") != EVIDENCE_V3_WIRE_SHA256
@@ -74,7 +97,7 @@ def validate_inputs(bundle, audited, plan, backend):
             or dataset["sha256"] != TRAIN_SHA256 or dataset["rows"] != TRAIN_ROWS
             or manifest["code_revision"] != plan["preparation_code_revision"]):
         raise RunConflict("unexpected TRAIN data provenance")
-    prompt = {"version": EVIDENCE_PROMPT.version, "sha256": EVIDENCE_PROMPT.sha256}
+    prompt = {"version": selected_prompt.version, "sha256": selected_prompt.sha256}
     initial_prompt = {"version": DEVELOPMENT_PROMPT.version, "sha256": DEVELOPMENT_PROMPT.sha256}
     if (manifest["initial_prompt"] != initial_prompt
             or prompt != {"version": plan["prompt_version"], "sha256": plan["prompt_sha256"]}
@@ -102,7 +125,7 @@ def validate_inputs(bundle, audited, plan, backend):
         raise RunConflict("token audit must cover exactly the selected 50 examples")
     expected = {}
     for example in examples:
-        request = evidence_request_v3(example.item, backend.config)
+        request = request_factory(example.item, backend.config)
         row = state["counts"][example.sample_id]
         count = row["input_tokens"]
         if (row["status"] != "ok" or row["request_key"] != request.key
@@ -123,6 +146,7 @@ def validate_inputs(bundle, audited, plan, backend):
 async def execute(bundle, audited, *, plan, backend, revision, artifact_root=None,
                   server_record=None, max_new_attempts=50, clock=time.monotonic):
     examples, counts = validate_inputs(bundle, audited, plan, backend)
+    _, request_factory = plan_candidate(plan)
     if type(max_new_attempts) is not int or not 0 <= max_new_attempts <= 50:
         raise ValueError("max_new_attempts must be in [0,50]; it cannot increase the total budget")
     directory = run_directory(plan["run_id"], artifact_root)
@@ -135,7 +159,7 @@ async def execute(bundle, audited, *, plan, backend, revision, artifact_root=Non
         return await run_evidence(examples, run_id=plan["run_id"], config=backend.config,
                                 backend=guarded, revision=revision, dataset_revision=DATASET_REVISION,
                                 artifact_root=artifact_root, max_new_attempts=cap,
-                                halt_codes=EVIDENCE_PILOT_HALT_CODES, request_factory=evidence_request_v3,
+                                halt_codes=EVIDENCE_PILOT_HALT_CODES, request_factory=request_factory,
                                 expected_response_order=EVIDENCE_V3_FIELD_ORDER)
 
     with exclusive_run(control):
@@ -232,11 +256,13 @@ def main():
     parser.add_argument("--server-session-id", help="Printed server-... directory name from this launcher")
     parser.add_argument("--max-new-attempts", type=int, default=50,
                         help="Optional smaller invocation cap, 0 for cache inspection; never resets budgets")
+    parser.add_argument("--prompt-version", choices=tuple(CANDIDATES), default=EVIDENCE_PROMPT.version,
+                        help="Select a separately pinned evidence pilot; default preserves v1")
     args = parser.parse_args()
     revision = code_revision()
-    plan = load_plan()
+    plan = load_plan(args.prompt_version)
     bundle = json.loads((run_directory("ragtruth-train-pilot-50-v1") / "manifest.json").read_text(encoding="utf-8"))
-    audited = json.loads((run_directory("ragtruth-train-pilot-50-token-audit-evidence-v3") / "audit.json").read_text(encoding="utf-8"))
+    audited = json.loads((run_directory(AUDIT_DIRECTORIES[args.prompt_version]) / "audit.json").read_text(encoding="utf-8"))
     record = None
     if args.server_session_id:
         if not args.server_session_id.startswith("server-"):

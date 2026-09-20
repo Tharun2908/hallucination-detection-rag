@@ -1,0 +1,32 @@
+{
+  "study_stage": "post_thesis",
+  "kind": "operator_reported_TRAIN_evidence_token_audit",
+  "date": "2026-09-20",
+  "source": "Operator-supplied H200 console output; private audit file not independently inspected here. Scoring validates its checksum before HTTP.",
+  "audit_sha256": "06569291a3b0b620884ad1cdd213ffa83febc718c827e5a388bb133a888f92d6",
+  "audit_code_revision": "6137fb47b5aa65ace9eb5de78a8bea52202850bc",
+  "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+  "prompt_version": "faithfulness-evidence-diagnostic-v2",
+  "prompt_sha256": "7b43e40be9758a9eb2e210a3b4636c043eca88578b9fa62c2774ac7df5414e82",
+  "evidence_schema_version": "v3",
+  "serialized_schema_sha256": "f86a37ac3bf7ca198663ce266a345ce89018b8d9e52f046d3fb94e7dadf5fa33",
+  "audit_status": "completed",
+  "new_tokenization_requests": 50,
+  "summary": {
+    "examples_total": 50,
+    "examples_counted": 50,
+    "examples_failed_or_interrupted": 0,
+    "examples_pending": 0,
+    "overlength_ids": [],
+    "max_input_tokens": 3329,
+    "min_input_tokens": 1064,
+    "total_input_tokens": 77724,
+    "output_allowance_per_example": 512,
+    "model_limit": 32768,
+    "all_inputs_fit": true,
+    "generation_calls": 0,
+    "scoring_authorized_by_this_audit": false
+  },
+  "date_basis": "Date recorded from operator console report; not an independently verified cluster timestamp.",
+  "private_audit_directory": ".artifacts/post_thesis/llm_judge/ragtruth-train-pilot-50-token-audit-evidence-prompt-v2"
+}
