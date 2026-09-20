@@ -324,6 +324,20 @@ pins audit SHA256 `06569291a3b0b620884ad1cdd213ffa83febc718c827e5a388bb133a888f9
 It allows one attempt per original input, 512 output tokens each and 600 cumulative
 client seconds. The prompt, schema, parser and model remain fixed. Preserve the
 v1 default and artifacts; v2 uses an explicit selector and separate journal.
-Scoring is pending. The existing semantic failures remain review targets, and
+Scoring is complete; see the findings addendum below. Existing semantic failures remain review targets, and
 this adaptive TRAIN run introduces no probabilities, test metrics, threshold
 fitting or final benchmark freeze.
+
+## Completed evidence prompt-v2 TRAIN findings
+
+The [v2 report](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_pilot_20260920.md)
+records the bounded run at `2265ac33683274383a42ec0be2e8df3a91fde86b`:
+43/50 valid records, seven quote-membership failures and all 50 raw field orders
+reported correct. Six previously missing outputs become valid; among the 37
+shared valid examples, label agreement changes from 27 to 26. Preserve failures
+as missing and distinguish semantic rationale quality from label agreement.
+Targeted assistant review is complete; exhaustive adjudication is not.
+Pause further evidence-prompt tuning. Define the continuous-score protocol next,
+including score semantics, missingness, calibration and development-only threshold
+selection, before implementing new inference. No new compute allowance, test
+metrics or benchmark freeze follows from recording these findings.

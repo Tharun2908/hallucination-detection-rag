@@ -24,7 +24,7 @@ The [structured evidence v1 findings](evidence_diagnostic_v1_20260919.md) and
 [operator-supplied responses](evidence_diagnostic_v1_20260919.json) record 11/14
 valid synthetic outputs and one explanation concern. The next
 [schema-only v2 candidate](../../../post_thesis/llm_judge/EVIDENCE_SCHEMA_V2.md)
-passed its [native compatibility check](evidence_schema_v2_native_20260919.md) at 38/38. Its [live synthetic result](evidence_diagnostic_v2_20260919.md) has 14/14 valid records with two false positives and a persistent explanation concern. The [verdict-first native check](evidence_schema_v3_native_20260919.md) passed 44/44. The [v3 live findings](evidence_diagnostic_v3_20260919.md) and [parsed observations](evidence_diagnostic_v3_20260919.json) record 14/14 valid, correctly ordered outputs and 13/14 expected verdicts. A [token-only original TRAIN pilot audit](../../../post_thesis/llm_judge/EVIDENCE_PILOT.md) is prepared; evidence TRAIN scoring remains pending. Raw answer/context text, request caches and execution
+passed its [native compatibility check](evidence_schema_v2_native_20260919.md) at 38/38. Its [live synthetic result](evidence_diagnostic_v2_20260919.md) has 14/14 valid records with two false positives and a persistent explanation concern. The [verdict-first native check](evidence_schema_v3_native_20260919.md) passed 44/44. The [v3 live findings](evidence_diagnostic_v3_20260919.md) and [parsed observations](evidence_diagnostic_v3_20260919.json) record 14/14 valid, correctly ordered outputs and 13/14 expected verdicts. The original TRAIN evidence audit and scoring runs are complete; see the findings below. Raw answer/context text, request caches and execution
 journals remain in ignored private artifact directories.
 
 Future run directories must use unique run IDs. Include protocol/configuration,
@@ -46,3 +46,10 @@ The [paired evidence prompt findings](evidence_prompt_pair_v1_20260919.md) recor
 corrected absence verdict, one v2 rationale regression and one shared missed
 false-absence claim. All paired exported evidence and assistant review tags are
 preserved in the accompanying JSON. This remains adaptive synthetic development.
+
+The [evidence prompt-v2 TRAIN findings](ragtruth_evidence_prompt_v2_pilot_20260920.md)
+and [exported evidence with paired outcomes](ragtruth_evidence_prompt_v2_pilot_20260920.json)
+record 43/50 valid outputs, seven retained quote failures and targeted semantic
+review. All six recovered records match positive labels, but shared-valid label
+agreement changes from 27/37 to 26/37. Preserve these mixed development findings;
+evidence-prompt tuning is paused while the continuous-score protocol is designed.

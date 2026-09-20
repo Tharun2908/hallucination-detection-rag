@@ -99,9 +99,12 @@ parser. It prints `generation_calls: 0`, `model_behavior_tested: false` and
 tokenizer/serving compatibility or deployment readiness. Existing CI discovers
 the offline tests on Linux and Windows.
 
-## Next original-TRAIN development audit
+## Completed original-TRAIN development pilot
 
-The [prompt-v2 token audit](EVIDENCE_PROMPT_V2_PILOT.md) is prepared for the same
-50 TRAIN examples and unchanged schema v3. It uses a separate fixed directory,
-preserves historical audits and makes no generation calls. The known rationale
-regression is retained; this is not a benchmark freeze or a claim of superiority.
+The [token audit](EVIDENCE_PROMPT_V2_PILOT.md) and separate bounded run are complete.
+The [findings](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_pilot_20260920.md)
+record 43/50 valid outputs with seven retained failures. Coverage improved but
+shared-valid label agreement fell by one and semantic errors persist. Pause
+further evidence-prompt tuning; preserve this fixed candidate and all historical
+artifacts. The next research step is a continuous-score design, not a new
+benchmark run. No final prompt freeze or superiority claim is introduced.

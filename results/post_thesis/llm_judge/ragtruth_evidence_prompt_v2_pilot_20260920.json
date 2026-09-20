@@ -1,0 +1,1049 @@
+{
+  "study_stage": "post_thesis",
+  "scope": "adaptively_inspected_original_50_TRAIN_development",
+  "recorded_date": "2026-09-20",
+  "provenance": {
+    "execution_summary": "Operator-supplied console output; private cluster journal and server resource record not independently inspected.",
+    "export_file": "Pasted text(20260920-005239).txt",
+    "export_file_sha256": "05d16173b83c0d57ae2a0c403483237c1afbf86796acfb2ffdc7a6dc1b4ba10c",
+    "scoring_code_revision": "2265ac33683274383a42ec0be2e8df3a91fde86b",
+    "labels_and_order": "Checked against the SHA256-pinned TRAIN parquet and committed v1 report; original pilot manifest reconstructed and matched.",
+    "parser_check": "Reparsed all 43 supplied evidence objects and seven raw rejected responses against original answer/context. All reported statuses and first validation errors reproduced. Parsed objects cannot attest original raw field order.",
+    "full_inputs_reviewed_this_comparison": [
+      "17143",
+      "13266",
+      "6352",
+      "9317",
+      "9256",
+      "14682",
+      "11363",
+      "13151",
+      "10044"
+    ],
+    "review_scope": "Targeted assistant review, not exhaustive claim-level annotation or independent human adjudication; other notes use supplied excerpts or prior recorded review.",
+    "raw_response_order_source": "Operator console reports 50 matches; only invalid raw responses were supplied in this export. No independent 50-response wire-order attestation."
+  },
+  "execution_plan": {
+    "study_stage": "post_thesis",
+    "protocol_id": "post_thesis_llm_judge_v1",
+    "execution_plan_version": "ragtruth_pilot_50_evidence_prompt_v2",
+    "run_id": "qwen3-ragtruth-train-pilot-50-evidence-prompt-v2",
+    "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+    "preparation_code_revision": "c44f4cf172811a086437e69c4f45b15fcda3ed16",
+    "audit_sha256": "06569291a3b0b620884ad1cdd213ffa83febc718c827e5a388bb133a888f92d6",
+    "audit_code_revision": "6137fb47b5aa65ace9eb5de78a8bea52202850bc",
+    "prompt_version": "faithfulness-evidence-diagnostic-v2",
+    "prompt_sha256": "7b43e40be9758a9eb2e210a3b4636c043eca88578b9fa62c2774ac7df5414e82",
+    "profile_sha256": "4d7a4a3b0d534240e2d87c287faa97804b44320e40c2097525615975bdf2aa28",
+    "examples": 50,
+    "audited_input_tokens": 77724,
+    "audited_min_input_tokens": 1064,
+    "audited_max_input_tokens": 3329,
+    "max_output_tokens_per_example": 512,
+    "max_output_tokens_total": 25600,
+    "max_attempts_per_input": 1,
+    "halt_on_error_codes": [
+      "audited_input_token_mismatch",
+      "input_token_mismatch",
+      "returned_model_mismatch",
+      "output_token_limit_exceeded",
+      "http_400",
+      "http_422",
+      "http_500",
+      "input_too_long",
+      "invalid_token_count"
+    ],
+    "concurrency": 1,
+    "request_timeout_seconds": 60,
+    "client_budget_seconds_across_resumes": 600,
+    "unknown_window_policy": "charge_full_reserved_remaining_budget",
+    "truncation": "none",
+    "scope": "TRAIN_development_evidence_verdicts_not_probabilities",
+    "request_contract": "evidence-diagnostic-request-v3",
+    "response_schema_sha256": "2c933735d69532381a4f45fbe8ad7868a34b03e78478ab8ba0b0e6486bd45807",
+    "profile_name": "evidence-v1",
+    "serialized_schema_sha256": "f86a37ac3bf7ca198663ce266a345ce89018b8d9e52f046d3fb94e7dadf5fa33",
+    "expected_response_field_order": [
+      "verdict",
+      "issue_type",
+      "answer_quote",
+      "context_quote",
+      "explanation"
+    ],
+    "structured_output_backend_policy": "unchanged_vllm_default_auto"
+  },
+  "operator_reported_execution": {
+    "status": "invocation_completed",
+    "valid": 43,
+    "total": 50,
+    "new_attempts": 50,
+    "terminal_failures": 7,
+    "pending": 0,
+    "charged_client_seconds": 211.96022480307147,
+    "remaining_client_seconds": 388.03977519692853,
+    "known_token_totals": {
+      "input_tokens": 77724,
+      "output_tokens": 4097
+    },
+    "attempts_with_unknown_tokens": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "raw_order": {
+      "matches": 50,
+      "mismatches": 0,
+      "unavailable": 0
+    },
+    "rental_cost": null
+  },
+  "descriptive_results": {
+    "valid_coverage": 0.86,
+    "valid_supported": 28,
+    "valid_unsupported": 15,
+    "confusion_counts_valid_only": {
+      "TP": 12,
+      "FP": 3,
+      "TN": 20,
+      "FN": 8
+    },
+    "missing_by_label": {
+      "0": 3,
+      "1": 4
+    },
+    "first_validation_error_counts": {
+      "context_quote_not_in_input": 5,
+      "answer_quote_not_in_input": 2
+    },
+    "valid_insufficient_support": 8,
+    "null_context_quotes_among_valid_insufficient_support": 5,
+    "raw_verdicts_used_as_predictions": false,
+    "test_metrics_computed": false,
+    "thresholds_fitted": false
+  },
+  "paired_comparison": {
+    "v1_report": "ragtruth_evidence_pilot_v3_20260919.json",
+    "status_transitions": {
+      "valid_to_valid": 37,
+      "invalid_to_valid": 6,
+      "invalid_to_invalid": 7
+    },
+    "recovered_ids": [
+      "11000",
+      "11031",
+      "9317",
+      "9256",
+      "10395",
+      "11363"
+    ],
+    "all_recovered_labels": 1,
+    "shared_valid_examples": 37,
+    "shared_valid_label_correct_v1": 27,
+    "shared_valid_label_correct_v2": 26,
+    "shared_valid_verdict_changes": [
+      {
+        "sample_id": "10409",
+        "label": 0,
+        "v1_verdict": "unsupported",
+        "v2_verdict": "supported"
+      },
+      {
+        "sample_id": "13151",
+        "label": 1,
+        "v1_verdict": "unsupported",
+        "v2_verdict": "supported"
+      },
+      {
+        "sample_id": "14682",
+        "label": 0,
+        "v1_verdict": "supported",
+        "v2_verdict": "unsupported"
+      }
+    ],
+    "all_50_outcomes": {
+      "v1": {
+        "valid_label_correct": 27,
+        "valid_label_incorrect": 10,
+        "missing": 13
+      },
+      "v2": {
+        "valid_label_correct": 32,
+        "valid_label_incorrect": 11,
+        "missing": 7
+      }
+    },
+    "interpretation": "Coverage gain does not demonstrate improved semantic reasoning; all-six recovered verdicts match positive labels, but targeted review identifies unreliable rationales."
+  },
+  "predictions": [
+    {
+      "sample_id": "17143",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "Brush the flattened turkey with a mixture of olive oil, salt, and pepper.",
+        "context_quote": "All you do is cut out the backbone, press the turkey to flatten, and brush with a mix of olive oil, salt, and pepper.",
+        "explanation": "The context supports the use of a mix of olive oil, salt, and pepper for brushing the turkey, but this is not explicitly mentioned in the numbered steps provided in the context. The answer includes this step without clear support from the numbered instructions.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "unsupported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported",
+      "assistant_review": {
+        "tag": "persistent_reasoning_error",
+        "note": "The quote explicitly supports brushing the flattened turkey with oil, salt and pepper. Restricting support to numbered steps is unjustified; the task permits all supplied context."
+      }
+    },
+    {
+      "sample_id": "15937",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "11000",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "They do, however, offer good food for groups",
+        "context_quote": null,
+        "explanation": "The answer claims AR Catering offers good food for groups, but the context does not provide evidence to support this assertion.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "unsupported",
+      "v1_status": "invalid_output",
+      "v1_verdict": null
+    },
+    {
+      "sample_id": "13266",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "In 1925, Fort McHenry was established as a national park under the War Department, with the U.S. Army beginning its restoration to its mid-nineteenth century appearance.",
+        "context_quote": "In 1925, Fort McHenry was established as a national park under the War Department. U.S. Army Restoration Period, 1925-1933 With the closure of the hospital, the U.S. Army began the first restoration of the fort to its mid-nineteeth century appearance.",
+        "explanation": "The answer incorrectly states that the U.S. Army began the restoration in 1925, while the context clarifies that the restoration began after the closure of the hospital, during the period 1925-1933, not immediately in 1925.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "unsupported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported",
+      "assistant_review": {
+        "tag": "unsupported_contradiction_rationale",
+        "note": "The restoration-period heading says 1925-1933. The supplied excerpt does not establish that restoration did not begin in 1925. V2 promotes the earlier timing objection to contradiction without explicit conflicting evidence."
+      }
+    },
+    {
+      "sample_id": "11582",
+      "status": "invalid_output",
+      "error_code": "context_quote_not_in_input",
+      "evidence": null,
+      "raw_response": "{\n  \"verdict\": \"unsupported\",\n  \"issue_type\": \"contradiction\",\n  \"answer_quote\": \"WiFi is available, but there is no music or ambient lighting.\",\n  \"context_quote\": \"'WiFi': 'no', 'Music': None, 'Ambience': {'romantic': False, 'intimate': False, 'classy': False, 'hipster': False, 'divey': False, 'touristy': False, 'trendy': False, 'upscale': False, 'casual': True}\",\n  \"explanation\": \"The answer claims WiFi is available, but the context explicitly states 'WiFi': 'no'.\"\n}",
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": null,
+      "v1_status": "invalid_output",
+      "v1_verdict": null
+    },
+    {
+      "sample_id": "14984",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 1,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "3825",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Summary",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "710",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Summary",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "10409",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported",
+      "assistant_review": {
+        "tag": "corrected_label_verdict",
+        "note": "Changed from unsupported to supported, matching the offline negative label. The prior targeted review found the review belonged to the business described. No explanatory fields are emitted for the new supported verdict."
+      }
+    },
+    {
+      "sample_id": "5584",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "The medal was initially discontinued in 2017 but has been reinstated retroactively to January 1, 2024.",
+        "context_quote": "Although the award was created in 2016 to recognize service in either Iraq or Syria, the requirements for the medal were revised in 2017 to restrict eligibility to only those who have served in Syria.",
+        "explanation": "The answer incorrectly states the medal was discontinued in 2017, while the context clarifies that the medal's requirements were revised in 2017 to restrict eligibility to Syria, not that the medal was discontinued.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "Summary",
+      "verdict": "unsupported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported"
+    },
+    {
+      "sample_id": "11646",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "1772",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 1,
+      "task": "Summary",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "5662",
+      "status": "invalid_output",
+      "error_code": "context_quote_not_in_input",
+      "evidence": null,
+      "raw_response": "{\n  \"verdict\": \"unsupported\",\n  \"issue_type\": \"contradiction\",\n  \"answer_quote\": \"The restaurant has a casual and trendy ambiance with outdoor seating and WiFi available.\",\n  \"context_quote\": \"{'Ambience': {'divey': False, 'hipster': True, 'casual': True, 'touristy': None, 'trendy': None, 'intimate': None, 'romantic': None, 'classy': True, 'upscale': None'}, 'WiFi': 'no'\",\n  \"explanation\": \"The answer claims WiFi is available, but the context explicitly states WiFi is 'no'. Additionally, the answer mentions 'trendy ambiance', but the context shows 'trendy' is None, indicating no evidence for this assertion.\"\n}",
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": null,
+      "v1_status": "invalid_output",
+      "v1_verdict": null
+    },
+    {
+      "sample_id": "7629",
+      "status": "invalid_output",
+      "error_code": "context_quote_not_in_input",
+      "evidence": null,
+      "raw_response": "{\n  \"verdict\": \"unsupported\",\n  \"issue_type\": \"contradiction\",\n  \"answer_quote\": \"Additionally, the business offers outdoor seating and WiFi, making it a welcoming spot for customers to relax and enjoy their purchases.\",\n  \"context_quote\": \"{'OutdoorSeating': None, 'WiFi': 'no'}\",\n  \"explanation\": \"The answer claims the business offers outdoor seating and WiFi, but the context explicitly states that outdoor seating is None and WiFi is 'no', contradicting the assertion.\"\n}",
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": null,
+      "v1_status": "invalid_output",
+      "v1_verdict": null,
+      "assistant_review": {
+        "tag": "invalid_unknown_as_conflict_concern",
+        "note": "The raw explanation groups OutdoorSeating None with WiFi no as contradictions. WiFi no can contradict availability, but None alone establishes neither presence nor absence. Quote membership fails and the output remains missing."
+      }
+    },
+    {
+      "sample_id": "13320",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "6121",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "10044",
+      "status": "invalid_output",
+      "error_code": "context_quote_not_in_input",
+      "evidence": null,
+      "raw_response": "{\n  \"verdict\": \"unsupported\",\n  \"issue_type\": \"contradiction\",\n  \"answer_quote\": \"However, they do not provide outdoor seating and take out options.\",\n  \"context_quote\": \"{'attributes': {'BusinessParking': {'garage': False, 'street': True, 'validated': False, 'lot': False, 'valet': False}, 'RestaurantsReservations': True, 'OutdoorSeating': False, 'WiFi': None, 'RestaurantsTakeOut': False, 'RestaurantsGoodForGroups': True, 'Music': None, 'Ambience': {'romantic': False, 'intimate': False, 'classy': False, 'hipster': False, 'divey': False, 'touristy': False, 'trendy': False, 'casual': True}}}\",\n  \"explanation\": \"The context explicitly states that 'RestaurantsTakeOut' is False, which supports the claim about no take out options. However, the context does not mention anything about outdoor seating being unavailable, but it does state 'OutdoorSeating': False, which supports the claim. Therefore, the assertion is supported, not a.\"\n}",
+      "label": 0,
+      "task": "Data2txt",
+      "verdict": null,
+      "v1_status": "invalid_output",
+      "v1_verdict": null,
+      "assistant_review": {
+        "tag": "invalid_and_internally_inconsistent",
+        "note": "The raw verdict and issue assert unsupported/contradiction, while the explanation concludes the selected assertion is supported. Quote membership also fails. Keep the entire output missing; do not salvage or relabel its verdict."
+      }
+    },
+    {
+      "sample_id": "13303",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "13013",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "Examples of non-communicable diseases include cancers, respiratory system diseases, and other conditions caused by viruses.",
+        "context_quote": "Chicken pox and other conditions caused by viruses are communicable diseases.",
+        "explanation": "The answer incorrectly states that 'other conditions caused by viruses' are non-communicable, while the context explicitly states that 'conditions caused by viruses' are communicable diseases.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "QA",
+      "verdict": "unsupported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported"
+    },
+    {
+      "sample_id": "12428",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "11031",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "the business offers a unique outdoor setting with a trendy ambiance",
+        "context_quote": "Ambience': {'touristy': False, 'hipster': False, 'romantic': False, 'divey': False, 'intimate': False, 'trendy': False, 'upscale': False, 'classy': True, 'casual': False",
+        "explanation": "The answer claims the ambiance is 'trendy,' but the context explicitly states 'trendy': False in the Ambience field.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "unsupported",
+      "v1_status": "invalid_output",
+      "v1_verdict": null
+    },
+    {
+      "sample_id": "10151",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "6352",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "Customers particularly enjoy the delicious coffee and the cozy ambiance, which features urban decorations and local art events.",
+        "context_quote": "the decorations are urban, and posters are hung by the coffee condiments for movies and local art events",
+        "explanation": "The answer mentions urban decorations and local art events as part of the ambiance, which is partially supported by the context. However, the context does not confirm that these features are enjoyed by customers, which is an unsupported assertion.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "unsupported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported",
+      "assistant_review": {
+        "tag": "label_correct_unreliable_rationale",
+        "note": "The full context includes praise of coffee and the cozy atmosphere. The explanation overlooks that support. Posters advertising art events do not necessarily establish that the venue hosts events; that distinct issue is not identified by this rationale."
+      }
+    },
+    {
+      "sample_id": "6040",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "9696",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "15849",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "8. Allergic reactions: Passage 1 warns of the possibility of allergic reactions to typhoid vaccine, including hives, difficulty breathing, and swelling of the face, lips, tongue, or throat.",
+        "context_quote": "et emergency medical help if you have any of these signs of an allergic reaction: hives; difficulty breathing; swelling of your face, lips, tongue, or throat.",
+        "explanation": "The answer refers to allergic reactions to the typhoid vaccine, but the context does not mention a vaccine. It only discusses allergic reactions in general, without linking them to a vaccine.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "QA",
+      "verdict": "unsupported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported"
+    },
+    {
+      "sample_id": "14163",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "9180",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "12892",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 1,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "6486",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "9317",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "the restaurant can be loud due to blasting music",
+        "context_quote": null,
+        "explanation": "The answer claims the restaurant can be loud due to blasting music, but the context only mentions one specific instance in a 2-star review where music was played loudly, not a general or recurring issue.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "unsupported",
+      "v1_status": "invalid_output",
+      "v1_verdict": null,
+      "assistant_review": {
+        "tag": "recovered_contract_questionable_rationale",
+        "note": "The review explicitly describes employees blasting music loudly. The selected answer says can be loud, which does not require recurrence. The answer has other potentially unsupported additions, but this rationale does not establish them."
+      }
+    },
+    {
+      "sample_id": "13151",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 1,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported",
+      "assistant_review": {
+        "tag": "label_agreement_regression",
+        "note": "V2 says supported, while the label is positive. V1 matched the label using the false claim that turnips were absent; the first passage explicitly mentions them. The full answer adds an unsupported garnish instruction and incorrectly says potato cooking time is absent despite a 5-to-7-minute blanching instruction. Neither run demonstrates correct evidence selection here."
+      }
+    },
+    {
+      "sample_id": "6946",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "The restaurant offers both indoor and outdoor seating, although there is no outdoor seating available.",
+        "context_quote": "'OutdoorSeating': False",
+        "explanation": "The answer contradicts the context by stating that the restaurant offers both indoor and outdoor seating, while the context explicitly states that outdoor seating is not available.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "unsupported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported"
+    },
+    {
+      "sample_id": "9256",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "Reservations can be made online or by phone, and takeout is also available.",
+        "context_quote": null,
+        "explanation": "The context does not provide any information confirming that reservations can be made online or by phone, nor does it confirm that takeout is available.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "unsupported",
+      "v1_status": "invalid_output",
+      "v1_verdict": null,
+      "assistant_review": {
+        "tag": "recovered_contract_plausible_rationale",
+        "note": "Reservations and takeout are unreported (None); no supplied review establishes booking channels or takeout. The new explanation uses lack of confirmation instead of treating None as proof of unavailability."
+      }
+    },
+    {
+      "sample_id": "15087",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "1. Health care benefits: VA provides health care benefits to eligible veterans, including medical, dental, and prescription drug coverage (Chapter 1).",
+        "context_quote": null,
+        "explanation": "The answer asserts that VA provides dental and prescription drug coverage as part of health care benefits, but the context does not mention these specific benefits in Chapter 1 or elsewhere.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "QA",
+      "verdict": "unsupported",
+      "v1_status": "ok",
+      "v1_verdict": "unsupported"
+    },
+    {
+      "sample_id": "522",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Summary",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "4072",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Summary",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "3040",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Summary",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "8469",
+      "status": "invalid_output",
+      "error_code": "context_quote_not_in_input",
+      "evidence": null,
+      "raw_response": "{\n  \"verdict\": \"unsupported\",\n  \"issue_type\": \"contradiction\",\n  \"answer_quote\": \"The business has received positive reviews for its friendly service, high-quality ingredients, and convenient options for both dine-in and takeout.\",\n  \"context_quote\": \"{'RestaurantsTakeOut': False\",\n  \"explanation\": \"The answer claims the business offers takeout, but the context explicitly states 'RestaurantsTakeOut': False, contradicting this assertion.\"\n}",
+      "label": 0,
+      "task": "Data2txt",
+      "verdict": null,
+      "v1_status": "invalid_output",
+      "v1_verdict": null
+    },
+    {
+      "sample_id": "10395",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "They are open seven days a week from 11:00 AM to 21:00 PM, with valet and garage parking options available.",
+        "context_quote": "'hours': {'Monday': '11:0-21:0', 'Tuesday': '11:0-21:0', 'Wednesday': '11:0-21:0', 'Thursday': '11:0-21:0', 'Friday': '11:0-21:0', 'Saturday': '11:0-21:0', 'Sunday': '11:0-21:0'}, 'attributes': {'BusinessParking': {'valet': False, 'garage': False",
+        "explanation": "The answer claims that valet and garage parking are available, but the context explicitly states that both are False.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "unsupported",
+      "v1_status": "invalid_output",
+      "v1_verdict": null
+    },
+    {
+      "sample_id": "2902",
+      "status": "invalid_output",
+      "error_code": "answer_quote_not_in_input",
+      "evidence": null,
+      "raw_response": "{\n  \"verdict\": \"unsupported\",\n  \"issue_type\": \"contradiction\",\n  \"answer_quote\": \"The officer has been arrested and charged with murder.\",\n  \"context_quote\": \"On Tuesday, the officer was arrested on murder charges.\",\n  \"explanation\": \"The answer states the officer was arrested and charged with murder, which is supported. However, the answer implies a conviction or final outcome, which the context does not confirm. The context only mentions arrest and charges, not a conviction.\"\n}",
+      "label": 0,
+      "task": "Summary",
+      "verdict": null,
+      "v1_status": "invalid_output",
+      "v1_verdict": null,
+      "assistant_review": {
+        "tag": "invalid_and_unjustified_inference",
+        "note": "The rejected raw explanation reads a conviction into arrested and charged. Those words do not themselves assert conviction. The answer quotation is invalid, so this remains a diagnostic rationale concern and not a recovered prediction."
+      }
+    },
+    {
+      "sample_id": "14682",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "This is not solely based on race, but can also be due to ethnicity, religion, national origin, gender, disability, sexual orientation, socioeconomic status, or other group characteristics.",
+        "context_quote": "Bigotry is a state of mind where a person views other groups with fear, distrust, prejudice or hatred solely on the basis of ethnicity, race, religion, national origin, gender, disability, sexual orientation, socioeconomic status, or other group characteristics.",
+        "explanation": "The answer incorrectly states that bigotry is 'not solely based on race,' while the context explicitly defines bigotry as being 'solely on the basis of' various group characteristics, including race.",
+        "issue_type": "contradiction",
+        "verdict": "unsupported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "unsupported",
+      "v1_status": "ok",
+      "v1_verdict": "supported",
+      "assistant_review": {
+        "tag": "new_false_positive",
+        "note": "Not solely based on race is consistent with the context listing multiple group characteristics. The contradiction explanation confuses solely group-based prejudice with race-only prejudice."
+      }
+    },
+    {
+      "sample_id": "11363",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": "While some patrons have expressed dissatisfaction with the service, the majority of reviews praise the friendliness and attentiveness of the staff.",
+        "context_quote": null,
+        "explanation": "The answer claims that the majority of reviews praise the staff's friendliness and attentiveness, but the context shows mixed reviews with one 4-star, one 2-star, and one 5-star review, making it unclear if the majority praise the service.",
+        "issue_type": "insufficient_support",
+        "verdict": "unsupported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "unsupported",
+      "v1_status": "invalid_output",
+      "v1_verdict": null,
+      "assistant_review": {
+        "tag": "recovered_contract_rationale_needs_precision",
+        "note": "Only one of the three review texts praises service; the five-star review praises food. The majority-service-praise assertion is unsupported. The explanation focuses on mixed star ratings, which are not themselves evidence about service praise."
+      }
+    },
+    {
+      "sample_id": "17155",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "5766",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "12052",
+      "status": "invalid_output",
+      "error_code": "answer_quote_not_in_input",
+      "evidence": null,
+      "raw_response": "{\n  \"verdict\": \"unsupported\",\n  \"issue_type\": \"contradiction\",\n  \"answer_quote\": \"The second quartile (Q2) splits the data into two equal halves, with the median being the middle value of the lower half.\",\n  \"context_quote\": \"Second quartile (Q 2) which is more commonly known as median splits the data in half (50%). Median divides the data into a lower half and an upper half.\",\n  \"explanation\": \"The answer incorrectly states that the median is the middle value of the lower half, which contradicts the context that defines the median (Q2) as splitting the data into two equal halves, not being the middle of the lower half.\"\n}",
+      "label": 1,
+      "task": "QA",
+      "verdict": null,
+      "v1_status": "invalid_output",
+      "v1_verdict": null
+    },
+    {
+      "sample_id": "12877",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "9350",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 1,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "7469",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "Data2txt",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    },
+    {
+      "sample_id": "16109",
+      "status": "ok",
+      "error_code": null,
+      "evidence": {
+        "answer_quote": null,
+        "context_quote": null,
+        "explanation": null,
+        "issue_type": "none",
+        "verdict": "supported"
+      },
+      "label": 0,
+      "task": "QA",
+      "verdict": "supported",
+      "v1_status": "ok",
+      "v1_verdict": "supported"
+    }
+  ],
+  "decision": {
+    "preserve_all_runs": true,
+    "keep_invalid_outputs_missing": true,
+    "pause_further_evidence_prompt_tuning": true,
+    "new_generation_allowance": false,
+    "benchmark_ready": false,
+    "next_step": "Define a continuous-score protocol before implementing or running it. Specify score extraction, development-only calibration and thresholds, missingness, model/prompt identities and compute budget. Resolve native-source overlap before held-out evaluation."
+  }
+}

@@ -3,7 +3,10 @@
 **Adaptive development only; excluded from submitted thesis results.**
 The [token audit](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_audit_20260920.md)
 is complete. This separate [execution plan](configs/ragtruth_pilot_50_evidence_prompt_v2.json)
-pins the actual audit checksum, revision and lengths. Scoring remains pending.
+pins the actual audit checksum, revision and lengths. The run is complete at
+`2265ac33683274383a42ec0be2e8df3a91fde86b`: see the [findings](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_pilot_20260920.md).
+Preserve the existing artifacts; the commands below document that completed run.
+Do not rerun it on the findings commit or rename it to obtain more attempts.
 
 ## Fixed experiment and limits
 
