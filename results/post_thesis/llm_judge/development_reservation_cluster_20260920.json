@@ -1,0 +1,160 @@
+{
+  "study_stage": "post_thesis",
+  "date": "2026-09-20",
+  "scope": "completed_cluster_TRAIN_development_reservation_and_identical_replay",
+  "provenance": "operator console; complete manifest hash independently reconstructed from pinned local inputs and allocator revision",
+  "manifest_sha256": "56b77ada74b638720586f93835ed801d8f090d7a04b9d1f1272a60e2677d7362",
+  "allocator_code_revision": "6f056d1f0018eb8d7ae0894279dd1074b70f1662",
+  "design_sha256": "4b8e9722370ef50b4b193a4109e3d890144e66c2cf002b5ff0834dbe42871574",
+  "input_hashes": {
+    "cross_split_report_sha256": "91f87c50a6c1e42d584b33d925ee62d41964093f83f212980d29587592ac1823",
+    "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+    "processed_train_sha256": "c14ae31ff459c829edc860bda034ee2dbc0a11107b7511195a32bb4ab1ee8000",
+    "train_report_sha256": "34c1943a2d32a09dabc3a856a963ae898fc43e97175e86549c4f037b6aadae14"
+  },
+  "partitions": {
+    "calibration": {
+      "components": 100,
+      "generators_offline": {
+        "gpt-3.5-turbo-0613": 100,
+        "gpt-4-0613": 100,
+        "llama-2-13b-chat": 100,
+        "llama-2-70b-chat": 100,
+        "llama-2-7b-chat": 100,
+        "mistral-7B-instruct": 100
+      },
+      "labels_offline": {
+        "0": 319,
+        "1": 281
+      },
+      "missing_business_identity_sources": 0,
+      "native_sources": 100,
+      "rows": 600,
+      "rows_with_missing_business_identity": 0,
+      "tasks_offline": {
+        "Data2txt": 234,
+        "QA": 234,
+        "Summary": 132
+      }
+    },
+    "excluded": {
+      "components": 52,
+      "generators_offline": {
+        "gpt-3.5-turbo-0613": 52,
+        "gpt-4-0613": 52,
+        "llama-2-13b-chat": 52,
+        "llama-2-70b-chat": 52,
+        "llama-2-7b-chat": 52,
+        "mistral-7B-instruct": 52
+      },
+      "labels_offline": {
+        "0": 166,
+        "1": 146
+      },
+      "missing_business_identity_sources": 0,
+      "native_sources": 52,
+      "rows": 312,
+      "rows_with_missing_business_identity": 0,
+      "tasks_offline": {
+        "Data2txt": 144,
+        "QA": 120,
+        "Summary": 48
+      }
+    },
+    "operating_threshold": {
+      "components": 100,
+      "generators_offline": {
+        "gpt-3.5-turbo-0613": 100,
+        "gpt-4-0613": 100,
+        "llama-2-13b-chat": 100,
+        "llama-2-70b-chat": 100,
+        "llama-2-7b-chat": 100,
+        "mistral-7B-instruct": 100
+      },
+      "labels_offline": {
+        "0": 324,
+        "1": 276
+      },
+      "missing_business_identity_sources": 0,
+      "native_sources": 100,
+      "rows": 600,
+      "rows_with_missing_business_identity": 0,
+      "tasks_offline": {
+        "Data2txt": 234,
+        "QA": 240,
+        "Summary": 126
+      }
+    },
+    "unallocated": {
+      "components": 2258,
+      "generators_offline": {
+        "gpt-3.5-turbo-0613": 2263,
+        "gpt-4-0613": 2263,
+        "llama-2-13b-chat": 2263,
+        "llama-2-70b-chat": 2263,
+        "llama-2-7b-chat": 2263,
+        "mistral-7B-instruct": 2263
+      },
+      "labels_offline": {
+        "0": 7560,
+        "1": 6018
+      },
+      "missing_business_identity_sources": 13,
+      "native_sources": 2263,
+      "rows": 13578,
+      "rows_with_missing_business_identity": 78,
+      "tasks_offline": {
+        "Data2txt": 4686,
+        "QA": 4440,
+        "Summary": 4452
+      }
+    }
+  },
+  "membership_hashes": {
+    "calibration": {
+      "component_ids_sha256": "f2c9d4391005cda36acbb872f32683702590e5081fbd2539aade0b85ded2d041",
+      "sample_ids_sha256": "4d954856fb8aae1e88ab7140efa22e9599787457d52177d7b64b1398d2fc5001"
+    },
+    "excluded": {
+      "component_ids_sha256": "46902079001e5c968516f198d6ca85a3a1ee48a36921045c175b79c7a6bc3b99",
+      "sample_ids_sha256": "0ee7efb986cddfaa775b5b26b4472c320f143d3f88229d9c9ca7de5822326aae"
+    },
+    "operating_threshold": {
+      "component_ids_sha256": "5b415aff58b0d1afaf1446063f1c5e26c3a15bba9a48879faef240857e685572",
+      "sample_ids_sha256": "d1f65317eec780b0b8cf32c6c30e755bca4cff4916aa39828db441c38a6150a2"
+    },
+    "unallocated": {
+      "component_ids_sha256": "1ee52ef8890d5631e2c80be2cab8fe8e6bddfab7559fe1536d38ff44b26ba386",
+      "sample_ids_sha256": "aed47f72436acc9e2dd3b9a0c09a7bdd65b1afff4658862239632e7802b62dd1"
+    }
+  },
+  "checks": {
+    "both_classes_per_arm": {
+      "calibration": true,
+      "operating_threshold": true
+    },
+    "component_disjoint": true,
+    "every_TRAIN_row_once": true,
+    "prior_exclusions_preserved": true,
+    "selected_components_touch_pilot_or_native_test": false
+  },
+  "status": "reserved",
+  "identical_replay_observed": true,
+  "replay_rewrote_manifest": false,
+  "generation_calls": 0,
+  "http_requests": 0,
+  "calibration_fitted": false,
+  "threshold_selected": false,
+  "scoring_authorized": false,
+  "strict_document_disjointness_established": false,
+  "limitations": [
+    "fuzzy/partial overlap",
+    "paraphrase duplicates",
+    "canonical document IDs/URLs",
+    "missing business identity resolution",
+    "processed TEST identity verification",
+    "HaluBench overlap",
+    "baseline training exposure"
+  ],
+  "next_step": "commit calibration and threshold rules; then token-length audits and a separately bounded scoring plan"
+}

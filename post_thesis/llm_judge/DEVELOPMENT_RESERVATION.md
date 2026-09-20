@@ -32,9 +32,13 @@ The [local validation](../../results/post_thesis/llm_judge/development_reservati
 found 600 rows in each selected arm and 13,578 unallocated rows. Ten targeted
 regression tests passed, and the actual pinned inputs produced an identical replay.
 The existing Windows/Linux CPU workflow discovers the new tests automatically.
-Cluster reproduction remains pending.
+The [cluster run and identical replay](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md) now match, including independent reconstruction of the full manifest hash.
 
-## Run after this implementation is committed and pushed
+## Historical reproduction command
+
+The reservation was completed at `6f056d1`. Preserve its private manifest and do
+not rerun the selector under a later revision, which changes its identity.
+The commands below document that completed run.
 
 Use the existing CPU data environment; no serving process or H200 is needed:
 
@@ -66,8 +70,9 @@ No raw answer/context content needs to be pasted or committed.
 
 Expected design SHA256:
 `4b8e9722370ef50b4b193a4109e3d890144e66c2cf002b5ff0834dbe42871574`.
-The full cluster manifest hash must be recorded after the run; it includes the
-allocator commit and therefore differs from the local uncommitted check.
+The completed cluster manifest SHA256 is
+`56b77ada74b638720586f93835ed801d8f090d7a04b9d1f1272a60e2677d7362`.
+It includes the allocator commit and differs from the local uncommitted check.
 
 ## Next boundary
 
@@ -79,3 +84,5 @@ calibrator search, threshold fitting or new HaluBench split is introduced.
 Strict document disjointness remains unproven: the guarantee covers the declared
 native/exact-overlap components only. All artifacts are post-thesis and do not
 replace submitted thesis results.
+
+The [calibration/threshold design](CALIBRATION_THRESHOLD_PROTOCOL.md) now specifies the fitting choices before any new scoring. Token-length audits and a bounded inference plan are next; there is no new pod command in this design-only step.

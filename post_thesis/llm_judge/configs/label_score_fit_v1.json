@@ -1,0 +1,140 @@
+{
+  "study_stage": "post_thesis",
+  "version": "ragtruth-label-score-fit-protocol-v1",
+  "status": "preregistered_design_only_no_scores_or_fits",
+  "date": "2026-09-20",
+  "development_manifest_sha256": "56b77ada74b638720586f93835ed801d8f090d7a04b9d1f1272a60e2677d7362",
+  "allocator_code_revision": "6f056d1f0018eb8d7ae0894279dd1074b70f1662",
+  "reservation_design_sha256": "4b8e9722370ef50b4b193a4109e3d890144e66c2cf002b5ff0834dbe42871574",
+  "partition_membership_hashes": {
+    "calibration": {
+      "component_ids_sha256": "f2c9d4391005cda36acbb872f32683702590e5081fbd2539aade0b85ded2d041",
+      "sample_ids_sha256": "4d954856fb8aae1e88ab7140efa22e9599787457d52177d7b64b1398d2fc5001"
+    },
+    "operating_threshold": {
+      "component_ids_sha256": "5b415aff58b0d1afaf1446063f1c5e26c3a15bba9a48879faef240857e685572",
+      "sample_ids_sha256": "d1f65317eec780b0b8cf32c6c30e755bca4cff4916aa39828db441c38a6150a2"
+    }
+  },
+  "model_revision": "9216db5781bf21249d130ec9da846c4624c16137",
+  "prompt_version": "faithfulness-label-score-v1",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "primary_mapping": {
+    "supported": {
+      "text": "A",
+      "token_id": 32
+    },
+    "unsupported": {
+      "text": "B",
+      "token_id": 33
+    }
+  },
+  "score_input": "unrounded_float64_unsupported_log_odds_from_verified_raw_class_logprobs",
+  "positive_label": 1,
+  "sample_weighting": "equal_response_weight_no_class_or_task_weighting",
+  "calibration": {
+    "partition": "calibration",
+    "required_rows": 600,
+    "required_components": 100,
+    "required_valid_fraction": 1.0,
+    "require_both_classes": true,
+    "method": "sigmoid(a * margin + b)",
+    "standardization": "none",
+    "objective": "mean(logaddexp(0, (1 - 2*y) * (a*margin + b))) + lambda/2 * ((a-1)**2 + b**2)",
+    "lambda": 0.0001,
+    "initial_parameters": {
+      "a": 1.0,
+      "b": 0.0
+    },
+    "bounds": {
+      "a": [
+        0.001,
+        100.0
+      ],
+      "b": [
+        -20.0,
+        20.0
+      ]
+    },
+    "optimizer": {
+      "library": "scipy",
+      "version": "1.14.1",
+      "api": "scipy.optimize.minimize",
+      "method": "L-BFGS-B",
+      "analytic_jacobian": true,
+      "dtype": "float64",
+      "options": {
+        "ftol": 1e-12,
+        "gtol": 1e-08,
+        "maxiter": 10000,
+        "maxfun": 20000,
+        "maxls": 50,
+        "maxcor": 10
+      }
+    },
+    "acceptance": {
+      "optimizer_success_required": true,
+      "all_values_finite": true,
+      "max_abs_gradient": 1e-06,
+      "min_absolute_distance_from_each_bound_exclusive": 1e-06,
+      "max_objective_increase_from_initial": 1e-12
+    },
+    "on_failure": "record_no_calibrator; retain_independent_raw_score_and_threshold_analysis",
+    "restarts_or_alternative_calibrators": false
+  },
+  "threshold": {
+    "partition": "operating_threshold",
+    "required_rows": 600,
+    "required_components": 100,
+    "required_valid_fraction": 1.0,
+    "require_both_classes": true,
+    "space": "raw_unsupported_log_odds",
+    "objective": "maximize_response_level_positive_class_F1",
+    "comparator": ">=",
+    "candidates": "each_distinct_observed_finite_margin_plus_symbolic_above_max_all_negative",
+    "candidate_sort": "ascending_margin; above_max_last",
+    "tie_rule": "largest_threshold; compare_F1_fractions_by_exact_integer_cross_multiplication",
+    "zero_division": 0,
+    "missing_scores": "stop_selection_no_imputation_no_subset_no_replacements",
+    "calibrator_required": false,
+    "fixed_reference_margin": 0.0,
+    "deployment_comparator": "raw_margin_greater_than_or_equal_to_frozen_raw_threshold"
+  },
+  "software_for_future_fit": {
+    "python": "3.12",
+    "numpy": "1.26.4",
+    "scipy": "1.14.1"
+  },
+  "missingness": "each_arm_requires_600_valid_unique_matching_scores_before_its_own_fit_or_selection",
+  "primary_rank_score": "raw_margin",
+  "calibrated_rank_score": "raw_margin_equivalent_under_positive_slope",
+  "calibration_diagnostics": {
+    "brier": "mean((p-y)**2)",
+    "ece_bins": 10,
+    "ece_edges": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "ece_interval_rule": "[left,right) except last [0.9,1.0]",
+    "ece": "sum(n_bin/n * abs(mean_p_bin - mean_y_bin)); empty_bins_zero_contribution",
+    "compare_raw_and_calibrated": true,
+    "calibration_arm_results": "in_sample_descriptive_only",
+    "threshold_arm_results": "development_diagnostics_not_independent_validation_of_complete_pipeline"
+  },
+  "new_generation_allowance": 0,
+  "fitting_implemented": false,
+  "calibration_fitted": false,
+  "threshold_selected": false,
+  "processed_TEST_read": false,
+  "HaluBench_read": false,
+  "strict_document_disjointness_established": false
+}

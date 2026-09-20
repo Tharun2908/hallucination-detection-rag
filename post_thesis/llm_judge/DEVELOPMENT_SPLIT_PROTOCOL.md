@@ -144,4 +144,4 @@ or tune on test outcomes. Any scope amendment must be explicit and versioned.
 
 ## Implementation follow-up
 
-After this design was committed as `c982d26`, the [offline selector](DEVELOPMENT_RESERVATION.md) was implemented and locally validated without changing the design. It selects 600 examples per role. The original design JSON remains unchanged as a historical input; runtime selection status is recorded in the new manifest. Cluster reproduction is pending; no fitting or model generation has occurred.
+After this design was committed as `c982d26`, the [offline selector](DEVELOPMENT_RESERVATION.md) was implemented and locally validated without changing the design. It selects 600 examples per role. The original design JSON remains unchanged as a historical input; runtime selection status is recorded in the new manifest. The [cluster reservation and replay](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md) now match; no fitting or model generation has occurred. The [calibration/threshold protocol](CALIBRATION_THRESHOLD_PROTOCOL.md) fixes the next statistical choices before collecting scores.
