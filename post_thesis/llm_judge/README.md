@@ -3,8 +3,15 @@
 > The experiments below were conducted after thesis submission and are not part
 > of the submitted thesis results.
 
-**Status: probability v1/v2 and binary 50-example TRAIN development pilots are complete; no final
-test-set judge scores have been collected.** The
+**Current status: the label-score judge, calibration and operating threshold are
+frozen; RAGTruth TEST scoring has not started.** The TEST token audit and
+[cluster evaluation-math check](../../results/post_thesis/llm_judge/evaluation_math_cluster_20260920.md)
+are complete. Next is the [saved S4 checkpoint compatibility check](S4_CHECKPOINT_CHECK.md)
+to prepare fresh baseline inference. Legacy comparison provenance remains incomplete.
+
+## Development history
+
+The following observations preserve the successive development stages. The
 [synthetic observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md)
 record a repeatable absence-claim failure as well as successful cache reuse.
 The [v1 TRAIN pilot report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md)
@@ -19,7 +26,7 @@ matched all ten constructed expectations. The subsequent
 detected 13/24 labeled positives with three false positives (F1 0.65). The
 [focused source review](../../results/post_thesis/llm_judge/ragtruth_binary_error_review_20260919.md)
 confirms four persistent misses and records ambiguity among apparent false positives. Original labels
-and both pilot runs remain intact; no final prompt freeze has been declared.
+and both pilot runs remain intact; no final prompt freeze had been declared at that stage.
 The next [structured evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) has a frozen
 development contract, strict parser and 14 synthetic controls. Its
 [v1 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
@@ -48,8 +55,9 @@ cross-domain faithfulness detection, and which failures remain shared with
 trained verifiers?
 
 Read [PROTOCOL.md](PROTOCOL.md) before implementation. The agreed study design is
-recorded there; the model, prompt, budget, and run configuration are not yet
-frozen for final evaluation.
+recorded there. The current judge identity is pinned in
+[configs/frozen_judge_v1.json](configs/frozen_judge_v1.json); benchmark execution
+budgets and baseline readiness must be recorded separately.
 
 ## Boundaries and locations
 

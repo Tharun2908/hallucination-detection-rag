@@ -87,3 +87,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Completed metadata-free fusion reconstruction and replay](fusion_recovery_cluster_20260920.md), with [operator observations](fusion_recovery_cluster_20260920.json). The historical TRAIN reference matches; 2,700 predictions were saved. No new TEST metrics; legacy comparison provenance remains limited.
 
 - [Completed TEST token audit and replay](test_token_audit_cluster_20260920.md), with [observations and independent hash reconstruction](test_token_audit_cluster_20260920.json): 2,700 inputs fit, no generation or benchmark metrics.
+
+- [Completed cluster evaluation-math check and CI fix](evaluation_math_cluster_20260920.md): artificial numerical results and identical replay verified; baseline checkpoint compatibility is next.
