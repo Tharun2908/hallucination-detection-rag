@@ -353,3 +353,9 @@ The selected A/B mapping, missing-score handling, independent development
 calibration/threshold controls and unchanged canonical HaluBench split are
 explicit. No model generation, new scoring allowance or benchmark freeze is
 introduced here. Evidence-prompt tuning stays paused.
+
+The [offline contract and pinned-tokenizer check](LABEL_SCORE_OFFLINE.md) are now
+implemented. Four actual-tokenizer boundary checks passed on the assistant CPU,
+with A/B token IDs 32/33. The recorded fingerprints must also match on the
+cluster. This does not establish live raw-logprob compatibility or judge quality;
+there is no new generation allowance.
