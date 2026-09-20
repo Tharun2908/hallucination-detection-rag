@@ -1,12 +1,12 @@
 # Post-thesis: continuous label-score protocol
 
-**Design v1, recorded 2026-09-20. Offline implementation added; live compatibility pending.**
+**Design v1, recorded 2026-09-20. Synthetic transport check complete; TRAIN label scoring pending.**
 This experiment is excluded from submitted thesis results. It follows the
 [mixed evidence-prompt findings](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_pilot_20260920.md).
 Evidence-prompt tuning remains paused. The [offline contract and tokenizer check](LABEL_SCORE_OFFLINE.md)
 are implemented and the cluster checks passed. A separate [bounded synthetic
 execution plan](LABEL_SCORE_RUN.md) adds 30 one-token compatibility requests.
-Live score compatibility and benchmark evaluation remain pending.
+The [synthetic findings](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md) record successful transport checks with semantic limitations; benchmark evaluation remains pending.
 
 ## Question and selected method
 
@@ -204,6 +204,5 @@ after the required transport is known.
 The [offline prompt/score contract and pinned-tokenizer check](LABEL_SCORE_OFFLINE.md)
 are implemented without model generation. The actual pinned tokenizer passed four
 assistant CPU and four cluster boundary checks. Installed-source fingerprints
-also match. Execute the separate [bounded synthetic plan](LABEL_SCORE_RUN.md)
-to check the live transport before proceeding to the original TRAIN pilot. This design does not update the evidence-v2 prompt,
+also match. The [bounded synthetic plan](LABEL_SCORE_RUN.md) completed with 30 valid scores and a zero-call cached replay. Proceed to the [original TRAIN token audit](LABEL_SCORE_PILOT_AUDIT.md) before a separately bounded pilot. This design does not update the evidence-v2 prompt,
 serve a new model, assign a scoring budget or declare a benchmark-ready verifier.

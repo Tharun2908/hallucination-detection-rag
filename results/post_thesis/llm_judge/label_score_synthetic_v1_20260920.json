@@ -1,0 +1,71 @@
+{
+  "study_stage": "post_thesis",
+  "date": "2026-09-20",
+  "provenance": "operator_console_fresh_and_cached; private journals not independently inspected",
+  "code_revision": "d2716205377b1721613feeb86ef76185572a412c",
+  "run_id": "qwen3-label-score-synthetic-v1",
+  "plan_sha256": "0c6ebaa8d928ec4b1a6749056e5d0dff6e9b0314eae0253370bdc310e75826a4",
+  "prompt_version": "faithfulness-label-score-v1",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "fresh_report_sha256": "ea3adf4da284e0c7a5edf6fc3c2fc45a01f3c53987186ca054920eea83ac024d",
+  "cached_report_sha256": "f239047289c56c28168927f8518e3203348a47084639c1377af53c75112f654c",
+  "valid_scores": 30,
+  "terminal_failures": 0,
+  "pending": 0,
+  "halt_reason": null,
+  "fresh_new_attempts": 30,
+  "cached_new_attempts": 0,
+  "known_token_totals": {
+    "input_tokens": 18786,
+    "output_tokens": 30
+  },
+  "unknown_usage_attempts": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "charged_client_seconds": 37.90494146896526,
+  "remaining_client_seconds": 562.0950585310347,
+  "currency_cost": null,
+  "calibrated": false,
+  "benchmark_evaluation": false,
+  "transport_checks_passed": true,
+  "numeric_controls": [
+    {
+      "control": "repeat",
+      "absolute_logprob_differences": {
+        "A": 0.0,
+        "B": 0.0
+      },
+      "matches": true
+    },
+    {
+      "control": "temperature",
+      "absolute_logprob_differences": {
+        "A": 0.0,
+        "B": 0.0
+      },
+      "matches": true
+    }
+  ],
+  "csv_sha256": "13662219dc4594b3c253994d3e0522b8a208154b3b45c7272e6a960930bbeec8",
+  "derived": {
+    "primary": {
+      "expected_greedy_class_matches": 12,
+      "total": 14,
+      "mismatched_ids": [
+        "absence-unknown-short",
+        "absence-unknown-embedded"
+      ],
+      "scores_outside_0_01_to_0_99": 11
+    },
+    "swapped": {
+      "expected_greedy_class_matches": 12,
+      "total": 14,
+      "mismatched_ids": [
+        "absence-unknown-short",
+        "absence-unknown-embedded"
+      ],
+      "scores_outside_0_01_to_0_99": 11
+    }
+  }
+}

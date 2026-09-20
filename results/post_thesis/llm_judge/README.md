@@ -56,5 +56,7 @@ evidence-prompt tuning is paused while the continuous-score protocol is designed
 
 The [label-score setup observations](label_score_setup_20260920.md) record the
 passed cluster tokenizer and installed-source checks. The separate bounded
-synthetic score experiment is prepared but not yet executed; its outputs are
+synthetic score experiment is complete (see findings below); its outputs are
 not thesis or benchmark results.
+
+The [synthetic label-score findings](label_score_synthetic_v1_20260920.md), [operator record](label_score_synthetic_v1_20260920.json) and [30 score rows](label_score_synthetic_v1_20260920.csv) record the completed transport check and cached replay. Both mappings miss the two unknown-as-absence cases. Next is the CPU-only original-50 TRAIN token audit.
