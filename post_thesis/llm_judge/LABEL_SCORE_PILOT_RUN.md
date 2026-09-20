@@ -3,6 +3,8 @@
 This experiment is excluded from the submitted thesis. It uses the unchanged
 50 TRAIN development examples already inspected during prompt development.
 It is not held-out evaluation and cannot provide a final benchmark claim.
+
+**Status: completed, including cached replay.** See the [findings](../../results/post_thesis/llm_judge/label_score_train_pilot_v1_20260920.md). Commands below document the historical procedure, not a request to repeat generation.
 Evidence-prompt tuning remains paused; primary A=supported / B=unsupported and
 `faithfulness-label-score-v1` remain fixed. Swapped labels are not run or averaged.
 
@@ -115,4 +117,4 @@ All 358 judge tests passed, including 16 TRAIN runner/preparation regressions.
 HTTP transport tests use fake responses and make no model calls. The actual
 pinned tokenizer reproduced all 50 frozen requests (60,574 input tokens), and
 the shared payload builder left all 30 historical synthetic request fingerprints
-unchanged. Live TRAIN behavior remains untested until the bounded cluster run.
+unchanged. The subsequent live TRAIN run and cached replay are recorded in the findings linked above.

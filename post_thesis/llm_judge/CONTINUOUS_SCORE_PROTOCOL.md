@@ -1,6 +1,6 @@
 # Post-thesis: continuous label-score protocol
 
-**Design v1, recorded 2026-09-20. Synthetic transport check complete; TRAIN label scoring pending.**
+**Design v1, recorded 2026-09-20. Synthetic transport and original-50 TRAIN pilot complete; final evaluation pending.**
 This experiment is excluded from submitted thesis results. It follows the
 [mixed evidence-prompt findings](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_pilot_20260920.md).
 Evidence-prompt tuning remains paused. The [offline contract and tokenizer check](LABEL_SCORE_OFFLINE.md)
@@ -204,5 +204,5 @@ after the required transport is known.
 The [offline prompt/score contract and pinned-tokenizer check](LABEL_SCORE_OFFLINE.md)
 are implemented without model generation. The actual pinned tokenizer passed four
 assistant CPU and four cluster boundary checks. Installed-source fingerprints
-also match. The [bounded synthetic plan](LABEL_SCORE_RUN.md) completed with 30 valid scores and a zero-call cached replay. The [original TRAIN token audit](LABEL_SCORE_PILOT_AUDIT.md) passed. A [separate bounded pilot](LABEL_SCORE_PILOT_RUN.md) now pins its checksum and 50 primary requests; execution is pending. This design does not update the evidence-v2 prompt,
+also match. The [bounded synthetic plan](LABEL_SCORE_RUN.md) completed with 30 valid scores and a zero-call cached replay. The [original TRAIN token audit](LABEL_SCORE_PILOT_AUDIT.md) passed. The [bounded pilot](LABEL_SCORE_PILOT_RUN.md) completed all 50 primary requests and a zero-call replay. Its [development findings](../../results/post_thesis/llm_judge/label_score_train_pilot_v1_20260920.md) record AUROC 0.7051 and emitted-label F1 0.5455. Preserve the candidate and resolve native-source grouping before registering disjoint calibration/evaluation. This design does not update the evidence-v2 prompt,
 serve a new model, assign a scoring budget or declare a benchmark-ready verifier.
