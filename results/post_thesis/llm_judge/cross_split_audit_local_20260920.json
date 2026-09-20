@@ -1,0 +1,81 @@
+{
+  "study_stage": "post_thesis",
+  "scope": "assistant_CPU_pre_release_validation_only",
+  "date": "2026-09-20",
+  "version": "native-cross-split-exact-audit-v1",
+  "base_code_revision": "80d2fa1baab81a50da674625e21fdf9a825c1f19",
+  "implementation_committed_at_observation": false,
+  "implementation_sha256": "1c2c688b0d77ee144cbfd66bcdde28807bdd7cfa285ec99ffcd7f179633eb32c",
+  "prior_train_report_sha256": "34c1943a2d32a09dabc3a856a963ae898fc43e97175e86549c4f037b6aadae14",
+  "summary": {
+    "native_train_responses": 15090,
+    "native_test_responses_metadata_only": 2700,
+    "native_train_sources": 2515,
+    "native_test_sources": 450,
+    "native_sources_shared_between_splits": 0,
+    "cross_split_full_context_groups": 0,
+    "cross_split_exact_evidence_indicators": 2,
+    "cross_split_business_indicators": 0,
+    "cross_split_connected_components": 2,
+    "connected_components": 2958,
+    "pilot_train_rows_linked_to_native_test": 0,
+    "train_rows_linked_to_native_test": 12,
+    "additional_test_linked_candidate_rows": 12,
+    "additional_pilot_linked_candidate_rows": 0,
+    "proposed_total_excluded_rows": 312,
+    "remaining_candidate_rows": 14778,
+    "sources_missing_business_identity": 20,
+    "generation_calls": 0,
+    "native_TEST_answers_used": false,
+    "native_annotation_labels_used": false,
+    "native_TEST_source_content_used": true,
+    "processed_TEST_read": false,
+    "threshold_subset_selected": false,
+    "calibration_fitted": false,
+    "strict_document_disjointness_established": false
+  },
+  "additional_test_linked_candidate_ids": [
+    "13698",
+    "13699",
+    "13700",
+    "13701",
+    "13702",
+    "13703",
+    "14988",
+    "14989",
+    "14990",
+    "14991",
+    "14992",
+    "14993"
+  ],
+  "cross_split_shared_indicators": [
+    {
+      "indicator": "evidence:419661208477918d0362a2ad847a16dcb94f3a01cdbf8c673d755930315546a0",
+      "source_ids": [
+        "15112",
+        "15419"
+      ]
+    },
+    {
+      "indicator": "evidence:7b9042504c36b17cedbef9b58e079f065c4561a38bc44d87b7ee104a74972cdd",
+      "source_ids": [
+        "15203",
+        "15317"
+      ]
+    }
+  ],
+  "cross_split_source_components": [
+    [
+      "15112",
+      "15419"
+    ],
+    [
+      "15203",
+      "15317"
+    ]
+  ],
+  "result_content_sha256": "f7130f0336f8cd3f9d479e0cac22498f81a7ffba05fbf956abd2521921b2a712",
+  "cluster_report_sha256": null,
+  "original_manifest_modified": false,
+  "final_split_selected": false
+}

@@ -107,3 +107,5 @@ private mapping and input files out of Git. The
 matched all 15,090 TRAIN responses and contexts and found no additional pilot-linked
 candidate exclusions under these exact rules. It does not substitute for the
 cluster report or close the limitations above.
+
+The cluster check subsequently matched the local results and its complete report hash was independently reconstructed; see the [cluster record](../../results/post_thesis/llm_judge/source_audit_cluster_20260920.json). Preserve that completed report. The next [cross-split source check](CROSS_SPLIT_AUDIT.md) uses it as a pinned input and extends the scope to native TEST source content, without using TEST answers or labels.

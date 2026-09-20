@@ -1,0 +1,68 @@
+{
+  "study_stage": "post_thesis",
+  "scope": "completed_cluster_TRAIN_source_audit",
+  "date": "2026-09-20",
+  "provenance": "operator console; complete content hash independently reproduced by deterministic local reconstruction",
+  "report_sha256": "34c1943a2d32a09dabc3a856a963ae898fc43e97175e86549c4f037b6aadae14",
+  "code_revision": "80d2fa1baab81a50da674625e21fdf9a825c1f19",
+  "native_revision": "c103204b9ce28d6bbad859304bf30de72b8ed8fe",
+  "native_files": {
+    "response.jsonl": {
+      "sha256": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+      "git_blob_sha1": "f9ae5913fb9976684f3e13be3cd3465062db54cc"
+    },
+    "source_info.jsonl": {
+      "sha256": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+      "git_blob_sha1": "119277774009f110aa58596b93f9512f62594a89"
+    }
+  },
+  "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+  "summary": {
+    "processed_train_rows": 15090,
+    "native_response_matches": 15090,
+    "exact_answer_matches": 15090,
+    "exact_formatted_context_matches": 15090,
+    "native_train_sources": 2515,
+    "original_context_groups": 2514,
+    "contexts_with_multiple_native_sources": 1,
+    "native_sources_with_multiple_context_groups": 0,
+    "pilot_native_sources": 50,
+    "pilot_context_groups": 50,
+    "native_siblings_in_original_candidate_pool": 0,
+    "shared_exact_evidence_indicators": 3,
+    "shared_business_indicators": 1,
+    "sources_missing_business_identity": 13,
+    "connected_components": 2510,
+    "additional_pilot_linked_candidate_rows": 0,
+    "proposed_total_excluded_rows": 300,
+    "remaining_candidate_rows": 14790,
+    "generation_calls": 0,
+    "threshold_subset_selected": false,
+    "calibration_fitted": false,
+    "strict_document_disjointness_established": false,
+    "processed_TEST_read": false
+  },
+  "ignored_release_records": {
+    "native_response_records_ignored": 2700,
+    "native_source_records_ignored": 450
+  },
+  "policy": {
+    "native_id": "all responses to one native source_info record",
+    "context": "original context_NFKC_whitespace_collapsed_case_preserved_v1",
+    "evidence_units": "exact NFKC/whitespace/case-preserved QA passage or full Summary article; nonempty; no minimum length",
+    "business_identity": "all four name/address/city/state present; NFKC/whitespace/casefold tuple",
+    "closure": "connected components across all indicators; exclude pilot-linked components",
+    "not_covered": [
+      "fuzzy or partial text matches",
+      "paraphrase duplicates",
+      "canonical document URLs/IDs",
+      "TRAIN-TEST overlap",
+      "HaluBench overlap",
+      "baseline training exposure"
+    ]
+  },
+  "native_release_contains_both_splits": true,
+  "native_annotation_labels_used": false,
+  "original_manifest_modified": false,
+  "next_step": "native TRAIN-TEST exact source-overlap audit; no answers, labels or performance used"
+}

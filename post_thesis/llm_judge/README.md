@@ -293,4 +293,6 @@ thesis artifacts are unchanged.
 
 ## Offline TRAIN source provenance
 
-The [native-source and exact-overlap audit](SOURCE_AUDIT.md) is implemented and locally checked on all 15,090 pinned TRAIN rows. It proposes exclusions without changing the original manifest. The local result adds no pilot-linked exclusions; cluster reproduction is pending. Native files contain both splits, but only pinned TRAIN IDs enter provenance/overlap analysis. The audit does not establish fuzzy, partial-document or TRAIN–TEST independence and does not select calibration data.
+The [native-source and exact-overlap audit](SOURCE_AUDIT.md) is implemented and locally checked on all 15,090 pinned TRAIN rows. It proposes exclusions without changing the original manifest. The matching cluster result adds no pilot-linked exclusions; its completed report is now pinned. Native files contain both splits, but only pinned TRAIN IDs enter provenance/overlap analysis. The audit does not establish fuzzy, partial-document or TRAIN–TEST independence and does not select calibration data.
+
+The [native TRAIN–TEST exact-overlap check](CROSS_SPLIT_AUDIT.md) uses only response ID/split metadata and source content, without TEST answers, annotation labels or scores. Local validation finds two shared evidence units linking 12 former TRAIN candidate rows to native TEST; the proposed candidate count becomes 14,778. Original reservations remain intact and cluster reproduction is pending. No final split or generation plan is selected.
