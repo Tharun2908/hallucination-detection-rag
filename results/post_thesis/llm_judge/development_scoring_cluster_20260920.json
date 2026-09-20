@@ -1,0 +1,53 @@
+{
+  "study_stage": "post_thesis",
+  "date": "2026-09-20",
+  "scoring_code_revision": "a341e3e805827a1122cc74dec99c66a749543572",
+  "provenance": "operator_supplied_console_output; private responses unavailable to report author",
+  "private_summary_hashes_independently_reconstructed": false,
+  "arms": {
+    "calibration": {
+      "valid_scores": 600,
+      "requests_total": 600,
+      "fresh_new_attempts": 600,
+      "cached_new_attempts": 0,
+      "terminal_failures": 0,
+      "pending": 0,
+      "halt_reason": null,
+      "input_tokens": 705198,
+      "output_tokens": 600,
+      "unknown_input_usage_attempts": 0,
+      "unknown_output_usage_attempts": 0,
+      "charged_client_seconds": 867.9454982499592,
+      "remaining_client_seconds": 932.0545017500408,
+      "fresh_report_sha256": "48a648c60f621233060e9ceb093b004c6441c60805803358bb5ec397e85f6e59",
+      "cached_report_sha256": "e699eaf86140f95816c63624a78cf3d506453473e2ecfa8a6096e6ac15e82de3"
+    },
+    "operating_threshold": {
+      "valid_scores": 600,
+      "requests_total": 600,
+      "fresh_new_attempts": 600,
+      "cached_new_attempts": 0,
+      "terminal_failures": 0,
+      "pending": 0,
+      "halt_reason": null,
+      "input_tokens": 746401,
+      "output_tokens": 600,
+      "unknown_input_usage_attempts": 0,
+      "unknown_output_usage_attempts": 0,
+      "charged_client_seconds": 721.2148457299918,
+      "remaining_client_seconds": 1078.7851542700082,
+      "fresh_report_sha256": "2dd114803d012a963593d87ce72261dc8b805952b38ec156208168845bef72cd",
+      "cached_report_sha256": "8a7b86eabbffcb5b4e01a4e4043b50f754b2a8042125c944d05922809fd1f314"
+    }
+  },
+  "total_input_tokens": 1451599,
+  "total_output_tokens": 1200,
+  "total_charged_client_seconds": 1589.160343979951,
+  "calibration_fitted": false,
+  "threshold_selected": false,
+  "TEST_read": false,
+  "HaluBench_read": false,
+  "performance_metrics_available": false,
+  "cost_usd": null,
+  "cost_basis": "hourly rate and full session duration not provided"
+}

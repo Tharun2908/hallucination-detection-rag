@@ -501,6 +501,8 @@ The datasets used by the experiments remain governed by their original licenses.
 
 ## Post-thesis experiments
 
+The [reserved development scoring runs](results/post_thesis/llm_judge/development_scoring_cluster_20260920.md) now have 600/600 valid scores per arm and zero new attempts on replay. [Offline calibration and threshold fitting](post_thesis/llm_judge/OFFLINE_FITTING.md) is implemented under the unchanged preregistered rules; actual fitting and final benchmark results remain pending.
+
 The experiments below were conducted after thesis submission and are not part
 of the submitted thesis results.
 

@@ -72,3 +72,5 @@ The [completed cluster reservation and identical replay](development_reservation
 The [local reserved-arm token audit](development_token_audit_local_20260920.md) and [hash/count record](development_token_audit_local_20260920.json) cover all 1,200 inputs with the actual pinned tokenizer. All fit without truncation; cached replay adds no development tokenizations. Cluster reproduction is pending and there is no scoring allowance.
 
 The [completed cluster development token audit and replay](development_token_audit_cluster_20260920.md) and [hash/count record](development_token_audit_cluster_20260920.json) reproduce all 1,200 input lengths. The [bounded scoring plan](../../../post_thesis/llm_judge/DEVELOPMENT_SCORING_RUN.md) is implemented; no live reserved-arm scores or fitted parameters have been collected by this patch.
+
+- [Reserved TRAIN scoring completed](development_scoring_cluster_20260920.md): operator-reported full coverage and cached reuse in both 600-row arms; actual CPU fitting remains pending. See the [exact console record](development_scoring_cluster_20260920.json).

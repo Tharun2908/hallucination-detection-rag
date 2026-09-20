@@ -1,0 +1,3 @@
+# Separate CPU fitting environment; versions preregistered before arm scoring.
+numpy==1.26.4
+scipy==1.14.1
