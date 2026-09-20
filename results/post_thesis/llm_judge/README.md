@@ -76,3 +76,6 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Reserved TRAIN scoring completed](development_scoring_cluster_20260920.md): operator-reported full coverage and cached reuse in both 600-row arms; actual CPU fitting remains pending. See the [exact console record](development_scoring_cluster_20260920.json).
 
 - [Accepted development fit and cached replay](development_fit_cluster_20260920.md): positive-slope calibration, raw threshold -1.25, reliability diagnostics on both reserved arms; no TEST results. [Console-derived JSON](development_fit_cluster_20260920.json).
+
+- [Frozen fit checker](frozen_fit_verification_20260920.json): operator-reported checksum match; zero refitting/model calls or source-file changes.
+- [Local RAGTruth TEST alignment](test_alignment_local_20260920.json): all 2,700 native answers, 2,694 exact contexts and six pinned single-space differences; cluster preparation and baseline provenance pending.

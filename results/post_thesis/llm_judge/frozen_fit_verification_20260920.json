@@ -1,0 +1,19 @@
+{
+  "study_stage": "post_thesis",
+  "date": "2026-09-20",
+  "provenance": "operator_supplied_read_only_checker_console_output",
+  "checker_code_revision": "d9abde6047dcb3773d22a1e256b5c3adfd8d36c4",
+  "fit_report_sha256": "2885eb400a8b5662ffd30382926773b85bbcf5055c1144394d893ecc072610f9",
+  "freeze_sha256": "90a70a63c550e87ad0f3fa41f11e1de99d9a08fc85c47de23f6ffafd3314fde8",
+  "calibration_parameters": {
+    "a": 0.3808096416654668,
+    "b": 0.3575745057816423
+  },
+  "raw_margin_threshold": -1.25,
+  "comparator": ">=",
+  "generation_calls": 0,
+  "fitting_calls": 0,
+  "source_files_rewritten": false,
+  "private_fit_checksum_verified_on_pod": true,
+  "private_fit_file_received_by_report_author": false
+}

@@ -150,3 +150,5 @@ Publish aggregate findings under `results/post_thesis/llm_judge` and figures und
 result record. Freeze the evaluation implementation and bounded run configuration
 before collecting judge TEST scores. Release/tag and final README findings follow
 completed evaluation, not this development result.
+
+Input-alignment implementation note (before judge TEST scoring): [the native/processed audit](TEST_ALIGNMENT.md) identified a one-ASCII-space formatting difference for six responses to source 14347. Both exact context hashes, IDs and offset are pinned. Original processed inputs and labels are preserved; other context mismatches fail. This does not alter the metric, model, calibration, threshold or split rules.

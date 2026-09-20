@@ -1,0 +1,57 @@
+{
+  "study_stage": "post_thesis",
+  "date": "2026-09-20",
+  "status": "assistant_CPU_alignment_completed; cluster_reproduction_pending",
+  "implementation_base_revision": "d9abde6047dcb3773d22a1e256b5c3adfd8d36c4",
+  "processed_test_file": "data/test-00000-of-00001.parquet",
+  "processed_test_sha256": "2fc4fb703ea47ee0d4ab6110b86312f94fdf0bda157bc6ee67c7e61fb90d3bbd",
+  "freeze_sha256": "90a70a63c550e87ad0f3fa41f11e1de99d9a08fc85c47de23f6ffafd3314fde8",
+  "summary": {
+    "test_rows": 2700,
+    "exact_native_answer_matches": 2700,
+    "exact_formatted_context_matches": 2694,
+    "reviewed_whitespace_only_context_matches": 6,
+    "native_test_sources": 450,
+    "test_components": 450,
+    "labels_offline": {
+      "0": 1757,
+      "1": 943
+    },
+    "tasks_offline": {
+      "Data2txt": 900,
+      "QA": 900,
+      "Summary": 900
+    },
+    "generation_calls": 0,
+    "fitting_calls": 0,
+    "http_requests": 0,
+    "metrics_computed": false,
+    "processed_TEST_inputs_and_labels_read": true,
+    "native_TEST_answers_used": true,
+    "native_annotation_labels_used": false,
+    "strict_document_disjointness_established": false,
+    "pilot_or_fit_component_overlap": false,
+    "HaluBench_read": false,
+    "token_audit_completed": false,
+    "scoring_authorized": false
+  },
+  "reviewed_context_difference": {
+    "source_id": "14347",
+    "sample_ids": [
+      "12180",
+      "12181",
+      "12182",
+      "12183",
+      "12184",
+      "12185"
+    ],
+    "processed_context_sha256": "454a12c1b962446aa5194fb1549e96218279f78e7c6daff1d06293f480d6d69b",
+    "native_formatted_context_sha256": "39f10d166699aa009df7922104b8ab5cfc2d23d2f01c3504f1906bcaf096ae5f",
+    "native_extra_ASCII_space_offset": 1522
+  },
+  "difference_review": "Exactly one native-formatted ASCII space at offset 1522; removing it reproduces the processed context. Preserve original processed input; no label or model-result based adjustment.",
+  "judge_TEST_scores_generated": false,
+  "baseline_comparison_ready": false,
+  "local_revision_marker": "local-validation-not-cluster",
+  "cluster_manifest_sha256": null
+}

@@ -63,3 +63,5 @@ Hold the [judge decision configuration](../../../post_thesis/llm_judge/configs/f
 fixed. Apply the [evaluation protocol](../../../post_thesis/llm_judge/EVALUATION_PROTOCOL.md)
 when building benchmark and baseline alignment manifests. Do not refit on either
 benchmark. The HaluBench canonical 8k split remains unchanged.
+
+The [subsequent pod freeze check](frozen_fit_verification_20260920.json) verified the complete saved fit checksum and frozen parameters, with zero generation/fitting calls and no source-file rewrite. This is an operator-reported on-pod check; the private fit file was not transferred to the report author.
