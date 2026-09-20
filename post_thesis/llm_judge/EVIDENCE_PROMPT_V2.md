@@ -98,3 +98,10 @@ parser. It prints `generation_calls: 0`, `model_behavior_tested: false` and
 `token_lengths_audited: false`. It does not attest semantic model behavior,
 tokenizer/serving compatibility or deployment readiness. Existing CI discovers
 the offline tests on Linux and Windows.
+
+## Next original-TRAIN development audit
+
+The [prompt-v2 token audit](EVIDENCE_PROMPT_V2_PILOT.md) is prepared for the same
+50 TRAIN examples and unchanged schema v3. It uses a separate fixed directory,
+preserves historical audits and makes no generation calls. The known rationale
+regression is retained; this is not a benchmark freeze or a claim of superiority.

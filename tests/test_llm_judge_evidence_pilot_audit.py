@@ -18,6 +18,7 @@ except ImportError:
 from post_thesis.llm_judge import audit_pilot as audit_module
 from post_thesis.llm_judge.evidence_cases import case_records
 from post_thesis.llm_judge.evidence_contract import EVIDENCE_PROMPT, parse_evidence
+from post_thesis.llm_judge.evidence_prompt_v2 import EVIDENCE_PROMPT_V2, evidence_request_prompt_v2
 from post_thesis.llm_judge.evidence_schema_v3 import EVIDENCE_SCHEMA_V3_JSON, EVIDENCE_V3_WIRE_SHA256, evidence_request_v3
 from post_thesis.llm_judge.judge import JudgeInput
 from post_thesis.llm_judge.prepare_pilot import build_bundle
@@ -56,6 +57,9 @@ class EvidenceObservationsTests(unittest.TestCase):
 
 @unittest.skipIf(httpx is None, 'Requires isolated HTTP client')
 class EvidenceAuditTests(unittest.IsolatedAsyncioTestCase):
+    PROMPT = EVIDENCE_PROMPT
+    REQUEST_FACTORY = staticmethod(evidence_request_v3)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
@@ -89,7 +93,7 @@ class EvidenceAuditTests(unittest.IsolatedAsyncioTestCase):
     async def execute(self, backend, **kwargs):
         return await audit_module.audit(self.bundle, expected_manifest_sha256=self.bundle['manifest_sha256'],
                                         backend=backend, directory=self.directory, revision='audit',
-                                        prompt=EVIDENCE_PROMPT, **kwargs)
+                                        prompt=self.PROMPT, **kwargs)
 
     async def test_fifty_exact_inputs_evidence_identity_and_zero_call_replay(self):
         before_bundle = deepcopy(self.bundle)
@@ -102,6 +106,7 @@ class EvidenceAuditTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(self.bundle, before_bundle)
             state = json.loads((self.directory / 'audit.json').read_text())['audit']
             identity = state['identity']
+            self.assertEqual(identity['prompt'], {'version':self.PROMPT.version, 'sha256':self.PROMPT.sha256})
             self.assertEqual(identity['request_contract'], 'evidence-diagnostic-request-v3')
             self.assertEqual(identity['response_schema_json'], EVIDENCE_SCHEMA_V3_JSON)
             self.assertEqual(identity['serialized_schema_sha256'], EVIDENCE_V3_WIRE_SHA256)
@@ -109,10 +114,10 @@ class EvidenceAuditTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(len(wires), 50)
             for wire, source in zip(wires, self.bundle['manifest']['pilot_inputs'], strict=True):
                 payload = json.loads(wire.content)
-                self.assertEqual(payload['messages'][0]['content'], EVIDENCE_PROMPT.system_text)
+                self.assertEqual(payload['messages'][0]['content'], self.PROMPT.system_text)
                 self.assertEqual(json.loads(payload['messages'][1]['content']), source['input'])
                 self.assertEqual(set(source['input']), {'answer', 'context'})
-                request = evidence_request_v3(JudgeInput(**source['input']), backend.config)
+                request = self.REQUEST_FACTORY(JudgeInput(**source['input']), backend.config)
                 self.assertEqual(state['counts'][source['sample_id']]['request_key'], request.key)
             count = len(self.calls)
             replay = await self.execute(backend)
@@ -171,6 +176,58 @@ class EvidenceAuditTests(unittest.IsolatedAsyncioTestCase):
                 await self.execute(backend)
         self.assertEqual((self.directory / 'audit.json').read_bytes(), original)
         self.assertEqual(len(self.calls), count)
+
+
+class EvidencePromptV2AuditTests(EvidenceAuditTests):
+    """Run the same audit safeguards for v2, without changing v1 expectations."""
+    PROMPT = EVIDENCE_PROMPT_V2
+    REQUEST_FACTORY = staticmethod(evidence_request_prompt_v2)
+
+    async def test_v1_evidence_audit_cannot_be_reused_or_overwritten(self):
+        async with self.backend() as backend:
+            await audit_module.audit(self.bundle, expected_manifest_sha256=self.bundle['manifest_sha256'],
+                backend=backend, directory=self.directory, revision='audit', prompt=EVIDENCE_PROMPT)
+            before = (self.directory / 'audit.json').read_bytes()
+            calls = len(self.calls)
+            with self.assertRaises(RunConflict):
+                await self.execute(backend)
+            self.assertEqual(before, (self.directory / 'audit.json').read_bytes())
+            self.assertEqual(calls, len(self.calls))
+
+    async def test_fresh_prompt_audit_changes_only_prompt_identity_and_request_keys(self):
+        async with self.backend() as backend:
+            v1_dir = Path(self.temp.name) / 'v1'
+            await audit_module.audit(self.bundle, expected_manifest_sha256=self.bundle['manifest_sha256'],
+                backend=backend, directory=v1_dir, revision='audit', prompt=EVIDENCE_PROMPT)
+            await self.execute(backend)
+        old = json.loads((v1_dir / 'audit.json').read_text())['audit']
+        new = json.loads((self.directory / 'audit.json').read_text())['audit']
+        changed = {k for k in old['identity'] if old['identity'][k] != new['identity'][k]}
+        self.assertEqual(changed, {'prompt'})
+        self.assertEqual(list(old['counts']), list(new['counts']))
+        for sid in old['counts']:
+            self.assertNotEqual(old['counts'][sid]['request_key'], new['counts'][sid]['request_key'])
+
+
+class EvidenceV2SelectionTests(unittest.TestCase):
+    def test_fixed_namespace_and_exact_prompt_selection(self):
+        self.assertEqual(audit_module.audit_prompt(EVIDENCE_PROMPT_V2.version), EVIDENCE_PROMPT_V2)
+        self.assertEqual(audit_module.AUDIT_DIRECTORIES[EVIDENCE_PROMPT_V2.version],
+                         'ragtruth-train-pilot-50-token-audit-evidence-prompt-v2')
+        self.assertEqual(audit_module.AUDIT_DIRECTORIES[EVIDENCE_PROMPT.version],
+                         'ragtruth-train-pilot-50-token-audit-evidence-v3')
+        with self.assertRaises(ValueError):
+            audit_module.audit_prompt('faithfulness-evidence-diagnostic-v999')
+
+    def test_cli_rejects_old_and_custom_namespaces_before_reading_artifacts(self):
+        for name in ('ragtruth-train-pilot-50-token-audit-evidence-v3', 'fresh-budget'):
+            with self.subTest(name=name), patch('sys.argv', ['audit', '--expected-manifest-sha256', 'fixture',
+                    '--prompt-version', EVIDENCE_PROMPT_V2.version, '--audit-id', name]), \
+                 patch.object(audit_module, 'code_revision') as revision, contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit) as error:
+                    audit_module.main()
+                self.assertEqual(error.exception.code, 2)
+                revision.assert_not_called()
 
 
 if __name__ == '__main__':

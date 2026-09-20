@@ -12,6 +12,7 @@ import uuid
 
 from .binary_contract import BINARY_PROMPT, BINARY_SCHEMA_JSON, binary_request
 from .evidence_contract import EVIDENCE_PROMPT
+from .evidence_prompt_v2 import EVIDENCE_PROMPT_V2, evidence_request_prompt_v2
 from .evidence_schema_v3 import (EVIDENCE_SCHEMA_V3_JSON, EVIDENCE_V3_WIRE_SHA256,
                                  EVIDENCE_V3_CONTRACT_VERSION, EVIDENCE_V3_FIELD_ORDER, evidence_request_v3)
 from .judge import BackendError, build_request
@@ -26,11 +27,17 @@ AUDIT_VERSION = "pilot_formatted_lengths_v1"
 DEADLINE_SECONDS = 300
 EVIDENCE_PILOT_MANIFEST_SHA256 = "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25"
 EVIDENCE_PROFILE_SHA256 = "4d7a4a3b0d534240e2d87c287faa97804b44320e40c2097525615975bdf2aa28"
+EVIDENCE_AUDIT_PROMPTS = (EVIDENCE_PROMPT, EVIDENCE_PROMPT_V2)
+EVIDENCE_REQUEST_FACTORIES = {
+    EVIDENCE_PROMPT.version: evidence_request_v3,
+    EVIDENCE_PROMPT_V2.version: evidence_request_prompt_v2,
+}
 AUDIT_DIRECTORIES = {
     DEVELOPMENT_PROMPT.version: "ragtruth-train-pilot-50-token-audit-v1",
     DEVELOPMENT_PROMPT_V2.version: "ragtruth-train-pilot-50-token-audit-v2",
     BINARY_PROMPT.version: "ragtruth-train-pilot-50-token-audit-binary-v1",
     EVIDENCE_PROMPT.version: "ragtruth-train-pilot-50-token-audit-evidence-v3",
+    EVIDENCE_PROMPT_V2.version: "ragtruth-train-pilot-50-token-audit-evidence-prompt-v2",
 }
 
 
@@ -38,8 +45,9 @@ def audit_prompt(version):
     # Diagnostic prompts stay separate from the probability registry/defaults.
     if version == BINARY_PROMPT.version:
         return BINARY_PROMPT
-    if version == EVIDENCE_PROMPT.version:
-        return EVIDENCE_PROMPT
+    for candidate in EVIDENCE_AUDIT_PROMPTS:
+        if version == candidate.version:
+            return candidate
     return get_prompt(version)
 
 
@@ -94,13 +102,13 @@ async def audit(bundle, *, expected_manifest_sha256, backend, directory, revisio
         raise RunConflict("expected the unchanged 50-example pilot prepared with v1")
     if prompt != audit_prompt(prompt.version):
         raise RunConflict("prompt text does not match its recorded version")
-    if prompt == EVIDENCE_PROMPT and (
+    if prompt in EVIDENCE_AUDIT_PROMPTS and (
             expected_manifest_sha256 != EVIDENCE_PILOT_MANIFEST_SHA256
             or content_hash(backend.profile) != EVIDENCE_PROFILE_SHA256
             or backend.config.max_output_tokens != 512 or backend.timeout_seconds != 60):
         raise RunConflict("evidence audit requires the original pilot and pinned evidence profile")
     requests = {
-        example.sample_id: (evidence_request_v3(example.item, backend.config) if prompt == EVIDENCE_PROMPT
+        example.sample_id: (EVIDENCE_REQUEST_FACTORIES[prompt.version](example.item, backend.config) if prompt in EVIDENCE_AUDIT_PROMPTS
                             else binary_request(example.item, backend.config) if prompt == BINARY_PROMPT
                             else build_request(example.item, config=backend.config, prompt=prompt))
         for example in examples
@@ -114,7 +122,7 @@ async def audit(bundle, *, expected_manifest_sha256, backend, directory, revisio
     if prompt == BINARY_PROMPT:
         identity.update(request_contract="binary-diagnostic-request-v1",
                         response_schema_sha256=content_hash(json.loads(BINARY_SCHEMA_JSON)))
-    if prompt == EVIDENCE_PROMPT:
+    if prompt in EVIDENCE_AUDIT_PROMPTS:
         identity.update(request_contract=EVIDENCE_V3_CONTRACT_VERSION,
                         response_schema_sha256=content_hash(json.loads(EVIDENCE_SCHEMA_V3_JSON)),
                         serialized_schema_sha256=EVIDENCE_V3_WIRE_SHA256,
@@ -123,7 +131,7 @@ async def audit(bundle, *, expected_manifest_sha256, backend, directory, revisio
     directory = Path(directory)
     with exclusive_run(directory):
         path = directory / "audit.json"
-        if prompt == EVIDENCE_PROMPT and not path.exists() and any(directory.glob("client-window-*.json")):
+        if prompt in EVIDENCE_AUDIT_PROMPTS and not path.exists() and any(directory.glob("client-window-*.json")):
             raise RunConflict("missing evidence audit checkpoint; preserve previous attempts")
         state = (_load(path, identity, requests) if path.exists() else
                  {"identity": identity, "counts": {}})
@@ -203,8 +211,8 @@ def main():
     audit_id = args.audit_id or defaults[prompt.version]
     if audit_id in defaults.values() and audit_id != defaults[prompt.version]:
         parser.error("use the selected prompt's audit directory; preserve other prompt versions")
-    if prompt == EVIDENCE_PROMPT and audit_id != defaults[prompt.version]:
-        parser.error("use the fixed evidence-v3 audit directory; preserve its attempts")
+    if prompt in EVIDENCE_AUDIT_PROMPTS and audit_id != defaults[prompt.version]:
+        parser.error("use the selected evidence prompt's fixed audit directory; preserve its attempts")
     revision = code_revision()
     manifest_path = run_directory("ragtruth-train-pilot-50-v1") / "manifest.json"
     bundle = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -212,7 +220,7 @@ def main():
 
     async def execute():
         async with VLLMBackend(args.base_url, api_key=os.environ.get("JUDGE_API_KEY"),
-                               profile_name="evidence-v1" if prompt == EVIDENCE_PROMPT else "default") as backend:
+                               profile_name="evidence-v1" if prompt in EVIDENCE_AUDIT_PROMPTS else "default") as backend:
             return await audit(bundle, expected_manifest_sha256=args.expected_manifest_sha256,
                                backend=backend, directory=directory, revision=revision, prompt=prompt)
 
@@ -222,7 +230,7 @@ def main():
     print("Audit status:", result["status"])
     print("Prompt version:", prompt.version)
     print("Prompt SHA256:", prompt.sha256)
-    if prompt == EVIDENCE_PROMPT:
+    if prompt in EVIDENCE_AUDIT_PROMPTS:
         print("Evidence schema version: v3")
         print("Serialized schema SHA256:", EVIDENCE_V3_WIRE_SHA256)
     saved = json.loads((directory / "audit.json").read_text(encoding="utf-8"))
