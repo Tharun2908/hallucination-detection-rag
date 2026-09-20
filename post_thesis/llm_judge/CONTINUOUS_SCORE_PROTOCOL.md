@@ -204,5 +204,5 @@ after the required transport is known.
 The [offline prompt/score contract and pinned-tokenizer check](LABEL_SCORE_OFFLINE.md)
 are implemented without model generation. The actual pinned tokenizer passed four
 assistant CPU and four cluster boundary checks. Installed-source fingerprints
-also match. The [bounded synthetic plan](LABEL_SCORE_RUN.md) completed with 30 valid scores and a zero-call cached replay. Proceed to the [original TRAIN token audit](LABEL_SCORE_PILOT_AUDIT.md) before a separately bounded pilot. This design does not update the evidence-v2 prompt,
+also match. The [bounded synthetic plan](LABEL_SCORE_RUN.md) completed with 30 valid scores and a zero-call cached replay. The [original TRAIN token audit](LABEL_SCORE_PILOT_AUDIT.md) passed. A [separate bounded pilot](LABEL_SCORE_PILOT_RUN.md) now pins its checksum and 50 primary requests; execution is pending. This design does not update the evidence-v2 prompt,
 serve a new model, assign a scoring budget or declare a benchmark-ready verifier.

@@ -32,7 +32,7 @@ next-token log probabilities as the next candidate. The [offline contract and
 tokenizer check](LABEL_SCORE_OFFLINE.md) are implemented, with four actual-tokenizer
 boundary checks passing on the assistant CPU. The [cluster tokenizer/source checks](../../results/post_thesis/llm_judge/label_score_setup_20260920.md)
 also passed. The [bounded synthetic run](LABEL_SCORE_RUN.md) now specifies 30
-one-token requests under an explicit raw-logprob profile. The [completed run and cached replay](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md) passed transport checks with 30/30 valid scores and zero replay calls. Both mappings match 12/14 synthetic expectations and miss two unknown-as-absence cases. Calibration remains unverified. Next is the [CPU-only original-50 TRAIN token audit](LABEL_SCORE_PILOT_AUDIT.md); no TRAIN label scores are authorized yet.
+one-token requests under an explicit raw-logprob profile. The [completed run and cached replay](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md) passed transport checks with 30/30 valid scores and zero replay calls. Both mappings match 12/14 synthetic expectations and miss two unknown-as-absence cases. Calibration remains unverified. The [original-50 TRAIN token audit](LABEL_SCORE_PILOT_AUDIT.md) passed with 60,574 input tokens and no overlength cases. The [bounded TRAIN label-score plan](LABEL_SCORE_PILOT_RUN.md) now pins that audit and permits at most 50 one-token attempts within 600 cumulative client seconds. It has not yet been executed.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and

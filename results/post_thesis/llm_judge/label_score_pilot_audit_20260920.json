@@ -1,0 +1,29 @@
+{
+  "study_stage": "post_thesis",
+  "date": "2026-09-20",
+  "provenance": "operator_console; cluster private audit not independently read by assistant",
+  "audit_sha256": "b48d1eca31d68032fff55c38f2f82a038138880c72dad29d6f4dec38ebcf51bc",
+  "audit_code_revision": "c964dc8af892c3f5344c5a3b43c91873460de884",
+  "prompt_version": "faithfulness-label-score-v1",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "summary": {
+    "examples_total": 50,
+    "examples_counted": 50,
+    "examples_pending": 0,
+    "overlength_ids": [],
+    "max_input_tokens": 2986,
+    "min_input_tokens": 721,
+    "total_input_tokens": 60574,
+    "output_allowance_per_example": 1,
+    "model_limit": 32768,
+    "all_inputs_fit": true,
+    "generation_calls": 0,
+    "http_requests": 0,
+    "model_weights_loaded": false,
+    "scoring_authorized_by_this_audit": false
+  },
+  "new_CPU_tokenizations": 50,
+  "audit_status": "completed",
+  "next_scoring_plan_sha256": "4998848114a2b149d67bdc90dc786ab8b65e86d4b5834096a65128e0d841eacd",
+  "scoring_run_executed": false
+}

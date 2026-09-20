@@ -55,6 +55,19 @@ def slots():
     return result
 
 
+def completion_payload(ids, profile, *, temperature=0.0):
+    """Same unmasked, one-position raw-score request for synthetic and TRAIN."""
+    return {"model": profile["served_model_name"], "prompt": ids,
+            "max_tokens": 1, "n": 1, "stream": False, "echo": False,
+            "add_special_tokens": False, "temperature": temperature,
+            "seed": 0, "top_p": 1.0, "top_k": -1, "min_p": 0.0,
+            "presence_penalty": 0.0, "frequency_penalty": 0.0,
+            "repetition_penalty": 1.0, "ignore_eos": True,
+            "skip_special_tokens": False, "logprobs": 2,
+            "logprob_token_ids": [32, 33], "return_tokens_as_token_ids": True,
+            "return_token_ids": True}
+
+
 def prepare_requests(tokenizer):
     """Render all inputs before any model calls. Expected labels stay offline."""
     result = []
@@ -71,15 +84,7 @@ def prepare_requests(tokenizer):
             raise ValueError("class-token reference mismatch")
         if len(ids) > 4096 or len(ids) + 1 > profile["max_model_len"]:
             raise ValueError("synthetic input limit exceeded; no truncation")
-        payload = {"model": profile["served_model_name"], "prompt": ids,
-                   "max_tokens": 1, "n": 1, "stream": False, "echo": False,
-                   "add_special_tokens": False, "temperature": slot["temperature"],
-                   "seed": 0, "top_p": 1.0, "top_k": -1, "min_p": 0.0,
-                   "presence_penalty": 0.0, "frequency_penalty": 0.0,
-                   "repetition_penalty": 1.0, "ignore_eos": True,
-                   "skip_special_tokens": False, "logprobs": 2,
-                   "logprob_token_ids": [32, 33], "return_tokens_as_token_ids": True,
-                   "return_token_ids": True}
+        payload = completion_payload(ids, profile, temperature=slot["temperature"])
         mapping = {"supported": 32, "unsupported": 33}
         if slot["orientation"] == "swapped":
             mapping = {"supported": 33, "unsupported": 32}

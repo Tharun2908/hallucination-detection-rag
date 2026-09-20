@@ -51,3 +51,5 @@ recorded preparation revision. With the pinned tokenizer, all 50 inputs fit:
 input. This local development check did not inspect the private cluster synthetic
 report and does not substitute for the cluster audit's checksum or code revision.
 The new audit regression tests and existing judge tests passed (342 tests).
+
+The cluster audit subsequently matched these counts; its [record](../../results/post_thesis/llm_judge/label_score_pilot_audit_20260920.json) is now pinned by a [separate bounded scoring plan](LABEL_SCORE_PILOT_RUN.md). Preserve the completed audit rather than rerunning it under a later revision.

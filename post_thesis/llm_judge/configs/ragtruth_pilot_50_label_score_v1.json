@@ -1,0 +1,313 @@
+{
+  "study_stage": "post_thesis",
+  "version": "ragtruth-label-score-pilot-50-v1",
+  "run_id": "qwen3-ragtruth-train-pilot-50-label-score-v1",
+  "scope": "reused_TRAIN_development_only",
+  "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+  "audit_sha256": "b48d1eca31d68032fff55c38f2f82a038138880c72dad29d6f4dec38ebcf51bc",
+  "audit_code_revision": "c964dc8af892c3f5344c5a3b43c91873460de884",
+  "synthetic_report_sha256": "f239047289c56c28168927f8518e3203348a47084639c1377af53c75112f654c",
+  "prompt_version": "faithfulness-label-score-v1",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "profile": {
+    "study_stage": "post_thesis",
+    "profile_version": "qwen3_32b_h200_label_score_v1",
+    "model_repository": "Qwen/Qwen3-32B",
+    "model_revision": "9216db5781bf21249d130ec9da846c4624c16137",
+    "tokenizer_revision": "9216db5781bf21249d130ec9da846c4624c16137",
+    "served_model_name": "qwen3-32b-label-score-9216db5781bf",
+    "vllm_version": "0.29.0",
+    "dtype": "bfloat16",
+    "tensor_parallel_size": 1,
+    "gpu_type": "H200",
+    "gpu_count": 1,
+    "max_model_len": 32768,
+    "max_output_tokens": 1,
+    "temperature": 0.0,
+    "seed": 0,
+    "enable_thinking": false,
+    "concurrency": 1,
+    "quantization": null,
+    "gpu_memory_utilization": 0.85,
+    "generation_config": "vllm",
+    "enable_prefix_caching": false,
+    "logprobs_mode": "raw_logprobs"
+  },
+  "source_blobs": {
+    "vllm/config/model.py": "2b69d7ce4ccf82cb7342c6bc5f4259661974b95e",
+    "vllm/v1/sample/sampler.py": "3efaf33d980f42f95184923184e2da8c5a69c7d4",
+    "vllm/entrypoints/openai/completion/protocol.py": "4edef74ea7fc45f66be759f07f561bffed73e5d8",
+    "vllm/entrypoints/openai/completion/serving.py": "2fa01478cee60ad7a1d2307b769c136c70fe0f32"
+  },
+  "class_mapping": {
+    "supported": 32,
+    "unsupported": 33
+  },
+  "requests": [
+    {
+      "slot": "primary:17143",
+      "request_key": "53bd9d034e57d02e86010847f82fbbc85713c9668ad952de8aaa09eda7d23e57",
+      "input_tokens": 1151
+    },
+    {
+      "slot": "primary:15937",
+      "request_key": "455e14e4310445ede5fe48d6a0e11f9a2abcb680cf37d599cf86ef187038089e",
+      "input_tokens": 954
+    },
+    {
+      "slot": "primary:11000",
+      "request_key": "3e1560abadcdb99372c794588f530b6fc3f69156d0aca89e6d23f38fb5281b97",
+      "input_tokens": 1390
+    },
+    {
+      "slot": "primary:13266",
+      "request_key": "7c06576c3edf9209c923c166eb2032226cfcc8f86a0146db935203166cad1c4c",
+      "input_tokens": 926
+    },
+    {
+      "slot": "primary:11582",
+      "request_key": "971397441e602b774acaa92572b01c9507def80b8db32ee71f31751d143239bf",
+      "input_tokens": 1363
+    },
+    {
+      "slot": "primary:14984",
+      "request_key": "3c5a2b04591290ca960b3eacc0623493bbb278037a2f5e4b1a28a16d94584023",
+      "input_tokens": 781
+    },
+    {
+      "slot": "primary:3825",
+      "request_key": "92429e258e18e11194e7faa28de7e0344cb487b6f699d45fd154ea936965964d",
+      "input_tokens": 1181
+    },
+    {
+      "slot": "primary:710",
+      "request_key": "40df421ff91a6f22cd8000931b02fc20ea2851392405a3b6a85b03831213834f",
+      "input_tokens": 829
+    },
+    {
+      "slot": "primary:10409",
+      "request_key": "35a02a75a6587bf5593f268a5a01a6f233d82863e072193e92bf6de4642791d6",
+      "input_tokens": 1312
+    },
+    {
+      "slot": "primary:5584",
+      "request_key": "4766921d9bf56b6c368ae30eb67066b9d79d30aa612ae6bd9b7c69828afbaf70",
+      "input_tokens": 1015
+    },
+    {
+      "slot": "primary:11646",
+      "request_key": "764cc8e60ab18325f0f505b96dc930001c46f3e579cffe1bf1c4de1636ed706b",
+      "input_tokens": 1276
+    },
+    {
+      "slot": "primary:1772",
+      "request_key": "138ce4598456592e1694128afcf2e1c7ea479987e0725f4ae7d98407df43ba75",
+      "input_tokens": 1669
+    },
+    {
+      "slot": "primary:5662",
+      "request_key": "859386a58c6b5305a2019e23cbdc19e8532d23121ac3e24c4062f380e14fff4b",
+      "input_tokens": 1296
+    },
+    {
+      "slot": "primary:7629",
+      "request_key": "359713d3a13d4bde373382ac1d30a046ec62ce1f90dca3e8135ddae606762b83",
+      "input_tokens": 1536
+    },
+    {
+      "slot": "primary:13320",
+      "request_key": "3a0177b416d31993ef49c48fcdc0bcc80b9fea765f61b15a609d86582e7032ca",
+      "input_tokens": 847
+    },
+    {
+      "slot": "primary:6121",
+      "request_key": "7b994d92d12664762ba436c87e78249298b6e32ecf3c345923ce8818bd00bc40",
+      "input_tokens": 1486
+    },
+    {
+      "slot": "primary:10044",
+      "request_key": "438415417667209a9f882faf0e7be2d9e38788ac1d2b01a86947833b16d38861",
+      "input_tokens": 1366
+    },
+    {
+      "slot": "primary:13303",
+      "request_key": "a0fb8f07f8f9f21a4db22d116d9587cbc8e6ad7bc55f4a1dcdedf63fb216d9f6",
+      "input_tokens": 1122
+    },
+    {
+      "slot": "primary:13013",
+      "request_key": "a9d4fb24648ad09f6f3b4f887f11d93d6ce68f0f76e2faa1549fed863f87ad6d",
+      "input_tokens": 744
+    },
+    {
+      "slot": "primary:12428",
+      "request_key": "c03c763c97dfd1c3351347bbc9c2d2b07ddb3482bb4b4a1cdd87f79811d8b00c",
+      "input_tokens": 798
+    },
+    {
+      "slot": "primary:11031",
+      "request_key": "df5ff218b5f023bab47b41eadc8a7601786bc7b7b04a0972d77ec9035f22029b",
+      "input_tokens": 1306
+    },
+    {
+      "slot": "primary:10151",
+      "request_key": "f61f5d3b4535199a84cdeeb41adf9f0b8a839a371470f6de41b810c8bd0b021d",
+      "input_tokens": 1290
+    },
+    {
+      "slot": "primary:6352",
+      "request_key": "5cc3b4de18440e684b4f868410ee6a7818b743ddd6bdc3ff723479d8afd95311",
+      "input_tokens": 1181
+    },
+    {
+      "slot": "primary:6040",
+      "request_key": "c9916a9e7d6cf678d461883b9fb4908c1d78970c2caa79b20a74326ef928adf2",
+      "input_tokens": 1541
+    },
+    {
+      "slot": "primary:9696",
+      "request_key": "873fd422a4b31b1549baf7d1f35632c14ae7c48526b7f640933259347fb7cea2",
+      "input_tokens": 1199
+    },
+    {
+      "slot": "primary:15849",
+      "request_key": "d50000bc53b9e8f1cbef9ffa9416b54f364536cce3e1ab78ba57274e5fbae30b",
+      "input_tokens": 1214
+    },
+    {
+      "slot": "primary:14163",
+      "request_key": "b5e512be8ffb76d7837d86c3a782f7d7b4896385d9ebc337bff397e579288bba",
+      "input_tokens": 1132
+    },
+    {
+      "slot": "primary:9180",
+      "request_key": "463c354f0a552c6f09672e00d2c43f5fec3f3e8b7f7234bc499009687049593c",
+      "input_tokens": 1206
+    },
+    {
+      "slot": "primary:12892",
+      "request_key": "eddae9612d08f36da91fe9cf0e7112e95b0022ce65a7a298f26d82055e37d7d5",
+      "input_tokens": 945
+    },
+    {
+      "slot": "primary:6486",
+      "request_key": "b7fecbafa736914049397c1cab1f4ba8cb0ed6ec575fb2bd4d2c85a84183392a",
+      "input_tokens": 1489
+    },
+    {
+      "slot": "primary:9317",
+      "request_key": "a40d88ec16288778186a0683e46c41f8ef9707c9f4d0e00acf886080d433444d",
+      "input_tokens": 1569
+    },
+    {
+      "slot": "primary:13151",
+      "request_key": "390b616426dd19552b453e12ed5e91c2bfbe4cd693b360954f7fb0aa3b7d8f4d",
+      "input_tokens": 946
+    },
+    {
+      "slot": "primary:6946",
+      "request_key": "07b722d70fc80e6e466ec0c9ed8bbb541f97c08bbbf2709c891fd4fd01bef18e",
+      "input_tokens": 1424
+    },
+    {
+      "slot": "primary:9256",
+      "request_key": "4c01b4f240eb052cf806ee7c2492c19bed639f1499a625dc9b14b82d17632796",
+      "input_tokens": 1158
+    },
+    {
+      "slot": "primary:15087",
+      "request_key": "d0bd85b2de238433ea73390f24f2589aaf0a294abe2a6f10a5508f8bb303a3df",
+      "input_tokens": 935
+    },
+    {
+      "slot": "primary:522",
+      "request_key": "7f9f540f9b57a358880deb67e501d37e225b0fc10ae7fc49c3e76de4ea6ba2e1",
+      "input_tokens": 2986
+    },
+    {
+      "slot": "primary:4072",
+      "request_key": "b3566fcbb58fd91ba6593f08a51662005be910aa29282d09473ae868a5ef3857",
+      "input_tokens": 1177
+    },
+    {
+      "slot": "primary:3040",
+      "request_key": "108ea393e315a4918ce3aef062d97f60e522a962022ae2be0b3b486419e1b39d",
+      "input_tokens": 721
+    },
+    {
+      "slot": "primary:8469",
+      "request_key": "10f53113c5b07166d035c57621fc9d6ff507f82d5ff06fbba811f43721a948e1",
+      "input_tokens": 1310
+    },
+    {
+      "slot": "primary:10395",
+      "request_key": "db3a7294b1f86e4580f5ab1f32fe959df4df70e83a98de5c41d771ceb9b05e66",
+      "input_tokens": 1269
+    },
+    {
+      "slot": "primary:2902",
+      "request_key": "8ba24460d1738bf11356bec7b196ba224f30274694dcce239d7f7cd68c2e2606",
+      "input_tokens": 1431
+    },
+    {
+      "slot": "primary:14682",
+      "request_key": "15f60e741b0587e4023cc040861a95d93224c986d45565bf689999a3bb3c2539",
+      "input_tokens": 765
+    },
+    {
+      "slot": "primary:11363",
+      "request_key": "8c67254a34e562d013df16490b168a79cecf02bc8be2ca19131c31c78c9417c2",
+      "input_tokens": 1156
+    },
+    {
+      "slot": "primary:17155",
+      "request_key": "9984cb594be846d8b8730cf25c25a74dcf02dc3d49249fbbba49ea3c02b8200e",
+      "input_tokens": 1092
+    },
+    {
+      "slot": "primary:5766",
+      "request_key": "072ec842f548669fd7f8c8b21d4124733ebe4d965fe44cc75922ce53a9200f17",
+      "input_tokens": 1238
+    },
+    {
+      "slot": "primary:12052",
+      "request_key": "8d6d824d81988ca0a1c49c5f8984cf8eed9b498466aa48e37e8407ba18b4920c",
+      "input_tokens": 950
+    },
+    {
+      "slot": "primary:12877",
+      "request_key": "45f320ed8fc74126656f690bb77378b1f51826fd3a9942896843872f69ba60c4",
+      "input_tokens": 1012
+    },
+    {
+      "slot": "primary:9350",
+      "request_key": "44f414bb1de74789ff4ebe1d9d0d1742df91f4ba16ccea9feb8617f067900bec",
+      "input_tokens": 1835
+    },
+    {
+      "slot": "primary:7469",
+      "request_key": "609e7bf99f1031e3642c52117679e65f2be7059406ca8343f78a380af10d923b",
+      "input_tokens": 1280
+    },
+    {
+      "slot": "primary:16109",
+      "request_key": "4991e3c01df4090581ab63323e3d67f0ee3ed806cdd92a3e16ac5ff9cfda8316",
+      "input_tokens": 775
+    }
+  ],
+  "max_attempts": 50,
+  "attempts_per_slot": 1,
+  "client_budget_seconds": 600,
+  "request_timeout_seconds": 60,
+  "audited_input_tokens": 60574,
+  "audited_min_input_tokens": 721,
+  "audited_max_input_tokens": 2986,
+  "max_output_tokens_per_request": 1,
+  "max_output_tokens_total": 50,
+  "concurrency": 1,
+  "retries": 0,
+  "truncation": "none",
+  "halt_on_any_request_error": true,
+  "unknown_window_policy": "charge_full_reserved_remaining_budget",
+  "orientation_policy": "primary_only_no_selection_or_averaging"
+}
