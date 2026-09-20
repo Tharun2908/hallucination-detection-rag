@@ -1,0 +1,31 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "assistant_local_artificial_data_check",
+  "scope": "12_constructed_examples_only_no_benchmark_predictions",
+  "evaluation_contract_sha256": "c092deea43883442914500fedb0627b7938c513ce5a77bc730079161b4425373",
+  "local_report_sha256": "0a63c4ba8a34df9083f7499524cddbf18cf301f40a1f59d135240b5d60008388",
+  "local_code_marker": "local-validation-not-cluster",
+  "versions": {
+    "numpy": "1.26.4",
+    "python": "3.12.14",
+    "scikit-learn": "1.5.2",
+    "scipy": "1.14.1"
+  },
+  "fixtures_sha256": "520b9f23a4821422534aedaf46386bf84ad26b7b5821a9c7408e1895a20f97b6",
+  "focused_regression_tests_passed": 14,
+  "bootstrap_replicates": 2000,
+  "valid_auroc_draws": {
+    "MiniCheck_7B": 2000,
+    "S2_S4_metadata_free": 2000,
+    "S4": 2000,
+    "judge": 2000
+  },
+  "bootstrap_draws_sha256": "4c7985e78d65bb491be81b8b8556e279972fda5bfe5eb0612edd2c40af27063d",
+  "identical_cached_replay": true,
+  "new_evaluations_on_replay": 0,
+  "generation_calls": 0,
+  "fitting_calls": 0,
+  "benchmark_metrics_computed": false,
+  "cluster_synthetic_check_completed": false,
+  "legacy_baseline_readiness_changed": false
+}

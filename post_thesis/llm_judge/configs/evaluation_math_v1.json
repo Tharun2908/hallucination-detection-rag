@@ -1,0 +1,99 @@
+{
+  "study_stage": "post_thesis",
+  "version": "evaluation-math-v1",
+  "scope": "pre_inference_numerical_core",
+  "judge_freeze_sha256": "90a70a63c550e87ad0f3fa41f11e1de99d9a08fc85c47de23f6ffafd3314fde8",
+  "main_systems": [
+    "judge",
+    "S4",
+    "MiniCheck_7B",
+    "S2_S4_metadata_free"
+  ],
+  "positive_label": 1,
+  "ranking": "raw judge margin; negate MiniCheck support; original unsupported scores for S4 and fusion",
+  "average_precision": "sklearn.average_precision_score; not trapezoidal PR integration",
+  "operating_rules": {
+    "judge": {
+      "space": "raw_margin",
+      "comparator": ">=",
+      "threshold": -1.25
+    },
+    "S4": {
+      "space": "unsupported_probability",
+      "comparator": ">=",
+      "threshold": 0.55
+    },
+    "MiniCheck_7B": {
+      "space": "support_probability",
+      "comparator": "<",
+      "threshold": 0.20000000000000004
+    },
+    "S2_S4_metadata_free": {
+      "space": "unsupported_probability",
+      "comparator": ">=",
+      "threshold": 0.45
+    }
+  },
+  "baseline_threshold_sources": {
+    "provenance_report_sha256": "2e85cc46aeb4ade600c3c70680c200338f580dd20875a1a122d71f0988575e7c",
+    "fusion_report_sha256": "1c90a003abbda9044767bb9167b1ecc171f7a8a746b87093a143d833ba4ec0d6"
+  },
+  "probability_views": {
+    "judge": [
+      "raw",
+      "calibrated"
+    ],
+    "baselines": [
+      "raw"
+    ]
+  },
+  "ece_edges": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "ece_interval_rule": "[left,right), last [0.9,1.0]",
+  "missing": "explicit None; preserve original denominator; no imputation",
+  "one_class": "AUROC and average precision null with reason",
+  "classification_zero_division": 0,
+  "empty_subset": "classification ratios zero by zero-division convention; accuracy/reliability/ranking null; no bootstrap interval",
+  "primary_pairs": "same all-four-system valid intersection; unready provenance blocks computation",
+  "bootstrap": {
+    "replicates": 2000,
+    "seed": 20260920,
+    "rng": "Generator(PCG64)",
+    "resample": "K whole groups with replacement from K sorted eligible group IDs; equal response weights",
+    "minimum_valid_draws": 1900,
+    "percentiles": [
+      2.5,
+      97.5
+    ],
+    "method": "linear",
+    "invalid_draws": "preserve draws, skip only undefined metric; never redraw",
+    "differences": "judge minus baseline; both judge reliability views against raw baseline",
+    "intervals": "nominal, unadjusted, conditional on fitted systems and sample"
+  },
+  "slices": "all supplied RAGTruth task/generator or HaluBench source levels; descriptive only",
+  "python": "3.12",
+  "packages": {
+    "numpy": "1.26.4",
+    "scipy": "1.14.1",
+    "scikit-learn": "1.5.2"
+  },
+  "source_sha256": {
+    "post_thesis/llm_judge/evaluation_math.py": "3ad7a5fae509804b6eb5b3e46cfa95766693700d5a119a711e80c45355ea6468",
+    "post_thesis/llm_judge/fitting_math.py": "6f6e6a109a7228f150e1b239777fc4ab799cb99a8769b3f3fb5f4a137ae37bce"
+  },
+  "benchmark_loader_implemented": false,
+  "efficiency_reporting_implemented": false,
+  "generation_allowance": 0,
+  "baseline_provenance_resolved": false
+}

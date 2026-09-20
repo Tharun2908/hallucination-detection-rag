@@ -89,3 +89,5 @@ This step computes no metrics or probabilities, selects no thresholds, makes no
 judge calls, and reads no HaluBench data. A successful token audit supplies lengths
 for a later bounded execution manifest; it is not scoring authorization. Model,
 prompt, calibration, thresholds and benchmark membership remain unchanged.
+
+Cluster update: [the completed audit and replay](../../results/post_thesis/llm_judge/test_token_audit_cluster_20260920.md) match these lengths and the independently reconstructed full audit hash. Preserve this historical audit after checkout updates. Proceed with the [pre-inference evaluation numerical checks](EVALUATION_MATH.md); no inference allowance is implied.
