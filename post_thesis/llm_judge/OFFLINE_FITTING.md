@@ -3,7 +3,7 @@
 This implementation is post-thesis work and does not change submitted thesis results.
 The [completed scoring record](../../results/post_thesis/llm_judge/development_scoring_cluster_20260920.md)
 reports 600 valid scores in each reserved arm and zero additional attempts on replay.
-The actual scores remain in private pod artifacts. No real fit has yet been reported.
+The actual scores remain in private pod artifacts. The [completed fit and identical replay](../../results/post_thesis/llm_judge/development_fit_cluster_20260920.md) are now recorded; preserve the existing fit.
 
 ## Fixed method
 
@@ -89,3 +89,25 @@ threshold, but the command exits with status 1 to make the rejection visible.
 This step freezes development outputs, not test findings. Report the console output
 before preparing any benchmark evaluation. Final evaluation alignment and metrics
 remain a separate step under the research protocol.
+
+## Completed fit: use the read-only checker after updating the checkout
+
+The fit has already completed at `c22ae9257eada6220875895a5f41fac15c308e43`.
+Do not rerun `fit_development` under a newer revision: its identity intentionally
+rejects changes. Instead verify the preserved artifact against the new frozen
+configuration, without rewriting files or invoking optimization:
+
+```bash
+cd /workspace/hallucination-detection-rag &&
+git pull --ff-only &&
+source .venv-judge-fit/bin/activate &&
+python -S -m post_thesis.llm_judge.check_frozen_fit
+```
+
+This checker uses the standard library only and accepts the historical fitter
+revision; it does not require that revision to equal the current checkout.
+No GPU server, tokenizer, new model scores or refit is needed. It validates the
+complete private fit checksum and the frozen parameters/threshold/provenance.
+It is not another execution of the full scoring-journal replay: that was recorded
+by the original fitter. Next follow [the evaluation protocol](EVALUATION_PROTOCOL.md)
+to prepare dataset and baseline alignment before an inference plan.

@@ -1,0 +1,62 @@
+{
+  "study_stage": "post_thesis",
+  "version": "qwen3-label-judge-decision-freeze-v1",
+  "status": "model_score_calibration_threshold_frozen; benchmark_alignment_and_execution_plan_pending",
+  "source_fit_report_sha256": "2885eb400a8b5662ffd30382926773b85bbcf5055c1144394d893ecc072610f9",
+  "source_fitter_revision": "c22ae9257eada6220875895a5f41fac15c308e43",
+  "fit_protocol_sha256": "8902d4010ce17b0d3ac8b9a18fdfe70703cd72c4e62216bb41c6c7767a5703bc",
+  "development_manifest_sha256": "56b77ada74b638720586f93835ed801d8f090d7a04b9d1f1272a60e2677d7362",
+  "prompt_version": "faithfulness-label-score-v1",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "serving_profile": {
+    "study_stage": "post_thesis",
+    "profile_version": "qwen3_32b_h200_label_score_v1",
+    "model_repository": "Qwen/Qwen3-32B",
+    "model_revision": "9216db5781bf21249d130ec9da846c4624c16137",
+    "tokenizer_revision": "9216db5781bf21249d130ec9da846c4624c16137",
+    "served_model_name": "qwen3-32b-label-score-9216db5781bf",
+    "vllm_version": "0.29.0",
+    "dtype": "bfloat16",
+    "tensor_parallel_size": 1,
+    "gpu_type": "H200",
+    "gpu_count": 1,
+    "max_model_len": 32768,
+    "max_output_tokens": 1,
+    "temperature": 0.0,
+    "seed": 0,
+    "enable_thinking": false,
+    "concurrency": 1,
+    "quantization": null,
+    "gpu_memory_utilization": 0.85,
+    "generation_config": "vllm",
+    "enable_prefix_caching": false,
+    "logprobs_mode": "raw_logprobs"
+  },
+  "primary_mapping": {
+    "supported": 32,
+    "unsupported": 33
+  },
+  "raw_score": "logP(B)-logP(A); unrounded float64 raw full-vocabulary logprobs",
+  "ranking_score": "raw_margin",
+  "calibration": {
+    "method": "sigmoid(a*raw_margin+b)",
+    "parameters": {
+      "a": 0.3808096416654668,
+      "b": 0.3575745057816423
+    },
+    "parameter_hex": {
+      "a": "0x1.85f2f673d1922p-2",
+      "b": "0x1.6e2802e0dcb06p-2"
+    }
+  },
+  "operating_threshold": {
+    "space": "raw_margin",
+    "comparator": ">=",
+    "margin": -1.25,
+    "margin_hex": "-0x1.4000000000000p+0",
+    "fixed_reference_margin": 0.0
+  },
+  "policy": "same_model_prompt_map_and_threshold_for_RAGTruth_and_canonical_HaluBench; no_refit_or_prompt_tuning",
+  "generation_allowance": 0,
+  "test_scoring_plan": null
+}

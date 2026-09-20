@@ -1,0 +1,84 @@
+{
+  "study_stage": "post_thesis",
+  "date": "2026-09-20",
+  "provenance": "operator_supplied_fresh_and_cached_console_outputs; full_private_fit_not_supplied",
+  "fitter_code_revision": "c22ae9257eada6220875895a5f41fac15c308e43",
+  "fit_report_sha256": "2885eb400a8b5662ffd30382926773b85bbcf5055c1144394d893ecc072610f9",
+  "private_report_hash_independently_reconstructed": false,
+  "input_replay_reported": "both_complete_reserved_arms_verified",
+  "fresh_new_fitting_invocation": true,
+  "cached_new_fitting_invocation": false,
+  "same_report_sha256_on_replay": true,
+  "calibration": {
+    "status": "accepted",
+    "parameters": {
+      "a": 0.3808096416654668,
+      "b": 0.3575745057816423
+    },
+    "failure_reasons": [],
+    "diagnostics": {
+      "candidate_parameters_not_for_deployment": {
+        "a": 0.3808096416654668,
+        "b": 0.3575745057816423
+      },
+      "optimizer_success": true,
+      "optimizer_status": 0,
+      "optimizer_message": "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL",
+      "iterations": 8,
+      "function_evaluations": 10,
+      "initial_objective": 0.7540429127157294,
+      "final_objective": 0.5577270851005413,
+      "gradient": [
+        2.092726138729203e-10,
+        -1.077261969949575e-10
+      ],
+      "minimum_bound_distances": [
+        0.3798096416654668,
+        19.642425494218358
+      ]
+    }
+  },
+  "operating_threshold_selection": {
+    "kind": "finite_margin",
+    "margin": -1.25,
+    "margin_hex": "-0x1.4000000000000p+0",
+    "tp": 209,
+    "fp": 104,
+    "fn": 67,
+    "tn": 220,
+    "f1_numerator": 418,
+    "f1_denominator": 589,
+    "f1": 0.7096774193548387,
+    "precision": 0.6677316293929713,
+    "recall": 0.7572463768115942,
+    "accuracy": 0.715
+  },
+  "reliability": {
+    "calibration": {
+      "interpretation": "in_sample_fit_diagnostics",
+      "raw_uncalibrated": {
+        "brier": 0.22456062582737743,
+        "ece": 0.1780116873894959
+      },
+      "calibrated": {
+        "brier": 0.1891732261368433,
+        "ece": 0.04018367319691545
+      }
+    },
+    "operating_threshold": {
+      "interpretation": "development_diagnostics_not_independent_pipeline_validation",
+      "raw_uncalibrated": {
+        "brier": 0.22239233315216086,
+        "ece": 0.16097726389830294
+      },
+      "calibrated": {
+        "brier": 0.19961122210436344,
+        "ece": 0.05807887829267984
+      }
+    }
+  },
+  "generation_calls": 0,
+  "TEST_read": false,
+  "HaluBench_read": false,
+  "test_performance_claimed": false
+}

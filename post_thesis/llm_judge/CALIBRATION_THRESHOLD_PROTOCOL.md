@@ -161,3 +161,5 @@ reports must preserve those limitations and the post-thesis designation.
 Next: the [CPU token-length auditor](DEVELOPMENT_TOKEN_AUDIT.md) is implemented for these exact 1,200 reserved inputs and locally validated with the pinned tokenizer. The cluster audit and replay now match; the [separate bounded scoring configuration](DEVELOPMENT_SCORING_RUN.md) pins its identity and permits one request per reserved input. No fitting code, parameter estimates, selected threshold or new model calls are introduced.
 
 Implementation update after completed reserved scoring: [CPU-only fitting](OFFLINE_FITTING.md) now implements this unchanged statistical design. Parameter estimates and the selected threshold remain pending on the pod; the original configuration is preserved as the preregistration artifact.
+
+Cluster outcome: the [accepted fit and frozen operating threshold](../../results/post_thesis/llm_judge/development_fit_cluster_20260920.md) are recorded, with identical cached replay. This statistical design and its configuration remain unchanged.

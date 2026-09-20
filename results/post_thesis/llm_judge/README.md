@@ -74,3 +74,5 @@ The [local reserved-arm token audit](development_token_audit_local_20260920.md) 
 The [completed cluster development token audit and replay](development_token_audit_cluster_20260920.md) and [hash/count record](development_token_audit_cluster_20260920.json) reproduce all 1,200 input lengths. The [bounded scoring plan](../../../post_thesis/llm_judge/DEVELOPMENT_SCORING_RUN.md) is implemented; no live reserved-arm scores or fitted parameters have been collected by this patch.
 
 - [Reserved TRAIN scoring completed](development_scoring_cluster_20260920.md): operator-reported full coverage and cached reuse in both 600-row arms; actual CPU fitting remains pending. See the [exact console record](development_scoring_cluster_20260920.json).
+
+- [Accepted development fit and cached replay](development_fit_cluster_20260920.md): positive-slope calibration, raw threshold -1.25, reliability diagnostics on both reserved arms; no TEST results. [Console-derived JSON](development_fit_cluster_20260920.json).
