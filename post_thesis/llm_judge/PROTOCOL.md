@@ -341,3 +341,15 @@ Pause further evidence-prompt tuning. Define the continuous-score protocol next,
 including score semantics, missingness, calibration and development-only threshold
 selection, before implementing new inference. No new compute allowance, test
 metrics or benchmark freeze follows from recording these findings.
+
+## Continuous-score design after evidence diagnostics
+
+The [new design](CONTINUOUS_SCORE_PROTOCOL.md) defines a separate class-token
+likelihood candidate: unsupported log-odds from raw probabilities of two fixed
+labels at the same assistant position. Its normalized score is not automatically
+a calibrated probability. Exact prompt/tokenizer identities and raw-logprob
+transport compatibility must be established before a bounded live run.
+The selected A/B mapping, missing-score handling, independent development
+calibration/threshold controls and unchanged canonical HaluBench split are
+explicit. No model generation, new scoring allowance or benchmark freeze is
+introduced here. Evidence-prompt tuning stays paused.
