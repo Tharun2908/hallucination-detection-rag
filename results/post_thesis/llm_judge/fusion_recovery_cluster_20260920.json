@@ -1,0 +1,87 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "operator_supplied_console_observations",
+  "date": "2026-09-20",
+  "run_id": "ragtruth-metadata-free-fusion-recovery-v1",
+  "code_revision": "538e4d6814e8193aa79a9e84e95de910acf016f3",
+  "private_report_sha256": "1c90a003abbda9044767bb9167b1ecc171f7a8a746b87093a143d833ba4ec0d6",
+  "private_full_report_received": false,
+  "private_report_hash_independently_recomputed": false,
+  "status": "reconstructed_legacy_baseline_with_provenance_limits",
+  "rounded_historical_TRAIN_reference_matches": true,
+  "initial_invocation": {
+    "new_reconstruction": true,
+    "new_fusion_fits": 6
+  },
+  "replay": {
+    "new_reconstruction": false,
+    "new_fusion_fits": 0,
+    "same_report_sha256": true
+  },
+  "TRAIN_meta_oof_threshold": {
+    "threshold": 0.45,
+    "threshold_hex": "0x1.ccccccccccccdp-2",
+    "comparator": ">=",
+    "f1": 0.7379856115107913,
+    "tp": 5129,
+    "fp": 2050,
+    "fn": 1592
+  },
+  "full_model": {
+    "feature_order": [
+      "s2",
+      "s4"
+    ],
+    "metadata_features": false,
+    "s2_normalization": {
+      "min": -11.43,
+      "max": 10.641,
+      "clip": [
+        0.0,
+        1.0
+      ]
+    },
+    "classes": [
+      0,
+      1
+    ],
+    "coef": [
+      -1.3590096505049223,
+      3.155528234679687
+    ],
+    "intercept": -1.4168645142264538,
+    "iterations": [
+      8
+    ],
+    "sklearn_parameters": {
+      "C": 1.0,
+      "class_weight": null,
+      "dual": false,
+      "fit_intercept": true,
+      "intercept_scaling": 1,
+      "l1_ratio": null,
+      "max_iter": 1000,
+      "multi_class": "deprecated",
+      "n_jobs": null,
+      "penalty": "l2",
+      "random_state": 42,
+      "solver": "lbfgs",
+      "tol": 0.0001,
+      "verbose": 0,
+      "warm_start": false
+    }
+  },
+  "saved_TEST_predictions": 2700,
+  "TEST_predictions_independently_received": false,
+  "TEST_metrics_computed": false,
+  "transformer_calls": 0,
+  "judge_fitting_calls": 0,
+  "comparison_ready": false,
+  "limitations": [
+    "TRAIN reference agrees after four-decimal rounding; historical prediction identity is not proven.",
+    "Recovered coefficients describe a post-thesis CPU reconstruction, not the original serialized estimator.",
+    "Legacy inference text identity, checkpoint linkage and evidence visibility remain unverified.",
+    "Current target-manifest hashes are not retrospective baseline-inference input hashes.",
+    "Original baseline full-TRAIN exposure differs from judge development exposure."
+  ]
+}

@@ -83,3 +83,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Legacy baseline artifact inventory](legacy_baseline_inventory_20260920.json): located six full-size caches and six S4 config paths; cluster TEST manifest hash independently reconstructed. Cache bytes and checkpoint linkage remain unverified by the report author; on-pod provenance audit pending.
 
 - [Completed cluster legacy-baseline audit](baseline_provenance_cluster_20260920.md) and [operator observations](baseline_provenance_cluster_20260920.json): complete caches, matching OOF assignments and historical TRAIN thresholds; legacy input/model provenance remains incomplete. Metadata-free fusion reconstruction is prepared, not yet run on cluster caches.
+
+- [Completed metadata-free fusion reconstruction and replay](fusion_recovery_cluster_20260920.md), with [operator observations](fusion_recovery_cluster_20260920.json). The historical TRAIN reference matches; 2,700 predictions were saved. No new TEST metrics; legacy comparison provenance remains limited.

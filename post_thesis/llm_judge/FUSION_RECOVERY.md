@@ -79,3 +79,5 @@ Next, resolve how the explicitly limited legacy baselines will be reported (or
 establish fresh inference provenance where required), then complete the judge
 TEST token audit and bounded execution manifest. This command does not authorize
 judge TEST inference or use HaluBench.
+
+Cluster update: [reconstruction and replay completed](../../results/post_thesis/llm_judge/fusion_recovery_cluster_20260920.md) with the same report hash and zero replay fits. Use the new [TEST token auditor](TEST_TOKEN_AUDIT.md) to consume this historical report after future checkout updates; do not rerun reconstruction under a different code revision.

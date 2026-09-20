@@ -1,0 +1,42 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "assistant_local_CPU_validation",
+  "code_basis": "538e4d6814e8193aa79a9e84e95de910acf016f3 plus step48 patch",
+  "revision_marker": "local-validation-not-cluster",
+  "TEST_manifest_sha256": "bc564d50ed4c0fcff17b5c8dda4feef558d896f2f0c8b4c7239a5085f9ccc3d3",
+  "manifest_origin": "Independently reconstructed from pinned source data; completed manifest revision restored and full hash matched.",
+  "private_fit_and_fusion_reports_verified_locally": false,
+  "private_fit_and_fusion_note": "Private pod reports were not supplied; their verification is required by the pod CLI. This local run exercises the token-audit function and manifest projection.",
+  "prompt_version": "faithfulness-label-score-v1",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "tokenizer_reference_sha256": "42b5a21329f73c61aaf8ae03656565d2f24b5d84e2f7dd066ca292284e4c2d5e",
+  "versions": {
+    "huggingface_hub": "1.32.0",
+    "jinja2": "3.1.6",
+    "python": "3.12.14",
+    "tokenizers": "0.23.2",
+    "transformers": "5.17.0"
+  },
+  "summary": {
+    "all_inputs_fit": true,
+    "examples_counted": 2700,
+    "examples_pending": 0,
+    "examples_total": 2700,
+    "generation_calls": 0,
+    "http_requests": 0,
+    "max_input_tokens": 2849,
+    "min_input_tokens": 649,
+    "model_limit": 32768,
+    "model_weights_loaded": false,
+    "output_allowance_per_example": 1,
+    "overlength_ids": [],
+    "scoring_authorized_by_this_audit": false,
+    "total_input_tokens": 3334607
+  },
+  "initial_new_TEST_tokenizations": 2700,
+  "replay_new_TEST_tokenizations": 0,
+  "replay_audit_identical": true,
+  "local_audit_sha256": "c07b782135f1b982aa692b9c444b33ebe3f698b9ee41249547e61b2fc835abe2",
+  "cluster_audit_completed": false,
+  "note": "Cluster report hash will differ because code revision/environment identity is recorded. Compare lengths and independently pin the returned cluster hash."
+}

@@ -152,3 +152,5 @@ before collecting judge TEST scores. Release/tag and final README findings follo
 completed evaluation, not this development result.
 
 Input-alignment implementation note (before judge TEST scoring): [the native/processed audit](TEST_ALIGNMENT.md) identified a one-ASCII-space formatting difference for six responses to source 14347. Both exact context hashes, IDs and offset are pinned. Original processed inputs and labels are preserved; other context mismatches fail. This does not alter the metric, model, calibration, threshold or split rules.
+
+Pre-inference progress: TEST input alignment, legacy cache/threshold checks and metadata-free fusion reconstruction are complete, with explicitly unresolved historical input/checkpoint/evidence provenance. The [TEST token audit](TEST_TOKEN_AUDIT.md) can proceed as a CPU length check without promoting those baselines to comparison-ready status. This implementation note changes no comparison acceptance rule, model, metric or threshold.
