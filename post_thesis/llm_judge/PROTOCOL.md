@@ -367,3 +367,7 @@ passed. The separate [execution plan](LABEL_SCORE_RUN.md) freezes 30 one-token
 synthetic requests, a 600-second cumulative client budget, explicit raw-logprob
 serving, primary/swapped mappings and two numeric controls. No live score result
 is claimed yet; no TRAIN, TEST or HaluBench scoring is included.
+
+## Development reservation design after native cross-split audit
+
+The [completed cross-split audit](../../results/post_thesis/llm_judge/cross_split_audit_cluster_20260920.md) proposes 312 total exclusions and leaves 14,778 candidate TRAIN rows. Native TEST source content was used for overlap checking; TEST answers/labels/performance were not. The [reservation design](DEVELOPMENT_SPLIT_PROTOCOL.md) fixes separate 100-component calibration and operating-threshold sets, retains every response per component and specifies allocation before label inspection. Commit the design before implementing selection. Strict document disjointness remains unestablished; all work is post-thesis, with zero new generation allowance.

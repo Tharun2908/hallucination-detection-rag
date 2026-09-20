@@ -77,9 +77,14 @@ splits with incomplete business identity tuples; those gaps remain visible.
 Eight focused regression tests cover metadata isolation, split/membership errors,
 shared native IDs, exact passage overlap, transitive closure, historical report
 identity and preservation of prior exclusions. The actual pinned files were also
-checked locally. Cluster reproduction is the next step.
+checked locally. Cluster reproduction subsequently matched the full report hash;
+see the [completed result](../../results/post_thesis/llm_judge/cross_split_audit_cluster_20260920.md).
 
-## Run after commit and push
+## Historical reproduction command
+
+The cluster run is complete at revision `141f60a`. Preserve its existing private
+report; do not rerun it under a later revision, which changes the report hash.
+The next step is the [development reservation design](DEVELOPMENT_SPLIT_PROTOCOL.md).
 
 Use the existing CPU environment and cached input files; no packages, downloads,
 model weights or serving restart are needed:

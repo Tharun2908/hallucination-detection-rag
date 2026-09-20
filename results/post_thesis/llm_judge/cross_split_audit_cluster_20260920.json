@@ -1,0 +1,96 @@
+{
+  "study_stage": "post_thesis",
+  "scope": "completed_cluster_native_cross_split_source_overlap_audit",
+  "date": "2026-09-20",
+  "provenance": "operator console; complete report hash independently reproduced by deterministic local reconstruction",
+  "report_sha256": "91f87c50a6c1e42d584b33d925ee62d41964093f83f212980d29587592ac1823",
+  "code_revision": "141f60aacb210a1c3e55062c7b23f44108d54c82",
+  "train_report_sha256": "34c1943a2d32a09dabc3a856a963ae898fc43e97175e86549c4f037b6aadae14",
+  "native_revision": "c103204b9ce28d6bbad859304bf30de72b8ed8fe",
+  "native_files": {
+    "response.jsonl": {
+      "sha256": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+      "git_blob_sha1": "f9ae5913fb9976684f3e13be3cd3465062db54cc"
+    },
+    "source_info.jsonl": {
+      "sha256": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+      "git_blob_sha1": "119277774009f110aa58596b93f9512f62594a89"
+    }
+  },
+  "summary": {
+    "native_train_responses": 15090,
+    "native_test_responses_metadata_only": 2700,
+    "native_train_sources": 2515,
+    "native_test_sources": 450,
+    "native_sources_shared_between_splits": 0,
+    "cross_split_full_context_groups": 0,
+    "cross_split_exact_evidence_indicators": 2,
+    "cross_split_business_indicators": 0,
+    "cross_split_connected_components": 2,
+    "connected_components": 2958,
+    "pilot_train_rows_linked_to_native_test": 0,
+    "train_rows_linked_to_native_test": 12,
+    "additional_test_linked_candidate_rows": 12,
+    "additional_pilot_linked_candidate_rows": 0,
+    "proposed_total_excluded_rows": 312,
+    "remaining_candidate_rows": 14778,
+    "sources_missing_business_identity": 20,
+    "generation_calls": 0,
+    "native_TEST_answers_used": false,
+    "native_annotation_labels_used": false,
+    "native_TEST_source_content_used": true,
+    "processed_TEST_read": false,
+    "threshold_subset_selected": false,
+    "calibration_fitted": false,
+    "strict_document_disjointness_established": false
+  },
+  "additional_test_linked_candidate_ids": [
+    "13698",
+    "13699",
+    "13700",
+    "13701",
+    "13702",
+    "13703",
+    "14988",
+    "14989",
+    "14990",
+    "14991",
+    "14992",
+    "14993"
+  ],
+  "cross_split_shared_indicators": [
+    {
+      "indicator": "evidence:419661208477918d0362a2ad847a16dcb94f3a01cdbf8c673d755930315546a0",
+      "source_ids": [
+        "15112",
+        "15419"
+      ]
+    },
+    {
+      "indicator": "evidence:7b9042504c36b17cedbef9b58e079f065c4561a38bc44d87b7ee104a74972cdd",
+      "source_ids": [
+        "15203",
+        "15317"
+      ]
+    }
+  ],
+  "exact_overlap_rules": {
+    "native_id": "all responses to one native source_info record",
+    "context": "original context_NFKC_whitespace_collapsed_case_preserved_v1",
+    "evidence_units": "exact NFKC/whitespace/case-preserved QA passage or full Summary article; nonempty; no minimum length",
+    "business_identity": "all four name/address/city/state present; NFKC/whitespace/casefold tuple",
+    "closure": "connected components across all indicators; exclude pilot-linked components"
+  },
+  "not_covered": [
+    "fuzzy/partial overlap",
+    "paraphrase duplicates",
+    "canonical document IDs/URLs",
+    "missing business identity resolution",
+    "processed TEST identity verification",
+    "HaluBench overlap",
+    "baseline training exposure"
+  ],
+  "native_release_contains_both_splits": true,
+  "original_reservations_modified": false,
+  "next_step": "commit development component-allocation design before selecting calibration/threshold IDs; no model calls"
+}

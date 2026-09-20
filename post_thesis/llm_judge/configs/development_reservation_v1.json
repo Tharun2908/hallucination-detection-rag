@@ -1,0 +1,52 @@
+{
+  "study_stage": "post_thesis",
+  "version": "ragtruth-development-reservation-v1",
+  "status": "design_only_no_ids_selected",
+  "date": "2026-09-20",
+  "cross_split_report_sha256": "91f87c50a6c1e42d584b33d925ee62d41964093f83f212980d29587592ac1823",
+  "cross_split_code_revision": "141f60aacb210a1c3e55062c7b23f44108d54c82",
+  "train_report_sha256": "34c1943a2d32a09dabc3a856a963ae898fc43e97175e86549c4f037b6aadae14",
+  "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+  "processed_train_sha256": "c14ae31ff459c829edc860bda034ee2dbc0a11107b7511195a32bb4ab1ee8000",
+  "expected_train_rows": 15090,
+  "expected_excluded_rows": 312,
+  "expected_candidate_rows": 14778,
+  "unit": "cross_split_audit_component_sha256",
+  "row_policy": "all_TRAIN_rows_in_selected_component",
+  "eligibility": "component_has_no_proposed_excluded_row_and_no_pilot_or_native_TEST_link",
+  "missing_business_identity_policy": "retain_eligible_components_and_report_incomplete_identity_counts_per_partition",
+  "ranking": {
+    "algorithm": "sha256_utf8",
+    "namespace": "ragtruth-development-reservation-v1",
+    "seed": 20260920,
+    "payload": "{namespace}\n{seed}\n{component_sha256}",
+    "trailing_newline": false,
+    "sort": [
+      "digest_hex_ascending",
+      "component_sha256_ascending"
+    ]
+  },
+  "allocation": {
+    "calibration_components": 100,
+    "operating_threshold_components": 100,
+    "order": [
+      "calibration",
+      "operating_threshold"
+    ],
+    "remainder": "unallocated"
+  },
+  "label_task_generator_stratification": false,
+  "reroll_or_replacement": false,
+  "prompt_version": "faithfulness-label-score-v1",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "primary_labels": {
+    "supported": "A",
+    "unsupported": "B"
+  },
+  "model_revision": "9216db5781bf21249d130ec9da846c4624c16137",
+  "generation_allowance": 0,
+  "selection_implemented": false,
+  "calibration_fitted": false,
+  "threshold_selected": false,
+  "strict_document_disjointness_established": false
+}
