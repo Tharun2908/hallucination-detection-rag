@@ -44,7 +44,7 @@ def observe_gpu(device):
 
 def server_command(port=8000, *, profile_name="default"):
     p = load_profile(profile_name)
-    return ["vllm", "serve", p["model_repository"],
+    command = ["vllm", "serve", p["model_repository"],
             "--revision", p["model_revision"], "--tokenizer-revision", p["tokenizer_revision"],
             "--served-model-name", p["served_model_name"],
             "--dtype", p["dtype"], "--tensor-parallel-size", str(p["tensor_parallel_size"]),
@@ -52,6 +52,9 @@ def server_command(port=8000, *, profile_name="default"):
             "--gpu-memory-utilization", str(p["gpu_memory_utilization"]),
             "--generation-config", p["generation_config"], "--seed", str(p["seed"]),
             "--no-enable-prefix-caching", "--host", "127.0.0.1", "--port", str(port)]
+    if profile_name == "label-score-v1":
+        command += ["--logprobs-mode", p["logprobs_mode"]]
+    return command
 
 
 def resource_totals(seconds, gpu_count, hourly_rate=None, currency=None):
@@ -74,7 +77,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--print-command", action="store_true", help="No GPU access or launch")
     parser.add_argument("--device", type=int, default=0)
-    parser.add_argument("--profile", choices=("default", "evidence-v1"), default="default")
+    parser.add_argument("--profile", choices=("default", "evidence-v1", "label-score-v1"), default="default")
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--hourly-rate", type=float)
     parser.add_argument("--currency")
@@ -102,6 +105,9 @@ def main():
               "started_at": datetime.now(timezone.utc).isoformat(),
               "scope": "server_process_lifetime_including_startup_and_idle",
               "resources": None}
+    if args.profile == "label-score-v1":
+        from .label_live import installed_source
+        record["label_score_source"] = installed_source()
     atomic_json(directory / "resources.json", record)
     print(f"Serving session records: {directory}", flush=True)
     environment = dict(os.environ, CUDA_VISIBLE_DEVICES=gpu["uuid"])

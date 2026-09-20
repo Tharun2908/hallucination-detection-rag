@@ -359,3 +359,11 @@ implemented. Four actual-tokenizer boundary checks passed on the assistant CPU,
 with A/B token IDs 32/33. The recorded fingerprints must also match on the
 cluster. This does not establish live raw-logprob compatibility or judge quality;
 there is no new generation allowance.
+
+## Bounded synthetic class-score compatibility plan
+
+The [cluster tokenizer and source checks](../../results/post_thesis/llm_judge/label_score_setup_20260920.md)
+passed. The separate [execution plan](LABEL_SCORE_RUN.md) freezes 30 one-token
+synthetic requests, a 600-second cumulative client budget, explicit raw-logprob
+serving, primary/swapped mappings and two numeric controls. No live score result
+is claimed yet; no TRAIN, TEST or HaluBench scoring is included.

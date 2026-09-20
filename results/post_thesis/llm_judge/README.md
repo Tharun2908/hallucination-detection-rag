@@ -53,3 +53,8 @@ record 43/50 valid outputs, seven retained quote failures and targeted semantic
 review. All six recovered records match positive labels, but shared-valid label
 agreement changes from 27/37 to 26/37. Preserve these mixed development findings;
 evidence-prompt tuning is paused while the continuous-score protocol is designed.
+
+The [label-score setup observations](label_score_setup_20260920.md) record the
+passed cluster tokenizer and installed-source checks. The separate bounded
+synthetic score experiment is prepared but not yet executed; its outputs are
+not thesis or benchmark results.

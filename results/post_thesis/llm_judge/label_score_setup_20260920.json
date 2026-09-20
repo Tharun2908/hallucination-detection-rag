@@ -1,0 +1,42 @@
+{
+  "study_stage": "post_thesis",
+  "source": "operator-provided console output; private cluster report not independently read",
+  "tokenizer_code_revision": "e717515375068afd094342593bd737f4dd947791",
+  "tokenizer_report_sha256": "9965b03b44b6cdfef5e23f1b3c3300a5ba36c423823ae508a6048b0a0661d659",
+  "tokenizer_report_path": ".artifacts/post_thesis/llm_judge/label-tokenizer-v1-8dc2def01f1148a7bab740838121435b/report.json",
+  "prompt_version": "faithfulness-label-score-v1",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "versions": {
+    "python": "3.12.14",
+    "transformers": "5.17.0",
+    "tokenizers": "0.23.2",
+    "huggingface_hub": "1.32.0",
+    "jinja2": "3.1.6",
+    "vllm": "0.29.0",
+    "torch": "2.13.0+cu130"
+  },
+  "tokenization_checks_passed": 4,
+  "tokenization_checks_total": 4,
+  "class_token_ids": {
+    "supported": 32,
+    "unsupported": 33
+  },
+  "tokenizer_generation_calls": 0,
+  "tokenizer_model_weights_loaded": false,
+  "installed_vllm_source_matches": {
+    "vllm/config/model.py": "2b69d7ce4ccf82cb7342c6bc5f4259661974b95e",
+    "vllm/v1/sample/sampler.py": "3efaf33d980f42f95184923184e2da8c5a69c7d4",
+    "vllm/entrypoints/openai/completion/protocol.py": "4edef74ea7fc45f66be759f07f561bffed73e5d8",
+    "vllm/entrypoints/openai/completion/serving.py": "2fa01478cee60ad7a1d2307b769c136c70fe0f32"
+  },
+  "default_server_health": 200,
+  "default_served_model": "qwen3-32b-judge-9216db5781bf",
+  "completion_schema_fields_observed": [
+    "logprobs",
+    "logprob_token_ids",
+    "return_token_ids",
+    "return_tokens_as_token_ids"
+  ],
+  "live_score_compatibility": "unverified",
+  "benchmark_inputs_read": false
+}

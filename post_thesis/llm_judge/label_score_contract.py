@@ -28,10 +28,10 @@ JSON, explanation, evidence quotes, markdown, or numeric probability.""",
 )
 
 
-def label_messages(item):
+def label_messages(item, *, prompt=LABEL_PROMPT):
     if type(item) is not JudgeInput:
         raise TypeError("expected JudgeInput with only answer and context")
-    return [{"role": "system", "content": LABEL_PROMPT.system_text},
+    return [{"role": "system", "content": prompt.system_text},
             {"role": "user", "content": canonical_json(asdict(item))}]
 
 
@@ -78,9 +78,9 @@ def score_from_logprobs(entries, *, supported_token_id, unsupported_token_id):
             "log_class_token_mass": log_mass, "calibrated": False}
 
 
-def prepare_tokenized_input(item, tokenizer):
+def prepare_tokenized_input(item, tokenizer, *, prompt=LABEL_PROMPT):
     """Check the actual first class-token position, without loading model weights."""
-    messages = label_messages(item)
+    messages = label_messages(item, prompt=prompt)
     template = tokenizer.get_chat_template()
     if not isinstance(template, str) or not template:
         raise ValueError("missing exact chat template")

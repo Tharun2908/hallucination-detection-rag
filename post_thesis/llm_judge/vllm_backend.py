@@ -14,10 +14,11 @@ ADAPTER_VERSION = "vllm-http-v1"
 
 
 def load_profile(profile_name="default"):
-    if profile_name not in ("default", "evidence-v1"):
+    if profile_name not in ("default", "evidence-v1", "label-score-v1"):
         raise ValueError("unknown pinned inference profile")
     path = (PROFILE_PATH if profile_name == "default" else
-            PROFILE_PATH.with_name("qwen3_32b_h200_evidence_v1.json"))
+            PROFILE_PATH.with_name("qwen3_32b_h200_label_score_v1.json" if profile_name == "label-score-v1"
+                                   else "qwen3_32b_h200_evidence_v1.json"))
     return json.loads(path.read_text(encoding="utf-8"))
 
 

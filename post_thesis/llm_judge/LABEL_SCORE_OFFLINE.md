@@ -104,3 +104,10 @@ prompt against the complete prompt token sequence plus exactly one class token.
 
 API references: [Transformers chat templates](https://huggingface.co/docs/transformers/main/en/chat_templating)
 and [Hub download filtering](https://huggingface.co/docs/huggingface_hub/guides/download).
+
+## Subsequent step
+
+The [cluster setup observations](../../results/post_thesis/llm_judge/label_score_setup_20260920.md)
+now record matching tokenizer/source checks. This original offline descriptor
+remains frozen; the separate [live execution plan](LABEL_SCORE_RUN.md) owns the
+new bounded synthetic calls. Its results remain pending.

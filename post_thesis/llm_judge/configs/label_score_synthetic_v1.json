@@ -1,0 +1,208 @@
+{
+  "study_stage": "post_thesis",
+  "version": "label-score-synthetic-live-v1",
+  "run_id": "qwen3-label-score-synthetic-v1",
+  "scope": "synthetic_transport_and_development_only",
+  "profile": {
+    "study_stage": "post_thesis",
+    "profile_version": "qwen3_32b_h200_label_score_v1",
+    "model_repository": "Qwen/Qwen3-32B",
+    "model_revision": "9216db5781bf21249d130ec9da846c4624c16137",
+    "tokenizer_revision": "9216db5781bf21249d130ec9da846c4624c16137",
+    "served_model_name": "qwen3-32b-label-score-9216db5781bf",
+    "vllm_version": "0.29.0",
+    "dtype": "bfloat16",
+    "tensor_parallel_size": 1,
+    "gpu_type": "H200",
+    "gpu_count": 1,
+    "max_model_len": 32768,
+    "max_output_tokens": 1,
+    "temperature": 0.0,
+    "seed": 0,
+    "enable_thinking": false,
+    "concurrency": 1,
+    "quantization": null,
+    "gpu_memory_utilization": 0.85,
+    "generation_config": "vllm",
+    "enable_prefix_caching": false,
+    "logprobs_mode": "raw_logprobs"
+  },
+  "source_blobs": {
+    "vllm/config/model.py": "2b69d7ce4ccf82cb7342c6bc5f4259661974b95e",
+    "vllm/v1/sample/sampler.py": "3efaf33d980f42f95184923184e2da8c5a69c7d4",
+    "vllm/entrypoints/openai/completion/protocol.py": "4edef74ea7fc45f66be759f07f561bffed73e5d8",
+    "vllm/entrypoints/openai/completion/serving.py": "2fa01478cee60ad7a1d2307b769c136c70fe0f32"
+  },
+  "cases_sha256": "2e7aee4037a531ff971c47ade95172c3011b9bc8d874da4cea5c124484df4936",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "swapped_prompt_sha256": "7e21ec2d575ddfc3ebe71993d4ecf3bf207feeffca780b9f2ffeb4dafcf5a264",
+  "requests": [
+    {
+      "slot": "primary:attribute-supported-short",
+      "request_key": "e843a99ad7ac7083c2dd1c1b523bd18294b782ca44295f50e58f61455ddf07fb",
+      "input_tokens": 582
+    },
+    {
+      "slot": "primary:attribute-supported-embedded",
+      "request_key": "a96aaa11e35a4d9b04e4e5f10e9dbfec8752d3c061175d98dd6b86b7a0efd61b",
+      "input_tokens": 667
+    },
+    {
+      "slot": "primary:attribute-contradicted-short",
+      "request_key": "7039b7d06eb3935c47e0d38f5f75ab9502d6ca1da7197b865798146164c0a933",
+      "input_tokens": 582
+    },
+    {
+      "slot": "primary:attribute-contradicted-embedded",
+      "request_key": "9833a2d5dc92f6b7767466a5c9df17e6a438686c87bc80e975c2081eac76db45",
+      "input_tokens": 667
+    },
+    {
+      "slot": "primary:attribute-unknown-short",
+      "request_key": "cdc8eaa7eddbabbe8d52c6bd8ba99c1d542613ca8e86079667d53206f76b26d2",
+      "input_tokens": 582
+    },
+    {
+      "slot": "primary:attribute-unknown-embedded",
+      "request_key": "21e0b89c358a3cc401ccabd9c3eda19481f10c8b6ed6db2a72205641b5c6a2cc",
+      "input_tokens": 667
+    },
+    {
+      "slot": "primary:numeric-supported-short",
+      "request_key": "07a12b64d3c6e3c5f4fbbae2169d3b9cf0d450dc4cc25c8f17895254bbde4be3",
+      "input_tokens": 597
+    },
+    {
+      "slot": "primary:numeric-supported-embedded",
+      "request_key": "9b6fe7d3cc9f63a05d724ff35b841cea1207e9e9858350d7bc5d62595aac56b8",
+      "input_tokens": 682
+    },
+    {
+      "slot": "primary:numeric-contradicted-short",
+      "request_key": "ba85e7c407aa2235e1ed9f30dbbb0b86b1354fdee2443c0e70bafd3b52fd303f",
+      "input_tokens": 597
+    },
+    {
+      "slot": "primary:numeric-contradicted-embedded",
+      "request_key": "839b522cae52a40e9f089194b0a71a53eabc90105e6849e165a206f05a389ae2",
+      "input_tokens": 682
+    },
+    {
+      "slot": "primary:absence-explicit-false-short",
+      "request_key": "084325c7fc622646fac91068deda682df3c1b40d16e9ad68c99ebe0a975d93dd",
+      "input_tokens": 584
+    },
+    {
+      "slot": "primary:absence-explicit-false-embedded",
+      "request_key": "b0f9f0a07f1e4cc3fad4b468e529bb9504e37d0f80fb1184a837cd1ea136b38f",
+      "input_tokens": 669
+    },
+    {
+      "slot": "primary:absence-unknown-short",
+      "request_key": "7e0edc241f4f9cae8af8a889e781efd562cbfafff250bea1a6a33fb9341fe657",
+      "input_tokens": 584
+    },
+    {
+      "slot": "primary:absence-unknown-embedded",
+      "request_key": "7777291c2df15c5364c5b2e9327beb34cad3708882c44852a9e492e0868bb749",
+      "input_tokens": 669
+    },
+    {
+      "slot": "swapped:attribute-supported-short",
+      "request_key": "0cc15d076d80d0921d3c97679068cd9b11725406a98d2315d16c4d425f1ececd",
+      "input_tokens": 582
+    },
+    {
+      "slot": "swapped:attribute-supported-embedded",
+      "request_key": "f3ff1ee3e8a98aadd9367cdfb4a72edc2e0d49df4715152c7b349dc7473ef2ca",
+      "input_tokens": 667
+    },
+    {
+      "slot": "swapped:attribute-contradicted-short",
+      "request_key": "5cab3dc2c0c03f07c203c6d48e0b3cac251c69b18dacea301d3e8d7d68308e0d",
+      "input_tokens": 582
+    },
+    {
+      "slot": "swapped:attribute-contradicted-embedded",
+      "request_key": "417a67da15c7dbb37031878a9c19aeac6bd8515052d85630531f24babcac6412",
+      "input_tokens": 667
+    },
+    {
+      "slot": "swapped:attribute-unknown-short",
+      "request_key": "6e2d22272f7d5475cc7f0b3117761dbcbf38622d0c898d6054534464dede81b8",
+      "input_tokens": 582
+    },
+    {
+      "slot": "swapped:attribute-unknown-embedded",
+      "request_key": "0252684916d316a45a02bb7b8f55a3adc133d505fa54728367510dd4db3587d3",
+      "input_tokens": 667
+    },
+    {
+      "slot": "swapped:numeric-supported-short",
+      "request_key": "9e5a6987b423d1b5ee5b377f458cd6ddb755b29bd2904b23842bdda6d0895781",
+      "input_tokens": 597
+    },
+    {
+      "slot": "swapped:numeric-supported-embedded",
+      "request_key": "6a2b037cede0bff3f5da22a774383c150750343a4643ecbf331d08e5c50e66fc",
+      "input_tokens": 682
+    },
+    {
+      "slot": "swapped:numeric-contradicted-short",
+      "request_key": "ae20bdf8b9ba1bfd958704ef8602a73906e1e877599a95f2778407c0eb679d6d",
+      "input_tokens": 597
+    },
+    {
+      "slot": "swapped:numeric-contradicted-embedded",
+      "request_key": "77fb6c99da28f3c91f7872bd3b58562f4a64dc9dec8858110f613e8a09b84ae6",
+      "input_tokens": 682
+    },
+    {
+      "slot": "swapped:absence-explicit-false-short",
+      "request_key": "97540ca83f5bc678673cdc5fc810b00030b2a256c70f57addd4454680bc5bf46",
+      "input_tokens": 584
+    },
+    {
+      "slot": "swapped:absence-explicit-false-embedded",
+      "request_key": "55158fc9c6bbc358089b98b31df2476bbb4999ea095107af9b768090377d7931",
+      "input_tokens": 669
+    },
+    {
+      "slot": "swapped:absence-unknown-short",
+      "request_key": "01843c1323ffab3cb8fe9369b29c7b8fc57337ab054a4f0d25893f53067ef060",
+      "input_tokens": 584
+    },
+    {
+      "slot": "swapped:absence-unknown-embedded",
+      "request_key": "1277c93a60535466b7d4342bc4f23298d83fa640552842b548838c055778813f",
+      "input_tokens": 669
+    },
+    {
+      "slot": "repeat:attribute-supported-short",
+      "request_key": "7de61a958aa15391a6a147cb2f3779b022bd119ba1af30a30e52bee28f77ed2b",
+      "input_tokens": 582
+    },
+    {
+      "slot": "temperature:attribute-supported-short",
+      "request_key": "9ad33c6a13c603b3d8e31fc773482a75c18a16f1d5d6361a6d216a670a214d72",
+      "input_tokens": 582
+    }
+  ],
+  "max_attempts": 30,
+  "attempts_per_slot": 1,
+  "client_budget_seconds": 600,
+  "request_timeout_seconds": 60,
+  "max_input_tokens_per_request": 4096,
+  "max_input_tokens_total": 122880,
+  "max_output_tokens_per_request": 1,
+  "max_output_tokens_total": 30,
+  "concurrency": 1,
+  "truncation": "none",
+  "retries": 0,
+  "numeric_comparison_atol": 0.0001,
+  "numeric_comparison_rtol": 1e-05,
+  "response_clamp_boundary": -9999.0,
+  "halt_on_any_request_error": true,
+  "unknown_window_policy": "charge_full_reserved_remaining_budget",
+  "orientation_policy": "primary_fixed_swapped_diagnostic_only_no_selection_or_averaging"
+}

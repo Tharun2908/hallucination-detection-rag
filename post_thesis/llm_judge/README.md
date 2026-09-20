@@ -30,9 +30,10 @@ the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_sch
 The [continuous-score design](CONTINUOUS_SCORE_PROTOCOL.md) selects raw two-class
 next-token log probabilities as the next candidate. The [offline contract and
 tokenizer check](LABEL_SCORE_OFFLINE.md) are implemented, with four actual-tokenizer
-boundary checks passing on the assistant CPU. Cluster verification and live
-raw-logprob compatibility remain pending. The score remains uncalibrated; this
-step adds no generation allowance.
+boundary checks passing on the assistant CPU. The [cluster tokenizer/source checks](../../results/post_thesis/llm_judge/label_score_setup_20260920.md)
+also passed. The [bounded synthetic run](LABEL_SCORE_RUN.md) now specifies 30
+one-token requests under an explicit raw-logprob profile; it remains unexecuted.
+Live transport compatibility and calibration remain pending.
 
 The initial development candidate is **Qwen3-32B, BF16, one H200, non-thinking**.
 See [SERVING.md](SERVING.md) for exact pins, installation, synthetic checks and
