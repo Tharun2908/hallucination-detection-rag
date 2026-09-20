@@ -85,4 +85,4 @@ Strict document disjointness remains unproven: the guarantee covers the declared
 native/exact-overlap components only. All artifacts are post-thesis and do not
 replace submitted thesis results.
 
-The [calibration/threshold design](CALIBRATION_THRESHOLD_PROTOCOL.md) now specifies the fitting choices before any new scoring. Token-length audits and a bounded inference plan are next; there is no new pod command in this design-only step.
+The [calibration/threshold design](CALIBRATION_THRESHOLD_PROTOCOL.md) now specifies the fitting choices before any new scoring. The [CPU token-length auditor](DEVELOPMENT_TOKEN_AUDIT.md) is now implemented; run it on the existing reservation. A separate bounded inference plan follows; no generation allowance is implied.

@@ -377,3 +377,5 @@ The [offline reservation implementation](DEVELOPMENT_RESERVATION.md) follows the
 ## Calibration and threshold rules after reservation
 
 The [completed reservation and replay](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md) match the independently reconstructed manifest hash. The [statistical protocol](CALIBRATION_THRESHOLD_PROTOCOL.md) now fixes a positive-slope regularized logistic map, deterministic F1 threshold selection on the separate raw-margin arm, complete-score eligibility, failure behavior and reliability binning. These choices precede any reserved-arm scores. Neither fitting nor new generation is implemented or authorized in this design step.
+
+The [development token-length audit](DEVELOPMENT_TOKEN_AUDIT.md) implements the next offline step. It preserves the frozen roles and statistical rules, projects answer/context only, checkpoints CPU work and records all overlength inputs without truncation. Local checks passed on all 1,200 inputs; the cluster result is pending. No generation or fitting is added.
