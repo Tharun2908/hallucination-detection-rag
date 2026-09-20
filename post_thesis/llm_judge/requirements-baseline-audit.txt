@@ -1,0 +1,4 @@
+# CPU audit only; preserve the frozen fitting environment's numerical versions.
+-r requirements-fit.txt
+-r requirements-data.txt
+scikit-learn==1.5.2

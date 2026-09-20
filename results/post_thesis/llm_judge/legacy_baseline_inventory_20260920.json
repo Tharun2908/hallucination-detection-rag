@@ -1,0 +1,123 @@
+{
+  "study_stage": "post_thesis",
+  "date": "2026-09-20",
+  "provenance": "operator_supplied_cluster_inventories_and_file_search_output; cache_bytes_not_supplied",
+  "test_manifest_sha256": "bc564d50ed4c0fcff17b5c8dda4feef558d896f2f0c8b4c7239a5085f9ccc3d3",
+  "test_manifest_replay_identical": true,
+  "test_manifest_code_revision": "977dbf4bb6af71e9a2fe2f4ad999ad813f37e055",
+  "test_manifest_hash_independently_reconstructed": true,
+  "baseline_inventory_sha256": "287e89c7284b05c579b7ab8eb2865c253364fdfa4f3d71badd8ef155e9c05ba4",
+  "baseline_inventory_hash_independently_reconstructed": false,
+  "files": [
+    {
+      "file": "signal4_results_train_oof.json",
+      "sha256": "7be2eb53ac3767e17477ea737390119fa5a809764679ff3424212a51d9904b42",
+      "rows": 15090,
+      "fields": [
+        "fold",
+        "ground_truth_hallucination",
+        "idx",
+        "model",
+        "predicted_hallucination",
+        "score_type",
+        "signal4_score",
+        "task_type"
+      ]
+    },
+    {
+      "file": "signal4_results_test.json",
+      "sha256": "91d38d199d6e3c6e26ec4adfdb7cbd6767496de75e3a577daed159648b47c1b2",
+      "rows": 2700,
+      "fields": [
+        "ground_truth_hallucination",
+        "idx",
+        "model",
+        "predicted_hallucination",
+        "signal4_score",
+        "task_type"
+      ]
+    },
+    {
+      "file": "minicheck_results_train_7b.json",
+      "sha256": "720651ed41938ebeb92f84b3925237e730db1be04ddfbf35554949b80cc373d9",
+      "rows": 15090,
+      "fields": [
+        "ground_truth_hallucination",
+        "idx",
+        "minicheck_label",
+        "minicheck_score",
+        "model",
+        "task_type"
+      ]
+    },
+    {
+      "file": "minicheck_results_test_7b.json",
+      "sha256": "4e20383ab51a20c53934db5073d04e124e22079bc9a8bd99d5253eee7e320bcf",
+      "rows": 2700,
+      "fields": [
+        "ground_truth_hallucination",
+        "idx",
+        "minicheck_label",
+        "minicheck_score",
+        "model",
+        "task_type"
+      ]
+    },
+    {
+      "file": "relevance_results_train_v2.json",
+      "sha256": "7377db83e163a318dac16a04e6574746c89e4bb78f93bd1698461c35b82f6647",
+      "rows": 15090,
+      "fields": [
+        "ground_truth_hallucination",
+        "idx",
+        "model",
+        "n_answer_sentences",
+        "n_context_sentences",
+        "query",
+        "raw_mean_relevance",
+        "raw_min_relevance",
+        "raw_relevance_score",
+        "relevance_score",
+        "relevance_sentence_scores",
+        "task_type"
+      ]
+    },
+    {
+      "file": "relevance_results_test_v2.json",
+      "sha256": "93d93755b584146b63aece0eab053ecb919713408258fa8f6fb06c71709c3b36",
+      "rows": 2700,
+      "fields": [
+        "ground_truth_hallucination",
+        "idx",
+        "model",
+        "n_answer_sentences",
+        "n_context_sentences",
+        "predicted_hallucination",
+        "query",
+        "raw_mean_relevance",
+        "raw_min_relevance",
+        "raw_relevance_score",
+        "relevance_score",
+        "relevance_sentence_scores",
+        "task_type"
+      ]
+    }
+  ],
+  "test_cache_status": "2700_valid_each; index_label_metadata_consistent; input_hashes_missing",
+  "checkpoint_configs_found": [
+    "/workspace/signal4_model/config.json",
+    "/workspace/signal4_oof_models/fold_1/config.json",
+    "/workspace/signal4_oof_models/fold_2/config.json",
+    "/workspace/signal4_oof_models/fold_3/config.json",
+    "/workspace/signal4_oof_models/fold_4/config.json",
+    "/workspace/signal4_oof_models/fold_5/config.json"
+  ],
+  "weights_presence_or_cache_link_verified": false,
+  "serialized_fusion_found_in_bounded_search": false,
+  "search_limitation": "workspace maxdepth4, selected config/trainer/joblib/fusion-pkl names; does not establish global absence",
+  "comparison_ready": false,
+  "TRAIN_threshold_reproduction_completed": false,
+  "generation_calls": 0,
+  "judge_refitted": false,
+  "TEST_metrics_computed": false
+}

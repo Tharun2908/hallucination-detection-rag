@@ -99,3 +99,5 @@ The command reads processed TEST answers, context and offline labels for alignme
 it does not claim zero TEST access. It reads no HaluBench data, creates no split,
 and performs no new model calls. Benchmark baseline provenance, a token audit and
 an exact bounded execution manifest remain necessary next steps.
+
+Cluster update: the completed manifest and identical replay match the independently reconstructed hash recorded in the [legacy inventory](../../results/post_thesis/llm_judge/legacy_baseline_inventory_20260920.json). The original caches were found in `/workspace`; their second inventory has full TEST coverage but no input hashes. Continue with [the read-only baseline provenance audit](BASELINE_PROVENANCE.md), preserving the existing manifest.
