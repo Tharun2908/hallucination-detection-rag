@@ -27,7 +27,9 @@ and checks both one-token class continuations. Allow one output token within the
 32,768-token limit. Never truncate, replace or silently skip an overlength row;
 record all such IDs and exit with status 1 after completing the audit.
 
-## Run after commit and push
+## Historical reproduction command
+
+The cluster audit and replay completed at `9182e27`; see the [completed record](../../results/post_thesis/llm_judge/development_token_audit_cluster_20260920.md). Preserve that audit instead of rerunning it after pulling newer code. The commands below document the historical run.
 
 Use the tokenizer packages already installed in the serving environment. This is
 CPU-only even though the environment is named `judge-serving`; a running model
@@ -77,9 +79,7 @@ prompt rendering or score semantics. Original text remains in the private manife
 The [actual-tokenizer local validation](../../results/post_thesis/llm_judge/development_token_audit_local_20260920.md)
 counted all 1,200 inputs: calibration 705,198 tokens, operating threshold 746,401,
 combined 1,451,599. Maximum formatted length was 2,886; no overlength rows.
-Eight focused tests and completed-cache replay passed. Cluster reproduction is
-pending. Local and cluster full hashes differ because the local check precedes
-the implementation commit; compare input counts and preserve both provenance records.
+Eight focused tests and completed-cache replay passed. Cluster reproduction and replay matched these counts, and the complete cluster hash was independently reconstructed. Preserve both historical records. The [bounded scoring plan](DEVELOPMENT_SCORING_RUN.md) now pins the completed cluster audit; it is separate from this zero-generation audit.
 
 Return the printed combined/per-arm summaries, prompt, fit-protocol hash, audit
 hash and code revision, plus the replay's new-tokenization count/hash. No raw

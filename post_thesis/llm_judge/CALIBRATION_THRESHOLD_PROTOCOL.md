@@ -158,4 +158,4 @@ components only. Strict underlying document disjointness, fuzzy/partial overlap,
 HaluBench overlap and baseline training exposure remain unverified. Subsequent
 reports must preserve those limitations and the post-thesis designation.
 
-Next: the [CPU token-length auditor](DEVELOPMENT_TOKEN_AUDIT.md) is implemented for these exact 1,200 reserved inputs and locally validated with the pinned tokenizer. Cluster reproduction is pending, followed by a bounded scoring configuration. No fitting code, parameter estimates, selected threshold or new model calls are introduced.
+Next: the [CPU token-length auditor](DEVELOPMENT_TOKEN_AUDIT.md) is implemented for these exact 1,200 reserved inputs and locally validated with the pinned tokenizer. The cluster audit and replay now match; the [separate bounded scoring configuration](DEVELOPMENT_SCORING_RUN.md) pins its identity and permits one request per reserved input. No fitting code, parameter estimates, selected threshold or new model calls are introduced.
