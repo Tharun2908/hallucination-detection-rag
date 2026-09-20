@@ -141,3 +141,7 @@ and bootstrap definitions, processed-test identity alignment and remaining
 cross-benchmark provenance checks. Transfer the frozen prompt/calibrator/threshold
 to the existing canonical HaluBench 8k split. Do not create a new HaluBench split
 or tune on test outcomes. Any scope amendment must be explicit and versioned.
+
+## Implementation follow-up
+
+After this design was committed as `c982d26`, the [offline selector](DEVELOPMENT_RESERVATION.md) was implemented and locally validated without changing the design. It selects 600 examples per role. The original design JSON remains unchanged as a historical input; runtime selection status is recorded in the new manifest. Cluster reproduction is pending; no fitting or model generation has occurred.
