@@ -290,3 +290,7 @@ workflow plus a Windows job with separate stdlib and HTTP test steps. The
 operator has exercised synthetic GPU integration and the first TRAIN development
 pilot; final test performance has not been evaluated. HTTP contract tests use offline responses. Existing
 thesis artifacts are unchanged.
+
+## Offline TRAIN source provenance
+
+The [native-source and exact-overlap audit](SOURCE_AUDIT.md) is implemented and locally checked on all 15,090 pinned TRAIN rows. It proposes exclusions without changing the original manifest. The local result adds no pilot-linked exclusions; cluster reproduction is pending. Native files contain both splits, but only pinned TRAIN IDs enter provenance/overlap analysis. The audit does not establish fuzzy, partial-document or TRAIN–TEST independence and does not select calibration data.

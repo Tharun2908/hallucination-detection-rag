@@ -1,0 +1,73 @@
+{
+  "study_stage": "post_thesis",
+  "scope": "assistant_CPU_pre_release_validation_only",
+  "date": "2026-09-20",
+  "base_code_revision": "3e06504334173438f1688eb24c545c3cef3111c7",
+  "implementation_committed_at_observation": false,
+  "implementation_sha256": "93d7b63df4fa1b5243d7abc327a23af9650aee82aa38d2c412c4f00a596e96e6",
+  "native_repository": "ParticleMedia/RAGTruth",
+  "native_revision": "c103204b9ce28d6bbad859304bf30de72b8ed8fe",
+  "native_files": {
+    "response.jsonl": {
+      "sha256": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+      "git_blob_sha1": "f9ae5913fb9976684f3e13be3cd3465062db54cc"
+    },
+    "source_info.jsonl": {
+      "sha256": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+      "git_blob_sha1": "119277774009f110aa58596b93f9512f62594a89"
+    }
+  },
+  "processed_train_sha256": "c14ae31ff459c829edc860bda034ee2dbc0a11107b7511195a32bb4ab1ee8000",
+  "pilot_manifest_sha256": "ef2690b5703ddd67222e4aff2a269f8bab2d47e52a8d3f7f8b8bd608fff69a25",
+  "policy": {
+    "native_id": "all responses to one native source_info record",
+    "context": "original context_NFKC_whitespace_collapsed_case_preserved_v1",
+    "evidence_units": "exact NFKC/whitespace/case-preserved QA passage or full Summary article; nonempty; no minimum length",
+    "business_identity": "all four name/address/city/state present; NFKC/whitespace/casefold tuple",
+    "closure": "connected components across all indicators; exclude pilot-linked components",
+    "not_covered": [
+      "fuzzy or partial text matches",
+      "paraphrase duplicates",
+      "canonical document URLs/IDs",
+      "TRAIN-TEST overlap",
+      "HaluBench overlap",
+      "baseline training exposure"
+    ]
+  },
+  "native_release_contains_both_splits": true,
+  "native_annotation_labels_used": false,
+  "processed_TRAIN_labels_used": "historical manifest identity verification only; not grouping or selection",
+  "ignored_release_records": {
+    "native_response_records_ignored": 2700,
+    "native_source_records_ignored": 450
+  },
+  "summary": {
+    "processed_train_rows": 15090,
+    "native_response_matches": 15090,
+    "exact_answer_matches": 15090,
+    "exact_formatted_context_matches": 15090,
+    "native_train_sources": 2515,
+    "original_context_groups": 2514,
+    "contexts_with_multiple_native_sources": 1,
+    "native_sources_with_multiple_context_groups": 0,
+    "pilot_native_sources": 50,
+    "pilot_context_groups": 50,
+    "native_siblings_in_original_candidate_pool": 0,
+    "shared_exact_evidence_indicators": 3,
+    "shared_business_indicators": 1,
+    "sources_missing_business_identity": 13,
+    "connected_components": 2510,
+    "additional_pilot_linked_candidate_rows": 0,
+    "proposed_total_excluded_rows": 300,
+    "remaining_candidate_rows": 14790,
+    "generation_calls": 0,
+    "threshold_subset_selected": false,
+    "calibration_fitted": false,
+    "strict_document_disjointness_established": false,
+    "processed_TEST_read": false
+  },
+  "result_content_sha256": "f78b5f025705603e67a8ddf5923b419d84cc55d8e02ad1294f3249ec5c850cef",
+  "cluster_report_sha256": null,
+  "final_split_selected": false,
+  "original_manifest_modified": false
+}

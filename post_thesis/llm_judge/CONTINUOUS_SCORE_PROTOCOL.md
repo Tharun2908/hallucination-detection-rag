@@ -206,3 +206,7 @@ are implemented without model generation. The actual pinned tokenizer passed fou
 assistant CPU and four cluster boundary checks. Installed-source fingerprints
 also match. The [bounded synthetic plan](LABEL_SCORE_RUN.md) completed with 30 valid scores and a zero-call cached replay. The [original TRAIN token audit](LABEL_SCORE_PILOT_AUDIT.md) passed. The [bounded pilot](LABEL_SCORE_PILOT_RUN.md) completed all 50 primary requests and a zero-call replay. Its [development findings](../../results/post_thesis/llm_judge/label_score_train_pilot_v1_20260920.md) record AUROC 0.7051 and emitted-label F1 0.5455. Preserve the candidate and resolve native-source grouping before registering disjoint calibration/evaluation. This design does not update the evidence-v2 prompt,
 serve a new model, assign a scoring budget or declare a benchmark-ready verifier.
+
+## Native TRAIN audit implementation
+
+The [offline source audit](SOURCE_AUDIT.md) now verifies native response IDs, exact answer/context provenance and conservative exact-overlap components within pinned TRAIN data. It preserves the original manifest and makes no model calls. Its local validation found no new pilot-linked exclusions; the cluster report is pending. This is a scoped exact-overlap check, not resolution of fuzzy/partial-document, TRAIN–TEST or cross-benchmark overlap. The native release contains both splits; non-TRAIN records are ignored after ID filtering and native annotation labels are not used. Final calibration/evaluation reservations remain unselected.
