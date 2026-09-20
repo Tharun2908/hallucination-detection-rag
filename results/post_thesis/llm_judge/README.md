@@ -89,3 +89,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Completed TEST token audit and replay](test_token_audit_cluster_20260920.md), with [observations and independent hash reconstruction](test_token_audit_cluster_20260920.json): 2,700 inputs fit, no generation or benchmark metrics.
 
 - [Completed cluster evaluation-math check and CI fix](evaluation_math_cluster_20260920.md): artificial numerical results and identical replay verified; baseline checkpoint compatibility is next.
+
+- [Completed S4 checkpoint CPU compatibility](s4_checkpoint_cluster_20260920.md): clean loading and four saved-tokenizer matches; both answer and context truncation observed. Fresh S4 TEST inference is prepared but has not been run.

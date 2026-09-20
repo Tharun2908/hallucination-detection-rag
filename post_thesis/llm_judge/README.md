@@ -6,8 +6,9 @@
 **Current status: the label-score judge, calibration and operating threshold are
 frozen; RAGTruth TEST scoring has not started.** The TEST token audit and
 [cluster evaluation-math check](../../results/post_thesis/llm_judge/evaluation_math_cluster_20260920.md)
-are complete. Next is the [saved S4 checkpoint compatibility check](S4_CHECKPOINT_CHECK.md)
-to prepare fresh baseline inference. Legacy comparison provenance remains incomplete.
+are complete. The [saved S4 checkpoint check](S4_CHECKPOINT_CHECK.md) passed on the
+pod; the next step is [fresh S4 TEST inference](S4_TEST_RUN.md) with exact-input
+and truncation records. Legacy comparison provenance remains incomplete.
 
 ## Development history
 

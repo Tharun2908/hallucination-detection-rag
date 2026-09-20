@@ -3,6 +3,9 @@
 This check supports the post-thesis comparison and is not a submitted thesis
 result. It uses the current final S4 checkpoint, not an OOF fold checkpoint.
 
+**Completed:** the [cluster check](../../results/post_thesis/llm_judge/s4_checkpoint_cluster_20260920.md)
+passed. Continue with [fresh S4 TEST inference](S4_TEST_RUN.md).
+
 The operator's saved final checkpoint has four files and records Transformers
 5.5.4 in its config. Fold 1 has seven files, records Transformers 4.44.0 and has
 a different tokenizer fingerprint. A config's version field is a serialization
