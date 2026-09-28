@@ -1,0 +1,18 @@
+{
+  "report_sha256": "b94cada27bc7ef97972035f5e65565b408eafc6dc5734b2770214da69f89024f",
+  "report": {
+    "study_stage": "post_thesis",
+    "fresh_report_sha256": "4f502fc775f15332eb78aa5070ef2d056015241d91a67f5c1ceb254ba2f2dea6",
+    "legacy_file_sha256": "91d38d199d6e3c6e26ec4adfdb7cbd6767496de75e3a577daed159648b47c1b2",
+    "examples": 2700,
+    "matching_after_rounding_fresh_to_4dp": 2692,
+    "mean_absolute_difference": 2.5352895480062705e-05,
+    "median_absolute_difference": 2.5062417984000884e-05,
+    "maximum_absolute_difference": 5.245294570921377e-05,
+    "differences_above_0_001": 0,
+    "differences_above_0_01": 0,
+    "labels_used": false,
+    "model_calls": 0,
+    "historical_provenance_proven_by_agreement": false
+  }
+}
