@@ -1,0 +1,38 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "operator_reported_cluster_summary",
+  "independently_recomputed_private_report": false,
+  "run_id": "s2-halubench-test-fresh-v1",
+  "report_sha256": "e71c27c5c62f2b45f8332ee76c8a9bc6ba9d15915970921178a10daa47b9bb35",
+  "valid_scores": 8000,
+  "examples_total": 8000,
+  "first_new_attempted_examples": 8000,
+  "replay_new_attempted_examples": 0,
+  "replay_report_hash_identical": true,
+  "terminal_failures": 0,
+  "pending": 0,
+  "completed_sentence_pairs": 81107,
+  "completed_forward_batches": 8327,
+  "empty_pair_examples": 1886,
+  "empty_pair_policy": "original zero raw-feature policy preserved",
+  "truncated_pairs": {
+    "answer_pairs": 0,
+    "context_pairs": 35
+  },
+  "timing": {
+    "known_example_seconds": 130.62203273642808,
+    "known_cuda_forward_seconds": 78.99900397984311,
+    "unknown_timing_examples": 0,
+    "scope": "shared GPU; model loading excluded"
+  },
+  "TEST_label_metrics_computed": false,
+  "target_domain_training": false,
+  "normalization_or_fusion_fitting": false,
+  "judge_calls": 0,
+  "legacy_files_rewritten": false,
+  "limitations": [
+    "Raw S2 features only; no performance conclusion.",
+    "Empty-pair fallback is not a probability.",
+    "Private report hash is operator supplied; public summary is not the full hashed private artifact."
+  ]
+}
