@@ -99,7 +99,9 @@ Private records live in
 Keep the successful synthetic v2 directory and tokenizer adapter. No new model
 or resource downloads are enabled.
 
-After completion, review fresh/legacy score agreement and assemble the baseline
+The [cluster run and replay are complete](../../results/post_thesis/llm_judge/minicheck_fresh_test_cluster_20260928.md).
+Run `python -S -m post_thesis.llm_judge.compare_minicheck_legacy` for the next
+CPU-only numerical comparison, then assemble the baseline
 comparison manifest. Fresh inference resolves current input/weight visibility;
 it cannot prove which runtime generated the historical caches or independently
 prove the original S4 training exclusions. Those limitations remain explicit.

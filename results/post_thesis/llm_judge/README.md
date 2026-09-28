@@ -103,3 +103,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - MiniCheck synthetic v1 startup failed after tokenizer checks and weight loading; replay made no new attempt. Report SHA256: `525e75192fb7b2e588a3b3e659228eaf30ece5478280e5c1c1a30da53c50ec89`. No synthetic scores returned. The [v2 sampler correction](../../../post_thesis/llm_judge/MINICHECK_LIVE_CHECK.md) is prepared, not yet live-verified.
 
 - [MiniCheck v2 synthetic compatibility passed](minicheck_synthetic_v2_20260928.md): 14 encoding checks, six generation requests, four matching verdicts, cached replay without another model attempt. [Fresh TEST execution](../../../post_thesis/llm_judge/MINICHECK_TEST_RUN.md) is prepared but not yet run.
+
+- [Fresh MiniCheck TEST completion and replay](minicheck_fresh_test_cluster_20260928.md): 2,700 valid examples, 18,935 sentence requests, no truncated prompts, identical replay hash. All planned fresh baseline predictions are present. Numerical agreement review and the frozen judge TEST run remain pending.
