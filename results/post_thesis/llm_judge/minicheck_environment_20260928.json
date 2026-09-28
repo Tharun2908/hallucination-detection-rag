@@ -1,0 +1,67 @@
+{
+  "report_sha256": "832be2ec78eb6a1ab15d4269483342c0d63706538b55c8a4d10eeeb734eadd91",
+  "report": {
+    "study_stage": "post_thesis",
+    "code_revision": "bd186b6534bafb973a0e6b19b263ba2f34cc9d28",
+    "upstream_revision": "b58b9fa69acbd1015ec970fa65dd752413a053d2",
+    "model": "bespokelabs/Bespoke-MiniCheck-7B",
+    "model_revision": "1ed7786bcda3fa1dc35f7c4ed9e3f36b785d33b8",
+    "python": "3.12.14",
+    "packages": {
+      "torch": "2.13.0+cu130",
+      "vllm": "0.29.0",
+      "transformers": "5.17.0",
+      "tokenizers": "0.23.2",
+      "huggingface-hub": "1.32.0",
+      "nltk": "3.10.3",
+      "sentencepiece": "0.2.2",
+      "numpy": "2.3.5",
+      "jinja2": "3.1.6"
+    },
+    "vllm_registry": {
+      "source_file_present": true,
+      "InternLM2ForCausalLM_name_present": true,
+      "native_runtime_compatibility_verified": false
+    },
+    "gpu_memory_MiB": {
+      "status": "ok",
+      "csv": "0, NVIDIA H200, 143771, 0, 143156"
+    },
+    "root_free_GiB": 415.4,
+    "workspace_free_GiB": 8.19,
+    "model_cache": "/root/llm-judge-hf-cache",
+    "pinned_snapshot_present": true,
+    "snapshot_filenames": [
+      ".gitattributes",
+      "Bespoke-Labs-Logo-White-on-Red.png",
+      "Bespoke-Labs-Logo.png",
+      "License.md",
+      "README.md",
+      "added_tokens.json",
+      "config.json",
+      "configuration_internlm2.py",
+      "generation_config.json",
+      "model-00001-of-00004.safetensors",
+      "model-00002-of-00004.safetensors",
+      "model-00003-of-00004.safetensors",
+      "model-00004-of-00004.safetensors",
+      "model.safetensors.index.json",
+      "modeling_internlm2.py",
+      "performance.png",
+      "special_tokens_map.json",
+      "tokenization_internlm2.py",
+      "tokenization_internlm2_fast.py",
+      "tokenizer.json",
+      "tokenizer.model",
+      "tokenizer_config.json"
+    ],
+    "cached_file_bytes_verified": false,
+    "model_calls": 0,
+    "downloads": 0,
+    "fitting_calls": 0,
+    "GPU_allocations": 0,
+    "package_changes": false,
+    "server_stopped": false,
+    "live_compatibility_verified": false
+  }
+}

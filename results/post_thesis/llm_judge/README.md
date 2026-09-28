@@ -97,3 +97,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Fresh S2 TEST run, replay and legacy-score agreement](s2_fresh_test_cluster_20260928.md): all 2,700 scores valid, identical replay hash, sentence counts matched throughout and maximum raw-min difference below 0.000055. [Exact agreement record](s2_legacy_score_agreement_20260928.json). The frozen fusion can now be applied to fresh features without refitting; cluster application remains pending.
 
 - [Frozen fusion on fresh S2/S4 features](fresh_fusion_cluster_20260928.md): all 2,700 scores valid, identical replay hash and no decision changes at the frozen 0.45 threshold. No fitting or TEST label metrics. MiniCheck preparation is next.
+
+- [New-pod MiniCheck environment inventory](minicheck_environment_20260928.json): supplied payload hash independently reproduced; GPU free, model snapshot present, cached bytes/live compatibility not yet verified. The [synthetic check guide](../../../post_thesis/llm_judge/MINICHECK_LIVE_CHECK.md) records a locally observed tokenizer incompatibility and the explicit saved-tokenizer adapter.

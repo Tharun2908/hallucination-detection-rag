@@ -12,6 +12,7 @@ from .prepare_test_manifest import save_once
 from .prompts import content_hash
 from .runner import run_directory
 from .serve import code_revision
+from .storage import exclusive_run
 
 PACKAGES = ('torch', 'vllm', 'transformers', 'tokenizers', 'huggingface-hub',
             'nltk', 'sentencepiece', 'numpy', 'jinja2')
@@ -57,7 +58,8 @@ def main():
               'live_compatibility_verified': False}
     digest = content_hash(report)
     path = run_directory('minicheck-environment-' + digest[:16]) / 'report.json'
-    save_once(path, {'report_sha256': digest, 'report': report})
+    with exclusive_run(path.parent):
+        save_once(path, {'report_sha256': digest, 'report': report})
     print(json.dumps(report, indent=2))
     print('Report SHA256:', digest)
     print('Private environment record:', path)

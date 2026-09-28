@@ -1,0 +1,66 @@
+{
+  "model": "bespokelabs/Bespoke-MiniCheck-7B",
+  "revision": "1ed7786bcda3fa1dc35f7c4ed9e3f36b785d33b8",
+  "files": {
+    "config.json": {
+      "bytes": 990,
+      "sha256": "9be3df250500aa2c25eaf12f3f8006bde650f76a0cdffcaa098565357948e47d"
+    },
+    "configuration_internlm2.py": {
+      "bytes": 8843,
+      "sha256": "89863f76efbb7f31b39e8feb789285b7362d243e7c9c2a07ac018e0e313fd856"
+    },
+    "tokenizer_config.json": {
+      "bytes": 37360,
+      "sha256": "b502dc7c3e60754595068e64427a0baff2615721d75e2e173911dd81a6c1276c"
+    },
+    "tokenizer.json": {
+      "bytes": 5789884,
+      "sha256": "ebe05e4502ecafdd74cc7604fe5bf5bacfd8aec0395fad8b5537e2fdd5111f2a"
+    },
+    "tokenization_internlm2.py": {
+      "bytes": 8806,
+      "sha256": "444d4c2b0da158e61c34b3c727943f0ad454770c74b307f4d881f03603335eef"
+    },
+    "tokenization_internlm2_fast.py": {
+      "bytes": 7805,
+      "sha256": "1fe5f033032afc400b9b8b0274f16efd57c6ebaab46a2f6fe9f961afb868ae10"
+    },
+    "tokenizer.model": {
+      "bytes": 1477754,
+      "sha256": "f868398fc4e05ee1e8aeba95ddf18ddcc45b8bce55d5093bead5bbf80429b48b"
+    },
+    "special_tokens_map.json": {
+      "bytes": 713,
+      "sha256": "e636e880c43a263dc00724686c9ad90e2d23bd1467fe9ed1b95740cd9f387202"
+    },
+    "added_tokens.json": {
+      "bytes": 189,
+      "sha256": "f8ec8cf12a056fa27277abd6fcc2ee4839aa0fead0ee7a5451bb4729ec8aea1f"
+    },
+    "model.safetensors.index.json": {
+      "bytes": 18179,
+      "sha256": "9a30484442acc1c0e75f347f06f04cbb3f5ecb91e51af7d33cde3b5ed4ee6201"
+    },
+    "generation_config.json": {
+      "bytes": 123,
+      "sha256": "ff8e6158edbc9ef0d37171659ac36235016ee8e019bfa7a03d2033c5dbca773c"
+    },
+    "model-00001-of-00004.safetensors": {
+      "bytes": 4885519776,
+      "sha256": "fe5925c0fb86f23e08046b8f6a4c267f379d88b483ed9491df66ec7070ad4b35"
+    },
+    "model-00002-of-00004.safetensors": {
+      "bytes": 4915913424,
+      "sha256": "a798caa3e7a716099534d7323280109562310f1076a3bcdb33eb3a4e4ea07f58"
+    },
+    "model-00003-of-00004.safetensors": {
+      "bytes": 4915938304,
+      "sha256": "3af8e13b6c6478f9b0b07d8bac10c9b894de3ab82e2807d45c910780daca2b6d"
+    },
+    "model-00004-of-00004.safetensors": {
+      "bytes": 758169728,
+      "sha256": "cb458814b11f76602316c665b02bfa5f3f3911b70e2aa215fded245927577a2d"
+    }
+  }
+}
