@@ -1,0 +1,32 @@
+{
+  "study_stage": "post_thesis",
+  "status": "operator_reported_completed_fresh_S4_and_identical_replay",
+  "report_sha256": "2d68d0657d983db0df84b146264652eea00034734e82d09a42126c56e4ba0f2c",
+  "code_revision": "80ac88e02aac163db33bc885ab441fae14eedfa6",
+  "code_revision_provenance": "Git commit containing the applied step-65 runner; the next command checks this against the private report identity.",
+  "examples_total": 8000,
+  "valid_scores": 8000,
+  "first_new_attempted_batches": 500,
+  "replay_new_attempted_batches": 0,
+  "replay_report_sha256": "2d68d0657d983db0df84b146264652eea00034734e82d09a42126c56e4ba0f2c",
+  "terminal_failures": 0,
+  "pending": 0,
+  "truncated_examples": {
+    "answer": 0,
+    "context": 850
+  },
+  "timing": {
+    "known_batch_seconds": 69.6534190387465,
+    "known_cuda_forward_seconds": 41.682654801756144,
+    "unknown_timing_batches": 0
+  },
+  "timing_scope": "shared GPU; model loading excluded; no controlled cross-system speed claim",
+  "private_summary": ".artifacts/post_thesis/llm_judge/s4-halubench-test-fresh-v1/summary.json",
+  "model_calls_in_this_recording_step": 0,
+  "TEST_metrics_computed": false,
+  "target_domain_training": false,
+  "judge_calls": 0,
+  "fitting_calls": 0,
+  "legacy_files_changed": false,
+  "provenance": "Transcribed operator summaries; full private score report not independently reproduced locally."
+}

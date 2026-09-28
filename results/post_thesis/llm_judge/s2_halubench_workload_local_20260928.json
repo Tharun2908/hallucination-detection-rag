@@ -1,0 +1,23 @@
+{
+  "study_stage": "post_thesis",
+  "status": "local_CPU_preprocessing_no_model_calls",
+  "manifest_sha256": "0e307781570c9cef907023d713a31e798be3289e9150d2250fd59aa27b4bcded",
+  "prepared_references_sha256": "92ce62a176b1963a87e49c260f081c6fe573e915debd8070a6594f018134959d",
+  "examples": 8000,
+  "sentence_pairs": 81107,
+  "forward_batches": 8327,
+  "empty_pair_examples": 1886,
+  "empty_answer_sentence_examples": 1886,
+  "empty_context_sentence_examples": 0,
+  "empty_pair_examples_by_source": {
+    "DROP": 255,
+    "FinanceBench": 450,
+    "halueval": 1104,
+    "covidQA": 77,
+    "pubmedQA": 0
+  },
+  "empty_policy": "unchanged original raw min/mean 0.0 and empty per-answer maxima; no pair forwards",
+  "model_calls": 0,
+  "metrics_computed": false,
+  "fitting_calls": 0
+}
