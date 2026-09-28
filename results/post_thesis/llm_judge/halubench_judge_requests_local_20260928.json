@@ -1,0 +1,14 @@
+{
+  "study_stage": "post_thesis",
+  "scope": "local_CPU_request_validation_only",
+  "examples": 8000,
+  "input_tokens": 7794485,
+  "requests_sha256": "e470b59855965dd305f5afcb89d61e934211e40d688be81ec8c45302b3048990",
+  "plan_sha256": "00949cd1b6f43db6fd7270c829b0143bb8376a621c8e806d82c737ac81a4806b",
+  "all_prepared_inputs_match_local_token_audit": true,
+  "generation_calls": 0,
+  "http_requests": 0,
+  "model_weights_loaded": false,
+  "private_pod_baseline_reports_available_locally": false,
+  "note": "Request rendering checked against the earlier local CPU audit; the pod must independently verify its pinned private audit and baseline reports."
+}

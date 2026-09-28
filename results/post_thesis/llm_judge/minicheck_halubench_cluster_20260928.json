@@ -1,0 +1,42 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "operator_reported_cluster_summary",
+  "independently_recomputed_private_report": false,
+  "run_id": "minicheck-halubench-test-fresh-v1",
+  "report_sha256": "18a157b4caf96fba23b35b8adb9f961dc5df45fd847a3e026305df7289e181b0",
+  "valid_scores": 8000,
+  "examples_total": 8000,
+  "first_new_attempted_examples": 8000,
+  "replay_new_attempted_examples": 0,
+  "replay_report_hash_identical": true,
+  "terminal_failures": 0,
+  "pending": 0,
+  "halt_reason": null,
+  "known_token_totals": {
+    "input_tokens": 4905370,
+    "output_tokens": 9158
+  },
+  "examples_with_unknown_usage": 0,
+  "timing": {
+    "known_example_seconds": 427.1713758078404,
+    "known_initialization_seconds": 97.87437587138265,
+    "unknown_timing_examples": 0,
+    "unknown_initializations": 0
+  },
+  "workload": {
+    "examples": 8000,
+    "sentence_requests": 9158,
+    "input_tokens": 4905370,
+    "max_input_tokens": 6756,
+    "min_input_tokens": 102,
+    "output_token_allowance": 9158,
+    "all_inputs_fit": true,
+    "truncated_prompts": 0
+  },
+  "TEST_label_metrics_computed": false,
+  "fitting_calls": 0,
+  "judge_calls": 0,
+  "adaptation_training": false,
+  "legacy_files_rewritten": false,
+  "limitation": "Operator-supplied transcript; this public summary is not the complete hashed private report. No performance conclusion."
+}

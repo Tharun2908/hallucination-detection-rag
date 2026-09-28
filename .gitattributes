@@ -22,3 +22,10 @@
 /post_thesis/llm_judge/minicheck_contract.py text eol=lf
 /post_thesis/llm_judge/check_minicheck_live.py text eol=lf
 /post_thesis/llm_judge/minicheck_files_v1.json text eol=lf
+
+# Shared frozen judge transport and score semantics for HaluBench.
+/post_thesis/llm_judge/label_live.py text eol=lf
+/post_thesis/llm_judge/label_score_contract.py text eol=lf
+/post_thesis/llm_judge/run_development_scores.py text eol=lf
+/post_thesis/llm_judge/label_diagnose.py text eol=lf
+/post_thesis/llm_judge/run_pilot.py text eol=lf
