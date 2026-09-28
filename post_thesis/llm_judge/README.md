@@ -6,7 +6,7 @@
 **Current status: the label-score judge, calibration and operating threshold are
 frozen; RAGTruth TEST scoring has not started.** The TEST token audit and
 [cluster evaluation-math check](../../results/post_thesis/llm_judge/evaluation_math_cluster_20260920.md)
-are complete. [Fresh S4 TEST inference and close legacy-score agreement](../../results/post_thesis/llm_judge/s4_fresh_test_cluster_20260920.md) are complete, with exact-input and truncation records. [Fresh S2 inference and replay](../../results/post_thesis/llm_judge/s2_fresh_test_cluster_20260928.md) also completed. The next step is [applying the frozen fusion to fresh S2/S4 features](FRESH_FUSION.md), with no refitting. Legacy comparison provenance remains incomplete.
+are complete. [Fresh S4 TEST inference and close legacy-score agreement](../../results/post_thesis/llm_judge/s4_fresh_test_cluster_20260920.md) are complete, with exact-input and truncation records. [Fresh S2 inference and replay](../../results/post_thesis/llm_judge/s2_fresh_test_cluster_20260928.md) also completed. [Frozen fusion application and replay](../../results/post_thesis/llm_judge/fresh_fusion_cluster_20260928.md) also completed, with zero changes at the fixed operating threshold. [MiniCheck preparation](MINICHECK_PREPARATION.md) is next. Legacy comparison provenance remains incomplete.
 
 ## Development history
 

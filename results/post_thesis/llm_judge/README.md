@@ -95,3 +95,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Fresh S4 TEST run and legacy-score agreement](s4_fresh_test_cluster_20260920.md): 2,700 valid scores, no failures, explicit truncation counts and maximum score difference below 0.000053; no label-based TEST metrics. [Exact agreement record](s4_legacy_score_agreement_20260920.json). Fresh S2 inference is prepared in [the run guide](../../../post_thesis/llm_judge/S2_TEST_RUN.md).
 
 - [Fresh S2 TEST run, replay and legacy-score agreement](s2_fresh_test_cluster_20260928.md): all 2,700 scores valid, identical replay hash, sentence counts matched throughout and maximum raw-min difference below 0.000055. [Exact agreement record](s2_legacy_score_agreement_20260928.json). The frozen fusion can now be applied to fresh features without refitting; cluster application remains pending.
+
+- [Frozen fusion on fresh S2/S4 features](fresh_fusion_cluster_20260928.md): all 2,700 scores valid, identical replay hash and no decision changes at the frozen 0.45 threshold. No fitting or TEST label metrics. MiniCheck preparation is next.
