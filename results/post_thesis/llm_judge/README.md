@@ -106,4 +106,6 @@ The [completed cluster development token audit and replay](development_token_aud
 
 - [Fresh MiniCheck TEST completion and replay](minicheck_fresh_test_cluster_20260928.md): 2,700 valid examples, 18,935 sentence requests, no truncated prompts, identical replay hash. All planned fresh baseline predictions are present. The subsequent comparison is recorded below; the frozen judge TEST run remains pending.
 
-- [MiniCheck fresh/legacy score drift](minicheck_legacy_score_agreement_20260928.md): mean absolute difference 0.02947, 100/2,700 changed decisions at the unchanged historical TRAIN threshold. No label metrics or attribution of cause. The [fresh comparison manifest](../../../post_thesis/llm_judge/COMPARISON_MANIFEST.md) records the fresh-runtime scope and retained provenance limits; cluster verification remains pending.
+- [MiniCheck fresh/legacy score drift](minicheck_legacy_score_agreement_20260928.md): mean absolute difference 0.02947, 100/2,700 changed decisions at the unchanged historical TRAIN threshold. No label metrics or attribution of cause. The [fresh comparison manifest](../../../post_thesis/llm_judge/COMPARISON_MANIFEST.md) records the fresh-runtime scope and retained provenance limits; cluster verification is recorded below.
+
+- [Fresh baseline comparison manifest verified](fresh_comparison_manifest_20260928.md): all three baselines aligned on 2,700 examples / 450 groups, fixed thresholds and limitations preserved. [Bounded Qwen TEST execution](../../../post_thesis/llm_judge/TEST_LABEL_RUN.md) is prepared, not yet executed.

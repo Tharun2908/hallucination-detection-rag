@@ -83,10 +83,23 @@ async def execute(*, arm, backend, revision, requests, preparation, server_recor
 
 async def _execute_arm(*, arm, backend, revision, requests, preparation, server_record=None,
                        artifact_root=None, max_new_attempts=600, preparation_seconds=0):
-    plan = load_plan(arm)
+    return await execute_prepared(plan=load_plan(arm), backend=backend, revision=revision,
+        requests=requests, preparation=preparation, server_record=server_record,
+        artifact_root=artifact_root, max_new_attempts=max_new_attempts,
+        preparation_seconds=preparation_seconds, preparation_validator=validate_preparation,
+        summary_builder=summarize)
+
+
+async def execute_prepared(*, plan, backend, revision, requests, preparation,
+                           preparation_validator, summary_builder, server_record=None,
+                           artifact_root=None, max_new_attempts=600,
+                           preparation_seconds=0, checkpoint_every=1):
+    """Shared bounded journal transport; callers supply frozen scope and validation."""
+    if type(checkpoint_every) is not int or checkpoint_every < 1:
+        raise ValueError("positive checkpoint interval required")
     if type(max_new_attempts) is not int or not 0 <= max_new_attempts <= plan["max_attempts"]:
         raise ValueError("max-new-attempts exceeds the registered arm limit")
-    validate_preparation(preparation, requests, plan)
+    preparation_validator(preparation, requests, plan)
     validate_records([], requests)
     resource_totals(preparation_seconds, 1)
     identity = {"plan": plan, "code_revision": revision, "preparation": preparation,
@@ -135,6 +148,7 @@ async def _execute_arm(*, arm, backend, revision, requests, preparation, server_
                 async def work():
                     window["preflight"] = await backend.check_endpoint()
                     _save(ledger_path, ledger)
+                    completed = before
                     for request in pending[:max_new_attempts]:
                         attempt = journal.start(request["key"], 1)  # Durable before sending.
                         response = None
@@ -151,8 +165,10 @@ async def _execute_arm(*, arm, backend, revision, requests, preparation, server_
                                       latency_seconds=time.monotonic() - attempt_start)
                         journal.finish(attempt, result)
                         _save(ledger_path, ledger)
-                        atomic_json(directory / "summary.json", summarize(requests, journal.records(), ledger,
-                                    new_attempts=len(journal.records()) - before))
+                        completed += 1
+                        if (completed - before) % checkpoint_every == 0 or ledger["halt_reason"]:
+                            atomic_json(directory / "summary.json", summary_builder(requests, journal.records(), ledger,
+                                        new_attempts=completed - before))
                         if ledger["halt_reason"]:
                             break
 
@@ -169,7 +185,7 @@ async def _execute_arm(*, arm, backend, revision, requests, preparation, server_
                     journal.recover()
                     _save(ledger_path, ledger)
             _save(ledger_path, ledger)
-            report = summarize(requests, journal.records(), ledger,
+            report = summary_builder(requests, journal.records(), ledger,
                                new_attempts=len(journal.records()) - before)
             atomic_json(directory / "summary.json", report)
             return report
