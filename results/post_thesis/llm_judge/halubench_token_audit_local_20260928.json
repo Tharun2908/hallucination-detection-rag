@@ -1,0 +1,32 @@
+{
+  "summary": {
+    "examples_total": 8000,
+    "examples_counted": 8000,
+    "examples_pending": 0,
+    "overlength_ids": [],
+    "max_input_tokens": 7298,
+    "min_input_tokens": 506,
+    "total_input_tokens": 7794485,
+    "output_allowance_per_example": 1,
+    "model_limit": 32768,
+    "all_inputs_fit": true,
+    "generation_calls": 0,
+    "http_requests": 0,
+    "model_weights_loaded": false,
+    "scoring_authorized_by_this_audit": false
+  },
+  "tokenizer_versions": {
+    "python": "3.12.14",
+    "transformers": "5.17.0",
+    "tokenizers": "0.23.2",
+    "huggingface_hub": "1.32.0",
+    "jinja2": "3.1.6"
+  },
+  "tokenizer_reference_sha256": "42b5a21329f73c61aaf8ae03656565d2f24b5d84e2f7dd066ca292284e4c2d5e",
+  "study_stage": "post_thesis",
+  "status": "local_CPU_validation_pod_audit_pending",
+  "manifest_sha256": "0e307781570c9cef907023d713a31e798be3289e9150d2250fd59aa27b4bcded",
+  "replay_identical": true,
+  "replay_new_input_tokenizations": 0,
+  "note": "Pinned tokenizer reference verified. Local audit used an uncommitted-validation revision; its audit hash is not the pod audit hash. No weights or generation calls."
+}

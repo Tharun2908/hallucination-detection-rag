@@ -1,0 +1,66 @@
+{
+  "study_stage": "post_thesis",
+  "status": "pod_manifest_completed_and_hash_reconstructed_locally",
+  "manifest_sha256": "0e307781570c9cef907023d713a31e798be3289e9150d2250fd59aa27b4bcded",
+  "code_revision": "aac2d9e0ce9ef4ac98ff9a60e26238daa08a46f3",
+  "private_manifest": ".artifacts/post_thesis/llm_judge/halubench-canonical-test-input-manifest-v1/manifest.json",
+  "summary": {
+    "filtered_rows": 14000,
+    "test_rows": 8000,
+    "canonical_test_groups": 7838,
+    "test_bootstrap_components": 7198,
+    "canonical_outer_group_overlap": 0,
+    "exact_passage_merged_components_touching_adaptation": 355,
+    "test_rows_in_components_touching_adaptation": 994,
+    "source_label_counts_offline": {
+      "DROP__0": 274,
+      "DROP__1": 286,
+      "FinanceBench__0": 287,
+      "FinanceBench__1": 286,
+      "covidQA__0": 286,
+      "covidQA__1": 273,
+      "halueval__0": 2863,
+      "halueval__1": 2865,
+      "pubmedQA__0": 290,
+      "pubmedQA__1": 290
+    },
+    "adaptation_metadata_used_for_group_check": true,
+    "adaptation_answers_or_labels_used": false,
+    "generation_calls": 0,
+    "http_requests": 0,
+    "fitting_calls": 0,
+    "metrics_computed": false,
+    "token_audit_completed": false,
+    "scoring_authorized": false,
+    "baseline_comparison_ready": false
+  },
+  "baseline_inventory": {
+    "S2_S4": {
+      "rows": 14000,
+      "selected_TEST_rows": 8000,
+      "selected_index_label_source_alignment": true,
+      "answer_context_alignment_verified": false,
+      "comparison_ready": false,
+      "score_fields_checked": [
+        "raw_min_relevance",
+        "s2_support",
+        "s4_score"
+      ],
+      "status": "legacy_index_alignment_only",
+      "limitation": "Caches have no original IDs or answer/context hashes; fresh input hashes do not attest historical inference."
+    },
+    "MiniCheck_7B": {
+      "rows": 14000,
+      "selected_TEST_rows": 8000,
+      "selected_index_label_source_alignment": true,
+      "answer_context_alignment_verified": false,
+      "comparison_ready": false,
+      "score_fields_checked": [
+        "mc_hall"
+      ],
+      "status": "legacy_index_alignment_only",
+      "limitation": "Caches have no original IDs or answer/context hashes; fresh input hashes do not attest historical inference."
+    }
+  },
+  "provenance": "Operator-supplied pod summary; complete manifest hash independently reproduced from the pinned source files using the recorded code revision. No model calls or performance metrics."
+}
