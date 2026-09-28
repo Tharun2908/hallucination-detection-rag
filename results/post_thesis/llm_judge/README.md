@@ -1,7 +1,7 @@
 # Post-thesis LLM judge results
 
-Results collected after thesis submission. These development artifacts are
-excluded from the submitted thesis results. **All four RAGTruth TEST prediction sets are complete; registered TEST metrics await CPU evaluation.**
+Results collected after thesis submission. These post-thesis artifacts are
+excluded from the submitted thesis results. **Frozen RAGTruth TEST evaluation is complete.** The judge trails all three baselines on AUROC, AP and F1; see the [findings](ragtruth_frozen_evaluation_20260928.md) and [reported metrics](ragtruth_frozen_evaluation_20260928.json). The canonical HaluBench 8k cross-domain evaluation is next.
 
 - [Synthetic H200 smoke findings](synthetic_smoke_20260919.md).
 - [First 50-example TRAIN pilot report](ragtruth_pilot_v1_20260919.md) and
@@ -110,4 +110,4 @@ The [completed cluster development token audit and replay](development_token_aud
 
 - [Fresh baseline comparison manifest verified](fresh_comparison_manifest_20260928.md): all three baselines aligned on 2,700 examples / 450 groups, fixed thresholds and limitations preserved. [Bounded Qwen TEST execution](../../../post_thesis/llm_judge/TEST_LABEL_RUN.md) is prepared, not yet executed.
 
-- [Frozen Qwen RAGTruth TEST run and replay](qwen_ragtruth_test_cluster_20260928.md): 2,700/2,700 valid scores, complete usage, zero new replay attempts and identical report hash. [CPU evaluation](../../../post_thesis/llm_judge/TEST_EVALUATION.md) is implemented under the unchanged numerical contract; cluster metrics remain pending.
+- [Frozen Qwen RAGTruth TEST run and replay](qwen_ragtruth_test_cluster_20260928.md): 2,700/2,700 valid scores, complete usage, zero new replay attempts and identical report hash. [CPU evaluation](../../../post_thesis/llm_judge/TEST_EVALUATION.md) is implemented under the unchanged numerical contract; [cluster findings](ragtruth_frozen_evaluation_20260928.md) now record the first frozen TEST comparison.

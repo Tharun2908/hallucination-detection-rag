@@ -1,0 +1,189 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "operator_supplied_console_summary",
+  "recorded_date": "2026-09-28",
+  "source_report_sha256": "7bdf3e9c5de63e585a07044f7e33b14f960490c01b1e682f08494da9148d3aac",
+  "source_report_path": ".artifacts/post_thesis/llm_judge/ragtruth-frozen-four-system-evaluation-v1/report.json",
+  "provenance_note": "Transcribed from operator-supplied cluster output. The full private report was not available for independent hash verification. This public subset is not the hashed private report.",
+  "coverage": {
+    "shared_examples": 2700,
+    "shared_groups": 450,
+    "all_four_systems_aligned": true
+  },
+  "bootstrap": {
+    "draws": 2000,
+    "paired": true,
+    "unit": "whole exact-overlap group",
+    "interval": "nominal 95% percentile",
+    "multiple_comparison_adjustment": false,
+    "refitting": false
+  },
+  "point_metrics": {
+    "judge": {
+      "accuracy": 0.705925925925926,
+      "auroc": 0.76094500953918,
+      "average_precision": 0.6319714481549863,
+      "brier_calibrated": 0.19155491555068216,
+      "brier_raw": 0.20511519294538832,
+      "ece_calibrated": 0.08676128875556065,
+      "ece_raw": 0.13656353786741682,
+      "f1": 0.6123046875,
+      "precision": 0.567420814479638,
+      "recall": 0.6648992576882291
+    },
+    "S4": {
+      "accuracy": 0.7781481481481481,
+      "auroc": 0.8470351286868884,
+      "average_precision": 0.7725641283637128,
+      "brier_raw": 0.17275203245892826,
+      "ece_raw": 0.12887114979637165,
+      "f1": 0.702434177844014,
+      "precision": 0.6607476635514019,
+      "recall": 0.7497348886532343
+    },
+    "MiniCheck_7B": {
+      "accuracy": 0.7933333333333333,
+      "auroc": 0.8775602030599009,
+      "average_precision": 0.809431711313413,
+      "brier_raw": 0.22715354093066067,
+      "ece_raw": 0.2719167086312573,
+      "f1": 0.7304347826086957,
+      "precision": 0.6708074534161491,
+      "recall": 0.8016967126193001
+    },
+    "S2_S4_metadata_free": {
+      "accuracy": 0.7833333333333333,
+      "auroc": 0.8494481398749798,
+      "average_precision": 0.7664217590294209,
+      "brier_raw": 0.14856432794774918,
+      "ece_raw": 0.054698594479675844,
+      "f1": 0.706472654290015,
+      "precision": 0.6704761904761904,
+      "recall": 0.7465535524920467
+    }
+  },
+  "paired_judge_minus_baseline": {
+    "S4": {
+      "auroc": {
+        "lower": -0.10757974819712147,
+        "point_difference": -0.08609011914770837,
+        "upper": -0.0660461629493515,
+        "valid_draws": 2000
+      },
+      "average_precision": {
+        "lower": -0.17625881525004125,
+        "point_difference": -0.1405926802087265,
+        "upper": -0.1057513507834112,
+        "valid_draws": 2000
+      },
+      "brier_calibrated": {
+        "lower": 0.006428562951807595,
+        "point_difference": 0.018802883091753902,
+        "upper": 0.031233929676960683,
+        "valid_draws": 2000
+      },
+      "ece_calibrated": {
+        "lower": -0.0646230650490136,
+        "point_difference": -0.042109861040811006,
+        "upper": -0.018362148336091875,
+        "valid_draws": 2000
+      },
+      "f1": {
+        "lower": -0.11614305982503553,
+        "point_difference": -0.09012949034401396,
+        "upper": -0.06513368205337167,
+        "valid_draws": 2000
+      }
+    },
+    "MiniCheck_7B": {
+      "auroc": {
+        "lower": -0.13682720157991202,
+        "point_difference": -0.11661519352072092,
+        "upper": -0.09676334872094405,
+        "valid_draws": 2000
+      },
+      "average_precision": {
+        "lower": -0.21253607161995053,
+        "point_difference": -0.17746026315842667,
+        "upper": -0.14434920045301905,
+        "valid_draws": 2000
+      },
+      "brier_calibrated": {
+        "lower": -0.05052913580407208,
+        "point_difference": -0.035598625379978516,
+        "upper": -0.020435001012677104,
+        "valid_draws": 2000
+      },
+      "ece_calibrated": {
+        "lower": -0.19948146608818668,
+        "point_difference": -0.18515541987569661,
+        "upper": -0.16870092344826704,
+        "valid_draws": 2000
+      },
+      "f1": {
+        "lower": -0.14403640747270136,
+        "point_difference": -0.11813009510869565,
+        "upper": -0.09302514015767863,
+        "valid_draws": 2000
+      }
+    },
+    "S2_S4_metadata_free": {
+      "auroc": {
+        "lower": -0.10934674634774184,
+        "point_difference": -0.08850313033579982,
+        "upper": -0.06929507561732214,
+        "valid_draws": 2000
+      },
+      "average_precision": {
+        "lower": -0.16941757919884382,
+        "point_difference": -0.1344503108744346,
+        "upper": -0.10053383111213648,
+        "valid_draws": 2000
+      },
+      "brier_calibrated": {
+        "lower": 0.03377046654814971,
+        "point_difference": 0.04299058760293298,
+        "upper": 0.052445974637257115,
+        "valid_draws": 2000
+      },
+      "ece_calibrated": {
+        "lower": 0.008776055244948507,
+        "point_difference": 0.032062694275884804,
+        "upper": 0.049855649723075886,
+        "valid_draws": 2000
+      },
+      "f1": {
+        "lower": -0.12012401424934337,
+        "point_difference": -0.09416796679001505,
+        "upper": -0.0700309992238761,
+        "valid_draws": 2000
+      }
+    }
+  },
+  "paired_reliability_note": "brier_calibrated and ece_calibrated compare calibrated judge probabilities against each baseline raw probability, not against separately recalibrated baselines.",
+  "operating_rules": {
+    "judge": "raw unsupported log odds >= -1.25",
+    "S4": "unsupported score >= 0.55",
+    "MiniCheck_7B": "support score < 0.20000000000000004",
+    "S2_S4_metadata_free": "unsupported score >= 0.45"
+  },
+  "judge_calibration": {
+    "formula": "sigmoid(a * raw_unsupported_log_odds + b)",
+    "a": 0.3808096416654668,
+    "b": 0.3575745057816423,
+    "fit_partition": "reserved TRAIN calibration arm"
+  },
+  "limitations": [
+    "Intervals condition on fixed fitted systems and sampled groups; they omit retraining uncertainty and are unadjusted for multiple comparisons.",
+    "This frozen Qwen3-32B BF16 non-thinking label-token setup does not represent all LLM judges.",
+    "Training exposure, context handling and inference runtimes differ; this is not an architecture-only comparison.",
+    "MiniCheck uses fresh-runtime scores and a transferred historical TRAIN threshold; 100 of 2700 decisions differ from the legacy cache, with cause unresolved.",
+    "Fresh inference alignment does not retrospectively prove historical cache inputs or checkpoint training membership.",
+    "Exact-overlap grouping does not prove strict document disjointness.",
+    "No significance comparison between the three baselines is established by the printed judge-minus-baseline intervals."
+  ],
+  "evaluation_model_calls": 0,
+  "evaluation_fitting_calls": 0,
+  "HaluBench_access": false,
+  "next_stage": "Reuse the canonical group-disjoint 8000-example HaluBench TEST split with the frozen judge, calibration and operating rules; no new split or target-domain refitting."
+}

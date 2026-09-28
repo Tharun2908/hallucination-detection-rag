@@ -6,6 +6,9 @@ zero-call replay have the same report hash. This CPU-only loader applies the
 The loader is implemented after inference and before examining the new TEST
 metrics; it does not change that numerical core, prompt, model or operating rules.
 
+The [cluster findings](../../results/post_thesis/llm_judge/ragtruth_frozen_evaluation_20260928.md)
+now record the completed evaluation. The judge, calibration and thresholds remain frozen.
+
 ## Inputs and interpretation
 
 The command verifies the canonical 2,700 inputs, 450 exact-overlap groups,
