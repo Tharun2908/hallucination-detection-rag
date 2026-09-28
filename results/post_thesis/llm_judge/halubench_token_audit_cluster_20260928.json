@@ -1,0 +1,31 @@
+{
+  "study_stage": "post_thesis",
+  "status": "operator_reported_completed_pod_audit_and_identical_replay",
+  "audit_sha256": "7173c30e3a197aabb61c8ffd8c0e145cc556affa9aad20d7dcd43bc9cb24782a",
+  "audit_code_revision": "cbc9cca82ebeb46daa42e82722fe8c5cdff141ab",
+  "manifest_sha256": "0e307781570c9cef907023d713a31e798be3289e9150d2250fd59aa27b4bcded",
+  "judge_freeze_sha256": "90a70a63c550e87ad0f3fa41f11e1de99d9a08fc85c47de23f6ffafd3314fde8",
+  "prompt_version": "faithfulness-label-score-v1",
+  "prompt_sha256": "0b3950a21fb265545d422d1f1ec4b21604d74e715a51ce9261320216ad8fcc3c",
+  "summary": {
+    "examples_total": 8000,
+    "examples_counted": 8000,
+    "examples_pending": 0,
+    "overlength_ids": [],
+    "max_input_tokens": 7298,
+    "min_input_tokens": 506,
+    "total_input_tokens": 7794485,
+    "output_allowance_per_example": 1,
+    "model_limit": 32768,
+    "all_inputs_fit": true,
+    "generation_calls": 0,
+    "http_requests": 0,
+    "model_weights_loaded": false,
+    "scoring_authorized_by_this_audit": false
+  },
+  "first_new_input_tokenizations": 8000,
+  "replay_new_input_tokenizations": 0,
+  "private_audit": ".artifacts/post_thesis/llm_judge/halubench-test-token-audit-label-score-v1/audit.json",
+  "provenance": "Operator-supplied pod summary and replay. Counts match independent local tokenization; the full pod audit hash is not independently reconstructed here.",
+  "next": "Fresh S4 zero-shot HaluBench inference; no target-domain fitting or judge changes."
+}

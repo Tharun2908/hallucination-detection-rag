@@ -117,3 +117,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [HaluBench pod manifest](halubench_inputs_cluster_20260928.json): all 8,000 canonical rows preserved; exact manifest hash independently reconstructed. [CPU token audit](../../../post_thesis/llm_judge/HALUBENCH_TOKEN_AUDIT.md) is implemented; pod token counts and inference remain pending.
 
 - [Local HaluBench token audit](halubench_token_audit_local_20260928.json): 8,000/8,000 inputs fit, 7,794,485 input tokens, maximum 7,298; identical zero-new-input-tokenization replay. Pod audit hash and live inference remain pending.
+
+- [HaluBench pod token audit and identical replay](halubench_token_audit_cluster_20260928.json): all 8,000 inputs fit; zero new replay tokenizations. [Bounded fresh S4 HaluBench inference](../../../post_thesis/llm_judge/HALUBENCH_S4_RUN.md) is implemented with the unchanged RAGTruth checkpoint and inference policy; live S4 run remains pending.
