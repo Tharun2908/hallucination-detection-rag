@@ -111,3 +111,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Fresh baseline comparison manifest verified](fresh_comparison_manifest_20260928.md): all three baselines aligned on 2,700 examples / 450 groups, fixed thresholds and limitations preserved. [Bounded Qwen TEST execution](../../../post_thesis/llm_judge/TEST_LABEL_RUN.md) is prepared, not yet executed.
 
 - [Frozen Qwen RAGTruth TEST run and replay](qwen_ragtruth_test_cluster_20260928.md): 2,700/2,700 valid scores, complete usage, zero new replay attempts and identical report hash. [CPU evaluation](../../../post_thesis/llm_judge/TEST_EVALUATION.md) is implemented under the unchanged numerical contract; [cluster findings](ragtruth_frozen_evaluation_20260928.md) now record the first frozen TEST comparison.
+
+- [Canonical HaluBench input preparation](../../../post_thesis/llm_judge/HALUBENCH_INPUTS.md) and [local CPU counts](halubench_inputs_local_20260928.json): saved 8k membership preserved; exact-passage overlap disclosed, legacy comparison readiness unresolved. Pod manifest and inference remain pending.

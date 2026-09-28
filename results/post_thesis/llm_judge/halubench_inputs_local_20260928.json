@@ -1,0 +1,78 @@
+{
+  "study_stage": "post_thesis",
+  "status": "local_CPU_input_validation_not_pod_manifest",
+  "dataset": {
+    "repository": "PatronusAI/HaluBench",
+    "revision": "5966a87929f51c204ab3cbef986b449495cc97b6",
+    "file": "data/test-00000-of-00001.parquet",
+    "sha256": "c7e9cf966085ffae88d2947744418a05a26ea94380c35c238b9fc12ecb874cdc"
+  },
+  "canonical_split": {
+    "path": "results/cross_domain/halubench_groupfix/halubench_group_split.json",
+    "sha256": "9d78af5b4623893cfc7d761dc6be4c2e0f64278faaba11b2d10e6f829e67bb4b",
+    "membership_changed": false
+  },
+  "summary": {
+    "filtered_rows": 14000,
+    "test_rows": 8000,
+    "canonical_test_groups": 7838,
+    "test_bootstrap_components": 7198,
+    "canonical_outer_group_overlap": 0,
+    "exact_passage_merged_components_touching_adaptation": 355,
+    "test_rows_in_components_touching_adaptation": 994,
+    "source_label_counts_offline": {
+      "DROP__0": 274,
+      "DROP__1": 286,
+      "FinanceBench__0": 287,
+      "FinanceBench__1": 286,
+      "covidQA__0": 286,
+      "covidQA__1": 273,
+      "halueval__0": 2863,
+      "halueval__1": 2865,
+      "pubmedQA__0": 290,
+      "pubmedQA__1": 290
+    },
+    "adaptation_metadata_used_for_group_check": true,
+    "adaptation_answers_or_labels_used": false,
+    "generation_calls": 0,
+    "http_requests": 0,
+    "fitting_calls": 0,
+    "metrics_computed": false,
+    "token_audit_completed": false,
+    "scoring_authorized": false,
+    "baseline_comparison_ready": false
+  },
+  "baseline_inventory": {
+    "S2_S4": {
+      "rows": 14000,
+      "selected_TEST_rows": 8000,
+      "selected_index_label_source_alignment": true,
+      "answer_context_alignment_verified": false,
+      "comparison_ready": false,
+      "score_fields_checked": [
+        "raw_min_relevance",
+        "s2_support",
+        "s4_score"
+      ],
+      "status": "legacy_index_alignment_only",
+      "limitation": "Caches have no original IDs or answer/context hashes; fresh input hashes do not attest historical inference."
+    },
+    "MiniCheck_7B": {
+      "rows": 14000,
+      "selected_TEST_rows": 8000,
+      "selected_index_label_source_alignment": true,
+      "answer_context_alignment_verified": false,
+      "comparison_ready": false,
+      "score_fields_checked": [
+        "mc_hall"
+      ],
+      "status": "legacy_index_alignment_only",
+      "limitation": "Caches have no original IDs or answer/context hashes; fresh input hashes do not attest historical inference."
+    }
+  },
+  "limitations": [
+    "No model or performance metric calls.",
+    "The pure input builder was exercised locally; private pod fit verification and clean-revision CLI execution remain on the pod.",
+    "New input hashes do not establish historical baseline inference provenance."
+  ]
+}
