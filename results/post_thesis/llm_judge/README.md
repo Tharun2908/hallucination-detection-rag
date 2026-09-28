@@ -93,3 +93,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Completed S4 checkpoint CPU compatibility](s4_checkpoint_cluster_20260920.md): clean loading and four saved-tokenizer matches; both answer and context truncation observed. Fresh S4 TEST inference is now complete (see below).
 
 - [Fresh S4 TEST run and legacy-score agreement](s4_fresh_test_cluster_20260920.md): 2,700 valid scores, no failures, explicit truncation counts and maximum score difference below 0.000053; no label-based TEST metrics. [Exact agreement record](s4_legacy_score_agreement_20260920.json). Fresh S2 inference is prepared in [the run guide](../../../post_thesis/llm_judge/S2_TEST_RUN.md).
+
+- [Fresh S2 TEST run, replay and legacy-score agreement](s2_fresh_test_cluster_20260928.md): all 2,700 scores valid, identical replay hash, sentence counts matched throughout and maximum raw-min difference below 0.000055. [Exact agreement record](s2_legacy_score_agreement_20260928.json). The frozen fusion can now be applied to fresh features without refitting; cluster application remains pending.

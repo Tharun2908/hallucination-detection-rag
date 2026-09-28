@@ -1,0 +1,20 @@
+{
+  "report_sha256": "ae3ab6ea1e81e817b3fbc254501b98f23f93cf57acff9bad0bcc63b7ae8a773a",
+  "report": {
+    "study_stage": "post_thesis",
+    "fresh_report_sha256": "8960c4a8c5d2c873b6f68241bb3c05810d6848fab392b9e8cf5407cdda4a013b",
+    "legacy_file_sha256": "93d93755b584146b63aece0eab053ecb919713408258fa8f6fb06c71709c3b36",
+    "feature": "raw_min_relevance",
+    "examples": 2700,
+    "matching_sentence_counts": 2700,
+    "matching_after_rounding_fresh_to_4dp": 2669,
+    "mean_absolute_difference": 2.5215495720508416e-05,
+    "median_absolute_difference": 2.534465789805207e-05,
+    "maximum_absolute_difference": 5.4437255859296485e-05,
+    "differences_above_0_001": 0,
+    "differences_above_0_01": 0,
+    "labels_used": false,
+    "model_calls": 0,
+    "historical_provenance_proven_by_agreement": false
+  }
+}
