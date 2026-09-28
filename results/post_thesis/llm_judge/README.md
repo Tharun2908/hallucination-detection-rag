@@ -101,3 +101,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [New-pod MiniCheck environment inventory](minicheck_environment_20260928.json): supplied payload hash independently reproduced; GPU free, model snapshot present, cached bytes/live compatibility not yet verified. The [synthetic check guide](../../../post_thesis/llm_judge/MINICHECK_LIVE_CHECK.md) records a locally observed tokenizer incompatibility and the explicit saved-tokenizer adapter.
 
 - MiniCheck synthetic v1 startup failed after tokenizer checks and weight loading; replay made no new attempt. Report SHA256: `525e75192fb7b2e588a3b3e659228eaf30ece5478280e5c1c1a30da53c50ec89`. No synthetic scores returned. The [v2 sampler correction](../../../post_thesis/llm_judge/MINICHECK_LIVE_CHECK.md) is prepared, not yet live-verified.
+
+- [MiniCheck v2 synthetic compatibility passed](minicheck_synthetic_v2_20260928.md): 14 encoding checks, six generation requests, four matching verdicts, cached replay without another model attempt. [Fresh TEST execution](../../../post_thesis/llm_judge/MINICHECK_TEST_RUN.md) is prepared but not yet run.

@@ -99,23 +99,30 @@ def document_chunks(document, tokenizer, sent_tokenize, size=DEFAULT_CHUNK_SIZE)
     return [p for p in pieces if p] or ['']
 
 
+def prepare_item(answer, context, tokenizer, split):
+    """Only answer/context enter a prompt; preserve upstream sentence/chunk order."""
+    chunks = document_chunks(context, tokenizer, split)
+    sentences = split(answer)
+    if not sentences: raise RunConflict('empty MiniCheck answer sentences')
+    texts, ids = [], []
+    for chunk in chunks:
+        for sentence in sentences:
+            user = 'Document: [DOCUMENT]\nClaim: [CLAIM]'.replace('[DOCUMENT]', chunk).replace('[CLAIM]', sentence)
+            text = tokenizer.apply_chat_template([{'role':'system','content':SYSTEM},
+                {'role':'user','content':user}], tokenize=False, add_generation_prompt=True)
+            tokens = tokenizer.encode(text)
+            if not tokens or len(tokens)+1 > 32768: raise RunConflict('MiniCheck prompt exceeds limit; no truncation allowed')
+            texts.append(text); ids.append(tokens)
+    return {'chunks':chunks, 'answer_sentences':sentences, 'texts':texts, 'prompt_token_ids':ids}
+
+
 def prepare(tokenizer, split):
     rows, texts, ids = [], [], []
     for fixture in FIXTURES:
-        chunks = document_chunks(fixture['context'], tokenizer, split)
-        sentences = split(fixture['answer'])
-        if not sentences: raise RunConflict('empty synthetic answer sentences')
+        item = prepare_item(fixture['answer'], fixture['context'], tokenizer, split)
         start = len(texts)
-        for chunk in chunks:
-            for sentence in sentences:
-                # Preserve upstream sequential replacement semantics.
-                user = 'Document: [DOCUMENT]\nClaim: [CLAIM]'.replace('[DOCUMENT]', chunk).replace('[CLAIM]', sentence)
-                text = tokenizer.apply_chat_template([{'role':'system','content':SYSTEM},
-                    {'role':'user','content':user}], tokenize=False, add_generation_prompt=True)
-                tokens = tokenizer.encode(text)  # Includes ordinary encoding BOS, as upstream string generation.
-                if not tokens or len(tokens)+1 > 32768: raise RunConflict('synthetic MiniCheck prompt exceeds limit')
-                texts.append(text); ids.append(tokens)
-        rows.append({**fixture, 'chunks': chunks, 'answer_sentences': sentences,
+        texts.extend(item['texts']); ids.extend(item['prompt_token_ids'])
+        rows.append({**fixture, 'chunks': item['chunks'], 'answer_sentences': item['answer_sentences'],
                      'start': start, 'end': len(texts)})
     if len(texts) != 6: raise RunConflict('expected exactly six synthetic chunk/sentence requests')
     return {'rows': rows, 'texts': texts, 'prompt_token_ids': ids}
