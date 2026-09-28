@@ -1,0 +1,49 @@
+{
+  "study_stage": "post_thesis",
+  "scope": "local_CPU_preparation_only",
+  "workload": {
+    "examples": 8000,
+    "sentence_requests": 9158,
+    "input_tokens": 4905370,
+    "max_input_tokens": 6756,
+    "min_input_tokens": 102,
+    "output_token_allowance": 9158,
+    "all_inputs_fit": true,
+    "truncated_prompts": 0
+  },
+  "references_sha256": "0a31303eab49c4c8022024927d87cebf6b7a486ab42743d99e8d0792844e1a07",
+  "tokenizer": {
+    "class": "TokenizersBackend",
+    "probe_encodings_matched": 14,
+    "vocabulary_size": 92550,
+    "chat_template_sha256": "15805f848fe576a3cb9ec12e7127301f4489bae8a543574999ce5225c1a31b56",
+    "backend_sha256": "8be2ea71c07d7c1034a63ce13de15c69f21492c9994b6176f19daf5ba861f8d0",
+    "adapter_files": {
+      "chat_template.jinja": "49aa7cb516942cc5a17d45ed2939828e3b5e4188dc487a3c4b64a570e5b5111f",
+      "tokenizer.json": "07cec2e2ec55ddd18ce1d36bba525a5bba46f66404ecbd531304b35e91485e3d",
+      "tokenizer_config.json": "0c4f5b93def43925ea83868fbdb8fe538708dc5ef94d7dbd26ba4b48738efa60"
+    }
+  },
+  "punkt_english_files": {
+    "collocations.tab": {
+      "bytes": 594,
+      "sha256": "8e2da1225e4dd2cc9dba261ee231ccb134859e21b46006e7f472c5ee269af0cf"
+    },
+    "sent_starters.txt": {
+      "bytes": 241,
+      "sha256": "f3f8535483e1dba487241b764945168123bca3209a9645e59acd1225dc76edac"
+    },
+    "abbrev_types.txt": {
+      "bytes": 619,
+      "sha256": "92a3e070f43d9b4c5534758ca40ad7343b04e7e29bfe0c2eb658a39445a4f779"
+    },
+    "ortho_context.tab": {
+      "bytes": 236303,
+      "sha256": "4bbcca25ed3d3f06c02402abf8419b9f033b8adc06e7b482eca4e45f81a5dc4c"
+    }
+  },
+  "generation_calls": 0,
+  "model_weights_loaded": false,
+  "pod_runtime_equivalence_verified": false,
+  "note": "Pinned tokenizer assets and canonical inputs; pod command independently checks resources and runtime against preserved synthetic report."
+}

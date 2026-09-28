@@ -1,0 +1,26 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "operator_reported_cluster_summary",
+  "independently_recomputed_private_report": false,
+  "run_id": "halubench-fresh-metadata-free-fusion-v1",
+  "report_sha256": "2dbd25f11f167cc7e0ec74c1557450dcf2407cb9ea89db53e876d84f2acea415",
+  "valid_scores": 8000,
+  "examples_total": 8000,
+  "first_new_output": true,
+  "replay_new_output": false,
+  "replay_report_hash_identical": true,
+  "feature_representation": "Python round(float, 4) on raw S2 min and S4 probability before fixed TRAIN normalization",
+  "S2_empty_pair_examples": 1886,
+  "S2_empty_pair_policy": "original raw-zero fallback preserved",
+  "threshold": {
+    "value": 0.45,
+    "comparator": ">=",
+    "source": "fixed RAGTruth TRAIN"
+  },
+  "fitting_calls": 0,
+  "model_calls": 0,
+  "TEST_label_metrics_computed": false,
+  "target_domain_adaptation": false,
+  "legacy_files_rewritten": false,
+  "limitation": "Operator transcript records successful application; full private report is not available locally. This is not a performance result."
+}
