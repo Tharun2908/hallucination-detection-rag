@@ -1,7 +1,7 @@
 # Post-thesis LLM judge results
 
 Results collected after thesis submission. These development artifacts are
-excluded from the submitted thesis results. **No final test results are available.**
+excluded from the submitted thesis results. **All four RAGTruth TEST prediction sets are complete; registered TEST metrics await CPU evaluation.**
 
 - [Synthetic H200 smoke findings](synthetic_smoke_20260919.md).
 - [First 50-example TRAIN pilot report](ragtruth_pilot_v1_20260919.md) and
@@ -109,3 +109,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [MiniCheck fresh/legacy score drift](minicheck_legacy_score_agreement_20260928.md): mean absolute difference 0.02947, 100/2,700 changed decisions at the unchanged historical TRAIN threshold. No label metrics or attribution of cause. The [fresh comparison manifest](../../../post_thesis/llm_judge/COMPARISON_MANIFEST.md) records the fresh-runtime scope and retained provenance limits; cluster verification is recorded below.
 
 - [Fresh baseline comparison manifest verified](fresh_comparison_manifest_20260928.md): all three baselines aligned on 2,700 examples / 450 groups, fixed thresholds and limitations preserved. [Bounded Qwen TEST execution](../../../post_thesis/llm_judge/TEST_LABEL_RUN.md) is prepared, not yet executed.
+
+- [Frozen Qwen RAGTruth TEST run and replay](qwen_ragtruth_test_cluster_20260928.md): 2,700/2,700 valid scores, complete usage, zero new replay attempts and identical report hash. [CPU evaluation](../../../post_thesis/llm_judge/TEST_EVALUATION.md) is implemented under the unchanged numerical contract; cluster metrics remain pending.

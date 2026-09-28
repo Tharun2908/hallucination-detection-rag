@@ -87,3 +87,11 @@ reporting and a separately bounded inference runner/configuration still remain.
 The actual baseline evidence gaps must be resolved before main paired metrics.
 Neither this implementation nor the token audit grants a scoring allowance.
 There are no new TEST metrics, HaluBench reads, prompt changes or judge refits.
+
+## Post-inference loader implementation
+
+The numerical contract above remains byte-for-byte frozen. Fresh baselines and
+Qwen TEST inference have now completed. The [benchmark loader](TEST_EVALUATION.md)
+was implemented after inference, before examining the new metrics. It verifies
+pinned source artifacts and raw judge responses, applies this numerical core,
+and preserves comparison scope and historical provenance limitations.
