@@ -1,4 +1,6 @@
 import copy
+import json
+import os
 from pathlib import Path
 import re
 import tempfile
@@ -9,6 +11,8 @@ from unittest.mock import Mock, patch
 from post_thesis.llm_judge.minicheck_inputs import document_chunks, prepare
 from post_thesis.llm_judge.check_minicheck_live import execute_once, score_outputs
 from post_thesis.llm_judge import check_minicheck_environment as environment
+from post_thesis.llm_judge import check_minicheck_live as live
+from post_thesis.llm_judge.prompts import content_hash
 from post_thesis.llm_judge.storage import RunConflict
 
 
@@ -32,6 +36,29 @@ def responses(prepared):
 
 
 class MiniCheckLiveTests(unittest.TestCase):
+    def test_runtime_disables_sampling_separately_from_attention(self):
+        with patch.dict(os.environ, {'VLLM_USE_FLASHINFER_SAMPLER':'1'}):
+            recorded = live.configure_runtime()
+            self.assertEqual(os.environ['VLLM_USE_FLASHINFER_SAMPLER'],'0')
+            self.assertEqual(recorded['VLLM_USE_FLASHINFER_SAMPLER'],'0')
+            self.assertEqual(live.ENGINE['attention_backend'],'FLASH_ATTN')
+            self.assertEqual(live.ENGINE['logprobs_mode'],'raw_logprobs')
+
+    def test_failed_predecessor_read_only_and_tampering_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            path=Path(d)/'report.json'
+            report={'result':{'status':'error','error':'artificial startup failure'}}
+            digest=content_hash(report)
+            path.write_text(json.dumps({'report':report,'report_sha256':digest}),encoding='utf-8')
+            original=path.read_bytes()
+            with patch.object(live,'PREVIOUS_REPORT_SHA256',digest):
+                self.assertEqual(live.failed_predecessor(path)['report_sha256'],digest)
+                self.assertEqual(path.read_bytes(),original)
+                report['result']['status']='ok'
+                path.write_text(json.dumps({'report':report,'report_sha256':digest}),encoding='utf-8')
+                with self.assertRaises(RunConflict): live.failed_predecessor(path)
+            self.assertNotEqual(live.RUN_ID,live.PREVIOUS_RUN_ID)
+
     def test_preparation_and_chunk_boundaries(self):
         t=Tokenizer(); p=prepare(t,split)
         self.assertEqual(len(p['texts']),6)

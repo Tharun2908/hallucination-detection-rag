@@ -48,8 +48,7 @@ Four artificial examples cover single-sentence support/contradiction and
 two-sentence complete/partial support. With the upstream answer sentence split,
 they produce exactly six document-chunk/answer-sentence prompts. The fixed
 NLTK 3.10.3 runtime must find its English `punkt_tab` resources locally; the four
-resource files are fingerprinted into the private run identity. Resource
-availability and actual NLTK splitting remain to be checked on the pod.
+resource files are fingerprinted into the private run identity. The first pod run verified these resources and produced the expected six prompts.
 
 The workload uses the pinned upstream prompt, chunk/newline transformation,
 first-position top-five logprob support mass and minimum-of-per-sentence-maxima
@@ -66,7 +65,35 @@ These are explicit fresh-run settings; historical kernel/runtime parity is not
 asserted. Model initialization includes vLLM's own profiling calls, separate from
 the six requested generations.
 
-## Run on the new pod
+## Startup failure and v2 sampler correction
+
+The first cluster run passed all fourteen encoding checks and loaded the four
+weight shards into native InternLM2 with FlashAttention 3. It then failed during
+sampling warm-up: FlashInfer required `nvcc`, unavailable on this new pod.
+Selecting `FLASH_ATTN` controls attention only, not the separate top-k/top-p
+sampler. The original run returned no requested synthetic scores. Its replay
+preserved the same failure without another model attempt:
+`525e75192fb7b2e588a3b3e659228eaf30ece5478280e5c1c1a30da53c50ec89`.
+
+Version 2 sets `VLLM_USE_FLASHINFER_SAMPLER=0` before importing vLLM and records
+that setting in its run identity. The spawned engine inherits it. This uses
+vLLM's supported native sampling path while keeping attention, raw logprobs,
+prompts, tokenizer, model and six-request workload unchanged. No package or
+CUDA-toolkit installation is part of this correction. Live v2 remains untested.
+
+Source checked against official vLLM **v0.29.0**:
+- [sampling backend selection](https://github.com/vllm-project/vllm/blob/v0.29.0/vllm/v1/sample/ops/topk_topp_sampler.py)
+- [V2 sampler native fallback](https://github.com/vllm-project/vllm/blob/v0.29.0/vllm/v1/worker/gpu/sample/sampler.py)
+
+The log also reported a missing model-type config in the tokenizer-only adapter
+and an optional DeepGEMM import warning. Execution continued beyond both; the
+fatal stack was the FlashInfer sampler compilation. They are not claimed fixed.
+
+The v1 directory is read only: v2 verifies its report hash and records the
+predecessor. It uses a separate directory with one bounded initialization
+attempt. Do not delete or reset either journal to retry a failure.
+
+## Run v2 on the new pod
 
 After committing/pushing and pulling the patch:
 
@@ -96,7 +123,8 @@ runtime. A recorded failure or interruption is never automatically retried.
 Do not delete the journal or change the run identity to force another attempt;
 retain the error for a reviewed compatibility fix.
 
-Private records: `.artifacts/post_thesis/llm_judge/minicheck-synthetic-compatibility-v1/`.
+New private records: `.artifacts/post_thesis/llm_judge/minicheck-synthetic-compatibility-v2/`.
+The original `minicheck-synthetic-compatibility-v1/` is preserved.
 The report retains synthetic prompts, token IDs, returned logprobs, support
 matrices, tokenizer/resource identities and engine settings. No fresh TEST
 MiniCheck execution is added by this check. Next, bind the verified input path

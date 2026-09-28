@@ -99,3 +99,5 @@ The [completed cluster development token audit and replay](development_token_aud
 - [Frozen fusion on fresh S2/S4 features](fresh_fusion_cluster_20260928.md): all 2,700 scores valid, identical replay hash and no decision changes at the frozen 0.45 threshold. No fitting or TEST label metrics. MiniCheck preparation is next.
 
 - [New-pod MiniCheck environment inventory](minicheck_environment_20260928.json): supplied payload hash independently reproduced; GPU free, model snapshot present, cached bytes/live compatibility not yet verified. The [synthetic check guide](../../../post_thesis/llm_judge/MINICHECK_LIVE_CHECK.md) records a locally observed tokenizer incompatibility and the explicit saved-tokenizer adapter.
+
+- MiniCheck synthetic v1 startup failed after tokenizer checks and weight loading; replay made no new attempt. Report SHA256: `525e75192fb7b2e588a3b3e659228eaf30ece5478280e5c1c1a30da53c50ec89`. No synthetic scores returned. The [v2 sampler correction](../../../post_thesis/llm_judge/MINICHECK_LIVE_CHECK.md) is prepared, not yet live-verified.

@@ -14,7 +14,12 @@ from .runner import run_directory
 from .serve import code_revision
 from .storage import Journal, RunConflict, atomic_json, exclusive_run
 
-RUN_ID = 'minicheck-synthetic-compatibility-v1'
+RUN_ID = 'minicheck-synthetic-compatibility-v2'
+PREVIOUS_RUN_ID = 'minicheck-synthetic-compatibility-v1'
+PREVIOUS_REPORT_SHA256 = '525e75192fb7b2e588a3b3e659228eaf30ece5478280e5c1c1a30da53c50ec89'
+RUNTIME_ENV = {'HF_HUB_OFFLINE':'1', 'TRANSFORMERS_OFFLINE':'1', 'CUDA_VISIBLE_DEVICES':'0',
+               'VLLM_NO_USAGE_STATS':'1', 'DO_NOT_TRACK':'1',
+               'VLLM_WORKER_MULTIPROC_METHOD':'spawn', 'VLLM_USE_FLASHINFER_SAMPLER':'0'}
 VERSIONS = {'torch':'2.13.0+cu130', 'vllm':'0.29.0', 'transformers':'5.17.0',
             'tokenizers':'0.23.2', 'huggingface-hub':'1.32.0', 'nltk':'3.10.3',
             'sentencepiece':'0.2.2', 'numpy':'2.3.5', 'jinja2':'3.1.6'}
@@ -23,6 +28,24 @@ ENGINE = {'dtype':'bfloat16', 'tensor_parallel_size':1, 'seed':2024,
           'gpu_memory_utilization':.35, 'max_num_seqs':16, 'max_num_batched_tokens':4096,
           'enable_chunked_prefill':True, 'logprobs_mode':'raw_logprobs',
           'model_impl':'vllm', 'attention_backend':'FLASH_ATTN', 'generation_config':'vllm'}
+
+
+def configure_runtime():
+    # Attention and sampling have independent backend selection. Set before
+    # importing vLLM; spawned workers inherit the same sampling configuration.
+    os.environ.update(RUNTIME_ENV)
+    return dict(RUNTIME_ENV)
+
+
+def failed_predecessor(path):
+    bundle = json.loads(Path(path).read_text(encoding='utf-8'))
+    report = bundle['report']
+    if (bundle['report_sha256'] != PREVIOUS_REPORT_SHA256
+            or content_hash(report) != PREVIOUS_REPORT_SHA256
+            or report['result']['status'] != 'error'):
+        raise RunConflict('expected the preserved v1 startup failure report')
+    return {'run_id':PREVIOUS_RUN_ID, 'report_sha256':PREVIOUS_REPORT_SHA256,
+            'reason':'FlashInfer sampler warm-up required missing nvcc; disable its sampler for v2'}
 
 
 def sentence_resources():
@@ -111,8 +134,8 @@ def main():
     packages = {p:version(p) for p in VERSIONS}
     if packages != VERSIONS or platform.python_version_tuple()[:2] != ('3','12'):
         raise RunConflict('use the unchanged recorded judge-serving environment')
-    os.environ.update(HF_HUB_OFFLINE='1', TRANSFORMERS_OFFLINE='1', CUDA_VISIBLE_DEVICES='0',
-                      VLLM_NO_USAGE_STATS='1', DO_NOT_TRACK='1', VLLM_WORKER_MULTIPROC_METHOD='spawn')
+    runtime_env = configure_runtime()
+    predecessor = failed_predecessor(run_directory(PREVIOUS_RUN_ID) / 'report.json')
     path, files = verify_snapshot(args.model_cache)
     directory = run_directory(RUN_ID)
     with exclusive_run(directory):
@@ -123,7 +146,8 @@ def main():
     print('Synthetic examples / generation requests:',len(prepared['rows']),len(prepared['texts']),flush=True)
     identity = {'code_revision':revision,'packages':packages,'python':platform.python_version(),
                 'files':files,'tokenizer':tokenizer_record,'punkt_english_files':resources,
-                'engine':ENGINE,'sampling':{'temperature':0,'max_tokens':1,'logprobs':5},
+                'engine':ENGINE,'runtime_environment':runtime_env,'predecessor':predecessor,
+                'sampling':{'temperature':0,'max_tokens':1,'logprobs':5},
                 'prepared':prepared,'max_attempts':1,'external_wall_limit_seconds':1200}
 
     def compute():
