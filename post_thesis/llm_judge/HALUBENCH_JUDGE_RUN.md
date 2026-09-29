@@ -1,5 +1,7 @@
 # Post-thesis frozen Qwen HaluBench run
 
+**Run update, 2026-09-29:** the original budget is exhausted with 7,652 valid scores. Preserve that run and follow the [separate continuation](HALUBENCH_CONTINUATION.md); the original launch instructions below document its registered execution.
+
 MiniCheck inference and replay completed on all 8,000 canonical TEST examples,
 with no failures, no truncation and identical report hash
 `18a157b4caf96fba23b35b8adb9f961dc5df45fd847a3e026305df7289e181b0`.

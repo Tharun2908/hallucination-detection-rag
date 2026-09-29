@@ -3,6 +3,8 @@
 Results collected after thesis submission. These post-thesis artifacts are
 excluded from the submitted thesis results. **Frozen RAGTruth TEST evaluation is complete.** The judge trails all three baselines on AUROC, AP and F1; see the [findings](ragtruth_frozen_evaluation_20260928.md) and [reported metrics](ragtruth_frozen_evaluation_20260928.json). The canonical HaluBench 8k cross-domain evaluation is in progress. [Fresh S2 inference and replay](s2_halubench_cluster_20260928.json) are complete; [frozen CPU fusion application and replay](halubench_fusion_cluster_20260928.json) are also complete. [Fresh MiniCheck inference and replay](minicheck_halubench_cluster_20260928.json) are complete. The [bounded frozen Qwen run](../../../post_thesis/llm_judge/HALUBENCH_JUDGE_RUN.md) is prepared; cross-domain metrics remain pending.
 
+The [HaluBench overnight stop](halubench_budget_stop_20260929.json) preserves 7,652 valid scores and the identical offline replay. An [explicit 348-request continuation](../../../post_thesis/llm_judge/HALUBENCH_CONTINUATION.md) is implemented, with live verification and completion pending.
+
 - [Synthetic H200 smoke findings](synthetic_smoke_20260919.md).
 - [First 50-example TRAIN pilot report](ragtruth_pilot_v1_20260919.md) and
   [operator-supplied predictions](ragtruth_pilot_v1_20260919.csv).
