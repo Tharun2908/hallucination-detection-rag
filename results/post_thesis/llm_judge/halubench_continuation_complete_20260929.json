@@ -1,0 +1,34 @@
+{
+  "study_stage": "post_thesis",
+  "source": "operator-supplied completion and identical zero-call replay; local implementation tests use artificial data",
+  "parent_report_sha256": "2be55b823bb5b22e5bd5814ed578837b43e961ca2fe1a96bc0cf3f1bd0e95a3b",
+  "continuation_report_sha256": "b3bb26a1e568bab732bace6e31d55e3610d06b4bf86a57d386b4d648dd15b937",
+  "continuation_code_revision": "883f74b60e1e623fda83456909b52a04fb383df4",
+  "continuation_valid_scores": 348,
+  "combined_valid_scores": 8000,
+  "new_attempts": 348,
+  "replay_new_attempts": 0,
+  "continuation_terminal_failures": 0,
+  "continuation_pending": 0,
+  "halt_reason": null,
+  "continuation_known_token_totals": {
+    "input_tokens": 1589707,
+    "output_tokens": 348
+  },
+  "combined_known_token_totals": {
+    "input_tokens": 7794485,
+    "output_tokens": 8000
+  },
+  "cumulative_unknown_usage_attempts": {
+    "input_tokens": 1,
+    "output_tokens": 1
+  },
+  "total_client_attempts": 8001,
+  "continuation_charged_client_seconds": 573.9732121489942,
+  "continuation_remaining_client_seconds": 6626.026787851006,
+  "combined_charged_client_seconds": 14979.674194816034,
+  "parent_preserved": true,
+  "zero_call_replay_hash_identical": true,
+  "TEST_metrics_computed": false,
+  "next_step": "CPU evaluation under unchanged numerical contract; no model calls or fitting"
+}

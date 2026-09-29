@@ -1,5 +1,7 @@
 # Post-thesis HaluBench budget continuation
 
+**Completed, 2026-09-29:** 348/348 continuation scores and identical zero-call replay; 8,000/8,000 combined valid scores. Continue with the [CPU evaluation](HALUBENCH_EVALUATION.md). The original interrupted attempt and its unknown usage remain recorded.
+
 The original four-hour run stopped with 7,652 valid scores, one interrupted
 request and 347 pending requests. Its offline replay reproduced report
 `2be55b823bb5b22e5bd5814ed578837b43e961ca2fe1a96bc0cf3f1bd0e95a3b`.

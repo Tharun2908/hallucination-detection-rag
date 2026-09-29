@@ -33,3 +33,8 @@
 # Original HaluBench judge run stays byte-identical during explicit continuation.
 /post_thesis/llm_judge/run_halubench_scores.py text eol=lf
 /post_thesis/llm_judge/halubench_scoring.py text eol=lf
+
+# Read-only replay and descriptive helpers reused for HaluBench evaluation.
+/post_thesis/llm_judge/continue_halubench_scores.py text eol=lf
+/post_thesis/llm_judge/evaluate_test.py text eol=lf
+/post_thesis/llm_judge/halubench_comparison.py text eol=lf
