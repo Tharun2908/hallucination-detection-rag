@@ -1,0 +1,469 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "operator_supplied_console_summary",
+  "recorded_date": "2026-09-29",
+  "source_report_path": ".artifacts/post_thesis/llm_judge/halubench-frozen-four-system-evaluation-v1/report.json",
+  "provenance_note": "Parsed from operator-supplied cluster output. Original evaluation and cached replay agree on all supplied metrics and reported hash. Full private report not available for independent hash recomputation; this public subset is not that report.",
+  "console_file_sha256": "d5f4fb1dd318338451d3538cd8de98904edf98c1277ec4a4168ea02a616fd09c",
+  "replay": {
+    "first_new_evaluation": true,
+    "second_new_evaluation": false,
+    "reported_hash_identical": true,
+    "all_supplied_metrics_identical": true
+  },
+  "coverage": {
+    "shared_examples": 8000,
+    "canonical_test_groups": 7838,
+    "bootstrap_components": 7198,
+    "all_four_systems_aligned": true
+  },
+  "bootstrap": {
+    "draws": 2000,
+    "paired": true,
+    "unit": "whole exact-passage component",
+    "seed": 20260920,
+    "interval": "nominal 95% percentile",
+    "multiple_comparison_adjustment": false,
+    "refitting": false
+  },
+  "evaluation_contract_sha256": "c092deea43883442914500fedb0627b7938c513ce5a77bc730079161b4425373",
+  "judge_freeze_sha256": "90a70a63c550e87ad0f3fa41f11e1de99d9a08fc85c47de23f6ffafd3314fde8",
+  "inference": {
+    "parent_report_sha256": "2be55b823bb5b22e5bd5814ed578837b43e961ca2fe1a96bc0cf3f1bd0e95a3b",
+    "continuation_report_sha256": "b3bb26a1e568bab732bace6e31d55e3610d06b4bf86a57d386b4d648dd15b937",
+    "unique_valid_scores": 8000,
+    "total_client_attempts": 8001,
+    "unknown_usage_attempts": {
+      "input_tokens": 1,
+      "output_tokens": 1
+    }
+  },
+  "calibration": "judge uses the frozen RAGTruth TRAIN map; baseline reliability views remain raw",
+  "operating_thresholds": "all transferred unchanged from RAGTruth TRAIN",
+  "generation_calls_during_evaluation": 0,
+  "fitting_calls": 0,
+  "target_domain_adaptation": false,
+  "point_metrics": {
+    "judge": {
+      "accuracy": 0.74525,
+      "auroc": 0.81717753125,
+      "average_precision": 0.840499658843973,
+      "brier_calibrated": 0.17575426670576758,
+      "brier_raw": 0.18958202054337578,
+      "ece_calibrated": 0.07057618949491742,
+      "ece_raw": 0.13638008134098445,
+      "f1": 0.7572075291875149,
+      "precision": 0.7232589895311788,
+      "recall": 0.7945
+    },
+    "S4": {
+      "accuracy": 0.498125,
+      "auroc": 0.5272486875,
+      "average_precision": 0.5024809551676716,
+      "brier_raw": 0.34680993924015535,
+      "ece_raw": 0.2894402526975609,
+      "f1": 0.41480833697711705,
+      "precision": 0.49737853897238726,
+      "recall": 0.35575
+    },
+    "MiniCheck_7B": {
+      "accuracy": 0.755125,
+      "auroc": 0.793313125,
+      "average_precision": 0.8343915816679122,
+      "brier_raw": 0.2040876671891205,
+      "ece_raw": 0.17921150118266374,
+      "f1": 0.722088239466591,
+      "precision": 0.8346999016070843,
+      "recall": 0.63625
+    },
+    "S2_S4_metadata_free": {
+      "accuracy": 0.500875,
+      "auroc": 0.53185796875,
+      "average_precision": 0.5142017888790464,
+      "brier_raw": 0.32113759974000006,
+      "ece_raw": 0.2500264691594454,
+      "f1": 0.36224245328222326,
+      "precision": 0.5015479876160991,
+      "recall": 0.2835
+    }
+  },
+  "paired_judge_minus_baseline": {
+    "S4": {
+      "auroc": {
+        "lower": 0.27437863030561005,
+        "point_difference": 0.28992884375000005,
+        "upper": 0.3057052681809288,
+        "valid_draws": 2000
+      },
+      "average_precision": {
+        "lower": 0.3226250353540832,
+        "point_difference": 0.3380187036763015,
+        "upper": 0.35284202941896287,
+        "valid_draws": 2000
+      },
+      "brier_calibrated": {
+        "lower": -0.1802197182288508,
+        "point_difference": -0.17105567253438778,
+        "upper": -0.1620849850902409,
+        "valid_draws": 2000
+      },
+      "ece_calibrated": {
+        "lower": -0.23389913991224434,
+        "point_difference": -0.21886406320264348,
+        "upper": -0.20355556018715318,
+        "valid_draws": 2000
+      },
+      "f1": {
+        "lower": 0.3229815443945107,
+        "point_difference": 0.34239919221039783,
+        "upper": 0.36235907462113603,
+        "valid_draws": 2000
+      }
+    },
+    "MiniCheck_7B": {
+      "auroc": {
+        "lower": 0.013793149618204307,
+        "point_difference": 0.02386440625000008,
+        "upper": 0.033233839122786525,
+        "valid_draws": 2000
+      },
+      "average_precision": {
+        "lower": -0.0032423397605219673,
+        "point_difference": 0.006108077176060878,
+        "upper": 0.014991031673450143,
+        "valid_draws": 2000
+      },
+      "brier_calibrated": {
+        "lower": -0.03352437382555797,
+        "point_difference": -0.028333400483352922,
+        "upper": -0.02312825220200086,
+        "valid_draws": 2000
+      },
+      "ece_calibrated": {
+        "lower": -0.11624150909978585,
+        "point_difference": -0.10863531168774632,
+        "upper": -0.10021548495958332,
+        "valid_draws": 2000
+      },
+      "f1": {
+        "lower": 0.023736612370206082,
+        "point_difference": 0.03511928972092393,
+        "upper": 0.04687325320909785,
+        "valid_draws": 2000
+      }
+    },
+    "S2_S4_metadata_free": {
+      "auroc": {
+        "lower": 0.2700084998513043,
+        "point_difference": 0.2853195625,
+        "upper": 0.30054650987543124,
+        "valid_draws": 2000
+      },
+      "average_precision": {
+        "lower": 0.311019491852884,
+        "point_difference": 0.3262978699649266,
+        "upper": 0.34113403951577276,
+        "valid_draws": 2000
+      },
+      "brier_calibrated": {
+        "lower": -0.1536252007116879,
+        "point_difference": -0.14538333303423248,
+        "upper": -0.13728244208706772,
+        "valid_draws": 2000
+      },
+      "ece_calibrated": {
+        "lower": -0.19576488715358484,
+        "point_difference": -0.17945027966452795,
+        "upper": -0.16296619160964804,
+        "valid_draws": 2000
+      },
+      "f1": {
+        "lower": 0.37539265290253027,
+        "point_difference": 0.3949650759052916,
+        "upper": 0.4164191340015695,
+        "valid_draws": 2000
+      }
+    }
+  },
+  "source_metrics": {
+    "judge": {
+      "DROP": {
+        "metrics": {
+          "accuracy": 0.5142857142857142,
+          "auroc": 0.44738017456995566,
+          "average_precision": 0.45516030522614814,
+          "brier_calibrated": 0.33687999600020047,
+          "brier_raw": 0.4140683704458808,
+          "ece_calibrated": 0.24896326726810597,
+          "ece_raw": 0.37401615531925925,
+          "f1": 0.6314363143631436,
+          "precision": 0.5154867256637168,
+          "recall": 0.8146853146853147
+        },
+        "n": 560
+      },
+      "FinanceBench": {
+        "metrics": {
+          "accuracy": 0.5514834205933682,
+          "auroc": 0.6035793474817865,
+          "average_precision": 0.6261387138057565,
+          "brier_calibrated": 0.2661483444663381,
+          "brier_raw": 0.3142372600458145,
+          "ece_calibrated": 0.15133047575965677,
+          "ece_raw": 0.26801645937797164,
+          "f1": 0.6568758344459279,
+          "precision": 0.531317494600432,
+          "recall": 0.8601398601398601
+        },
+        "n": 573
+      },
+      "covidQA": {
+        "metrics": {
+          "accuracy": 0.7101967799642218,
+          "auroc": 0.8064307487384411,
+          "average_precision": 0.7889440690485349,
+          "brier_calibrated": 0.2013606519707725,
+          "brier_raw": 0.26064765580956134,
+          "ece_calibrated": 0.138656325920421,
+          "ece_raw": 0.2424636887583314,
+          "f1": 0.6538461538461539,
+          "precision": 0.7846153846153846,
+          "recall": 0.5604395604395604
+        },
+        "n": 559
+      },
+      "halueval": {
+        "metrics": {
+          "accuracy": 0.797486033519553,
+          "auroc": 0.8597874183403953,
+          "average_precision": 0.8970056879309457,
+          "brier_calibrated": 0.14689759058917937,
+          "brier_raw": 0.14928552647796822,
+          "ece_calibrated": 0.09330152757957232,
+          "ece_raw": 0.09458706530054903,
+          "f1": 0.7962767825781525,
+          "precision": 0.8013432308236126,
+          "recall": 0.7912739965095986
+        },
+        "n": 5728
+      },
+      "pubmedQA": {
+        "metrics": {
+          "accuracy": 0.6775862068965517,
+          "auroc": 0.8696848989298454,
+          "average_precision": 0.8789156306302173,
+          "brier_calibrated": 0.19118677786264707,
+          "brier_raw": 0.17915584763399084,
+          "ece_calibrated": 0.17915786174716236,
+          "ece_raw": 0.1513288940871784,
+          "f1": 0.748993288590604,
+          "precision": 0.6131868131868132,
+          "recall": 0.9620689655172414
+        },
+        "n": 580
+      }
+    },
+    "S4": {
+      "DROP": {
+        "metrics": {
+          "accuracy": 0.49107142857142855,
+          "auroc": 0.46675769485988466,
+          "average_precision": 0.48797809130237746,
+          "brier_raw": 0.3962278920152126,
+          "ece_raw": 0.3561483687488362,
+          "f1": 0.6264744429882044,
+          "precision": 0.5010482180293501,
+          "recall": 0.8356643356643356
+        },
+        "n": 560
+      },
+      "FinanceBench": {
+        "metrics": {
+          "accuracy": 0.5165794066317626,
+          "auroc": 0.5177139933237495,
+          "average_precision": 0.5232699243190058,
+          "brier_raw": 0.31578834402554484,
+          "ece_raw": 0.22851400346500084,
+          "f1": 0.2805194805194805,
+          "precision": 0.5454545454545454,
+          "recall": 0.1888111888111888
+        },
+        "n": 573
+      },
+      "covidQA": {
+        "metrics": {
+          "accuracy": 0.518783542039356,
+          "auroc": 0.541958041958042,
+          "average_precision": 0.5357944036379898,
+          "brier_raw": 0.3143437622448962,
+          "ece_raw": 0.2326527013008571,
+          "f1": 0.5842349304482226,
+          "precision": 0.5053475935828877,
+          "recall": 0.6923076923076923
+        },
+        "n": 559
+      },
+      "halueval": {
+        "metrics": {
+          "accuracy": 0.4977304469273743,
+          "auroc": 0.5383265701472539,
+          "average_precision": 0.5048470601503929,
+          "brier_raw": 0.3520398758719348,
+          "ece_raw": 0.3016757446230004,
+          "f1": 0.36532097948378556,
+          "precision": 0.49640287769784175,
+          "recall": 0.28900523560209423
+        },
+        "n": 5728
+      },
+      "pubmedQA": {
+        "metrics": {
+          "accuracy": 0.4706896551724138,
+          "auroc": 0.5158145065398335,
+          "average_precision": 0.5106742761560737,
+          "brier_raw": 0.30938379513232256,
+          "ece_raw": 0.2383013580797305,
+          "f1": 0.42401500938086306,
+          "precision": 0.46502057613168724,
+          "recall": 0.3896551724137931
+        },
+        "n": 580
+      }
+    },
+    "MiniCheck_7B": {
+      "DROP": {
+        "metrics": {
+          "accuracy": 0.5035714285714286,
+          "auroc": 0.5109935684753203,
+          "average_precision": 0.5642121630201362,
+          "brier_raw": 0.36336369249017125,
+          "ece_raw": 0.32734622444142103,
+          "f1": 0.5412541254125413,
+          "precision": 0.5125,
+          "recall": 0.5734265734265734
+        },
+        "n": 560
+      },
+      "FinanceBench": {
+        "metrics": {
+          "accuracy": 0.5602094240837696,
+          "auroc": 0.5765514972832047,
+          "average_precision": 0.5877392920971736,
+          "brier_raw": 0.3478049997155128,
+          "ece_raw": 0.31881780392432674,
+          "f1": 0.6304985337243402,
+          "precision": 0.5429292929292929,
+          "recall": 0.7517482517482518
+        },
+        "n": 573
+      },
+      "covidQA": {
+        "metrics": {
+          "accuracy": 0.7835420393559929,
+          "auroc": 0.9156612618151079,
+          "average_precision": 0.9299540422674173,
+          "brier_raw": 0.11638184412437526,
+          "ece_raw": 0.0727690183253455,
+          "f1": 0.7166276346604216,
+          "precision": 0.9935064935064936,
+          "recall": 0.5604395604395604
+        },
+        "n": 559
+      },
+      "halueval": {
+        "metrics": {
+          "accuracy": 0.7938198324022346,
+          "auroc": 0.8084555370042895,
+          "average_precision": 0.8765217093158252,
+          "brier_raw": 0.1771040152040621,
+          "ece_raw": 0.1762505501904901,
+          "f1": 0.7498411353526795,
+          "precision": 0.9536637931034483,
+          "recall": 0.6178010471204188
+        },
+        "n": 5728
+      },
+      "pubmedQA": {
+        "metrics": {
+          "accuracy": 0.7810344827586206,
+          "auroc": 0.8478894173602854,
+          "average_precision": 0.8031365062280829,
+          "brier_raw": 0.2593381981501477,
+          "ece_raw": 0.29641317780560195,
+          "f1": 0.7928221859706363,
+          "precision": 0.7523219814241486,
+          "recall": 0.8379310344827586
+        },
+        "n": 580
+      }
+    },
+    "S2_S4_metadata_free": {
+      "DROP": {
+        "metrics": {
+          "accuracy": 0.5017857142857143,
+          "auroc": 0.5050469603389312,
+          "average_precision": 0.521678370264107,
+          "brier_raw": 0.29219115640063453,
+          "ece_raw": 0.18557104559827434,
+          "f1": 0.6294820717131474,
+          "precision": 0.5074946466809421,
+          "recall": 0.8286713286713286
+        },
+        "n": 560
+      },
+      "FinanceBench": {
+        "metrics": {
+          "accuracy": 0.5165794066317626,
+          "auroc": 0.5105443337150654,
+          "average_precision": 0.5229719587631618,
+          "brier_raw": 0.31333374946216763,
+          "ece_raw": 0.23620764195539926,
+          "f1": 0.2452316076294278,
+          "precision": 0.5555555555555556,
+          "recall": 0.15734265734265734
+        },
+        "n": 573
+      },
+      "covidQA": {
+        "metrics": {
+          "accuracy": 0.5652951699463328,
+          "auroc": 0.5842426803965265,
+          "average_precision": 0.5910642455952476,
+          "brier_raw": 0.26217624569478953,
+          "ece_raw": 0.09984817541013884,
+          "f1": 0.538899430740038,
+          "precision": 0.5590551181102362,
+          "recall": 0.5201465201465202
+        },
+        "n": 559
+      },
+      "halueval": {
+        "metrics": {
+          "accuracy": 0.4930167597765363,
+          "auroc": 0.5396241631357288,
+          "average_precision": 0.5151918165728528,
+          "brier_raw": 0.3329122419036264,
+          "ece_raw": 0.27947083290765795,
+          "f1": 0.2988894253983583,
+          "precision": 0.48472983555207516,
+          "recall": 0.21605584642233858
+        },
+        "n": 5728
+      },
+      "pubmedQA": {
+        "metrics": {
+          "accuracy": 0.5,
+          "auroc": 0.5153032104637336,
+          "average_precision": 0.5038883448372582,
+          "brier_raw": 0.2973373602180409,
+          "ece_raw": 0.19926277059330968,
+          "f1": 0.3855932203389831,
+          "precision": 0.5,
+          "recall": 0.3137931034482759
+        },
+        "n": 580
+      }
+    }
+  },
+  "source_report_sha256": "6919ae8e3d137fc40803a351a15216628d8df2b89fd3c9b2d5908a1fd2e571d0"
+}

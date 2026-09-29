@@ -3,7 +3,7 @@
 Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin, 2026).
 
 > **Post-thesis work:** a separately labeled [LLM judge extension](post_thesis/llm_judge/README.md)
-> has completed probability and binary TRAIN development pilots on H200. The binary pilot detected 13/24 labeled positives with 3/26 false positives; four previously reviewed errors remain missed. No final test results are available yet.
+> has completed frozen RAGTruth and canonical HaluBench evaluations. The judge trails the fresh baselines on RAGTruth but leads aggregate HaluBench AUROC (0.8172) and F1 (0.7572), with substantial source-level weaknesses. See the [post-thesis findings](results/post_thesis/llm_judge/halubench_frozen_evaluation_20260929.md). These results are separate from the submitted thesis.
 
 
 This repository is a **research-engineering study of hallucination-verifier reliability under distribution shift**. It evaluates post-generation, response-level faithfulness verification for Retrieval-Augmented Generation (RAG), with particular emphasis on whether apparently strong benchmark results survive stricter evaluation protocols and transfer to a different benchmark.

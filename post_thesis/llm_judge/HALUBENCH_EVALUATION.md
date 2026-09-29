@@ -5,7 +5,7 @@ All four systems now have fresh scores for the unchanged canonical HaluBench
 and its zero-call replay reproduced hash
 `b3bb26a1e568bab732bace6e31d55e3610d06b4bf86a57d386b4d648dd15b937`.
 This evaluation is post-thesis work and is excluded from submitted thesis results.
-No HaluBench metric values have been recorded by this implementation step.
+The [cluster findings and identical cached replay](../../results/post_thesis/llm_judge/halubench_frozen_evaluation_20260929.md) are now recorded. The implementation and frozen statistical contract below are unchanged.
 
 ## Exact-once population and inference provenance
 
