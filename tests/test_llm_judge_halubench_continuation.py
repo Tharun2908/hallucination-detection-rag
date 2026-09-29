@@ -1,5 +1,6 @@
 """Status-only continuation, read-only parent replay, and mock transport checks."""
 import asyncio
+from contextlib import closing
 from copy import deepcopy
 import json
 from pathlib import Path
@@ -64,7 +65,11 @@ class ContractTests(unittest.TestCase):
             self.assertEqual(path.read_bytes(),before)
             with self.assertRaises(RunConflict): c.read_records(path,{'fixture':False})
             path.chmod(0o644)
-            with sqlite3.connect(path) as db: db.execute("UPDATE attempts SET state='started' WHERE request_key='b'")
+            with closing(sqlite3.connect(path)) as db:
+                with db:
+                    db.execute("UPDATE attempts SET state='started' WHERE request_key='b'")
+            with self.assertRaises(sqlite3.ProgrammingError):
+                db.execute('SELECT 1')  # A transaction context alone does not close the connection.
             before=path.read_bytes()
             with self.assertRaises(RunConflict): c.read_records(path,identity)
             self.assertEqual(path.read_bytes(),before)

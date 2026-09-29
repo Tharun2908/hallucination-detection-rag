@@ -1,5 +1,6 @@
 """Artificial canonical-size joins and CPU evaluation; no benchmark/model calls."""
 from copy import deepcopy
+from contextlib import closing
 import json
 from pathlib import Path
 import tempfile
@@ -109,8 +110,11 @@ class ReplayTests(existing.ReadOnlyReplayTests):
             parent_unknown_usage_attempts={'input_tokens':1,'output_tokens':1},parent_charged_client_seconds=14405.70098266704)
         # Replace only this artificial journal's manifest so it represents a child fixture.
         import sqlite3
-        with sqlite3.connect(self.path/'journal.sqlite3') as db:
-            db.execute('UPDATE run SET manifest=? WHERE singleton=1',(json.dumps(identity),))
+        with closing(sqlite3.connect(self.path/'journal.sqlite3')) as db:
+            with db:
+                db.execute('UPDATE run SET manifest=? WHERE singleton=1',(json.dumps(identity),))
+        with self.assertRaises(sqlite3.ProgrammingError):
+            db.execute('SELECT 1')  # Release the database handle before temporary-directory cleanup.
         _save(self.path/'budget.json',ledger)
         records=child.read_records(self.path/'journal.sqlite3',identity)
         bundle=child.summarize(requests,records,ledger)
