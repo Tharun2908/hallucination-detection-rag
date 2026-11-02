@@ -1,5 +1,7 @@
 # Post-thesis LLM judge results
 
+The [final post-thesis overview](FINAL_OVERVIEW.md) brings together the frozen results, paired confidence-interval figures, source-level limitations, confirmed qualitative review and verified runtime accounting.
+
 The [verified inference accounting](efficiency_accounting_20261102.md) consolidates both frozen evaluation reports: request latency, client time, baseline timing scopes, token usage and the retained interrupted attempt. Monetary cost remains unknown; these measurements do not support controlled speedup claims.
 
 Results collected after thesis submission. These post-thesis artifacts are

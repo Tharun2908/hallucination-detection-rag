@@ -1,5 +1,12 @@
 # Post-thesis LLM judge protocol
 
+**Completion note (2026-11-02):** Frozen RAGTruth and canonical HaluBench
+inference/evaluation, cached replay, selected qualitative review and runtime
+accounting are complete. See the [final overview](../../results/post_thesis/llm_judge/FINAL_OVERVIEW.md).
+Development-stage and execution-pending statements below are preserved as
+historical records. This note changes no frozen configuration, numerical
+contract, labels or decision rules.
+
 **Protocol ID:** `post_thesis_llm_judge_v1`
 
 **Stage:** design recorded; offline interface/parser and resumable runner

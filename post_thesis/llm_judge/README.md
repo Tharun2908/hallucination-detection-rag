@@ -1,5 +1,7 @@
 # Post-thesis experiment: LLM judge for RAG faithfulness
 
+The [final post-thesis overview](../../results/post_thesis/llm_judge/FINAL_OVERVIEW.md) brings together the frozen results, paired confidence-interval figures, source-level limitations, confirmed qualitative review and verified runtime accounting.
+
 The [verified inference accounting](../../results/post_thesis/llm_judge/efficiency_accounting_20261102.md) consolidates both frozen evaluation reports: request latency, client time, baseline timing scopes, token usage and the retained interrupted attempt. Monetary cost remains unknown; these measurements do not support controlled speedup claims.
 
 > The experiments below were conducted after thesis submission and are not part
