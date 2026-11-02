@@ -516,19 +516,74 @@ The datasets used by the experiments remain governed by their original licenses.
 
 ## Post-thesis experiments
 
-The [frozen RAGTruth TEST evaluation](results/post_thesis/llm_judge/ragtruth_frozen_evaluation_20260928.md) is complete on 2,700 responses in 450 groups. The Qwen3-32B label-score judge reaches AUROC **0.7609** and F1 **0.6123**, below S4 (**0.8470 / 0.7024**), fresh-runtime MiniCheck-7B (**0.8776 / 0.7304**) and metadata-free S2+S4 (**0.8494 / 0.7065**). All judge-minus-baseline AUROC and F1 nominal 95% paired group-bootstrap intervals exclude zero in the baseline's favor. TRAIN-fitted calibration improves the judge's TEST ECE and Brier score; fusion still has the lowest reported values. These findings concern this frozen judge configuration, with the documented runtime, evidence-window and historical-provenance limits. The [canonical HaluBench input manifest](post_thesis/llm_judge/HALUBENCH_INPUTS.md) has completed on the pod. The [CPU token audit and replay](results/post_thesis/llm_judge/halubench_token_audit_cluster_20260928.json) confirm all 8,000 inputs fit. [Fresh S4 zero-shot inference and replay](results/post_thesis/llm_judge/s4_halubench_cluster_20260928.json) are complete on all 8,000 rows; [fresh S2 inference and replay](results/post_thesis/llm_judge/s2_halubench_cluster_20260928.json) are also complete. The [frozen RAGTruth fusion application and replay](results/post_thesis/llm_judge/halubench_fusion_cluster_20260928.json) are complete with all 8,000 scores valid. [Fresh MiniCheck inference and replay](results/post_thesis/llm_judge/minicheck_halubench_cluster_20260928.json) are complete on all 8,000 rows. The [bounded frozen Qwen HaluBench run](post_thesis/llm_judge/HALUBENCH_JUDGE_RUN.md) is prepared, with baseline alignment checks and unchanged prompt, split and operating policies.
+**Status: complete.** Both frozen benchmark evaluations, cached replays,
+selected qualitative review and inference accounting are finished. The release
+is tagged `post-thesis-llm-judge-v1` at `c1b1cd6`.
 
-The experiments below were conducted after thesis submission and are not part
-of the submitted thesis results.
+These experiments were conducted **after thesis submission** and are separate
+from the submitted thesis results above.
 
-**Development history (before the frozen label-score judge):** Probability and binary TRAIN pilots and both synthetic diagnostics completed. The [structured evidence diagnostic](results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md) produced 11/14 valid synthetic records and one explanation concern. The [live schema-v2 diagnostic](results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) produced 14/14 valid records with two false positives. The [v3 live result](results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md) has 14/14 valid, correctly ordered outputs and 13/14 matching verdicts. The [original TRAIN token audit](results/post_thesis/llm_judge/ragtruth_evidence_v3_audit_20260919.md) is complete: all 50 inputs fit. The [evidence TRAIN pilot](results/post_thesis/llm_judge/ragtruth_evidence_pilot_v3_20260919.md) completed with 37/50 valid records, 13 quote-membership failures and semantic errors among valid outputs. The candidate is not ready for a benchmark freeze. The [paired synthetic comparison](results/post_thesis/llm_judge/evidence_prompt_pair_v1_20260919.md) completed with 26/26 valid outputs per prompt: v1 matches 24 expected verdicts and v2 matches 25. V2 fixes one verdict but introduces an incorrect unknown-as-absence rationale; both miss a false context-absence claim. These mixed development findings do not establish overall semantic superiority. The [v2 evidence TRAIN pilot](results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_pilot_20260920.md) is complete: 43/50 valid outputs, seven quote failures and persistent reasoning errors. On the 37 examples valid in both runs, label agreement changes from 27 to 26; increased coverage does not establish better semantic reasoning. Evidence-prompt tuning is paused. The [continuous-score design](post_thesis/llm_judge/CONTINUOUS_SCORE_PROTOCOL.md) selects raw class-token likelihoods as the next candidate; the [offline contract and tokenizer check](post_thesis/llm_judge/LABEL_SCORE_OFFLINE.md) are implemented. The [cluster tokenizer and installed-source checks](results/post_thesis/llm_judge/label_score_setup_20260920.md) passed. The [synthetic raw-logprob run and cached replay](results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md) passed transport checks: 30/30 valid scores, zero new replay calls, and two unknown-as-absence errors in each mapping. The [original-50 TRAIN token audit](post_thesis/llm_judge/LABEL_SCORE_PILOT_AUDIT.md) passed with 60,574 input tokens. The [label-score TRAIN pilot and cached replay](results/post_thesis/llm_judge/label_score_train_pilot_v1_20260920.md) completed with 50/50 valid scores and zero replay calls. Development AUROC is 0.7051 and emitted-label F1 is 0.5455, below the earlier binary pilot F1 of 0.6500. Scores remain uncalibrated; an [offline TRAIN native-source/exact-overlap auditor](post_thesis/llm_judge/SOURCE_AUDIT.md) is now implemented. The TRAIN-only cluster check found no additional pilot-linked exclusions. A [native TRAIN–TEST exact-overlap check](post_thesis/llm_judge/CROSS_SPLIT_AUDIT.md) is now implemented; local validation proposes excluding 12 additional candidate rows sharing evidence with native TEST sources. It uses no TEST answers or labels. The [cluster result](results/post_thesis/llm_judge/cross_split_audit_cluster_20260920.md) matches the full report hash. A [development reservation design](post_thesis/llm_judge/DEVELOPMENT_SPLIT_PROTOCOL.md) fixes 100 source components per calibration/threshold role; the [offline selector](post_thesis/llm_judge/DEVELOPMENT_RESERVATION.md) locally reserves 600 examples per role while preserving all 312 exclusions. The [cluster reservation and replay](results/post_thesis/llm_judge/development_reservation_cluster_20260920.md) now match. The [calibration/threshold protocol](post_thesis/llm_judge/CALIBRATION_THRESHOLD_PROTOCOL.md) fixes statistical choices before scoring; no calibration or threshold fitting has occurred. The [reserved-arm CPU token audit](post_thesis/llm_judge/DEVELOPMENT_TOKEN_AUDIT.md) is implemented and locally counts all 1,200 inputs within the model limit. The [cluster audit and replay](results/post_thesis/llm_judge/development_token_audit_cluster_20260920.md) now match. The [bounded scoring plan](post_thesis/llm_judge/DEVELOPMENT_SCORING_RUN.md) permits one request per reserved input in two separate 600-example runs; live scoring and fitting remain pending. Broader disjointness and the final evaluation protocol remain pending. See the [binary pilot findings](results/post_thesis/llm_judge/ragtruth_binary_pilot_20260919.md) and [focused error review](results/post_thesis/llm_judge/ragtruth_binary_error_review_20260919.md). See the [paired findings](results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md) and [diagnostic protocol](post_thesis/llm_judge/DIAGNOSTIC.md). See the [v1 pilot findings](results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md), [synthetic observations](results/post_thesis/llm_judge/synthetic_smoke_20260919.md), and [v2 development revision](post_thesis/llm_judge/PROMPT_V2.md). The
-[LLM judge study](post_thesis/llm_judge/README.md) will compare a prompted judge
-with the existing external verifiers on RAGTruth and the canonical HaluBench
-split. The [protocol](post_thesis/llm_judge/PROTOCOL.md) records the evaluation
-boundaries and the decisions to freeze before final evaluation.
+### Frozen benchmark results
 
-Code, results, and figures are separated under `post_thesis/llm_judge/`,
-`results/post_thesis/llm_judge/`, and `figures/post_thesis/llm_judge/`. Existing
-thesis artifacts retain their provenance and must not be overwritten.
-The cleaned-up repository baseline is recorded separately from the still
-unverified exact thesis-submission snapshot.
+| System | RAGTruth AUROC | RAGTruth F1 | HaluBench AUROC | HaluBench F1 |
+| --- | ---: | ---: | ---: | ---: |
+| Qwen3-32B judge | 0.7609 | 0.6123 | 0.8172 | 0.7572 |
+| S4 | 0.8470 | 0.7024 | 0.5272 | 0.4148 |
+| MiniCheck-7B (fresh runtime) | 0.8776 | 0.7304 | 0.7933 | 0.7221 |
+| S2+S4 (metadata-free) | 0.8494 | 0.7065 | 0.5319 | 0.3622 |
+
+- **RAGTruth:** 2,700 responses in 450 groups. The judge trails all three
+  baselines on AUROC, average precision and F1. Paired judge-minus-baseline
+  AUROC and F1 intervals exclude zero in each baseline's favor.
+- **HaluBench:** 8,000 responses in 7,198 bootstrap components. The same frozen
+  judge leads aggregate AUROC and F1. MiniCheck retains higher accuracy and
+  precision; the judge-minus-MiniCheck AP interval includes zero.
+- **Interpretation:** this is a benchmark-dependent ranking reversal, with
+  substantial source-level weaknesses. It does not establish a universal
+  advantage for LLM judges.
+
+Full metrics, paired intervals and figures are in the
+[final overview](results/post_thesis/llm_judge/FINAL_OVERVIEW.md),
+[RAGTruth findings](results/post_thesis/llm_judge/ragtruth_frozen_evaluation_20260928.md)
+and [HaluBench findings](results/post_thesis/llm_judge/halubench_frozen_evaluation_20260929.md).
+
+### Completed study stages
+
+| Stage | Outcome | Details |
+| --- | --- | --- |
+| Adaptive development | Probability, binary and evidence diagnostics completed; mixed findings retained | [Development history](post_thesis/llm_judge/DOCUMENTATION_INDEX.md#historical-diagnostics) |
+| Source audits and reservation | Scoped exact-overlap audits completed; 312 TRAIN exclusions and two separate 600-row development arms | [Reservation](post_thesis/llm_judge/DEVELOPMENT_RESERVATION.md) |
+| Calibration and threshold | Accepted TRAIN fit and raw-margin threshold `>= -1.25` frozen before new TEST inference | [Fit record](results/post_thesis/llm_judge/development_fit_cluster_20260920.md) |
+| Fresh baselines and judge | All four systems scored both complete benchmark populations; cached replays verified | [Run-guide index](post_thesis/llm_judge/DOCUMENTATION_INDEX.md) |
+| HaluBench continuation | Preserved parent plus 348 continuation scores completed all 8,000 rows | [Continuation](post_thesis/llm_judge/HALUBENCH_CONTINUATION.md) |
+| Qualitative review | 127 selected cases; AI-assisted judgments collectively confirmed before unblinding | [Review findings](results/post_thesis/llm_judge/qualitative_review_20261102.md) |
+| Accounting and release | Timing/token records verified, figures published and release tagged | [Accounting](results/post_thesis/llm_judge/efficiency_accounting_20261102.md) |
+
+The final method uses **class-token log probabilities**, not the verbalized
+probabilities or evidence outputs explored during development. Earlier diagnostic
+failures remain part of the research record; they are not unfinished release tasks.
+
+### Limitations retained
+
+- Exact-overlap grouping does not prove strict document disjointness or unknown
+  foundation-model training exposure. No HaluBench adaptation was used here.
+- Evidence visibility differs across systems, and historical baseline provenance
+  remains limited. MiniCheck's fresh/legacy score drift is documented but unexplained.
+- The qualitative review is selected-case analysis, not independent annotation,
+  corrected benchmark labels or a population error-rate estimate.
+- The HaluBench interruption retains unknown usage and latency. Monetary cost is
+  unknown, and timing scopes do not support controlled speedup claims.
+
+### Documentation and reproduction
+
+| Resource | Location |
+| --- | --- |
+| Study summary and frozen judge settings | [Experiment README](post_thesis/llm_judge/README.md) |
+| Every guide and its completed outcome | [Documentation index](post_thesis/llm_judge/DOCUMENTATION_INDEX.md) |
+| Final reports and dated development records | [Results index](results/post_thesis/llm_judge/README.md) |
+| CPU-only figure regeneration | [Figure guide](figures/post_thesis/llm_judge/README.md) |
+
+No further inference or fitting is required for this release. Full offline replay
+requires the preserved private artifacts and pinned CPU environment. Existing
+thesis results and frozen machine-readable records remain unchanged; the
+extension tag does not identify a verified thesis-submission snapshot.
