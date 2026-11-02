@@ -5,7 +5,7 @@ excluded from the submitted thesis results. **Frozen RAGTruth TEST evaluation is
 
 The [HaluBench overnight stop](halubench_budget_stop_20260929.json) preserves 7,652 valid scores and the identical offline replay. An [explicit 348-request continuation](../../../post_thesis/llm_judge/HALUBENCH_CONTINUATION.md) has [completed with identical replay](halubench_continuation_complete_20260929.json). All 8,000 judge scores are available; [CPU evaluation](../../../post_thesis/llm_judge/HALUBENCH_EVALUATION.md) has completed with an identical cached replay hash.
 
-The [frozen disagreement-review command](../../../post_thesis/llm_judge/DISAGREEMENT_REVIEW.md) exports full-population counts and a private, reproducible manual-review packet on CPU. Manual semantic annotation is pending; no new error-category findings are claimed.
+The [frozen disagreement-review command](../../../post_thesis/llm_judge/DISAGREEMENT_REVIEW.md) exports full-population counts and a private, reproducible review packet on CPU. The [completed 127-case qualitative review](qualitative_review_20261102.md) and [aggregate provenance record](qualitative_review_20261102.json) document AI-assisted judgments collectively confirmed by the researcher before unblinding: 28 supported, 58 unsupported and 41 uncertain. Of the 86 determinate cases, 64 agree with benchmark labels and 22 differ. These are selected-case observations, not independent annotation, label corrections or new benchmark performance estimates. Original TEST evaluations remain frozen.
 
 - [Synthetic H200 smoke findings](synthetic_smoke_20260919.md).
 - [First 50-example TRAIN pilot report](ragtruth_pilot_v1_20260919.md) and

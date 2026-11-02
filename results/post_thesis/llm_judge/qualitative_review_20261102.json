@@ -1,0 +1,383 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "aggregate_human_confirmed_ai_assisted_review",
+  "recorded_date": "2026-11-02",
+  "excluded_from_submitted_thesis": true,
+  "review_method": {
+    "original_AI_review_date": "2026-09-29",
+    "inputs": [
+      "answer",
+      "complete supplied context"
+    ],
+    "case_key_withheld_during_original_review": true,
+    "aggregate_findings_previously_known": true,
+    "confirmation_date": "2026-11-02",
+    "confirmation_type": "collective user agreement after reading AI assessments, before key access in the review conversation",
+    "independent_human_annotation": false,
+    "independent_second_reviewer": false,
+    "exact_assistant_model_version_recorded": false,
+    "uncertain_decisions_preserved": true,
+    "original_annotations_unchanged": true
+  },
+  "summary": {
+    "selected_examples": 127,
+    "selected_components": 124,
+    "review_verdict_counts": {
+      "supported": 28,
+      "unsupported": 58,
+      "uncertain": 41
+    },
+    "binary_review_examples": 86,
+    "review_label_agreements": 64,
+    "review_label_disagreements": 22,
+    "uncertain_examples_excluded_from_binary_comparisons": 41,
+    "review_by_benchmark_label": {
+      "supported": {
+        "label_0": 26,
+        "label_1": 2
+      },
+      "unsupported": {
+        "label_0": 20,
+        "label_1": 38
+      },
+      "uncertain": {
+        "label_0": 30,
+        "label_1": 11
+      }
+    }
+  },
+  "by_benchmark": {
+    "ragtruth": {
+      "selected_examples": 48,
+      "selected_components": 45,
+      "review_verdict_counts": {
+        "supported": 15,
+        "unsupported": 32,
+        "uncertain": 1
+      },
+      "binary_review_examples": 47,
+      "review_label_agreements": 31,
+      "review_label_disagreements": 16,
+      "uncertain_examples_excluded_from_binary_comparisons": 1,
+      "review_by_benchmark_label": {
+        "supported": {
+          "label_0": 15,
+          "label_1": 0
+        },
+        "unsupported": {
+          "label_0": 16,
+          "label_1": 16
+        },
+        "uncertain": {
+          "label_0": 1,
+          "label_1": 0
+        }
+      }
+    },
+    "halubench": {
+      "selected_examples": 79,
+      "selected_components": 79,
+      "review_verdict_counts": {
+        "supported": 13,
+        "unsupported": 26,
+        "uncertain": 40
+      },
+      "binary_review_examples": 39,
+      "review_label_agreements": 33,
+      "review_label_disagreements": 6,
+      "uncertain_examples_excluded_from_binary_comparisons": 40,
+      "review_by_benchmark_label": {
+        "supported": {
+          "label_0": 11,
+          "label_1": 2
+        },
+        "unsupported": {
+          "label_0": 4,
+          "label_1": 22
+        },
+        "uncertain": {
+          "label_0": 29,
+          "label_1": 11
+        }
+      }
+    }
+  },
+  "by_slice": {
+    "ragtruth": {
+      "Data2txt": {
+        "selected_examples": 16,
+        "selected_components": 16,
+        "review_verdict_counts": {
+          "supported": 5,
+          "unsupported": 10,
+          "uncertain": 1
+        },
+        "binary_review_examples": 15,
+        "review_label_agreements": 13,
+        "review_label_disagreements": 2,
+        "uncertain_examples_excluded_from_binary_comparisons": 1,
+        "review_by_benchmark_label": {
+          "supported": {
+            "label_0": 5,
+            "label_1": 0
+          },
+          "unsupported": {
+            "label_0": 2,
+            "label_1": 8
+          },
+          "uncertain": {
+            "label_0": 1,
+            "label_1": 0
+          }
+        }
+      },
+      "QA": {
+        "selected_examples": 16,
+        "selected_components": 14,
+        "review_verdict_counts": {
+          "supported": 9,
+          "unsupported": 7,
+          "uncertain": 0
+        },
+        "binary_review_examples": 16,
+        "review_label_agreements": 11,
+        "review_label_disagreements": 5,
+        "uncertain_examples_excluded_from_binary_comparisons": 0,
+        "review_by_benchmark_label": {
+          "supported": {
+            "label_0": 9,
+            "label_1": 0
+          },
+          "unsupported": {
+            "label_0": 5,
+            "label_1": 2
+          },
+          "uncertain": {
+            "label_0": 0,
+            "label_1": 0
+          }
+        }
+      },
+      "Summary": {
+        "selected_examples": 16,
+        "selected_components": 15,
+        "review_verdict_counts": {
+          "supported": 1,
+          "unsupported": 15,
+          "uncertain": 0
+        },
+        "binary_review_examples": 16,
+        "review_label_agreements": 7,
+        "review_label_disagreements": 9,
+        "uncertain_examples_excluded_from_binary_comparisons": 0,
+        "review_by_benchmark_label": {
+          "supported": {
+            "label_0": 1,
+            "label_1": 0
+          },
+          "unsupported": {
+            "label_0": 9,
+            "label_1": 6
+          },
+          "uncertain": {
+            "label_0": 0,
+            "label_1": 0
+          }
+        }
+      }
+    },
+    "halubench": {
+      "DROP": {
+        "selected_examples": 15,
+        "selected_components": 15,
+        "review_verdict_counts": {
+          "supported": 0,
+          "unsupported": 0,
+          "uncertain": 15
+        },
+        "binary_review_examples": 0,
+        "review_label_agreements": 0,
+        "review_label_disagreements": 0,
+        "uncertain_examples_excluded_from_binary_comparisons": 15,
+        "review_by_benchmark_label": {
+          "supported": {
+            "label_0": 0,
+            "label_1": 0
+          },
+          "unsupported": {
+            "label_0": 0,
+            "label_1": 0
+          },
+          "uncertain": {
+            "label_0": 9,
+            "label_1": 6
+          }
+        }
+      },
+      "FinanceBench": {
+        "selected_examples": 16,
+        "selected_components": 16,
+        "review_verdict_counts": {
+          "supported": 0,
+          "unsupported": 3,
+          "uncertain": 13
+        },
+        "binary_review_examples": 3,
+        "review_label_agreements": 2,
+        "review_label_disagreements": 1,
+        "uncertain_examples_excluded_from_binary_comparisons": 13,
+        "review_by_benchmark_label": {
+          "supported": {
+            "label_0": 0,
+            "label_1": 0
+          },
+          "unsupported": {
+            "label_0": 1,
+            "label_1": 2
+          },
+          "uncertain": {
+            "label_0": 10,
+            "label_1": 3
+          }
+        }
+      },
+      "covidQA": {
+        "selected_examples": 16,
+        "selected_components": 16,
+        "review_verdict_counts": {
+          "supported": 3,
+          "unsupported": 9,
+          "uncertain": 4
+        },
+        "binary_review_examples": 12,
+        "review_label_agreements": 11,
+        "review_label_disagreements": 1,
+        "uncertain_examples_excluded_from_binary_comparisons": 4,
+        "review_by_benchmark_label": {
+          "supported": {
+            "label_0": 2,
+            "label_1": 1
+          },
+          "unsupported": {
+            "label_0": 0,
+            "label_1": 9
+          },
+          "uncertain": {
+            "label_0": 2,
+            "label_1": 2
+          }
+        }
+      },
+      "halueval": {
+        "selected_examples": 16,
+        "selected_components": 16,
+        "review_verdict_counts": {
+          "supported": 1,
+          "unsupported": 7,
+          "uncertain": 8
+        },
+        "binary_review_examples": 8,
+        "review_label_agreements": 7,
+        "review_label_disagreements": 1,
+        "uncertain_examples_excluded_from_binary_comparisons": 8,
+        "review_by_benchmark_label": {
+          "supported": {
+            "label_0": 0,
+            "label_1": 1
+          },
+          "unsupported": {
+            "label_0": 0,
+            "label_1": 7
+          },
+          "uncertain": {
+            "label_0": 8,
+            "label_1": 0
+          }
+        }
+      },
+      "pubmedQA": {
+        "selected_examples": 16,
+        "selected_components": 16,
+        "review_verdict_counts": {
+          "supported": 9,
+          "unsupported": 7,
+          "uncertain": 0
+        },
+        "binary_review_examples": 16,
+        "review_label_agreements": 13,
+        "review_label_disagreements": 3,
+        "uncertain_examples_excluded_from_binary_comparisons": 0,
+        "review_by_benchmark_label": {
+          "supported": {
+            "label_0": 9,
+            "label_1": 0
+          },
+          "unsupported": {
+            "label_0": 3,
+            "label_1": 4
+          },
+          "uncertain": {
+            "label_0": 0,
+            "label_1": 0
+          }
+        }
+      }
+    }
+  },
+  "verification": {
+    "unique_IDs_and_exact_ID_set_match": 127,
+    "packet_hash_matches_frozen_review": true,
+    "packet_order_and_quotes_match": true,
+    "selection_memberships_match_stored_predictions": true,
+    "answer_context_input_hash_matches": 127,
+    "opaque_review_ID_matches": 127,
+    "serialization_reference_commit": "e051c37e88e25634b53f2ab9c4ec77448bf856b2",
+    "serialization_function": "post_thesis.llm_judge.prompts.content_hash",
+    "ID_construction_reference": "post_thesis.llm_judge.disagreement_review.build_review",
+    "input_hash_check_added_after_private_join": true,
+    "upstream_selection_and_inference_independently_replayed": false
+  },
+  "private_artifacts": {
+    "review_packet.json": {
+      "file_sha256": "c8a0677ebc4e1a75d1719ba29aff93acc6a890de3cd95745965042bdf86fd34e",
+      "bytes": 498626
+    },
+    "review_key.json": {
+      "file_sha256": "823a3f76e1896222a54eeebc02e03990748d503a431314936ad48390ba313f4e",
+      "bytes": 83657
+    },
+    "post_thesis_ai_review_complete_127.json": {
+      "file_sha256": "5882195cbe80b2becbe387929cbd2f935a3d55775322248437305385af461a18",
+      "bytes": 163127
+    },
+    "post_thesis_review_unblinded_20261102.json": {
+      "file_sha256": "091906a89724cf63728fa046ff425571af9808fb4652f13a11fef789895404bb",
+      "bytes": 383172
+    },
+    "post_thesis_qualitative_review_20261102.md": {
+      "file_sha256": "9c695f9b2d1bc6ea14eeb43824c940f4c70ad487dddb02a23c95a8148f71d1dd",
+      "bytes": 24254
+    },
+    "join_post_thesis_review.py": {
+      "file_sha256": "2bcbb6c070774b7eb7b076394e5747bd1c20125852952016c0d5a5992c307388",
+      "bytes": 19930
+    }
+  },
+  "operator_reported_disagreement_report_sha256": "e90b388df8a4ab617d93890aff3da29a40aada7a9fd21bc62db7609de5f12511",
+  "operator_reported_disagreement_report_hash_independently_recomputed": false,
+  "model_calls": 0,
+  "fitting_calls": 0,
+  "threshold_changes": false,
+  "prompt_changes": false,
+  "benchmark_labels_changed": false,
+  "frozen_evaluation_metrics_changed": false,
+  "limitations": [
+    "Selected diagnostic packet, not a population sample; no label-error rate, accuracy estimate or model ranking inferred.",
+    "Review-label discrepancies are not established benchmark errors.",
+    "Collective human confirmation of AI judgments is not independent annotation or inter-rater agreement.",
+    "The 41 uncertain cases are excluded from binary comparisons and remain unresolved.",
+    "Historical pending fields and earlier verification limits remain in immutable private artifacts; later confirmation and input-hash verification are recorded separately.",
+    "No causal attribution of model failures to preprocessing, truncation or runtime is established.",
+    "Private input hashes match; upstream selection/inference provenance was not independently replayed in this integration."
+  ]
+}

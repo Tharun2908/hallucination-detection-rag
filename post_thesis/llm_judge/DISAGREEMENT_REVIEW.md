@@ -5,6 +5,29 @@ This procedure is defined **after** inspecting aggregate RAGTruth and HaluBench
 TEST results. It is descriptive error analysis, not independent validation or
 permission to tune the evaluated judge.
 
+## Recorded review outcome (2026-11-02)
+
+The [completed qualitative review](../../results/post_thesis/llm_judge/qualitative_review_20261102.md)
+and [aggregate provenance record](../../results/post_thesis/llm_judge/qualitative_review_20261102.json)
+cover all 127 selected cases. The assistant assessed answer and complete supplied
+context without the case-level key; aggregate benchmark findings were already
+known. The researcher then collectively confirmed the saved decisions before
+the key was opened. This is **human-confirmed AI-assisted review**, not independent
+human annotation or independent inter-rater agreement. It differs from the
+independent manual-review workflow below; no second independent reviewer is claimed.
+
+The decisions remain 28 supported, 58 unsupported and 41 uncertain. Among 86
+determinate cases, 64 agree with benchmark labels and 22 differ. Confirmation
+does not resolve the uncertain cases or establish that the 22 discrepancies
+are benchmark errors. All prompts, predictions, labels, thresholds and evaluation
+metrics remain unchanged. Full packets, case-level joins and confirmation records
+remain private; the public result contains aggregate findings and file hashes.
+
+The original exporter still records `manual_review_completed: false`: that is
+its immutable packet-creation state, not the later review status. Do not rewrite
+it. Likewise, original AI-review fields marked pending are historical snapshots;
+the later confirmation belongs in a separate record.
+
 ## Fixed inputs and counts
 
 `disagreement_review.py` loads both completed evaluations and their exact input
