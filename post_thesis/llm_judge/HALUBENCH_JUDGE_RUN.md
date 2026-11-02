@@ -1,6 +1,10 @@
 # Post-thesis frozen Qwen HaluBench run
 
-**Run update, 2026-09-29:** the original budget is exhausted with 7,652 valid scores. Preserve that run and follow the [separate continuation](HALUBENCH_CONTINUATION.md); the original launch instructions below document its registered execution.
+**Recorded outcome:** Parent stopped at 7,652 valid scores; separate continuation completed the population. See the [completed-stage record](../../results/post_thesis/llm_judge/halubench_budget_stop_20260929.json).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
+**Run update, 2026-09-29:** the original budget is exhausted with 7,652 valid scores. Preserve that run; the [separate continuation](HALUBENCH_CONTINUATION.md) completed the population; the original launch instructions below document its registered execution.
 
 MiniCheck inference and replay completed on all 8,000 canonical TEST examples,
 with no failures, no truncation and identical report hash
@@ -41,7 +45,9 @@ comparison descriptor at
 `.artifacts/post_thesis/llm_judge/halubench-fresh-comparison-manifest-v1/manifest.json`.
 The descriptor binds the full source artifacts and input manifest; it is not a
 second copy of the per-example predictions. Its readiness is scoped to these
-fresh runtime baselines. Judge predictions and paired evaluation remain pending.
+fresh runtime baselines. Judge inference later completed across the preserved
+parent and [continuation](HALUBENCH_CONTINUATION.md); the
+[paired evaluation](HALUBENCH_EVALUATION.md) is also complete.
 
 Every scoring or inspection invocation repeats these integrity checks. They read
 the existing baselines but do not compute label metrics or select among runtime
@@ -111,15 +117,18 @@ not repeated. Malformed responses, transport failures or interrupted requests
 halt the run without retries. Their usage remains unknown when unavailable.
 Do not delete records or change the run ID to silently retry failures.
 
-After successful completion:
+Inspect the preserved parent (including its recorded budget stop):
 
 ```bash
 python -m post_thesis.llm_judge.run_halubench_scores --inspect
 ```
 
-Expect 8,000 valid scores, no failures or pending examples, zero new attempts,
-and the same report hash. Inspection needs no live server, tokenizer execution
-or HTTP. It validates the recorded preparation and replays saved raw responses.
+For this preserved parent, inspection returns 7,652 valid scores, one interrupted
+request and 347 pending rows, with zero new attempts and the same report hash.
+The separate [continuation](HALUBENCH_CONTINUATION.md) supplies the remaining
+348 valid scores; it does not rewrite the parent as a successful 8,000-row run.
+
+Inspection needs no live server, tokenizer execution or HTTP. It validates the recorded preparation and replays saved raw responses.
 The invocation-local `new_attempts` field is excluded from the report hash.
 
 Private inference artifacts live in
@@ -130,5 +139,6 @@ in client timing. No hourly price is invented: serving-session resources preserv
 the lifetime record, with monetary cost unknown unless a rate is supplied.
 
 Local checks exercise mock HTTP, durable replay, malformed output, interruption,
-budget exhaustion and baseline alignment. Live scoring remains on the pod.
-After scoring and replay, the next step is frozen cross-domain metric evaluation.
+budget exhaustion and baseline alignment. Live scoring was performed on the pod.
+The subsequent [frozen cross-domain evaluation](HALUBENCH_EVALUATION.md) completed
+after verifying the parent and continuation together.

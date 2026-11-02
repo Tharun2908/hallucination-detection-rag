@@ -43,8 +43,10 @@ The next [evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) uses a separate
 
 This remains the same adaptively inspected development sample. It cannot supply
 held-out evidence for choosing the final prompt, and source-group proxy
-limitations from [PILOT.md](PILOT.md) still apply. No source-disjoint threshold
-subset has been established, and neither test benchmark is loaded.
+limitations from [PILOT.md](PILOT.md) still apply. This pilot established no
+source-disjoint threshold subset and loaded neither test benchmark. The later
+[development reservation](DEVELOPMENT_RESERVATION.md) separated calibration and
+threshold roles under declared exact-overlap components, not proven document independence.
 
 ## Completed binary token audit — historical procedure
 
@@ -162,5 +164,5 @@ Compare case-level decisions with the preserved probability pilots, including
 Do not search a probability threshold on these examples to optimize comparisons.
 This binary formulation has no tunable score threshold. Do not recode its
 verdicts as probabilities and report calibration or continuous-score performance.
-The final study's continuous-score design remains unresolved; retain that
-limitation before any final prompt freeze or benchmark expansion.
+The final study subsequently adopted the [label-score design](CONTINUOUS_SCORE_PROTOCOL.md); retain this
+limitation when interpreting these historical binary results.

@@ -1,5 +1,9 @@
 # Post-thesis fresh S2 TEST inference
 
+**Recorded outcome:** Completed: 2,700/2,700 valid features and cached replay. See the [completed-stage record](../../results/post_thesis/llm_judge/s2_fresh_test_cluster_20260928.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This run is post-thesis baseline preparation, separate from submitted results.
 The fresh S4 run and score agreement are recorded in
 [the operator observations](../../results/post_thesis/llm_judge/s4_fresh_test_cluster_20260920.md).
@@ -98,7 +102,7 @@ python -m post_thesis.llm_judge.run_s2_test --max-new-examples 0
 Expected: zero new attempts, identical report hash, no model loading. Reports live
 in `.artifacts/post_thesis/llm_judge/s2-ragtruth-test-fresh-v1/`.
 
-## Validation and next use
+## Validation and subsequent use
 
 Offline tests cover raw min-of-max aggregation across batch boundaries, original
 sentence-split equivalence, invalid/missing pairs, full/kept token records,
@@ -107,8 +111,8 @@ tokenizer files were checked locally: vocabulary 30,522, limit 512 and four
 short/long pair encodings match the saved tokenizer, including token type IDs.
 No local weight inference was performed; the pod run verifies that runtime path.
 
-After the run, compare fresh raw features to the preserved legacy S2 cache
-without labels. Close agreement will not manufacture historical provenance.
-Keep full precision here. Any later application of the frozen fusion must
-explicitly account for its historical four-decimal input representation and
-fixed TRAIN normalization; do not refit the fusion from TEST observations.
+The [label-free legacy comparison](../../results/post_thesis/llm_judge/s2_legacy_score_agreement_20260928.json)
+and [frozen fusion application](FRESH_FUSION.md) subsequently completed. Close
+agreement does not manufacture historical provenance. S2 records retain full
+precision; fusion explicitly applies the historical four-decimal representation
+and fixed TRAIN normalization without refitting from TEST observations.

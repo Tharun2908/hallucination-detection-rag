@@ -1,5 +1,9 @@
 # Fresh post-thesis S4 TEST inference
 
+**Recorded outcome:** Completed: 2,700/2,700 valid scores. See the [completed-stage record](../../results/post_thesis/llm_judge/s4_fresh_test_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This run establishes current inference-input provenance for the saved S4
 checkpoint. It is a post-thesis reproduction, not a replacement for the thesis
 cache and not retrospective proof of the original training or inference history.
@@ -69,7 +73,8 @@ canonical text allow effective inputs to be reconstructed and checked by hash.
 Fresh inference establishes which current inputs and checkpoint produced these
 new scores. It does not certify the old cache's input bytes, historical checkpoint
 linkage, or training exclusions. No legacy artifact is overwritten. Comparison
-readiness remains false until the remaining baseline alignment work is complete.
+readiness was not established by S4 alone. The later
+[fresh comparison manifest](COMPARISON_MANIFEST.md) verified all three baselines.
 
 GPU forward timing is synchronized and excludes tokenization and host transfer.
 Batch wall timing includes tokenization, transfer and score extraction. Neither
@@ -79,5 +84,7 @@ included; no extra warm-up forward is performed. Qwen can be resident and other
 work is not controlled, so these timings are operational observations, not a
 controlled latency comparison between systems. No API cost is assigned.
 
-Next: check fresh-versus-legacy S4 score agreement without changing thresholds,
-then finish S2/MiniCheck inference provenance for the registered comparison.
+The [label-free S4 agreement check](../../results/post_thesis/llm_judge/s4_legacy_score_agreement_20260920.json)
+and subsequent S2/MiniCheck inference completed. The
+[fresh comparison manifest](COMPARISON_MANIFEST.md) records their alignment and
+retained provenance limits; no thresholds were changed.

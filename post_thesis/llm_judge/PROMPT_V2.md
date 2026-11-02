@@ -1,5 +1,9 @@
 # Post-thesis development prompt v2
 
+**Recorded outcome:** Completed paired TRAIN development comparison. See the [completed-stage record](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This revision is motivated by inspected **TRAIN development** outcomes. It is
 not part of the submitted thesis, not a final prompt freeze, and not a held-out
 validation result. The [v1 pilot report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md)

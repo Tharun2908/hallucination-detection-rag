@@ -1,5 +1,9 @@
 # Post-thesis canonical HaluBench TEST inputs
 
+**Recorded outcome:** Completed: unchanged 8,000-row membership; passage overlap disclosed. See the [completed-stage record](../../results/post_thesis/llm_judge/halubench_inputs_cluster_20260928.json).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This extension is separate from the submitted thesis. The frozen RAGTruth judge,
 calibration, label mapping and raw-margin threshold transfer unchanged. This
 step builds an input manifest, not a new split, scoring run or evaluation.
@@ -59,8 +63,9 @@ claim that physical parquet reads never touch adaptation values.
 Both committed 14k caches have valid selected scores and matching TEST indices,
 labels and source names. They lack original IDs and answer/context hashes, so
 `comparison_ready` remains false. No legacy scores are joined to judge metrics.
-Later baseline preparation must establish fresh inference linkage or equivalent
-content provenance, preserving original files and the frozen TRAIN policies.
+Later baseline runs established fresh inference linkage, preserving original
+files and frozen TRAIN policies; see [the completed evaluation](HALUBENCH_EVALUATION.md).
+The legacy inventory itself is not promoted to ready.
 The old HaluBench MiniCheck `mc_hall >= 0.80` rule must not silently replace the
 registered strict support-space rule `< 0.20000000000000004`.
 
@@ -92,6 +97,7 @@ Repeating the final Python command at the same revision verifies the identical
 manifest without rewriting it. A changed manifest fails rather than overwriting
 an earlier run. Keep private texts out of Git.
 
-After recording the pod manifest, CPU token lengths, fresh baseline preparation
-and a bounded judge execution plan remain. No generation allowance, fitting,
-TEST metrics, threshold changes or new split are introduced by this command.
+The pod manifest, [CPU token audit](HALUBENCH_TOKEN_AUDIT.md), fresh baselines
+and bounded judge execution subsequently completed. This preparation command
+still introduces no generation allowance, fitting, TEST metrics, threshold
+changes or new split.

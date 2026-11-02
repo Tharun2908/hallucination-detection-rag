@@ -1,10 +1,15 @@
 # Post-thesis Qwen judge: serving and synthetic checks
 
+**Recorded outcome:** Completed; the final judge uses the separate label-score-v1 profile. See the [completed-stage record](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This is post-thesis engineering. Nothing here changes submitted thesis results.
 The operator completed H200 startup and two fresh synthetic smoke runs on
 2026-09-19; see the [recorded observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md).
 The absence-claim check failed reproducibly. These checks validate parts of the
-engineering path, not benchmark quality. No benchmark scores have been collected.
+engineering path, not benchmark quality. Final benchmark results were later
+collected with the separate `label-score-v1` profile.
 
 ## Development profile
 
@@ -191,15 +196,16 @@ forcibly killed, its record may remain `started` with unknown final duration;
 do not interpret this as zero cost. An absent API usage field is also unknown.
 Reports and raw messages are private local artifacts, not publication summaries.
 
-## 6. What remains before the benchmark pilot
+## 6. Historical pilot preparation and final profile
 
-Review the GPU smoke output, record the working environment and resource usage,
-then prepare the source TRAIN pilot manifest with the frozen group/overlap rules.
-Use [PILOT.md](PILOT.md) for CPU-only pinned TRAIN preparation.
-Audit actual formatted lengths, choose the final timeout and resource limits,
-and establish a measured pilot compute budget. These six checks do not authorize
-or trigger either full benchmark. Preserve the original development prompt and
-record any pilot-driven revisions. The final evaluation prompt is still unfrozen.
+The smoke checks preceded [TRAIN pilot preparation](PILOT.md), token auditing
+and separately bounded development runs. Those stages and final evaluation are
+complete; see the [documentation index](DOCUMENTATION_INDEX.md). Preserve the
+original development profiles and requests. The final one-token judge uses
+`--profile label-score-v1`, with its own frozen prompt, raw-logprob settings and
+execution plans in [TEST_LABEL_RUN.md](TEST_LABEL_RUN.md) and
+[HALUBENCH_JUDGE_RUN.md](HALUBENCH_JUDGE_RUN.md). Do not use the initial
+probability or evidence profile to replay the final benchmark study.
 
 ## Offline verification
 

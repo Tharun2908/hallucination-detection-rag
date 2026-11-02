@@ -1,5 +1,9 @@
 # Post-thesis metadata-free fusion reconstruction
 
+**Recorded outcome:** Completed CPU reconstruction and zero-fit replay. See the [completed-stage record](../../results/post_thesis/llm_judge/fusion_recovery_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This work is after thesis submission and is not part of the submitted thesis
 results. The completed [baseline provenance audit](../../results/post_thesis/llm_judge/baseline_provenance_cluster_20260920.md)
 reproduced the historical S4 and MiniCheck TRAIN thresholds, checked five stored
@@ -61,7 +65,7 @@ It contains the fitted fold models, meta-OOF scores, threshold candidates, final
 coefficients, TEST scores and source identities. All original caches/checkpoints,
 judge artifacts and thesis results are read-only.
 
-## Interpretation and remaining work
+## Interpretation and subsequent verification
 
 This is a **post-thesis reconstruction from legacy cached features**. A matching
 rounded TRAIN reference does not establish exact historical reproducibility.
@@ -75,9 +79,9 @@ Meta-OOF thresholding is not fully nested end-to-end validation of the S4 traini
 pipeline, and matching S4 fold tags does not independently prove training
 exclusion. No feature visibility or leakage guarantee is added by this recovery.
 
-Next, resolve how the explicitly limited legacy baselines will be reported (or
-establish fresh inference provenance where required), then complete the judge
-TEST token audit and bounded execution manifest. This command does not authorize
-judge TEST inference or use HaluBench.
+Subsequent [fresh inference and comparison verification](COMPARISON_MANIFEST.md),
+[TEST token auditing](TEST_TOKEN_AUDIT.md) and [bounded judge execution](TEST_LABEL_RUN.md)
+completed. They preserve the historical provenance limits. This reconstruction
+command itself authorizes no judge TEST inference and reads no HaluBench data.
 
 Cluster update: [reconstruction and replay completed](../../results/post_thesis/llm_judge/fusion_recovery_cluster_20260920.md) with the same report hash and zero replay fits. Use the new [TEST token auditor](TEST_TOKEN_AUDIT.md) to consume this historical report after future checkout updates; do not rerun reconstruction under a different code revision.

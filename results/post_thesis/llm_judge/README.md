@@ -1,131 +1,153 @@
 # Post-thesis LLM judge results
 
-The [final post-thesis overview](FINAL_OVERVIEW.md) brings together the frozen results, paired confidence-interval figures, source-level limitations, confirmed qualitative review and verified runtime accounting.
+**Status — 2026-11-02: complete.** Both frozen benchmark evaluations, cached
+replays, the selected qualitative review and inference accounting are recorded.
+Release tag: `post-thesis-llm-judge-v1` at `c1b1cd6`.
+These findings are separate from the submitted thesis results.
 
-The [verified inference accounting](efficiency_accounting_20261102.md) consolidates both frozen evaluation reports: request latency, client time, baseline timing scopes, token usage and the retained interrupted attempt. Monetary cost remains unknown; these measurements do not support controlled speedup claims.
+## Final findings
 
-Results collected after thesis submission. These post-thesis artifacts are
-excluded from the submitted thesis results. **Frozen RAGTruth TEST evaluation is complete.** The judge trails all three baselines on AUROC, AP and F1; see the [findings](ragtruth_frozen_evaluation_20260928.md) and [reported metrics](ragtruth_frozen_evaluation_20260928.json). The [canonical HaluBench 8k evaluation and replay](halubench_frozen_evaluation_20260929.md) are complete; [recorded metrics](halubench_frozen_evaluation_20260929.json) show a benchmark-dependent ranking reversal and substantial source heterogeneity. [Fresh S2 inference and replay](s2_halubench_cluster_20260928.json) are complete; [frozen CPU fusion application and replay](halubench_fusion_cluster_20260928.json) are also complete. [Fresh MiniCheck inference and replay](minicheck_halubench_cluster_20260928.json) are complete. The [bounded frozen Qwen run](../../../post_thesis/llm_judge/HALUBENCH_JUDGE_RUN.md) is prepared; cross-domain metrics are now recorded.
+| Report | What it contains |
+| --- | --- |
+| [Final overview](FINAL_OVERVIEW.md) | Cross-benchmark results, paired intervals, figures and interpretation |
+| [RAGTruth evaluation](ragtruth_frozen_evaluation_20260928.md) · [JSON](ragtruth_frozen_evaluation_20260928.json) | Four fresh systems on 2,700 responses / 450 groups |
+| [HaluBench evaluation](halubench_frozen_evaluation_20260929.md) · [JSON](halubench_frozen_evaluation_20260929.json) | Same frozen rules on 8,000 responses / 7,198 bootstrap components |
+| [Qualitative review](qualitative_review_20261102.md) · [JSON](qualitative_review_20261102.json) | 127 selected cases; AI-assisted judgments collectively confirmed before unblinding |
+| [Verified inference accounting](efficiency_accounting_20261102.md) · [JSON](efficiency_accounting_20261102.json) | Timing scopes, token usage, interrupted-attempt accounting and cost limits |
+| [Figures and regeneration](../../../figures/post_thesis/llm_judge/README.md) | CPU-only plotting from committed aggregates |
 
-The [HaluBench overnight stop](halubench_budget_stop_20260929.json) preserves 7,652 valid scores and the identical offline replay. An [explicit 348-request continuation](../../../post_thesis/llm_judge/HALUBENCH_CONTINUATION.md) has [completed with identical replay](halubench_continuation_complete_20260929.json). All 8,000 judge scores are available; [CPU evaluation](../../../post_thesis/llm_judge/HALUBENCH_EVALUATION.md) has completed with an identical cached replay hash.
+The judge trails every fresh baseline on RAGTruth AUROC, AP and F1. It leads
+aggregate HaluBench AUROC and F1, while MiniCheck retains higher precision and
+accuracy; the judge-minus-MiniCheck AP interval includes zero. Source-level
+weaknesses and differing evidence visibility remain central to interpretation.
 
-The [frozen disagreement-review command](../../../post_thesis/llm_judge/DISAGREEMENT_REVIEW.md) exports full-population counts and a private, reproducible review packet on CPU. The [completed 127-case qualitative review](qualitative_review_20261102.md) and [aggregate provenance record](qualitative_review_20261102.json) document AI-assisted judgments collectively confirmed by the researcher before unblinding: 28 supported, 58 unsupported and 41 uncertain. Of the 86 determinate cases, 64 agree with benchmark labels and 22 differ. These are selected-case observations, not independent annotation, label corrections or new benchmark performance estimates. Original TEST evaluations remain frozen.
+The qualitative review is selected-case analysis, not independent annotation or
+label correction. Historical baseline provenance remains limited, MiniCheck
+fresh/legacy drift remains unexplained, and monetary cost is unknown.
 
-- [Synthetic H200 smoke findings](synthetic_smoke_20260919.md).
-- [First 50-example TRAIN pilot report](ragtruth_pilot_v1_20260919.md) and
-  [operator-supplied predictions](ragtruth_pilot_v1_20260919.csv).
-- [Paired v1/v2 TRAIN development report](ragtruth_pilot_v1_v2_20260919.md) and
-  [paired predictions](ragtruth_pilot_v1_v2_20260919.csv).
-- [Probability diagnostic findings](synthetic_diagnostic_v1_20260919.md) and
-  [operator-supplied results](synthetic_diagnostic_v1_20260919.json).
-- [Binary diagnostic findings](binary_diagnostic_v1_20260919.md) and
-  [operator-supplied verdicts](binary_diagnostic_v1_20260919.json).
+## Reading the dated records
 
-- [Binary TRAIN pilot findings](ragtruth_binary_pilot_20260919.md),
-  [operator-supplied verdicts](ragtruth_binary_pilot_20260919.csv) and
-  [metrics/provenance](ragtruth_binary_pilot_20260919.json).
-- [Focused binary error review](ragtruth_binary_error_review_20260919.md).
+The records below preserve observations **at each development stage**. A dated
+report may say that the following experiment was pending; that is historical
+context, not the current release status. Original JSON status fields, failures,
+request identities and budget records are not rewritten after later completion.
+The [documentation index](../../../post_thesis/llm_judge/DOCUMENTATION_INDEX.md)
+maps all procedures to their completed outcomes.
 
-Probability pilots, synthetic diagnostics, the binary TRAIN pilot and the focused
-error review are complete. All remain adaptively inspected development results.
-The [structured evidence v1 findings](evidence_diagnostic_v1_20260919.md) and
-[operator-supplied responses](evidence_diagnostic_v1_20260919.json) record 11/14
-valid synthetic outputs and one explanation concern. The next
-[schema-only v2 candidate](../../../post_thesis/llm_judge/EVIDENCE_SCHEMA_V2.md)
-passed its [native compatibility check](evidence_schema_v2_native_20260919.md) at 38/38. Its [live synthetic result](evidence_diagnostic_v2_20260919.md) has 14/14 valid records with two false positives and a persistent explanation concern. The [verdict-first native check](evidence_schema_v3_native_20260919.md) passed 44/44. The [v3 live findings](evidence_diagnostic_v3_20260919.md) and [parsed observations](evidence_diagnostic_v3_20260919.json) record 14/14 valid, correctly ordered outputs and 13/14 expected verdicts. The original TRAIN evidence audit and scoring runs are complete; see the findings below. Raw answer/context text, request caches and execution
-journals remain in ignored private artifact directories.
+Probability, binary and evidence pilots were adaptively inspected development
+runs. They did not supply the final benchmark scores or held-out model-selection
+evidence. The final study used the frozen class-token label-score judge.
 
-Future run directories must use unique run IDs. Include protocol/configuration,
-model/prompt identities, input manifest references, successful-scoring coverage,
-metrics, and cost/latency summaries. Preserve frozen runs rather than overwriting
-them. Raw request caches belong in the ignored artifact directory described in
-[the experiment README](../../../post_thesis/llm_judge/README.md).
+## Study design and final evaluation
 
-Existing canonical results elsewhere in `results/` remain comparison inputs;
-do not overwrite them with this extension's outputs.
+| Record | Outcome at this stage |
+| --- | --- |
+| [Evaluation mathematics](evaluation_math_cluster_20260920.md) | Synthetic checks passed; benchmark loaders subsequently used the frozen core |
 
-The [evidence-v3 original TRAIN token audit](ragtruth_evidence_v3_audit_20260919.md)
-is complete: 50/50 counted, no overlength inputs and zero generation calls.
-The [bounded scoring plan](../../../post_thesis/llm_judge/EVIDENCE_PILOT_RUN.md)
-was executed: the [evidence TRAIN findings](ragtruth_evidence_pilot_v3_20260919.md) record 37/50 valid outputs, 13 quote failures and targeted semantic review. These are adaptive development results; full claim-level review remains incomplete.
+## Historical diagnostics
 
-The [paired evidence prompt findings](evidence_prompt_pair_v1_20260919.md) record
-26/26 valid outputs per prompt, 24 versus 25 expected verdict matches, one
-corrected absence verdict, one v2 rationale regression and one shared missed
-false-absence claim. All paired exported evidence and assistant review tags are
-preserved in the accompanying JSON. This remains adaptive synthetic development.
+| Record | Outcome at this stage |
+| --- | --- |
+| [Initial serving and smoke checks](synthetic_smoke_20260919.md) | Completed; the final judge uses the separate label-score-v1 profile |
+| [Initial probability TRAIN pilot](ragtruth_pilot_v1_20260919.md) · [CSV](ragtruth_pilot_v1_20260919.csv) | Completed adaptive 50-example development run |
+| [Probability prompt v2](ragtruth_pilot_v1_v2_20260919.md) · [CSV](ragtruth_pilot_v1_v2_20260919.csv) | Completed paired TRAIN development comparison |
+| [Probability synthetic diagnostic](synthetic_diagnostic_v1_20260919.md) · [JSON](synthetic_diagnostic_v1_20260919.json) | Completed; embedded errors received diluted scores |
+| [Binary synthetic diagnostic](binary_diagnostic_v1_20260919.md) · [JSON](binary_diagnostic_v1_20260919.json) | Completed: 10/10 expected verdicts |
+| [Binary TRAIN pilot](ragtruth_binary_pilot_20260919.md) · [JSON](ragtruth_binary_pilot_20260919.json) · [CSV](ragtruth_binary_pilot_20260919.csv) | Completed; focused error review retained semantic misses |
+| [Evidence contract](evidence_diagnostic_v1_20260919.md) · [JSON](evidence_diagnostic_v1_20260919.json) | Implemented and exercised; not selected as the final benchmark scorer |
+| [Evidence schema-v2 checks](evidence_schema_v2_native_20260919.md) · [JSON](evidence_schema_v2_native_20260919.json) | Completed: 38/38 native grammar checks |
+| [Evidence schema-v2 live run](evidence_diagnostic_v2_20260919.md) · [JSON](evidence_diagnostic_v2_20260919.json) | Completed: 14/14 valid records, with two false positives |
+| [Verdict-first schema checks](evidence_schema_v3_native_20260919.md) · [JSON](evidence_schema_v3_native_20260919.json) | Completed: 44/44 native order checks |
+| [Verdict-first live run](evidence_diagnostic_v3_20260919.md) · [JSON](evidence_diagnostic_v3_20260919.json) | Completed: 14/14 valid records and 13/14 expected verdicts |
+| [Evidence TRAIN token audit](ragtruth_evidence_v3_audit_20260919.md) · [JSON](ragtruth_evidence_v3_audit_20260919.json) | Completed: 50 inputs and 77,574 input tokens |
+| [Evidence TRAIN run](ragtruth_evidence_pilot_v3_20260919.md) · [JSON](ragtruth_evidence_pilot_v3_20260919.json) | Completed: 37/50 valid records; targeted semantic review recorded |
+| [Evidence prompt-v2 candidate](ragtruth_evidence_prompt_v2_pilot_20260920.md) · [JSON](ragtruth_evidence_prompt_v2_pilot_20260920.json) | Completed paired synthetic and original-TRAIN checks; tuning paused |
+| [Paired evidence prompts](evidence_prompt_pair_v1_20260919.md) · [JSON](evidence_prompt_pair_v1_20260919.json) | Completed: 26 cases per arm, with mixed semantic findings |
+| [Evidence prompt-v2 token audit](ragtruth_evidence_prompt_v2_audit_20260920.md) · [JSON](ragtruth_evidence_prompt_v2_audit_20260920.json) | Completed: 50 inputs and 77,724 input tokens |
 
-The [evidence prompt-v2 TRAIN findings](ragtruth_evidence_prompt_v2_pilot_20260920.md)
-and [exported evidence with paired outcomes](ragtruth_evidence_prompt_v2_pilot_20260920.json)
-record 43/50 valid outputs, seven retained quote failures and targeted semantic
-review. All six recovered records match positive labels, but shared-valid label
-agreement changes from 27/37 to 26/37. Preserve these mixed development findings;
-evidence-prompt tuning is paused while the continuous-score protocol is designed.
+## Label-score development and freeze
 
-The [label-score setup observations](label_score_setup_20260920.md) record the
-passed cluster tokenizer and installed-source checks. The separate bounded
-synthetic score experiment is complete (see findings below); its outputs are
-not thesis or benchmark results.
+| Record | Outcome at this stage |
+| --- | --- |
+| [Label-score contract and tokenizer](label_score_setup_20260920.md) · [JSON](label_score_setup_20260920.json) | Completed offline, tokenizer and installed-source checks |
+| [Synthetic label scores](label_score_synthetic_v1_20260920.md) · [JSON](label_score_synthetic_v1_20260920.json) · [CSV](label_score_synthetic_v1_20260920.csv) | Completed: 30/30 valid scores and cached replay |
+| [Label-score TRAIN token audit](label_score_pilot_audit_20260920.json) | Completed: 50 inputs and 60,574 input tokens |
+| [Label-score TRAIN pilot](label_score_train_pilot_v1_20260920.md) · [JSON](label_score_train_pilot_v1_20260920.json) · [CSV](label_score_train_pilot_v1_20260920.csv) | Completed: 50/50 valid scores and cached replay |
+| [Native TRAIN provenance](source_audit_cluster_20260920.json) | Completed scoped exact-overlap audit |
+| [Native cross-split overlap](cross_split_audit_cluster_20260920.md) · [JSON](cross_split_audit_cluster_20260920.json) | Completed; 12 additional TEST-linked TRAIN candidate rows excluded |
+| [Development reservation design](development_reservation_cluster_20260920.md) · [JSON](development_reservation_cluster_20260920.json) | Implemented without changing the original design |
+| [Calibration and threshold design](development_fit_cluster_20260920.md) · [JSON](development_fit_cluster_20260920.json) | Implemented; fitted parameters and threshold frozen |
+| [Reserved-arm token audit](development_token_audit_cluster_20260920.md) · [JSON](development_token_audit_cluster_20260920.json) | Completed: all 1,200 inputs fit |
+| [Reserved-arm scoring](development_scoring_cluster_20260920.md) · [JSON](development_scoring_cluster_20260920.json) | Completed: 600/600 valid scores per arm and cached replay |
 
-The [synthetic label-score findings](label_score_synthetic_v1_20260920.md), [operator record](label_score_synthetic_v1_20260920.json) and [30 score rows](label_score_synthetic_v1_20260920.csv) record the completed transport check and cached replay. Both mappings miss the two unknown-as-absence cases. The [cluster original-50 TRAIN token audit](label_score_pilot_audit_20260920.json) subsequently matched all local counts; the [completed TRAIN label-score pilot and replay](label_score_train_pilot_v1_20260920.md) have 50 valid scores and zero replay calls. The [operator/analysis record](label_score_train_pilot_v1_20260920.json) and [50 score rows](label_score_train_pilot_v1_20260920.csv) preserve the mixed development findings. Native-source grouping and disjoint calibration/evaluation remain pending.
+## RAGTruth preparation and inference
 
-The [assistant CPU native-source audit](source_audit_local_20260920.json) checks pinned TRAIN identity and declared exact-overlap rules. No additional pilot-linked exclusions were found. It is a pre-release local check; cluster reproduction and broader disjointness checks remain pending.
+| Record | Outcome at this stage |
+| --- | --- |
+| [TEST input alignment](fresh_comparison_manifest_20260928.md) | Completed; final comparison uses fresh baseline input provenance |
+| [Legacy baseline audit](baseline_provenance_cluster_20260920.md) · [JSON](baseline_provenance_cluster_20260920.json) | Audit completed; historical inference/training provenance remains limited |
+| [Metadata-free fusion recovery](fusion_recovery_cluster_20260920.md) · [JSON](fusion_recovery_cluster_20260920.json) | Completed CPU reconstruction and zero-fit replay |
+| [TEST token audit](test_token_audit_cluster_20260920.md) · [JSON](test_token_audit_cluster_20260920.json) | Completed: all 2,700 inputs fit |
+| [S4 checkpoint compatibility](s4_checkpoint_cluster_20260920.md) | Passed CPU synthetic compatibility checks |
+| [Fresh S4 inference](s4_fresh_test_cluster_20260920.md) | Completed: 2,700/2,700 valid scores |
+| [Fresh S2 inference](s2_fresh_test_cluster_20260928.md) | Completed: 2,700/2,700 valid features and cached replay |
+| [Fusion on fresh features](fresh_fusion_cluster_20260928.md) | Completed: 2,700/2,700 scores and identical replay |
+| [MiniCheck preparation](minicheck_synthetic_v2_20260928.md) | Completed; later synthetic v2 check validated the runtime |
+| [Fresh MiniCheck inference](minicheck_fresh_test_cluster_20260928.md) | Completed: 2,700/2,700 scores and identical replay |
+| [Frozen Qwen inference](qwen_ragtruth_test_cluster_20260928.md) | Completed: 2,700/2,700 valid scores and identical replay |
 
-The [completed cluster TRAIN source audit](source_audit_cluster_20260920.json) matches the local check, including the independently reconstructed full report hash. The [next native cross-split local check](cross_split_audit_local_20260920.json) proposes 12 additional TRAIN candidate exclusions from exact shared evidence, without using TEST answers or labels. Its [completed cluster result](cross_split_audit_cluster_20260920.md) matches, including independent reconstruction of the full report hash. Broader disjointness remains unestablished. The [development reservation design](../../../post_thesis/llm_judge/DEVELOPMENT_SPLIT_PROTOCOL.md) records deterministic 100-component calibration and threshold roles; no allocation or fitting has run.
+## HaluBench preparation and inference
 
-The [local development reservation check](development_reservation_local_20260920.md) and [aggregate/hash record](development_reservation_local_20260920.json) implement that committed design: 600 rows per selected arm, 312 exclusions, 13,578 unallocated rows, zero model calls. Cluster reproduction is pending; no calibration or threshold fitting has occurred.
+| Record | Outcome at this stage |
+| --- | --- |
+| [Canonical TEST inputs](halubench_inputs_cluster_20260928.json) | Completed: unchanged 8,000-row membership; passage overlap disclosed |
+| [Canonical TEST token audit](halubench_token_audit_cluster_20260928.json) | Completed: all 8,000 inputs fit and replay added no tokenizations |
+| [Fresh S4 inference](s4_halubench_cluster_20260928.json) | Completed: 8,000/8,000 scores and identical replay |
+| [Fresh S2 inference](s2_halubench_cluster_20260928.json) | Completed: 8,000 features; 1,886 original raw-zero fallbacks retained |
+| [Fusion on fresh features](halubench_fusion_cluster_20260928.json) | Completed: 8,000/8,000 scores without refitting |
+| [Fresh MiniCheck inference](minicheck_halubench_cluster_20260928.json) | Completed: 8,000/8,000 scores and identical replay |
+| [Original frozen Qwen run](halubench_budget_stop_20260929.json) | Parent stopped at 7,652 valid scores; separate continuation completed the population |
+| [Explicit Qwen continuation](halubench_continuation_complete_20260929.json) | Completed: 348/348 child scores, 8,000/8,000 combined, identical replay |
 
-The [completed cluster reservation and identical replay](development_reservation_cluster_20260920.md) now reproduce all counts and the independently reconstructed full manifest hash. The [cluster record](development_reservation_cluster_20260920.json) pins the data roles for the [calibration/threshold design](../../../post_thesis/llm_judge/CALIBRATION_THRESHOLD_PROTOCOL.md). No new scores, fitted calibrator or threshold are available.
+## Additional audit and provenance records
 
-The [local reserved-arm token audit](development_token_audit_local_20260920.md) and [hash/count record](development_token_audit_local_20260920.json) cover all 1,200 inputs with the actual pinned tokenizer. All fit without truncation; cached replay adds no development tokenizations. Cluster reproduction is pending and there is no scoring allowance.
+These supplement the primary reports above; local checks and earlier inventories
+do not supersede later cluster results or fresh inference provenance.
 
-The [completed cluster development token audit and replay](development_token_audit_cluster_20260920.md) and [hash/count record](development_token_audit_cluster_20260920.json) reproduce all 1,200 input lengths. The [bounded scoring plan](../../../post_thesis/llm_judge/DEVELOPMENT_SCORING_RUN.md) is implemented; no live reserved-arm scores or fitted parameters have been collected by this patch.
+| Record | Artifact |
+| --- | --- |
+| [cross split audit local 20260920](cross_split_audit_local_20260920.json) | Machine-readable record |
+| [development reservation local 20260920](development_reservation_local_20260920.json) | Machine-readable record |
+| [Post-thesis TRAIN development reservation: local validation](development_reservation_local_20260920.md) | Narrative |
+| [development token audit local 20260920](development_token_audit_local_20260920.json) | Machine-readable record |
+| [Post-thesis reserved TRAIN token audit: local validation](development_token_audit_local_20260920.md) | Narrative |
+| [evaluation math local 20260920](evaluation_math_local_20260920.json) | Machine-readable record |
+| [frozen fit verification 20260920](frozen_fit_verification_20260920.json) | Machine-readable record |
+| [halubench inputs local 20260928](halubench_inputs_local_20260928.json) | Machine-readable record |
+| [halubench judge requests local 20260928](halubench_judge_requests_local_20260928.json) | Machine-readable record |
+| [halubench token audit local 20260928](halubench_token_audit_local_20260928.json) | Machine-readable record |
+| [legacy baseline inventory 20260920](legacy_baseline_inventory_20260920.json) | Machine-readable record |
+| [minicheck environment 20260928](minicheck_environment_20260928.json) | Machine-readable record |
+| [minicheck halubench workload local 20260928](minicheck_halubench_workload_local_20260928.json) | Machine-readable record |
+| [Post-thesis MiniCheck fresh/legacy score comparison](minicheck_legacy_score_agreement_20260928.md) | Narrative |
+| [Post-thesis binary pilot: focused source review — 2026-09-19](ragtruth_binary_error_review_20260919.md) | Narrative |
+| [s2 halubench workload local 20260928](s2_halubench_workload_local_20260928.json) | Machine-readable record |
+| [s2 legacy score agreement 20260928](s2_legacy_score_agreement_20260928.json) | Machine-readable record |
+| [s4 legacy score agreement 20260920](s4_legacy_score_agreement_20260920.json) | Machine-readable record |
+| [source audit local 20260920](source_audit_local_20260920.json) | Machine-readable record |
+| [test alignment local 20260920](test_alignment_local_20260920.json) | Machine-readable record |
+| [test token audit local 20260920](test_token_audit_local_20260920.json) | Machine-readable record |
 
-- [Reserved TRAIN scoring completed](development_scoring_cluster_20260920.md): operator-reported full coverage and cached reuse in both 600-row arms; actual CPU fitting remains pending. See the [exact console record](development_scoring_cluster_20260920.json).
+## Preservation and reproduction
 
-- [Accepted development fit and cached replay](development_fit_cluster_20260920.md): positive-slope calibration, raw threshold -1.25, reliability diagnostics on both reserved arms; no TEST results. [Console-derived JSON](development_fit_cluster_20260920.json).
+Raw answer/context text, prompts, request journals, checkpoint fingerprints,
+private evaluations and review packets/keys remain outside Git under the private
+artifact root. Public aggregate reports are not a substitute for those records.
+The HaluBench parent and continuation are both required: the parent retains its
+budget stop and one interrupted attempt with unknown usage; the child completes
+the 8,000-example population without overwriting the parent.
 
-- [Frozen fit checker](frozen_fit_verification_20260920.json): operator-reported checksum match; zero refitting/model calls or source-file changes.
-- [Local RAGTruth TEST alignment](test_alignment_local_20260920.json): all 2,700 native answers, 2,694 exact contexts and six pinned single-space differences; cluster preparation and baseline provenance pending.
-
-- [Legacy baseline artifact inventory](legacy_baseline_inventory_20260920.json): located six full-size caches and six S4 config paths; cluster TEST manifest hash independently reconstructed. Cache bytes and checkpoint linkage remain unverified by the report author; on-pod provenance audit pending.
-
-- [Completed cluster legacy-baseline audit](baseline_provenance_cluster_20260920.md) and [operator observations](baseline_provenance_cluster_20260920.json): complete caches, matching OOF assignments and historical TRAIN thresholds; legacy input/model provenance remains incomplete. Metadata-free fusion reconstruction is prepared, not yet run on cluster caches.
-
-- [Completed metadata-free fusion reconstruction and replay](fusion_recovery_cluster_20260920.md), with [operator observations](fusion_recovery_cluster_20260920.json). The historical TRAIN reference matches; 2,700 predictions were saved. No new TEST metrics; legacy comparison provenance remains limited.
-
-- [Completed TEST token audit and replay](test_token_audit_cluster_20260920.md), with [observations and independent hash reconstruction](test_token_audit_cluster_20260920.json): 2,700 inputs fit, no generation or benchmark metrics.
-
-- [Completed cluster evaluation-math check and CI fix](evaluation_math_cluster_20260920.md): artificial numerical results and identical replay verified; baseline checkpoint compatibility is next.
-
-- [Completed S4 checkpoint CPU compatibility](s4_checkpoint_cluster_20260920.md): clean loading and four saved-tokenizer matches; both answer and context truncation observed. Fresh S4 TEST inference is now complete (see below).
-
-- [Fresh S4 TEST run and legacy-score agreement](s4_fresh_test_cluster_20260920.md): 2,700 valid scores, no failures, explicit truncation counts and maximum score difference below 0.000053; no label-based TEST metrics. [Exact agreement record](s4_legacy_score_agreement_20260920.json). Fresh S2 inference is prepared in [the run guide](../../../post_thesis/llm_judge/S2_TEST_RUN.md).
-
-- [Fresh S2 TEST run, replay and legacy-score agreement](s2_fresh_test_cluster_20260928.md): all 2,700 scores valid, identical replay hash, sentence counts matched throughout and maximum raw-min difference below 0.000055. [Exact agreement record](s2_legacy_score_agreement_20260928.json). The frozen fusion can now be applied to fresh features without refitting; cluster application remains pending.
-
-- [Frozen fusion on fresh S2/S4 features](fresh_fusion_cluster_20260928.md): all 2,700 scores valid, identical replay hash and no decision changes at the frozen 0.45 threshold. No fitting or TEST label metrics. MiniCheck preparation is next.
-
-- [New-pod MiniCheck environment inventory](minicheck_environment_20260928.json): supplied payload hash independently reproduced; GPU free, model snapshot present, cached bytes/live compatibility not yet verified. The [synthetic check guide](../../../post_thesis/llm_judge/MINICHECK_LIVE_CHECK.md) records a locally observed tokenizer incompatibility and the explicit saved-tokenizer adapter.
-
-- MiniCheck synthetic v1 startup failed after tokenizer checks and weight loading; replay made no new attempt. Report SHA256: `525e75192fb7b2e588a3b3e659228eaf30ece5478280e5c1c1a30da53c50ec89`. No synthetic scores returned. The [v2 sampler correction](../../../post_thesis/llm_judge/MINICHECK_LIVE_CHECK.md) is prepared, not yet live-verified.
-
-- [MiniCheck v2 synthetic compatibility passed](minicheck_synthetic_v2_20260928.md): 14 encoding checks, six generation requests, four matching verdicts, cached replay without another model attempt. [Fresh TEST execution](../../../post_thesis/llm_judge/MINICHECK_TEST_RUN.md) is prepared but not yet run.
-
-- [Fresh MiniCheck TEST completion and replay](minicheck_fresh_test_cluster_20260928.md): 2,700 valid examples, 18,935 sentence requests, no truncated prompts, identical replay hash. All planned fresh baseline predictions are present. The subsequent comparison is recorded below; the frozen judge TEST run remains pending.
-
-- [MiniCheck fresh/legacy score drift](minicheck_legacy_score_agreement_20260928.md): mean absolute difference 0.02947, 100/2,700 changed decisions at the unchanged historical TRAIN threshold. No label metrics or attribution of cause. The [fresh comparison manifest](../../../post_thesis/llm_judge/COMPARISON_MANIFEST.md) records the fresh-runtime scope and retained provenance limits; cluster verification is recorded below.
-
-- [Fresh baseline comparison manifest verified](fresh_comparison_manifest_20260928.md): all three baselines aligned on 2,700 examples / 450 groups, fixed thresholds and limitations preserved. [Bounded Qwen TEST execution](../../../post_thesis/llm_judge/TEST_LABEL_RUN.md) is prepared, not yet executed.
-
-- [Frozen Qwen RAGTruth TEST run and replay](qwen_ragtruth_test_cluster_20260928.md): 2,700/2,700 valid scores, complete usage, zero new replay attempts and identical report hash. [CPU evaluation](../../../post_thesis/llm_judge/TEST_EVALUATION.md) is implemented under the unchanged numerical contract; [cluster findings](ragtruth_frozen_evaluation_20260928.md) now record the first frozen TEST comparison.
-
-- [Canonical HaluBench input preparation](../../../post_thesis/llm_judge/HALUBENCH_INPUTS.md) and [local CPU counts](halubench_inputs_local_20260928.json): saved 8k membership preserved; exact-passage overlap disclosed, legacy comparison readiness unresolved. Pod manifest and inference remain pending.
-
-- [HaluBench pod manifest](halubench_inputs_cluster_20260928.json): all 8,000 canonical rows preserved; exact manifest hash independently reconstructed. [CPU token audit](../../../post_thesis/llm_judge/HALUBENCH_TOKEN_AUDIT.md) is implemented; pod token counts and inference remain pending.
-
-- [Local HaluBench token audit](halubench_token_audit_local_20260928.json): 8,000/8,000 inputs fit, 7,794,485 input tokens, maximum 7,298; identical zero-new-input-tokenization replay. Pod audit hash and live inference remain pending.
-
-- [HaluBench pod token audit and identical replay](halubench_token_audit_cluster_20260928.json): all 8,000 inputs fit; zero new replay tokenizations. [Bounded fresh S4 HaluBench inference](../../../post_thesis/llm_judge/HALUBENCH_S4_RUN.md) is implemented with the unchanged RAGTruth checkpoint and inference policy; live S4 run remains pending.
-
-- [Completed fresh S4 HaluBench run and identical replay](s4_halubench_cluster_20260928.json): all 8,000 scores valid; 850 contexts and zero answers truncated. [Fresh S2 plan](../../../post_thesis/llm_judge/HALUBENCH_S2_RUN.md) pins the [locally verified workload](s2_halubench_workload_local_20260928.json), including 1,886 empty-pair cases under the unchanged original policy. No new benchmark metrics.
+Use the [experiment README](../../../post_thesis/llm_judge/README.md) for CPU replay
+and artifact locations. Preserve all frozen runs and submitted-thesis artifacts.
+Any new inference, cascade, prompt revision or fit needs a distinct experiment
+identity; none is an unfinished task for this release.

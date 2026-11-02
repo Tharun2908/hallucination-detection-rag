@@ -85,4 +85,6 @@ context, faithful paraphrases, omitted information and explanation/issue agreeme
 Do not tune v2 further from this run by default. This repeated pilot is adaptive
 TRAIN development, not held-out evidence or a final benchmark freeze. Verdicts
 are not probabilities; no threshold fitting or calibration claim is introduced.
-The continuous-score design and native-source overlap audit remain unresolved.
+The later [continuous-score design](CONTINUOUS_SCORE_PROTOCOL.md) and scoped
+[native-source audit](SOURCE_AUDIT.md) completed. Their outcomes do not change
+this adaptive pilot or resolve strict document disjointness.

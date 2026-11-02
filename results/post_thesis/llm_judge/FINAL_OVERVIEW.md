@@ -144,6 +144,7 @@ was not rerun during this documentation step.
 Preserve the private input manifests, request/response journals, parent and
 continuation records, fit/freeze records, baseline provenance, full evaluations
 and review packet/key outside any disposable pod filesystem. Git contains public
-aggregates and code, not all material needed for private replay. Release tagging
-follows the final documentation commit and passing CI. A future cascade, new
-prompt or new calibration would be a separate experiment, not part of this freeze.
+aggregates and code, not all material needed for private replay. The release tag
+`post-thesis-llm-judge-v1` points to `c1b1cd6`, following passing CI. Subsequent
+documentation cleanup does not move that tag or change frozen results. A future
+cascade, new prompt or new calibration would be a separate experiment.

@@ -1,5 +1,9 @@
 # Post-thesis: paired synthetic evidence prompt run
 
+**Recorded outcome:** Completed: 26 cases per arm, with mixed semantic findings. See the [completed-stage record](../../results/post_thesis/llm_judge/evidence_prompt_pair_v1_20260919.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 **Adaptive synthetic development only; excluded from the submitted thesis.**
 Compare evidence prompts v1 and v2 on exactly the same 26 fixtures. The
 [committed plan](configs/evidence_prompt_pair_v1.json) pins both prompt hashes,
@@ -122,8 +126,9 @@ comparison flags, plus full evidence in each arm report. Missing predictions
 have null comparison flags; never drop them from the attempted-case denominator.
 The CLI reports valid coverage, verdict and issue matches, field order, and null
 context quotes among **valid insufficient-support records** for each arm. It
-leaves manual semantic review pending for valid outputs, including supported
-answers with null evidence. CLI success means complete valid, correctly ordered
+leaves manual semantic review pending in its original export, including supported
+answers with null evidence. The subsequent findings record the completed
+assistant review separately. CLI success means complete valid, correctly ordered
 outputs, not that verdicts or explanations are correct.
 
 Review all cases against full fixture inputs, including the prior embedded

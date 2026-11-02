@@ -1,5 +1,9 @@
 # Post-thesis fresh S4 HaluBench zero-shot inference
 
+**Recorded outcome:** Completed: 8,000/8,000 scores and identical replay. See the [completed-stage record](../../results/post_thesis/llm_judge/s4_halubench_cluster_20260928.json).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The HaluBench input manifest and CPU judge token audit are complete. This plan
 produces fresh S4 predictions for the same canonical 8,000 TEST examples. It uses
 the existing RAGTruth-trained checkpoint; no HaluBench adaptation is performed.
@@ -85,19 +89,19 @@ The journal is authoritative. The derived summary can be reconstructed from it
 without forward calls. On an unchanged completed run, its report hash and bytes
 remain identical on replay.
 
-## Interpretation and remaining work
+## Interpretation and subsequent evaluation
 
 This establishes current S4 inference linkage, not historical training membership
-or the exact inputs behind the old caches. Comparison readiness remains false
-until all planned baseline inputs and provenance are resolved. No model selection
-uses HaluBench labels or scores.
+or the exact inputs behind the old caches. This S4-only stage did not establish
+full comparison readiness. The later comparison verified all fresh baseline
+inputs and documented the remaining historical limits. No model selection uses
+HaluBench labels or scores.
 
 Timing reports synchronized GPU forward time and batch wall time including
 preparation/transfer. Model loading, journal overhead and total rental duration
 are excluded; shared-GPU timings are not controlled cross-system speed comparisons.
 There is no invented monetary cost.
 
-Next are fresh S2 features, application of the frozen metadata-free fusion, and
-fresh MiniCheck predictions; then bounded frozen judge inference and the registered
-cross-domain evaluation. The judge, calibration and operating thresholds remain
-unchanged throughout.
+The subsequent S2, frozen fusion, MiniCheck and judge runs all completed,
+followed by the [registered evaluation](HALUBENCH_EVALUATION.md). The judge,
+calibration and operating thresholds remained unchanged throughout.

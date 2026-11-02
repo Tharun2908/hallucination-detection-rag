@@ -84,6 +84,7 @@ hashes, inputs, environment or result identity fail closed. Source score caches,
 fit files and journals are not rewritten. Local regression checks use only
 artificial examples; actual TEST metrics must come from the pod execution.
 
-After reviewing the output, publish aggregate post-thesis findings with the
-baseline limitations. HaluBench, disagreement analysis, optional cascades and
-release packaging remain later stages. No new split or HaluBench read occurs here.
+Aggregate findings, the later [HaluBench evaluation](HALUBENCH_EVALUATION.md),
+[selected disagreement review](DISAGREEMENT_REVIEW.md) and release packaging
+are complete. A cascade remains optional future research, not a release task.
+This RAGTruth evaluation command creates no new split and reads no HaluBench data.

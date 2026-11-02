@@ -86,9 +86,9 @@ fitter revision reject reuse. Do not delete or modify a fit to bypass this check
 A rejected numerical calibrator still produces a report and independent raw
 threshold, but the command exits with status 1 to make the rejection visible.
 
-This step freezes development outputs, not test findings. Report the console output
-before preparing any benchmark evaluation. Final evaluation alignment and metrics
-remain a separate step under the research protocol.
+This fitter freezes development outputs, not test findings. The subsequent
+benchmark alignment and evaluations completed separately under the
+[evaluation protocol](EVALUATION_PROTOCOL.md); the fitter never computes TEST metrics.
 
 ## Completed fit: use the read-only checker after updating the checkout
 
@@ -109,5 +109,5 @@ revision; it does not require that revision to equal the current checkout.
 No GPU server, tokenizer, new model scores or refit is needed. It validates the
 complete private fit checksum and the frozen parameters/threshold/provenance.
 It is not another execution of the full scoring-journal replay: that was recorded
-by the original fitter. Next follow [the evaluation protocol](EVALUATION_PROTOCOL.md)
-to prepare dataset and baseline alignment before an inference plan.
+by the original fitter. The [evaluation protocol](EVALUATION_PROTOCOL.md) and
+[documentation index](DOCUMENTATION_INDEX.md) record the completed later stages.

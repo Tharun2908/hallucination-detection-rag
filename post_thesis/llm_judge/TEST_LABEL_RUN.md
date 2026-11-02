@@ -1,5 +1,9 @@
 # Post-thesis frozen Qwen RAGTruth TEST run
 
+**Recorded outcome:** Completed: 2,700/2,700 valid scores and identical replay. See the [completed-stage record](../../results/post_thesis/llm_judge/qwen_ragtruth_test_cluster_20260928.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This extension is outside the submitted thesis. The frozen prompt, model,
 class mapping, calibration and operating threshold remain unchanged. Fresh
 baseline comparison verification completed with manifest SHA256

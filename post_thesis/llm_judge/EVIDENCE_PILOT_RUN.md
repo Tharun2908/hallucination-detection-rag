@@ -95,7 +95,8 @@ remain valid but are flagged separately. CLI success checks valid coverage and
 order, not accuracy. Manual evidence review remains required even if all 50
 records are structurally valid.
 
-Preserve historical probability and binary predictions for a later paired
-**development** comparison. Native-source overlap auditing, continuous-score
-and calibration design, threshold selection and final benchmark evaluation
-remain unresolved separate steps.
+Preserve the historical probability, binary and evidence predictions as
+**development** records. Subsequent scoped source audits, label-score design,
+calibration, threshold selection and both benchmark evaluations completed; see
+the [documentation index](DOCUMENTATION_INDEX.md). Exhaustive claim-level
+adjudication of this evidence pilot was not performed and is not a release task.

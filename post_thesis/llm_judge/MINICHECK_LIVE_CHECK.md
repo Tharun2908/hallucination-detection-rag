@@ -1,5 +1,9 @@
 # Post-thesis MiniCheck synthetic compatibility check
 
+**Recorded outcome:** V1 failed; v2 passed and cached replay made no new attempt. See the [completed-stage record](../../results/post_thesis/llm_judge/minicheck_synthetic_v2_20260928.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The operator recreated the H200 pod. The [new environment record](../../results/post_thesis/llm_judge/minicheck_environment_20260928.json)
 shows an idle GPU, the pinned model snapshot present under `/root`, and ample
 root-disk space. Snapshot filenames alone did not verify the files' contents.
@@ -79,7 +83,9 @@ Version 2 sets `VLLM_USE_FLASHINFER_SAMPLER=0` before importing vLLM and records
 that setting in its run identity. The spawned engine inherits it. This uses
 vLLM's supported native sampling path while keeping attention, raw logprobs,
 prompts, tokenizer, model and six-request workload unchanged. No package or
-CUDA-toolkit installation is part of this correction. Live v2 remains untested.
+CUDA-toolkit installation is part of this correction. The subsequent
+[v2 live check](../../results/post_thesis/llm_judge/minicheck_synthetic_v2_20260928.md)
+passed; the v1 failure remains preserved.
 
 Source checked against official vLLM **v0.29.0**:
 - [sampling backend selection](https://github.com/vllm-project/vllm/blob/v0.29.0/vllm/v1/sample/ops/topk_topp_sampler.py)

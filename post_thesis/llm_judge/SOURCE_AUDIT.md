@@ -1,5 +1,9 @@
 # Post-thesis offline TRAIN source and exact-overlap audit
 
+**Recorded outcome:** Completed scoped exact-overlap audit. See the [completed-stage record](../../results/post_thesis/llm_judge/source_audit_cluster_20260920.json).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This is post-submission provenance work, not a thesis result, model experiment or
 final data split. It follows the completed label-score pilot without changing its
 prompt, scores or original 50-example manifest.
@@ -108,4 +112,4 @@ matched all 15,090 TRAIN responses and contexts and found no additional pilot-li
 candidate exclusions under these exact rules. It does not substitute for the
 cluster report or close the limitations above.
 
-The cluster check subsequently matched the local results and its complete report hash was independently reconstructed; see the [cluster record](../../results/post_thesis/llm_judge/source_audit_cluster_20260920.json). Preserve that completed report. The next [cross-split source check](CROSS_SPLIT_AUDIT.md) uses it as a pinned input and extends the scope to native TEST source content, without using TEST answers or labels.
+The cluster check subsequently matched the local results and its complete report hash was independently reconstructed; see the [cluster record](../../results/post_thesis/llm_judge/source_audit_cluster_20260920.json). Preserve that completed report. The completed [cross-split source check](CROSS_SPLIT_AUDIT.md) uses it as a pinned input and extends the scope to native TEST source content, without using TEST answers or labels.

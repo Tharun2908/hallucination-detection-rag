@@ -1,6 +1,12 @@
 # Post-thesis development reservation protocol
 
-**Design v1, 2026-09-20. No development IDs selected and no model calls.**
+**Recorded outcome:** Implemented without changing the original design. See the [completed-stage record](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
+**Design v1, 2026-09-20:** no development IDs had been selected and no model
+calls had been made when this design was recorded. Allocation and later fitting
+are now complete; the original design JSON remains unchanged.
 This work is separate from the submitted thesis. The machine-readable design is
 [development_reservation_v1.json](configs/development_reservation_v1.json).
 Commit this design before implementing or running allocation. It defines data
@@ -93,13 +99,14 @@ The 20 source records with incomplete business identities (13 TRAIN, seven TEST)
 remain a known audit gap. Retain otherwise eligible components and flag them;
 absence of a complete identity is not evidence of independence. This protocol
 claims disjointness only under the registered native/exact-overlap indicators.
-Fuzzy/partial overlap, paraphrases, canonical document identities, HaluBench
-source overlap and baseline training exposure remain unverified. Do not claim
+Fuzzy/partial overlap, paraphrases, canonical document identities and baseline
+training exposure remain unverified. Later [HaluBench preparation](HALUBENCH_INPUTS.md)
+quantified exact-passage overlap but did not establish broader independence. Do not claim
 strict document disjointness, including between the two development arms.
 
 ## Manifest and integrity requirements
 
-The next implementation must produce a separate private manifest containing:
+The allocator produces a separate private manifest containing:
 
 - Design hash and allocator code revision, plus every input/report hash above.
 - All row IDs and source/component assignments across all four partitions;
@@ -144,4 +151,6 @@ or tune on test outcomes. Any scope amendment must be explicit and versioned.
 
 ## Implementation follow-up
 
-After this design was committed as `c982d26`, the [offline selector](DEVELOPMENT_RESERVATION.md) was implemented and locally validated without changing the design. It selects 600 examples per role. The original design JSON remains unchanged as a historical input; runtime selection status is recorded in the new manifest. The [cluster reservation and replay](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md) now match; no fitting or model generation has occurred. The [calibration/threshold protocol](CALIBRATION_THRESHOLD_PROTOCOL.md) fixes the next statistical choices before collecting scores.
+After this design was committed as `c982d26`, the [offline selector](DEVELOPMENT_RESERVATION.md) was implemented and locally validated without changing the design. It selects 600 examples per role. The original design JSON remains unchanged as a historical input; runtime selection status is recorded in the new manifest. The [cluster reservation and replay](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md) match. The allocation command itself makes no model or fitting calls. The later
+[calibration/threshold protocol](CALIBRATION_THRESHOLD_PROTOCOL.md) governed the
+completed scoring and fit; these outcomes do not rewrite the original design.

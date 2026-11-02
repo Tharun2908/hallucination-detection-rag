@@ -1,12 +1,17 @@
 # Post-thesis: evidence schema v2 and compatibility checks
 
+**Recorded outcome:** Completed: 38/38 native grammar checks. See the [completed-stage record](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 **Development only. Excluded from the submitted thesis.** The first
 [evidence diagnostic result](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
 has 11/14 valid records. Three supported answers violated the null-field contract;
 one accepted unsupported explanation conflated unknown with absence.
 
 Update after this design was committed: the [operator-reported native check](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md)
-passed all 38 cases. A [separate live run plan](EVIDENCE_V2_RUN.md) is now prepared.
+passed all 38 cases. The [separate live run](EVIDENCE_V2_RUN.md) also completed
+with 14 valid records and two false positives.
 The sections below describe the original schema-only patch and its pre-run checks;
 statements about that patch having no generation budget are historical.
 
@@ -80,7 +85,8 @@ The native check uses XGrammar's documented
 and [matcher](https://github.com/mlc-ai/xgrammar/blob/main/python/xgrammar/matcher.py)
 interfaces. These upstream references describe the interfaces; compatibility with
 the **actually installed version** must be measured rather than inferred from
-current documentation. It is still pending at the time of this patch.
+current documentation. That measurement was pending when the schema-only patch
+was committed; the completed 38-case check is linked above.
 
 After committing, pushing, verifying CI and pulling on the cluster, run with the
 existing serving environment. **A running model server is not needed.**

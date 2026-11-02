@@ -1,5 +1,9 @@
 # Post-thesis bounded scoring of reserved TRAIN development arms
 
+**Recorded outcome:** Completed: 600/600 valid scores per arm and cached replay. See the [completed-stage record](../../results/post_thesis/llm_judge/development_scoring_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This run collects raw class-token scores for the frozen development reservation.
 It does **not** fit calibration, choose a threshold, tune a prompt, evaluate TEST,
 or score HaluBench. The [calibration/threshold rules](CALIBRATION_THRESHOLD_PROTOCOL.md)
@@ -127,9 +131,10 @@ input token IDs and responses, so keep them private. Return the concise console
 summaries and fresh/inspection hashes; no 1,200-row paste is needed yet.
 
 Stop the launcher when finished to record server time. Score collection is the
-only new execution stage here. Subsequent offline fitting must follow the frozen
-statistical protocol; aggregate benchmark claims and any cascade remain later
-work. Existing exact-overlap limitations and the post-thesis separation remain.
+only execution stage performed by this runner. The subsequent [offline fit](OFFLINE_FITTING.md)
+and both benchmark evaluations completed under their separate frozen rules.
+A cascade was optional and is not part of this release. Exact-overlap limitations
+and the post-thesis separation remain.
 
 ## Validation
 

@@ -1,41 +1,21 @@
 # Post-thesis LLM judge protocol
 
-**Completion note (2026-11-02):** Frozen RAGTruth and canonical HaluBench
-inference/evaluation, cached replay, selected qualitative review and runtime
-accounting are complete. See the [final overview](../../results/post_thesis/llm_judge/FINAL_OVERVIEW.md).
-Development-stage and execution-pending statements below are preserved as
-historical records. This note changes no frozen configuration, numerical
-contract, labels or decision rules.
-
 **Protocol ID:** `post_thesis_llm_judge_v1`
 
-**Stage:** design recorded; offline interface/parser and resumable runner
-implemented. Qwen3-32B on a self-hosted vLLM/H200 profile is the initial development
-candidate. The operator completed two six-example H200 synthetic runs and a
-cache reuse check; a reproducible absence-claim failure remains. TRAIN pilot
-manifest is prepared, the cluster token audit passed, and the first bounded
-50-example TRAIN scoring run is complete. Inspected development outcomes
-motivated a separate v2 prompt revision. Its token audit and 50-example scoring
-run are complete. Paired development results improve ranking but leave clear
-errors. A completed [synthetic diagnostic](DIAGNOSTIC.md) found sharply lower
-probabilities for embedded unsupported claims. A [binary-output diagnostic](BINARY_DIAGNOSTIC.md)
-matched all ten synthetic expectations. The subsequent
-[binary TRAIN pilot](../../results/post_thesis/llm_judge/ragtruth_binary_pilot_20260919.md)
-detected 13/24 labeled positives with three false positives. A
-[focused source review](../../results/post_thesis/llm_judge/ragtruth_binary_error_review_20260919.md)
-confirms four persistent misses and documents source/annotation ambiguity.
-The formulation and original labels remain unchanged. Binary outputs do not resolve the final continuous-score design.
-A [structured evidence diagnostic](EVIDENCE_DIAGNOSTIC.md) now has a frozen
-development contract, parser and synthetic controls. Its separate
-[bounded synthetic execution](EVIDENCE_RUN.md) completed with 11/14 valid records
-and one explanation concern. The [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md)
-addresses field dependencies; the [native check passed 38/38](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md). The [v2 synthetic result](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) has 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44; the [v3 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md) has 14/14 valid, correctly ordered outputs and 13/14 expected verdicts. Hold this candidate fixed for the next development comparison, starting with a [token-only original TRAIN pilot audit](EVIDENCE_PILOT.md). This is not final benchmark freeze.
-The final benchmark configuration remains pending.
-See [PILOT.md](PILOT.md) for the pinned selection and grouping limitations.
-Study design unchanged.
+**Current stage — complete:** the final label-score judge, calibration and
+operating threshold are frozen. Both benchmark evaluations, cached replay,
+selected qualitative review and inference accounting are complete. The release
+is tagged `post-thesis-llm-judge-v1` at `c1b1cd6`.
 
-**Scope:** research conducted after thesis submission; excluded from submitted
-thesis results. The defence is pending.
+The sections below retain the study's design boundaries. Later protocols specify
+the implemented [label score](CONTINUOUS_SCORE_PROTOCOL.md),
+[development fit](CALIBRATION_THRESHOLD_PROTOCOL.md) and
+[benchmark evaluation](EVALUATION_PROTOCOL.md). The
+[documentation index](DOCUMENTATION_INDEX.md) links each development/run guide
+to its completed outcome; earlier candidates are not outstanding experiments.
+
+**Scope:** research conducted after thesis submission, excluded from submitted
+thesis results. Preserve the thesis artifacts and their separate provenance.
 
 ## 1. Question, claim, and baseline
 
@@ -72,16 +52,27 @@ The target is **whether the answer contains at least one factual claim that is
 unsupported by, or contradicts, the supplied context**. It is not the fraction
 of unsupported claims, severity, answer quality, or real-world truthfulness.
 
-Planned structured response:
+### Final benchmark score
+
+The final judge uses the frozen `faithfulness-label-score-v1` prompt and one
+class token: A=supported, B=unsupported. Rank by raw `logP(B) - logP(A)`;
+apply the frozen TRAIN-fitted calibration separately. The operating rule is
+raw margin `>= -1.25`. Exact identities and parameters are in
+[configs/frozen_judge_v1.json](configs/frozen_judge_v1.json).
+This replaces the initial verbalized-probability candidate for final evaluation.
+
+### Historical probability interface
+
+The initial development interface requested:
 
 ```json
 {"unsupported_probability": 0.73}
 ```
 
-The value is a finite numeric estimate in `[0, 1]`, with higher meaning more
-likely unsupported. A verbalized probability is not assumed calibrated.
-The parser must reject booleans, missing/duplicate keys, invalid JSON,
-non-finite/out-of-range values, and API refusals rather than manufacture a score.
+Its finite numeric value in `[0, 1]` was not assumed calibrated. Its parser
+rejects booleans, missing/duplicate keys, invalid JSON, non-finite/out-of-range
+values and API refusals rather than manufacturing a score. This preserved
+[legacy interface](LEGACY_INTERFACE.md) is not the final label-score scorer.
 
 Do not automatically exclude disclaimers or evidence-absence claims. Assess any
 factual assertions they contain against the context. A terminal API failure,
@@ -221,19 +212,22 @@ Publish positive and negative findings in a separate post-thesis report. Link th
 frozen run configuration, prompt, artifact hashes, and limitations. A later
 release/tag must explicitly identify the extension and preserve thesis provenance.
 
-## 10. Decisions still required before a paid pilot or final run
+## 10. Recorded freeze points
 
-| Decision | Freeze point |
+| Decision | Completed record |
 | --- | --- |
-| Judge provider/model, available version pin, API budget | Before paid pilot |
-| Pilot IDs/seed, initial prompt, input limits, bounded retry policy, concurrency | Before paid pilot; record pilot revisions |
-| Final prompt and inference settings | After pilot, before final evaluation |
-| Disjoint development IDs/count, threshold rule, optional calibration method | Before fitting thresholds/calibration |
-| Metric binning, bootstrap/grouping, context control, missing-score reporting | Before final evaluation |
-| Exact historical submission snapshot | Before creating any thesis-submission tag or claiming snapshot identity |
+| Judge model, tokenizer and serving profile | [Frozen judge](configs/frozen_judge_v1.json); separate bounded run plans |
+| Adaptive pilot membership, prompts and budgets | [Development history](DOCUMENTATION_INDEX.md#historical-diagnostics) |
+| Final prompt and inference settings | [Continuous-score protocol](CONTINUOUS_SCORE_PROTOCOL.md) |
+| Separate calibration and threshold membership | [Development reservation](DEVELOPMENT_RESERVATION.md) |
+| Calibration method, threshold rule and fitted values | [Fit protocol](CALIBRATION_THRESHOLD_PROTOCOL.md), [accepted fit](../../results/post_thesis/llm_judge/development_fit_cluster_20260920.md) |
+| Metrics, bootstrap groups, evidence visibility and missing scores | [Evaluation protocol](EVALUATION_PROTOCOL.md) and completed benchmark reports |
+| Post-thesis release | Tag `post-thesis-llm-judge-v1` at `c1b1cd6` |
 
-This file freezes the study design baseline, not the unresolved operational
-values above. Record revisions in Git and retain the first frozen evaluation.
+The exact historical thesis-submission snapshot remains unverified. The extension
+tag does not claim to identify that submission. Operational configurations and
+earlier status fields remain preserved as historical records; this documentation
+update does not grant a new inference budget or change the evaluated systems.
 
 ### Backend deployment clarification
 
@@ -250,145 +244,34 @@ versus billed charges. Unknown cost remains unknown, not zero. The compute/time
 budget replaces an API-spend budget when self-hosting; freeze the applicable
 resource limit before the pilot.
 
-### Initial development backend
+## Historical implementation sequence
 
-The first candidate is `Qwen/Qwen3-32B`, BF16, non-thinking, temperature zero,
-with one H200 and sequential requests. Exact model/tokenizer revisions and the
-vLLM version are in [configs/qwen3_32b_h200.json](configs/qwen3_32b_h200.json).
-These are development settings, not a final evaluation freeze or a performance
-claim. The 32,768-token serving limit includes the complete formatted input and
-output allowance; overlength examples fail explicitly without truncation.
-Audit benchmark lengths before selecting the final evidence-visibility policy.
+The initial probability interface used Qwen3-32B, BF16, non-thinking, one H200
+and sequential requests. Its original 128-token profile is preserved in
+[configs/qwen3_32b_h200.json](configs/qwen3_32b_h200.json). Structured-evidence
+experiments used a separate 512-token profile. The final `label-score-v1`
+profile generates one token. These are distinct request and run identities.
 
-The six manually constructed examples in `smoke.py` are infrastructure checks,
-not benchmark examples or a substitute for the 50–100-example TRAIN pilot.
-Synthetic GPU execution is recorded in the [post-thesis smoke observations](../../results/post_thesis/llm_judge/synthetic_smoke_20260919.md).
-The first 50-example TRAIN selection rule is recorded in [PILOT.md](PILOT.md).
-Shared-context groups are a source proxy; native-source overlap auditing remains
-required before claiming strict source-disjoint threshold development. The
-[first TRAIN pilot report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md)
-preserves v1 findings. See [PILOT.md](PILOT.md) for its immutable artifact hashes
-and committed 50-example/one-attempt/600-second cumulative client budget.
-[Prompt v2](PROMPT_V2.md) completed its separate 50-example/one-attempt/600-second
-scoring run; see the [paired report](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_v2_20260919.md).
-Unused pilot allowances are not transferred to the synthetic diagnostic.
-The token audit's separate 50-request/300-second invocation limits are not
-the scoring budget.
+| Stage | Recorded outcome |
+| --- | --- |
+| Probability and binary pilots | Completed adaptive development; embedded-error dilution and persistent semantic misses motivated later diagnostics |
+| Evidence schema v1/v2/v3 | Completed synthetic checks; structural validity and field order did not establish evidence correctness |
+| Evidence prompt-v2 TRAIN pilot | 43/50 valid records; seven quote failures and mixed semantic findings; evidence tuning paused |
+| Class-token compatibility and original TRAIN pilot | Completed transport checks and 50/50 valid pilot scores; uncalibrated development results retained |
+| Native source and cross-split audits | Completed scoped exact-overlap checks; 312 TRAIN rows excluded from subsequent reservation |
+| Reserved development arms | 600 calibration and 600 threshold rows, scored completely under separate bounded plans |
+| Fitting and decision freeze | Positive-slope calibration accepted and raw-margin threshold -1.25 frozen before new TEST scores |
+| RAGTruth and HaluBench | Completed fresh four-system inference, cached replay and frozen evaluation |
+| Review, accounting and release | Completed selected-case review and verified accounting; tagged release preserved |
 
-## Evidence TRAIN development execution addendum — 2026-09-19
+The [documentation index](DOCUMENTATION_INDEX.md) provides every original stage
+guide and its result record. Historical commands describe their recorded revisions
+and budgets; they do not authorize reopening development after TEST inspection.
+No attempt failures, quote failures, prior scores or labels were silently repaired.
 
-The original-50 evidence-v3 token audit is complete: 77,574 input tokens, maximum
-3,326 and no overlength inputs. The separate [execution plan](EVIDENCE_PILOT_RUN.md)
-pins audit SHA256 `d08eede188c9308e2a77cc9e205e324c0cace58b293b05afa965e24a02f48939`
-and its revision `9bb7dc3a020919493aafe27e5662a50f31f7d8c0`.
-Allow at most one generation attempt for each of the same 50 TRAIN inputs,
-512 output tokens each and 600 cumulative client seconds across resumes. The
-prompt, serialized schema, model and serving configuration remain unchanged.
-This is adaptive development with categorical evidence outputs, not a final
-benchmark freeze, probability estimator or threshold-fitting run. The [completed development run](../../results/post_thesis/llm_judge/ragtruth_evidence_pilot_v3_20260919.md) produced 37/50 valid evidence records and 13 quote-membership failures. All 50 raw responses followed the expected order, but targeted review found incorrect rationales among valid outputs. Keep failures missing and preserve the exact-quote parser. The candidate is not ready for benchmark freeze; no new inference allowance is added by recording these results. Preserve all historical runs and unresolved research
-questions, including the embedded unknown-absence failure and native-source
-exclusion audit.
-
-## Offline evidence prompt revision after the TRAIN pilot
-
-The [prompt-v2 candidate](EVIDENCE_PROMPT_V2.md) changes instructions only; schema
-v3, parser, model profile and historical artifacts are preserved. The synthetic
-suite retains the original 14 inputs and adds 12 authored cases targeting observed
-failure mechanisms. All expectations remain offline. A future live comparison
-must evaluate both prompts on the same 26 cases with separately recorded token
-checks, budgets and run identities. This is adaptive development; no held-out
-claim, new scoring allowance or benchmark freeze is introduced here. Report
-null-context use and semantic rationale quality alongside validity and verdicts.
-
-## Paired synthetic execution addendum
-
-The [paired plan](EVIDENCE_PAIR_RUN.md) permits one 600-second invocation for
-26 cases per prompt (52 generation attempts maximum, one per case/arm), after
-a full audit of all 52 formatted inputs. It retains schema v3, the evidence-v1
-model profile and default auto backend policy, and balances which prompt runs
-first per case. Separate journals share one execution reservation. Subsequent
-invocations inspect the cache only; unknown windows charge the full budget.
-Report all missing outputs, null-context use, order and verdict/issue agreement,
-then manually review semantic evidence quality. This is adaptive synthetic
-development; the [paired results](../../results/post_thesis/llm_judge/evidence_prompt_pair_v1_20260919.md) are recorded. Both prompts have full structural coverage; v2 gains one expected verdict but introduces an unknown-as-absence rationale error, while both miss a false context-absence assertion. Stop tuning on these fixtures and retain v2 as a fixed candidate for a separately prepared original-50 TRAIN token audit. This findings update adds no new generation allowance or benchmark freeze.
-
-## Evidence prompt-v2 original-TRAIN token audit
-
-The [audit implementation](EVIDENCE_PROMPT_V2_PILOT.md) now selects the fixed v2
-evidence prompt with unchanged schema-v3 serialization and evidence-v1 profile.
-It audits only the original 50 TRAIN inputs, one tokenization attempt each, in a
-separate fixed directory. The 512-token output allowance is a fit check; zero
-generation calls are made. Record actual counts, audit hash and revision before
-preparing any scoring budget. Existing v1 artifacts and scoring identities remain
-unchanged. Synthetic semantic limitations carry forward to the next review.
-
-## Evidence prompt-v2 original-TRAIN bounded scoring
-
-The operator-reported audit at revision `6137fb47b5aa65ace9eb5de78a8bea52202850bc`
-counted 50/50 inputs: 77,724 tokens, maximum 3,329, no overlength cases and no
-model generations. The [separate scoring plan](EVIDENCE_PROMPT_V2_PILOT_RUN.md)
-pins audit SHA256 `06569291a3b0b620884ad1cdd213ffa83febc718c827e5a388bb133a888f92d6`.
-It allows one attempt per original input, 512 output tokens each and 600 cumulative
-client seconds. The prompt, schema, parser and model remain fixed. Preserve the
-v1 default and artifacts; v2 uses an explicit selector and separate journal.
-Scoring is complete; see the findings addendum below. Existing semantic failures remain review targets, and
-this adaptive TRAIN run introduces no probabilities, test metrics, threshold
-fitting or final benchmark freeze.
-
-## Completed evidence prompt-v2 TRAIN findings
-
-The [v2 report](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_pilot_20260920.md)
-records the bounded run at `2265ac33683274383a42ec0be2e8df3a91fde86b`:
-43/50 valid records, seven quote-membership failures and all 50 raw field orders
-reported correct. Six previously missing outputs become valid; among the 37
-shared valid examples, label agreement changes from 27 to 26. Preserve failures
-as missing and distinguish semantic rationale quality from label agreement.
-Targeted assistant review is complete; exhaustive adjudication is not.
-Pause further evidence-prompt tuning. Define the continuous-score protocol next,
-including score semantics, missingness, calibration and development-only threshold
-selection, before implementing new inference. No new compute allowance, test
-metrics or benchmark freeze follows from recording these findings.
-
-## Continuous-score design after evidence diagnostics
-
-The [new design](CONTINUOUS_SCORE_PROTOCOL.md) defines a separate class-token
-likelihood candidate: unsupported log-odds from raw probabilities of two fixed
-labels at the same assistant position. Its normalized score is not automatically
-a calibrated probability. Exact prompt/tokenizer identities and raw-logprob
-transport compatibility must be established before a bounded live run.
-The selected A/B mapping, missing-score handling, independent development
-calibration/threshold controls and unchanged canonical HaluBench split are
-explicit. No model generation, new scoring allowance or benchmark freeze is
-introduced here. Evidence-prompt tuning stays paused.
-
-The [offline contract and pinned-tokenizer check](LABEL_SCORE_OFFLINE.md) are now
-implemented. Four actual-tokenizer boundary checks passed on the assistant CPU,
-with A/B token IDs 32/33. The recorded fingerprints must also match on the
-cluster. This does not establish live raw-logprob compatibility or judge quality;
-there is no new generation allowance.
-
-## Bounded synthetic class-score compatibility plan
-
-The [cluster tokenizer and source checks](../../results/post_thesis/llm_judge/label_score_setup_20260920.md)
-passed. The separate [execution plan](LABEL_SCORE_RUN.md) freezes 30 one-token
-synthetic requests, a 600-second cumulative client budget, explicit raw-logprob
-serving, primary/swapped mappings and two numeric controls. No live score result
-is claimed yet; no TRAIN, TEST or HaluBench scoring is included.
-
-## Development reservation design after native cross-split audit
-
-The [completed cross-split audit](../../results/post_thesis/llm_judge/cross_split_audit_cluster_20260920.md) proposes 312 total exclusions and leaves 14,778 candidate TRAIN rows. Native TEST source content was used for overlap checking; TEST answers/labels/performance were not. The [reservation design](DEVELOPMENT_SPLIT_PROTOCOL.md) fixes separate 100-component calibration and operating-threshold sets, retains every response per component and specifies allocation before label inspection. Commit the design before implementing selection. Strict document disjointness remains unestablished; all work is post-thesis, with zero new generation allowance.
-
-The [offline reservation implementation](DEVELOPMENT_RESERVATION.md) follows the committed design and has been locally checked on pinned inputs. Both selected arms contain 600 rows from 100 components, and all 312 exclusions are retained. Cluster reproduction is pending. Native/exact-overlap component disjointness does not establish strict document disjointness. The subsequent fitting rules and scoring budget still require preregistration.
-
-## Calibration and threshold rules after reservation
-
-The [completed reservation and replay](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md) match the independently reconstructed manifest hash. The [statistical protocol](CALIBRATION_THRESHOLD_PROTOCOL.md) now fixes a positive-slope regularized logistic map, deterministic F1 threshold selection on the separate raw-margin arm, complete-score eligibility, failure behavior and reliability binning. These choices precede any reserved-arm scores. Neither fitting nor new generation is implemented or authorized in this design step.
-
-The [development token-length audit](DEVELOPMENT_TOKEN_AUDIT.md) implements the next offline step. It preserves the frozen roles and statistical rules, projects answer/context only, checkpoints CPU work and records all overlength inputs without truncation. Local checks passed on all 1,200 inputs; the cluster result is pending. No generation or fitting is added.
-
-The [completed reserved-arm token audit](../../results/post_thesis/llm_judge/development_token_audit_cluster_20260920.md) is now pinned. A [separate bounded scoring plan](DEVELOPMENT_SCORING_RUN.md) collects primary raw class scores for the fixed 600-row calibration and 600-row threshold arms, preserving identities and independent budgets. It does not fit calibration, select thresholds or evaluate held-out benchmarks.
-
-## Completed development fit and fixed judge decisions
-
-Both reserved scoring arms completed with 600/600 valid scores. The [accepted fit](../../results/post_thesis/llm_judge/development_fit_cluster_20260920.md) fixes the positive-slope calibration map and raw threshold -1.25; cached inspection preserved the report hash. [The decision configuration](configs/frozen_judge_v1.json) freezes model/prompt/score/mapping/calibration/threshold identities. [The evaluation protocol](EVALUATION_PROTOCOL.md) now specifies ranking conventions, coverage, component bootstrap and baseline separation. Dataset/text alignment, baseline caches and bounded benchmark execution manifests are next. No new model calls or TEST performance claims follow from this record. All historical diagnostic instructions above describe their original stages, not permission to reopen development tuning.
+Native/exact-overlap component separation does not prove strict document
+independence. Historical cache/checkpoint linkage, verifier training exposure,
+MiniCheck fresh/legacy drift and unknown foundation-model exposure remain
+limitations. The [final overview](../../results/post_thesis/llm_judge/FINAL_OVERVIEW.md)
+explains their effect on interpretation. A cascade or another prompt/fit is
+future research, not an unfinished part of this release.

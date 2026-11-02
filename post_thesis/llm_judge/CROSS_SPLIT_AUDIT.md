@@ -1,5 +1,9 @@
 # Post-thesis native TRAIN–TEST exact-overlap audit
 
+**Recorded outcome:** Completed; 12 additional TEST-linked TRAIN candidate rows excluded. See the [completed-stage record](../../results/post_thesis/llm_judge/cross_split_audit_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This is offline data-provenance work after thesis submission. It extends the
 completed TRAIN audit and does not generate predictions, evaluate TEST accuracy,
 fit calibration, choose thresholds or revise the judge prompt.
@@ -84,7 +88,7 @@ see the [completed result](../../results/post_thesis/llm_judge/cross_split_audit
 
 The cluster run is complete at revision `141f60a`. Preserve its existing private
 report; do not rerun it under a later revision, which changes the report hash.
-The next step is the [development reservation design](DEVELOPMENT_SPLIT_PROTOCOL.md).
+The subsequent [development reservation](DEVELOPMENT_SPLIT_PROTOCOL.md) is complete.
 
 Use the existing CPU environment and cached input files; no packages, downloads,
 model weights or serving restart are needed:

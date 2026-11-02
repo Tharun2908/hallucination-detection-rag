@@ -1,5 +1,9 @@
 # Post-thesis: evidence prompt v2 development candidate
 
+**Recorded outcome:** Completed paired synthetic and original-TRAIN checks; tuning paused. See the [completed-stage record](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_pilot_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 **Post-thesis development candidate; excluded from the submitted thesis.**
 The original offline preparation is retained below. A [separate bounded paired runner](EVIDENCE_PAIR_RUN.md) is now available; this offline checker still makes no model calls. The original
 TRAIN evidence pilot produced 37/50 valid records, with quote extraction failures
@@ -60,10 +64,10 @@ reported as adaptive synthetic development, not a new holdout or independent
 validation set. No benchmark rows, labels, IDs or references are embedded in the
 prompt. Example adapters expose only answer/context to requests.
 
-For a later comparison, run **both prompt versions on these same 26 cases** with
-identical schema-v3 serialization, `evidence-v1` model profile and serving settings.
-That would require a separately recorded paired plan for 52 attempts (one per
-case per prompt), fresh token-length checks and independent run identities. The
+The subsequent comparison ran **both prompt versions on these same 26 cases**
+with identical schema-v3 serialization, `evidence-v1` model profile and serving
+settings. Its separate paired plan recorded 52 attempts (one per case per prompt),
+fresh token-length checks and independent run identities. The
 historical 14-case result is useful provenance but cannot substitute for a matched
 26-case comparison. The original preparation added no live execution plan or scoring budget. The subsequent [paired execution plan](EVIDENCE_PAIR_RUN.md) records them separately.
 
@@ -81,7 +85,8 @@ semantic review. Do not hide regressions behind one aggregate accuracy number.
 Hold this candidate and fixture set fixed through that comparison. Record failures
 before deciding whether another revision is justified. Do not proceed directly
 to TRAIN or full benchmarks on the strength of offline checks. Continuous-score
-and calibration design and native-source overlap auditing remain unresolved.
+and calibration design and scoped native-source auditing were completed later;
+see the [documentation index](DOCUMENTATION_INDEX.md).
 
 ## Offline verification
 
@@ -106,5 +111,6 @@ The [findings](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_p
 record 43/50 valid outputs with seven retained failures. Coverage improved but
 shared-valid label agreement fell by one and semantic errors persist. Pause
 further evidence-prompt tuning; preserve this fixed candidate and all historical
-artifacts. The next research step is a continuous-score design, not a new
-benchmark run. No final prompt freeze or superiority claim is introduced.
+artifacts. The subsequent [continuous-score design](CONTINUOUS_SCORE_PROTOCOL.md)
+was implemented, frozen and evaluated. This evidence candidate was not selected
+for final benchmark scoring and supports no superiority claim.

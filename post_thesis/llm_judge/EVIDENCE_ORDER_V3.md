@@ -1,5 +1,9 @@
 # Post-thesis: verdict-first order diagnostic candidate
 
+**Recorded outcome:** Completed: 44/44 native order checks. See the [completed-stage record](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 **Development only; excluded from the submitted thesis. No new model run is
 enabled.** The [schema-v2 result](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md)
 is 14/14 contract-valid records with two false positives and one additional
@@ -7,7 +11,8 @@ misleading explanation. Two original response strings put non-null quotes before
 the verdict, excluding the supported branch under the v2 constraints.
 
 Update after this offline candidate was committed: the [native check passed 44/44](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md).
-A [separate bounded live plan](EVIDENCE_V3_RUN.md) is now prepared. The no-generation
+The [separate bounded live run](EVIDENCE_V3_RUN.md) also completed: all 14 raw
+responses followed the requested order, with 13 expected verdict matches. The no-generation
 statements below describe the original offline patch and its immutable descriptor.
 
 ## Isolated candidate
@@ -80,15 +85,13 @@ python -m post_thesis.llm_judge.check_evidence_schema --schema-version v3
 A model server is unnecessary. The check records package versions, code revision,
 both schema hashes, fixture hash and individual acceptance results in a new
 private `evidence-schema-v3-compatibility-<id>` directory. No generation calls
-occur. A passed result would establish the tested native string-order behavior,
+occur. A passing result establishes the tested native string-order behavior,
 not Qwen token-mask correctness, the actual vLLM-selected backend, correct
-verdicts or improved evidence quality. Native and live order behavior are both
-pending when this candidate is committed.
+verdicts or improved evidence quality. Native and live order behavior were unverified when this candidate was
+committed; both subsequent checks are recorded above.
 
-If this check passes, prepare a separately budgeted 14-example live diagnostic
-and inspect the emitted raw field order as well as validity and judgments. If it
-fails, inspect the mismatches before changing serialization or compiler settings.
-Changing the serving backend or decoding options would be a separate variable.
-The current scoring CLI still accepts only v1/v2; there is no v3 generation plan.
-Preserve all existing runs. No TRAIN/test calls or prompt freeze are authorized
-by this CPU check.
+The passing native check was followed by the separately budgeted
+[14-example live diagnostic](EVIDENCE_V3_RUN.md), which also completed. The
+original offline patch had no v3 generation plan; that plan and explicit CLI
+selection were added separately. Preserve all existing runs. This CPU check
+itself authorizes no TRAIN/test calls or prompt changes.

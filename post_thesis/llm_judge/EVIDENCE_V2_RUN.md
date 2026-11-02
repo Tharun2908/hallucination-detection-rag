@@ -8,7 +8,7 @@ contract failures recur. The [completed v2 result](../../results/post_thesis/llm
 contains 14/14 valid records with two false positives. The commands below are
 historical instructions for scoring revision `afa92aeebdb071e0d2f35eaf19c6fb6d19e113e9`;
 preserve that run and do not rerun it from this reporting commit. Use the
-[separate CPU order check](EVIDENCE_ORDER_V3.md) next.
+[separate CPU order check](EVIDENCE_ORDER_V3.md) for the completed follow-up.
 
 ## Fixed comparison and serving policy
 
@@ -122,4 +122,5 @@ unsupported explanation, including the known unknown-versus-absence confusion.
 Quote membership and successful structured decoding do not prove semantic
 correctness. A clean run also does not establish generalization or calibration.
 No TRAIN/test scoring, new labels, threshold fitting or final prompt freeze is
-part of this run. Decide the next experiment only after inspecting its output.
+part of this run. The subsequent order checks and TRAIN pilots are recorded in the
+[documentation index](DOCUMENTATION_INDEX.md).

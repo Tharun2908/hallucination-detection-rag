@@ -1,10 +1,16 @@
 # Post-thesis: bounded synthetic label-score compatibility run
 
+**Recorded outcome:** Completed: 30/30 valid scores and cached replay. See the [completed-stage record](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This experiment is excluded from submitted thesis results. It implements step 2
 of the [continuous-score protocol](CONTINUOUS_SCORE_PROTOCOL.md). It does not
 evaluate RAGTruth or HaluBench, fit thresholds or calibrators, or reopen evidence
 prompt tuning. The [setup observations](../../results/post_thesis/llm_judge/label_score_setup_20260920.md)
-are complete; **live score compatibility has not yet been established**.
+and the [live synthetic run](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md)
+are complete. All 30 scores were valid; repeat and temperature controls matched.
+Semantic failures remain documented.
 
 ## Fixed experiment
 

@@ -1,6 +1,6 @@
 # Post-thesis HaluBench budget continuation
 
-**Completed, 2026-09-29:** 348/348 continuation scores and identical zero-call replay; 8,000/8,000 combined valid scores. Continue with the [CPU evaluation](HALUBENCH_EVALUATION.md). The original interrupted attempt and its unknown usage remain recorded.
+**Completed, 2026-09-29:** 348/348 continuation scores and identical zero-call replay; 8,000/8,000 combined valid scores. The subsequent [CPU evaluation](HALUBENCH_EVALUATION.md) also completed. The original interrupted attempt and its unknown usage remain recorded.
 
 The original four-hour run stopped with 7,652 valid scores, one interrupted
 request and 347 pending requests. Its offline replay reproduced report
@@ -21,7 +21,7 @@ bounds for this subset. The new runner has no automatic retries.
 
 The interrupted request may have finished on the old server. Its input/output
 usage therefore remains unknown; the subsequent successful request cannot erase
-that uncertainty. A completed continuation would yield 8,000 unique scores from
+that uncertainty. The completed continuation yields 8,000 unique scores from
 8,001 total client attempts, including the original interruption. Known token
 usage, unknown-usage counts and charged time remain separately recorded.
 
@@ -91,7 +91,7 @@ Do not reuse the old overnight launcher: it invokes the exhausted parent runner.
 Do not edit the original budget or clear its halt reason. An interrupted child
 also halts without automatic retry; preserve its records if that happens.
 
-## Replay and next step
+## Completed continuation and replay
 
 After a successful invocation, offline verification works on either pod:
 

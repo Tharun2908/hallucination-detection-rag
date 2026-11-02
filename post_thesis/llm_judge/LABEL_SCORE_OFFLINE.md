@@ -1,5 +1,9 @@
 # Post-thesis: offline label-score contract
 
+**Recorded outcome:** Completed offline, tokenizer and installed-source checks. See the [completed-stage record](../../results/post_thesis/llm_judge/label_score_setup_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This work is excluded from submitted thesis results. It implements the offline
 portion of [the continuous-score design](CONTINUOUS_SCORE_PROTOCOL.md).
 Evidence-prompt tuning remains paused. No model generation, benchmark evaluation,
@@ -88,10 +92,11 @@ calls and unverified live-logprob compatibility. If a check fails, retain its
 failure record; do not substitute another tokenizer or guess token IDs.
 
 The prepared key describes offline input preparation only. It is not a live
-request cache key or permission to score. Transport, server identity, raw-logprob
-semantics and complete inference configuration remain to be incorporated in a
-separate bounded compatibility experiment. Development/test separation and the
-pending native-source overlap audit remain as specified in the protocol.
+request cache key or permission to score. The subsequent
+[bounded compatibility run](LABEL_SCORE_RUN.md) verified transport and raw-logprob
+behavior under its recorded server configuration. Separate
+[native-source](SOURCE_AUDIT.md) and [cross-split](CROSS_SPLIT_AUDIT.md) audits
+then informed the development reservation; their scope remains limited.
 
 ## Validation
 
@@ -110,4 +115,5 @@ and [Hub download filtering](https://huggingface.co/docs/huggingface_hub/guides/
 The [cluster setup observations](../../results/post_thesis/llm_judge/label_score_setup_20260920.md)
 now record matching tokenizer/source checks. This original offline descriptor
 remains frozen; the separate [live execution plan](LABEL_SCORE_RUN.md) owns the
-new bounded synthetic calls. Its results remain pending.
+bounded synthetic calls. Its [completed results](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md)
+record full transport coverage and semantic limitations.

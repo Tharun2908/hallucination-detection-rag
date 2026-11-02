@@ -1,5 +1,9 @@
 # Post-thesis evaluation mathematics before TEST inference
 
+**Recorded outcome:** Synthetic checks passed; benchmark loaders subsequently used the frozen core. See the [completed-stage record](../../results/post_thesis/llm_judge/evaluation_math_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The [TEST token audit and replay](../../results/post_thesis/llm_judge/test_token_audit_cluster_20260920.md)
 are complete. This step implements the quality metrics and uncertainty rules in
 [EVALUATION_PROTOCOL.md](EVALUATION_PROTOCOL.md) before collecting judge TEST scores.
@@ -73,20 +77,21 @@ fusion reconstruction. It writes an immutable private synthetic record to
 `.artifacts/post_thesis/llm_judge/evaluation-math-synthetic-check-v1/report.json`.
 It reads no benchmark prediction file, starts no server and makes no model calls.
 
-## Scope and remaining work
+## Numerical-core scope
 
 `evaluation_math.py` operates on aligned in-memory arrays. Its provenance gate
 requires all four systems to be comparison-ready with verified content/checkpoint/
 threshold provenance and documented evidence visibility. The gate **checks status
-supplied by a future validated artifact loader; it does not establish provenance**.
+supplied by the validated artifact loaders; it does not itself establish provenance**.
 Synthetic readiness flags apply only to constructed fixtures. No current legacy
 baseline is promoted to ready by these tests.
 
-This freezes the numerical core. A validated benchmark artifact loader, efficiency
-reporting and a separately bounded inference runner/configuration still remain.
-The actual baseline evidence gaps must be resolved before main paired metrics.
-Neither this implementation nor the token audit grants a scoring allowance.
-There are no new TEST metrics, HaluBench reads, prompt changes or judge refits.
+The numerical core was frozen before benchmark inference. The separate
+[RAGTruth](TEST_EVALUATION.md) and [HaluBench](HALUBENCH_EVALUATION.md) loaders,
+fresh baseline verification, bounded inference and
+[accounting](../../results/post_thesis/llm_judge/efficiency_accounting_20261102.md)
+subsequently completed. Neither this synthetic checker nor a token audit grants
+a scoring allowance. They make no TEST metric, model or fitting calls.
 
 ## Post-inference loader implementation
 

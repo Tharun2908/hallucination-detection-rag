@@ -1,7 +1,11 @@
 # Post-thesis RAGTruth TEST input and baseline audit
 
+**Recorded outcome:** Completed; final comparison uses fresh baseline input provenance. See the [completed-stage record](../../results/post_thesis/llm_judge/fresh_comparison_manifest_20260928.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The frozen fit checker passed on the pod with no fitting/model calls or rewritten
-files. Preserve the accepted map and raw threshold -1.25. This next step prepares
+files. Preserve the accepted map and raw threshold -1.25. This command prepares
 TEST inputs and reports available baseline caches; it performs no judge inference,
 metric computation, tokenization, calibration or threshold fitting.
 
@@ -51,7 +55,7 @@ An index-only legacy cache remains `content_provenance_unproven`; even matching
 input hashes leave checkpoint, training-selected threshold and evidence-visibility
 provenance to establish. No inventory entry is automatically comparison-ready.
 
-Metadata-free fusion still needs its fitted-model provenance and aligned
+At this input-audit stage, metadata-free fusion required fitted-model provenance and aligned
 per-example predictions. Its aggregate report cannot substitute for those.
 Do not use metadata-aware fusion as the main metadata-free comparator.
 Each inventory is saved by content hash so newly located caches can be inspected
@@ -97,7 +101,9 @@ Do not claim these counts constitute judge performance.
 
 The command reads processed TEST answers, context and offline labels for alignment;
 it does not claim zero TEST access. It reads no HaluBench data, creates no split,
-and performs no new model calls. Benchmark baseline provenance, a token audit and
-an exact bounded execution manifest remain necessary next steps.
+and performs no new model calls. The later [fresh comparison verification](COMPARISON_MANIFEST.md),
+[token audit](TEST_TOKEN_AUDIT.md) and [bounded execution](TEST_LABEL_RUN.md)
+also completed under separate records.
 
-Cluster update: the completed manifest and identical replay match the independently reconstructed hash recorded in the [legacy inventory](../../results/post_thesis/llm_judge/legacy_baseline_inventory_20260920.json). The original caches were found in `/workspace`; their second inventory has full TEST coverage but no input hashes. Continue with [the read-only baseline provenance audit](BASELINE_PROVENANCE.md), preserving the existing manifest.
+Cluster update: the completed manifest and identical replay match the independently reconstructed hash recorded in the [legacy inventory](../../results/post_thesis/llm_judge/legacy_baseline_inventory_20260920.json). The original caches were found in `/workspace`; their second inventory has full TEST coverage but no input hashes. The subsequent [read-only baseline provenance audit](BASELINE_PROVENANCE.md)
+also completed, preserving the existing manifest.

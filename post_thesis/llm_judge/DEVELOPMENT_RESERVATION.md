@@ -1,5 +1,9 @@
 # Post-thesis offline development reservation
 
+**Recorded outcome:** Completed: 600 rows per arm, 312 exclusions. See the [completed-stage record](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The selector implements the [committed design](DEVELOPMENT_SPLIT_PROTOCOL.md)
 without changing its config, seed, counts, ranking or eligibility rules. This
 creates calibration/threshold membership only. It does not tokenize prompts,
@@ -74,15 +78,14 @@ The completed cluster manifest SHA256 is
 `56b77ada74b638720586f93835ed801d8f090d7a04b9d1f1272a60e2677d7362`.
 It includes the allocator commit and differs from the local uncommitted check.
 
-## Next boundary
+## Subsequent completed stages
 
-After verifying the cluster reservation, preregister the exact calibration
-objective/optimizer/bounds/failure policy and threshold objective/candidate/tie
-rules, then perform token-length audits and record a separate bounded scoring
-plan. The reservation itself authorizes zero inference calls. No prompt tuning,
-calibrator search, threshold fitting or new HaluBench split is introduced.
+The [calibration/threshold design](CALIBRATION_THRESHOLD_PROTOCOL.md) fixed
+statistical choices before the [token audit](DEVELOPMENT_TOKEN_AUDIT.md) and
+[bounded scoring](DEVELOPMENT_SCORING_RUN.md). The later [fit](OFFLINE_FITTING.md)
+completed and was frozen. The reservation command itself still authorizes zero
+inference calls and performs no fitting or HaluBench split changes.
+
 Strict document disjointness remains unproven: the guarantee covers the declared
 native/exact-overlap components only. All artifacts are post-thesis and do not
 replace submitted thesis results.
-
-The [calibration/threshold design](CALIBRATION_THRESHOLD_PROTOCOL.md) now specifies the fitting choices before any new scoring. The [CPU token-length auditor](DEVELOPMENT_TOKEN_AUDIT.md) is now implemented; run it on the existing reservation. A separate bounded inference plan follows; no generation allowance is implied.

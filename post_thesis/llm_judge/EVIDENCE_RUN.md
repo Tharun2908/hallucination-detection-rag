@@ -1,5 +1,9 @@
 # Post-thesis: bounded synthetic evidence run
 
+**Recorded outcome:** Completed: 11/14 valid synthetic records. See the [completed-stage record](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 **Synthetic development only. Excluded from the submitted thesis.** The
 [frozen evidence contract](EVIDENCE_DIAGNOSTIC.md) now has a durable runner and
 [committed execution plan](configs/evidence_diagnostic_v1.json). The [completed v1 run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
@@ -8,7 +12,7 @@ passed its native compatibility check; see the separate [v2 run plan](EVIDENCE_V
 
 The commands below are historical instructions for scoring revision
 `15e0bb9437437c72abb1e12df9d407130742f173`. Preserve the run and do not rerun it
-from this newer reporting commit. Use the separate v2 run instructions for the next model invocation.
+from this newer reporting commit. The separate [v2 run](EVIDENCE_V2_RUN.md) records the completed follow-up.
 
 ## Fixed scope and budget
 
@@ -141,11 +145,12 @@ All comparisons are against manually authored synthetic expectations.
 **Valid record count is not accuracy.** Real quotations can be irrelevant or
 misleading, and an explanation can be wrong even when both verdict and issue type
 match expectations. Each result therefore retains `semantic_evidence_review`
-as pending. Review the saved evidence objects for claim scope, quote relevance
+as pending at export time; the later findings document the targeted review.
+For any separate reproduction, review the saved evidence objects for claim scope, quote relevance
 and explanation faithfulness after execution; do not treat those flags as an
 independent annotation or automatically mark them passed.
 
 No continuous scores, calibration metrics, threshold fitting, prompt changes,
-TRAIN pilot generation or final benchmark claims are introduced here. Decide
-whether to prepare the separate original-50 TRAIN audit only after reviewing
-both execution validity and synthetic evidence quality.
+TRAIN pilot generation or final benchmark claims are introduced by this command.
+The later [original-50 audit](EVIDENCE_PILOT.md) and pilot are complete; their
+results do not change the failures retained in this synthetic run.

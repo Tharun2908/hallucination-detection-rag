@@ -1,5 +1,9 @@
 # Post-thesis: first RAGTruth TRAIN pilot
 
+**Recorded outcome:** Completed adaptive 50-example development run. See the [completed-stage record](../../results/post_thesis/llm_judge/ragtruth_pilot_v1_20260919.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This is development after thesis submission, excluded from submitted thesis
 results. This guide records data preparation, token auditing and the separately
 budgeted v1 scoring run. Preparation alone loads no model and generates no scores.
@@ -280,9 +284,10 @@ blind retries. No stability repeat is included in this 50-example budget.
 
 Exit code zero means all 50 examples have valid scores, not that the judge is
 accurate or calibrated. Inspect coverage, endpoint saturation, score distribution,
-absence/numeric cases, usage and timings next. The threshold subset and
-native-source overlap audit remain separate pending tasks; this pilot is not a
-strict source-disjoint final evaluation.
+absence/numeric cases, usage and timings in the recorded findings. The later
+[native-source audit](SOURCE_AUDIT.md), [development reservation](DEVELOPMENT_RESERVATION.md)
+and fitting completed separately. This pilot remains adaptive development,
+not a strict source-disjoint final evaluation.
 
 Synthetic checks and this pilot are development evidence. Any prompt revision
 must get a new version and separately identified runs. Freeze the final prompt

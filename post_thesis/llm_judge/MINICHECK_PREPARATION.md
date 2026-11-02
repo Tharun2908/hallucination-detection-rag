@@ -1,8 +1,13 @@
 # Post-thesis MiniCheck-7B preparation
 
+**Recorded outcome:** Completed; later synthetic v2 check validated the runtime. See the [completed-stage record](../../results/post_thesis/llm_judge/minicheck_synthetic_v2_20260928.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The [fresh fusion application and replay](../../results/post_thesis/llm_judge/fresh_fusion_cluster_20260928.md)
 completed with 2,700 scores and zero changes at the frozen operating threshold.
-MiniCheck is the remaining fresh comparison baseline. The judge, calibrator,
+At this preparation stage, MiniCheck was the remaining fresh comparison baseline;
+its [fresh TEST run](MINICHECK_TEST_RUN.md) subsequently completed. The judge, calibrator,
 fusion and all TRAIN-selected operating thresholds remain fixed.
 
 ## Source-derived contract
@@ -50,8 +55,8 @@ Preserve these upstream behaviors when building the fresh runner:
    float; do not retune from fresh TEST scores.
 
 `minicheck_contract.py` encodes and tests the score reduction and strict threshold.
-It is not yet a live inference adapter. NLTK version/resources, tokenizer/template
-bytes, model shard hashes and current vLLM logprob behavior still need to be bound
+This preparation step did not yet supply a live adapter. NLTK version/resources,
+tokenizer/template bytes, model shard hashes and vLLM logprob behavior were bound
 to the fresh execution profile. Historical rounding to four decimals must be
 handled explicitly when comparing to legacy output; preserve raw new scores.
 

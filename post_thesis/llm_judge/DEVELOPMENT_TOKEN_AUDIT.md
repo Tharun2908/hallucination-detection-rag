@@ -1,5 +1,9 @@
 # Post-thesis CPU token audit of reserved development inputs
 
+**Recorded outcome:** Completed: all 1,200 inputs fit. See the [completed-stage record](../../results/post_thesis/llm_judge/development_token_audit_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This step measures formatted prompt length for the exact 600 calibration and
 600 operating-threshold inputs in the completed development reservation. It does
 not collect scores, load model weights, fit calibration or select thresholds.
@@ -74,7 +78,7 @@ score positions and class-token identities. They omit rendered prompt text to
 avoid copying the same raw input into every checkpoint. This does not change
 prompt rendering or score semantics. Original text remains in the private manifest.
 
-## Expected counts and next step
+## Recorded counts and subsequent scoring
 
 The [actual-tokenizer local validation](../../results/post_thesis/llm_judge/development_token_audit_local_20260920.md)
 counted all 1,200 inputs: calibration 705,198 tokens, operating threshold 746,401,
@@ -85,8 +89,7 @@ Return the printed combined/per-arm summaries, prompt, fit-protocol hash, audit
 hash and code revision, plus the replay's new-tokenization count/hash. No raw
 answer/context needs to be pasted or committed.
 
-After this audit is recorded, freeze a separate bounded execution plan with the
-exact audit identity, serving session/profile, call/token/time limits and failure
-handling. The audit grants zero model calls. Statistical fitting rules remain as
-preregistered; TEST/HaluBench evaluation remains a later stage. All work stays
-post-thesis, with the existing exact-overlap limitations preserved.
+The separate [bounded scoring plan](DEVELOPMENT_SCORING_RUN.md) pinned this
+audit, serving profile, call/token/time limits and failure handling. Both scoring
+arms and later fitting/evaluations are complete. The audit command still grants
+zero model calls; statistical rules and exact-overlap limitations are unchanged.

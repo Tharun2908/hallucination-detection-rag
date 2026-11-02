@@ -1,5 +1,9 @@
 # Post-thesis original-50 TRAIN label-score token audit
 
+**Recorded outcome:** Completed: 50 inputs and 60,574 input tokens. See the [completed-stage record](../../results/post_thesis/llm_judge/label_score_pilot_audit_20260920.json).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This step counts tokens only. It does not load model weights, contact a server,
 download assets, generate scores or authorize generation. The synthetic run and
 cached replay are recorded in the [findings](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md).
@@ -36,10 +40,11 @@ code and environment reuses saved rows; interruption may recompute only an unsav
 row. Changed inputs/environment or corrupt records fail instead of overwriting.
 No new generation allowance is created on resume.
 
-Return the printed summary, audit SHA256 and code revision. A later change can
-pin that audit in a bounded 50-call scoring plan. All 50 remain reused adaptive
+The printed summary, audit SHA256 and code revision were recorded. The later
+[bounded 50-call scoring plan](LABEL_SCORE_PILOT_RUN.md) pinned that audit and completed. All 50 remain reused adaptive
 TRAIN development data; no threshold or calibration is fitted here. The native
-source-overlap audit remains unresolved, and the shared-context grouping proxy
+source-overlap audit was a later step (now completed in [SOURCE_AUDIT.md](SOURCE_AUDIT.md));
+the original shared-context grouping proxy
 must not be described as verified native-source disjointness. TEST and the
 canonical HaluBench split remain untouched.
 

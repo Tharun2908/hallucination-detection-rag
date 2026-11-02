@@ -2,15 +2,24 @@
 
 Code accompanying the master's thesis *Hallucination Detection in Retrieval-Augmented Generation Using Hybrid External Verification* (BHT Berlin, 2026).
 
-> **Post-thesis work:** a separately labeled [LLM judge extension](post_thesis/llm_judge/README.md)
-> has completed frozen RAGTruth and canonical HaluBench evaluations. The judge trails the fresh baselines on RAGTruth but leads aggregate HaluBench AUROC (0.8172) and F1 (0.7572), with substantial source-level weaknesses. See the [post-thesis findings](results/post_thesis/llm_judge/halubench_frozen_evaluation_20260929.md). These results are separate from the submitted thesis.
->
-> The [127-case qualitative review](results/post_thesis/llm_judge/qualitative_review_20261102.md) is now recorded: AI-assisted judgments were collectively confirmed by the researcher before unblinding. Among 86 determinate cases, 22 judgments differ from benchmark labels; 41 cases remain uncertain. These selected-case observations are not independent annotation, corrected benchmark metrics, or population label-error estimates.
->
-> The [verified inference accounting](results/post_thesis/llm_judge/efficiency_accounting_20261102.md) consolidates both frozen evaluation reports: request latency, client time, baseline timing scopes, token usage and the retained interrupted attempt. Monetary cost remains unknown; these measurements do not support controlled speedup claims.
->
-> The [final post-thesis overview](results/post_thesis/llm_judge/FINAL_OVERVIEW.md) brings together the frozen results, paired confidence-interval figures, source-level limitations, confirmed qualitative review and verified runtime accounting.
+## Completed post-thesis extension
 
+The separately labelled [LLM judge study](post_thesis/llm_judge/README.md) is
+complete and tagged `post-thesis-llm-judge-v1`. These findings are **separate from
+the submitted thesis results** below.
+
+- **Frozen evaluations:** the judge trails the fresh baselines on RAGTruth but
+  leads aggregate HaluBench AUROC and F1, with substantial source-level weaknesses.
+  See the [final overview and figures](results/post_thesis/llm_judge/FINAL_OVERVIEW.md).
+- **Qualitative review:** [127 selected cases](results/post_thesis/llm_judge/qualitative_review_20261102.md),
+  with AI-assisted judgments collectively confirmed before unblinding. These are
+  not independent annotations or corrections to benchmark metrics.
+- **Inference accounting:** [verified timing and token records](results/post_thesis/llm_judge/efficiency_accounting_20261102.md),
+  including the interrupted attempt. Monetary cost is unknown; no controlled
+  speedup claim is made.
+- **Reproduction:** [run-guide index and completed outcomes](post_thesis/llm_judge/DOCUMENTATION_INDEX.md).
+
+## Thesis study
 
 This repository is a **research-engineering study of hallucination-verifier reliability under distribution shift**. It evaluates post-generation, response-level faithfulness verification for Retrieval-Augmented Generation (RAG), with particular emphasis on whether apparently strong benchmark results survive stricter evaluation protocols and transfer to a different benchmark.
 

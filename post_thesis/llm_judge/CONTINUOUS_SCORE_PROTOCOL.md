@@ -1,12 +1,15 @@
 # Post-thesis: continuous label-score protocol
 
-**Design v1, recorded 2026-09-20. Synthetic transport and original-50 TRAIN pilot complete; final evaluation pending.**
+**Design v1, recorded 2026-09-20; completed study status updated 2026-11-02.**
+The label-score candidate was fitted, frozen and evaluated on both benchmarks;
+see the [final overview](../../results/post_thesis/llm_judge/FINAL_OVERVIEW.md).
 This experiment is excluded from submitted thesis results. It follows the
 [mixed evidence-prompt findings](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_pilot_20260920.md).
 Evidence-prompt tuning remains paused. The [offline contract and tokenizer check](LABEL_SCORE_OFFLINE.md)
 are implemented and the cluster checks passed. A separate [bounded synthetic
 execution plan](LABEL_SCORE_RUN.md) adds 30 one-token compatibility requests.
-The [synthetic findings](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md) record successful transport checks with semantic limitations; benchmark evaluation remains pending.
+The [synthetic findings](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md) record successful transport checks with semantic limitations. Subsequent benchmark
+evaluation is complete; these synthetic results remain development evidence.
 
 ## Question and selected method
 
@@ -199,22 +202,26 @@ rates only when provided. Any two-pass compatibility reference or future
 teacher-forced alternative must count both passes. Freeze the live budget only
 after the required transport is known.
 
-## Offline implementation and next check
+## Completed implementation and freeze
 
-The [offline prompt/score contract and pinned-tokenizer check](LABEL_SCORE_OFFLINE.md)
-are implemented without model generation. The actual pinned tokenizer passed four
-assistant CPU and four cluster boundary checks. Installed-source fingerprints
-also match. The [bounded synthetic plan](LABEL_SCORE_RUN.md) completed with 30 valid scores and a zero-call cached replay. The [original TRAIN token audit](LABEL_SCORE_PILOT_AUDIT.md) passed. The [bounded pilot](LABEL_SCORE_PILOT_RUN.md) completed all 50 primary requests and a zero-call replay. Its [development findings](../../results/post_thesis/llm_judge/label_score_train_pilot_v1_20260920.md) record AUROC 0.7051 and emitted-label F1 0.5455. Preserve the candidate and resolve native-source grouping before registering disjoint calibration/evaluation. This design does not update the evidence-v2 prompt,
-serve a new model, assign a scoring budget or declare a benchmark-ready verifier.
+The original design above records the choices made before scoring. Its commands
+and stage boundaries do not request new inference. The implementation sequence
+is complete:
 
-## Native TRAIN audit implementation
+| Stage | Recorded outcome |
+| --- | --- |
+| Offline/tokenizer contract | [Cluster setup passed](../../results/post_thesis/llm_judge/label_score_setup_20260920.md) |
+| Synthetic transport and controls | [30 valid scores and cached replay](../../results/post_thesis/llm_judge/label_score_synthetic_v1_20260920.md) |
+| Original-50 TRAIN pilot | [50 valid scores and cached replay](../../results/post_thesis/llm_judge/label_score_train_pilot_v1_20260920.md) |
+| Native and cross-split overlap checks | [Completed audit](../../results/post_thesis/llm_judge/cross_split_audit_cluster_20260920.md); 312 exclusions retained |
+| Separate development reservation | [600 rows per arm, 100 components each](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md) |
+| Reserved-arm tokenization and scoring | [1,200 inputs fit](../../results/post_thesis/llm_judge/development_token_audit_cluster_20260920.md); [both arms fully scored](../../results/post_thesis/llm_judge/development_scoring_cluster_20260920.md) |
+| Fitting and decision freeze | [Accepted fit and identical replay](../../results/post_thesis/llm_judge/development_fit_cluster_20260920.md) |
+| Benchmark evaluation | [RAGTruth](../../results/post_thesis/llm_judge/ragtruth_frozen_evaluation_20260928.md), [canonical HaluBench](../../results/post_thesis/llm_judge/halubench_frozen_evaluation_20260929.md) |
 
-The [offline source audit](SOURCE_AUDIT.md) now verifies native response IDs, exact answer/context provenance and conservative exact-overlap components within pinned TRAIN data. It preserves the original manifest and makes no model calls. The matching cluster report found no new pilot-linked exclusions and is now pinned. This is a scoped exact-overlap check, not resolution of fuzzy/partial-document, TRAIN–TEST or cross-benchmark overlap. The native release contains both splits; non-TRAIN records are ignored after ID filtering and native annotation labels are not used. Final calibration/evaluation reservations remain unselected.
-
-The next [native cross-split exact-overlap audit](CROSS_SPLIT_AUDIT.md) analyzes source content and response ID/split metadata only. Local and cluster validation identify 12 additional TRAIN candidate rows linked to native TEST evidence; the complete cluster report hash is independently reproduced. These proposed exclusions are separate from original reservations. No TEST answers, annotation labels or performance enter this step, and no final development/calibration split is selected.
-
-The [development reservation design](DEVELOPMENT_SPLIT_PROTOCOL.md) now fixes 100 exact-overlap components per calibration/threshold role and deterministic allocation before labels or scores. The [offline selector](DEVELOPMENT_RESERVATION.md) is now implemented and locally validated: 600 calibration and 600 threshold rows, with 312 exclusions preserved. The [cluster reservation and replay](../../results/post_thesis/llm_judge/development_reservation_cluster_20260920.md) now match. The [calibration/threshold design](CALIBRATION_THRESHOLD_PROTOCOL.md) fixes objectives, numerical bounds, deterministic ties and failure rules. Fitting remains unimplemented; there is no generation allowance.
-
-The [reserved-arm CPU token auditor](DEVELOPMENT_TOKEN_AUDIT.md) now checks all 1,200 inputs against the frozen manifest, fit protocol and pinned tokenizer. Local validation counts 1,451,599 input tokens with no overlength rows; cluster reproduction and a separate scoring budget remain pending.
-
-The [cluster development token audit and replay](../../results/post_thesis/llm_judge/development_token_audit_cluster_20260920.md) match. The [bounded development scoring plan](DEVELOPMENT_SCORING_RUN.md) now defines separate 600-request calibration and threshold-arm runs, each with a 1,800-second cumulative client cap. Scores remain uncalibrated; no fitting or TEST/HaluBench scoring is added.
+The [frozen judge configuration](configs/frozen_judge_v1.json) records the final
+prompt, raw-margin definition, primary label mapping, calibration and threshold.
+Strict document disjointness and unknown training exposure remain limitations;
+completed exact-overlap checks do not establish broader independence. Evidence
+prompt tuning stays paused. Future changes require a separate experiment and
+must not replace the completed frozen results.

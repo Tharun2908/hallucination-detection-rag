@@ -1,5 +1,9 @@
 # Post-thesis HaluBench CPU token audit
 
+**Recorded outcome:** Completed: all 8,000 inputs fit and replay added no tokenizations. See the [completed-stage record](../../results/post_thesis/llm_judge/halubench_token_audit_cluster_20260928.json).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The [canonical 8k manifest](HALUBENCH_INPUTS.md) was created on the pod at
 `aac2d9e0ce9ef4ac98ff9a60e26238daa08a46f3`. Its exact manifest SHA256 is:
 
@@ -39,7 +43,8 @@ The [local pinned-tokenizer run](../../results/post_thesis/llm_judge/halubench_t
 counted all 8,000 inputs: **7,794,485 input tokens**, minimum **506**, maximum
 **7,298**, with no overlength inputs. Cached replay returned identical results
 and zero new input tokenizations. These are reference counts, not an attestation
-of the pending pod audit hash or runtime environment.
+of the pod runtime. The subsequent [pod audit and replay](../../results/post_thesis/llm_judge/halubench_token_audit_cluster_20260928.json)
+record the matching lengths and audit hash.
 
 ## Run on the pod
 

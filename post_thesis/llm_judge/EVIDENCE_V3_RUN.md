@@ -7,7 +7,7 @@ judgments on the same 14 examples. The [completed result](../../results/post_the
 contains 14/14 valid, correctly ordered outputs and 13/14 expected verdicts.
 The commands below are historical instructions for scoring revision
 `7c4823789ba0125e85d085baf0e2bab564ca417b`; preserve its run and do not rerun
-from this reporting commit. Use the [original TRAIN token audit](EVIDENCE_PILOT.md) next.
+from this reporting commit. The subsequent [original TRAIN token audit](EVIDENCE_PILOT.md) also completed.
 
 ## Frozen comparison
 

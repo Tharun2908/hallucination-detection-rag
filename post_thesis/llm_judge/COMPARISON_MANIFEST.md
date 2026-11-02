@@ -1,5 +1,9 @@
 # Post-thesis fresh baseline comparison manifest
 
+**Recorded outcome:** Verified all three baselines; later judge inference/evaluation completed. See the [completed-stage record](../../results/post_thesis/llm_judge/fresh_comparison_manifest_20260928.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 These experiments are outside the submitted thesis. The frozen judge and
 numerical evaluation contract remain unchanged.
 
@@ -20,7 +24,7 @@ Its cause is unresolved. See the [recorded comparison](../../results/post_thesis
 | S4 | Unsupported score >= 0.55 | Historical TRAIN-derived threshold applied to fresh inference |
 | MiniCheck-7B | Support score < 0.20000000000000004 | Transferred historical TRAIN threshold; not optimized for the fresh runtime |
 | Metadata-free S2+S4 | Unsupported score >= 0.45 | Frozen historical TRAIN reconstruction applied to fresh features |
-| Qwen3 judge | Raw margin >= -1.25 | Frozen disjoint development selection; TEST predictions pending |
+| Qwen3 judge | Raw margin >= -1.25 | Frozen development selection; TEST predictions and evaluation complete |
 
 The baseline training and threshold-selection evidence has limits. Fresh
 inference establishes the current checkpoint, input, tokenization and score
@@ -34,8 +38,10 @@ runtime comparison**. Its provenance flags concern current inference artifacts
 and the identified fixed historical TRAIN operating policies. It does not
 supersede the original reports' historical-provenance warnings. The manifest
 also sets `historical_training_provenance_independently_verified=false` and
-`exact_thesis_cache_reproduction_claimed=false`. Judge readiness remains false,
-so the unchanged all-system evaluation gate stays blocked.
+`exact_thesis_cache_reproduction_claimed=false`. This baseline-only descriptor leaves judge readiness false,
+until a separate verified judge run is supplied. The later [evaluation loader](TEST_EVALUATION.md)
+verified that run and completed the four-system evaluation without rewriting
+this baseline-only descriptor.
 
 ## CPU command
 
@@ -80,6 +86,7 @@ metrics, downloads or package changes. It grants no generation allowance.
 - Grouping covers registered exact overlaps; strict document disjointness
   remains unproven. No new group split is made.
 
-Next: record a bounded judge TEST execution plan, restore/check the pinned
-Qwen serving profile, run the frozen judge, and then evaluate the aligned
-systems with the registered metrics. HaluBench remains a later separate stage.
+The subsequent [bounded Qwen TEST run](TEST_LABEL_RUN.md),
+[RAGTruth evaluation](TEST_EVALUATION.md) and later
+[HaluBench evaluation](HALUBENCH_EVALUATION.md) are complete. All retain the
+registered prompt, decision rules and metrics.

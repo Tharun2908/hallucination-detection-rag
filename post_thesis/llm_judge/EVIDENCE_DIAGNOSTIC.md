@@ -1,13 +1,18 @@
 # Post-thesis: structured evidence-checking diagnostic
 
+**Recorded outcome:** Implemented and exercised; not selected as the final benchmark scorer. See the [completed-stage record](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 **Development only. Excluded from the submitted thesis.** This step freezes a
 new diagnostic prompt/output contract, implements a strict parser and defines
 synthetic controls. The [completed v1 synthetic run](../../results/post_thesis/llm_judge/evidence_diagnostic_v1_20260919.md)
 has 11/14 valid records and one explanation concern. A
 [schema-only v2 candidate](EVIDENCE_SCHEMA_V2.md) now enforces the field dependencies,
-with [38/38 native checks passed](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md) and the [v2 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) showing 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44, and the [v3 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md) has 14/14 valid outputs with one false negative. The next step is a [token-only original TRAIN pilot audit](EVIDENCE_PILOT.md). Preserve the original contract
-and [completed run](EVIDENCE_RUN.md). The final
-benchmark prompt is not frozen.
+with [38/38 native checks passed](../../results/post_thesis/llm_judge/evidence_schema_v2_native_20260919.md) and the [v2 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v2_20260919.md) showing 14/14 valid records with two false positives. The [verdict-first native check](../../results/post_thesis/llm_judge/evidence_schema_v3_native_20260919.md) passed 44/44, and the [v3 live result](../../results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md) has 14/14 valid outputs with one false negative. The later [original TRAIN token audit](EVIDENCE_PILOT.md) and evidence pilot
+also completed. Preserve this original contract and [run](EVIDENCE_RUN.md).
+The final benchmark instead used the separately frozen
+[label-score prompt](CONTINUOUS_SCORE_PROTOCOL.md).
 
 The [binary TRAIN result](../../results/post_thesis/llm_judge/ragtruth_binary_pilot_20260919.md)
 detected 13/24 labeled positives with three false positives. The
@@ -162,6 +167,6 @@ include these tests. No new packages or GPU environment changes are required.
 A verdict improvement accompanied by fabricated or misleading evidence is not
 sufficient to accept this contract. A separate held-out validation plan is still
 needed for final deployment claims. Binary verdicts and counts of issue witnesses
-are not calibrated probabilities; the study's continuous-score design remains
-unresolved. No test thresholds, HaluBench adaptation or final benchmark results
+are not calibrated probabilities. The later [continuous-score protocol](CONTINUOUS_SCORE_PROTOCOL.md)
+defined the final benchmark score; this evidence contract was not promoted. No test thresholds, HaluBench adaptation or final benchmark results
 are introduced by this diagnostic.

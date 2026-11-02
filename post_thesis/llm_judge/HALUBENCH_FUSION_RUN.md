@@ -1,5 +1,9 @@
 # Post-thesis frozen fusion on HaluBench
 
+**Recorded outcome:** Completed: 8,000/8,000 scores without refitting. See the [completed-stage record](../../results/post_thesis/llm_judge/halubench_fusion_cluster_20260928.json).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This extension is excluded from submitted thesis results. Apply the already
 frozen RAGTruth metadata-free S2+S4 model to the fresh canonical 8,000 HaluBench
 rows. No model inference, normalization fitting, coefficient fitting, calibration,
@@ -58,7 +62,7 @@ identical report hash. New output is saved only in
 A conflicting existing report is preserved and rejected, never overwritten.
 The GPU server can remain running. No model download or GPU allocation is needed.
 
-## Interpretation and remaining work
+## Interpretation and subsequent evaluation
 
 Fresh inference links current TEST inputs and features; it does not establish
 historical TRAIN cache/checkpoint provenance. No independent fusion probability
@@ -66,7 +70,8 @@ calibration is fitted. The canonical split stays unchanged; exact passages link
 994 TEST rows to adaptation components, and this zero-shot run uses no adaptation
 training. Preserve those limitations in the final comparison.
 
-Fresh MiniCheck inference, frozen judge inference and the cross-domain evaluation
-remain subsequent steps. This command does not declare the full comparison ready.
-Local tests use artificial features, including all 8,000 alignment positions;
-the private pod predictions are not available in the development workspace.
+The subsequent [MiniCheck run](HALUBENCH_MINICHECK_RUN.md), frozen judge
+parent/continuation and [cross-domain evaluation](HALUBENCH_EVALUATION.md)
+completed. This fusion-only command does not itself declare the full comparison
+ready. Its local tests use artificial features; completed pod results are recorded
+separately, with private per-example predictions retained outside Git.

@@ -26,8 +26,9 @@ serving profile, accepted calibration and raw threshold. Preserve all fields.
 - No prompt/model/mapping selection, recalibration, new threshold, or HaluBench
   adaptation. Later changes motivated by TEST are separate exploratory studies.
 
-This freezes model and decision choices. Dataset identities, aligned baseline
-caches, token audits and exact bounded execution manifests are still pending.
+At the original freeze, dataset alignment, fresh baseline provenance, token
+audits and bounded execution manifests were subsequent stages. All have since
+completed; see the [documentation index](DOCUMENTATION_INDEX.md).
 This document and the freeze checker make **zero generation calls**.
 
 ## Benchmark input manifest before inference
@@ -160,6 +161,10 @@ completed evaluation, not this development result.
 
 Input-alignment implementation note (before judge TEST scoring): [the native/processed audit](TEST_ALIGNMENT.md) identified a one-ASCII-space formatting difference for six responses to source 14347. Both exact context hashes, IDs and offset are pinned. Original processed inputs and labels are preserved; other context mismatches fail. This does not alter the metric, model, calibration, threshold or split rules.
 
-Pre-inference progress: TEST input alignment, legacy cache/threshold checks and metadata-free fusion reconstruction are complete, with explicitly unresolved historical input/checkpoint/evidence provenance. The [TEST token audit](TEST_TOKEN_AUDIT.md) can proceed as a CPU length check without promoting those baselines to comparison-ready status. This implementation note changes no comparison acceptance rule, model, metric or threshold.
+Historical preparation: TEST alignment, legacy cache/threshold checks and fusion
+reconstruction preceded the [TEST token audit](TEST_TOKEN_AUDIT.md). Legacy
+provenance limits were retained; later fresh inference established the scoped
+comparison readiness used by the completed evaluations. No comparison acceptance
+rule, model, metric or threshold is changed by this status update.
 
 Implementation status: the [evaluation numerical contract](EVALUATION_MATH.md) pins the metric and bootstrap source files and historical operating rules before judge TEST inference. Artificial-data validation includes all 2,000 replicates. This numerical core does not itself load/attest benchmark artifacts or resolve baseline provenance; no acceptance rule or scoring allowance changes.

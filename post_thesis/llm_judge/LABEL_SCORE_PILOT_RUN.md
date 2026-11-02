@@ -107,9 +107,10 @@ score rows and report SHA256. Review all 50, retaining failures in denominators.
 
 No test thresholds, calibration fitting, prompt changes, TEST/HaluBench scoring,
 native-source disjointness claim or benchmark release is part of this pilot.
-The pending native-source overlap audit must still be resolved before final
-split/threshold decisions. Subsequent evaluation must use the canonical HaluBench
-split rather than creating another split.
+The later [native-source audit](SOURCE_AUDIT.md), [cross-split audit](CROSS_SPLIT_AUDIT.md)
+and [development reservation](DEVELOPMENT_RESERVATION.md) informed the completed
+fit. Final evaluation preserved the canonical HaluBench split. Exact-overlap
+checks do not establish strict document disjointness.
 
 ## Local validation
 

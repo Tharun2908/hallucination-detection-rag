@@ -1,5 +1,9 @@
 # Post-thesis: original TRAIN pilot evidence audit
 
+**Recorded outcome:** Completed: 50 inputs and 77,574 input tokens. See the [completed-stage record](../../results/post_thesis/llm_judge/ragtruth_evidence_v3_audit_20260919.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 **Development only; excluded from the submitted thesis.** The [v3 synthetic run](../../results/post_thesis/llm_judge/evidence_diagnostic_v3_20260919.md)
 produced 14/14 valid, correctly ordered outputs and 13/14 expected verdicts/issue
 types. Seven unsupported explanations were consistent with the fixtures; one
@@ -87,7 +91,7 @@ That distinction is intentional. Save the full console output, including token
 counts, audit SHA256, serialized schema SHA256 and audit code revision. Stop
 terminal A's launcher afterwards to finalize its resource window.
 
-## Recorded outcome and next step
+## Recorded audit and subsequent pilot
 
 The [operator-reported audit](../../results/post_thesis/llm_judge/ragtruth_evidence_v3_audit_20260919.md)
 counted all 50 inputs, with 77,574 total input tokens and no overlength cases.

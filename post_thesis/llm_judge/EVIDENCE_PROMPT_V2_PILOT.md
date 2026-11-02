@@ -1,10 +1,14 @@
 # Post-thesis: original TRAIN pilot token audit for evidence prompt v2
 
+**Recorded outcome:** Completed: 50 inputs and 77,724 input tokens. See the [completed-stage record](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_audit_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 **Completed at revision `6137fb47b5aa65ace9eb5de78a8bea52202850bc`; tokenization only.**
 The [recorded audit](../../results/post_thesis/llm_judge/ragtruth_evidence_prompt_v2_audit_20260920.md)
 counted all 50 inputs. Preserve its checkpoint and revision; do not repeat this
-historical procedure on newer code. Continue with the separately pinned
-[scoring plan](EVIDENCE_PROMPT_V2_PILOT_RUN.md). Adaptive development is excluded
+historical procedure on newer code. The separately pinned
+[scoring run](EVIDENCE_PROMPT_V2_PILOT_RUN.md) also completed. Adaptive development is excluded
 from the submitted thesis.
 The [paired synthetic findings](../../results/post_thesis/llm_judge/evidence_prompt_pair_v1_20260919.md)
 show one corrected verdict, one v2 rationale regression and a shared false-absence

@@ -1,5 +1,9 @@
 # Post-thesis legacy baseline provenance audit
 
+**Recorded outcome:** Audit completed; historical inference/training provenance remains limited. See the [completed-stage record](../../results/post_thesis/llm_judge/baseline_provenance_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The completed cluster TEST manifest and replay match the locally reconstructed
 SHA256 `bc564d50ed4c0fcff17b5c8dda4feef558d896f2f0c8b4c7239a5085f9ccc3d3`.
 The operator located all six historical caches under `/workspace`, each with
@@ -81,5 +85,7 @@ that report; changes fail rather than overwrite. Do not rerun older preparation
 commands after this checkout update: the audit consumes their pinned artifacts.
 
 No new model calls, judge refitting, TEST metrics, split creation or scoring
-allowance is introduced. The next decision follows the actual audit result;
-threshold agreement alone cannot settle input or checkpoint provenance.
+allowance is introduced by this audit. Subsequent fresh baseline inference and
+the [comparison manifest](COMPARISON_MANIFEST.md) established current inference
+linkage while retaining historical limits. Threshold agreement alone cannot
+settle input or checkpoint provenance.

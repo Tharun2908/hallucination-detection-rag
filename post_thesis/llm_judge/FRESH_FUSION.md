@@ -1,5 +1,9 @@
 # Post-thesis frozen fusion on fresh S2/S4 TEST features
 
+**Recorded outcome:** Completed: 2,700/2,700 scores and identical replay. See the [completed-stage record](../../results/post_thesis/llm_judge/fresh_fusion_cluster_20260928.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The [fresh S2 run and replay](../../results/post_thesis/llm_judge/s2_fresh_test_cluster_20260928.md)
 completed all 2,700 examples. Sentence counts match the legacy cache for every
 row; maximum raw-min score difference is below 0.000055. Fresh S4 also completed
@@ -68,5 +72,6 @@ These are not equal-evidence comparisons with the full-context judge.
 
 The report keeps `comparison_ready: false` until the final comparison explicitly
 handles those limitations. This flag does not request another fusion experiment.
-MiniCheck baseline preparation is next; the judge, calibrator and threshold
-remain frozen. No new thesis result is asserted.
+Subsequent [MiniCheck inference](MINICHECK_TEST_RUN.md) and the
+[fresh comparison manifest](COMPARISON_MANIFEST.md) completed. The judge,
+calibrator and threshold remain frozen. No submitted-thesis result is replaced.

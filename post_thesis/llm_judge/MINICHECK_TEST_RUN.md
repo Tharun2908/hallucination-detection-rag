@@ -1,5 +1,9 @@
 # Post-thesis fresh MiniCheck RAGTruth TEST run
 
+**Recorded outcome:** Completed: 2,700/2,700 scores and identical replay. See the [completed-stage record](../../results/post_thesis/llm_judge/minicheck_fresh_test_cluster_20260928.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The [v2 synthetic check passed on the H200](../../results/post_thesis/llm_judge/minicheck_synthetic_v2_20260928.md).
 This runner applies that configuration to the canonical 2,700-example TEST
 manifest. It produces fresh per-example baseline scores and input provenance.

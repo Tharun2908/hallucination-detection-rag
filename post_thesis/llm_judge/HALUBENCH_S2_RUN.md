@@ -1,11 +1,15 @@
 # Post-thesis fresh S2 HaluBench features
 
+**Recorded outcome:** Completed: 8,000 features; 1,886 original raw-zero fallbacks retained. See the [completed-stage record](../../results/post_thesis/llm_judge/s2_halubench_cluster_20260928.json).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 Fresh S4 inference and replay completed on all 8,000 canonical HaluBench TEST
 examples, with report SHA256
 `2d68d0657d983db0df84b146264652eea00034734e82d09a42126c56e4ba0f2c`.
 S4 truncated context in 850 examples and answers in none. The original input
-hashes and truncation records are preserved. No new TEST performance metrics
-have been calculated.
+hashes and truncation records are preserved. This feature-extraction command
+computes no TEST performance metrics; the later evaluation is recorded separately.
 
 This step produces fresh raw S2 relevance features on those identical inputs.
 It reuses the RAGTruth S2 runtime and preserves the frozen TRAIN normalization
@@ -97,6 +101,7 @@ they are not a controlled speed benchmark or a monetary-cost estimate. Fresh
 inference linkage does not retroactively attest historical caches or training
 membership. No legacy files, RAGTruth scores or frozen judge choices are changed.
 
-After these features are complete, apply the previously frozen metadata-free
-fusion with its fixed TRAIN normalization and threshold. Fresh MiniCheck and
-bounded frozen-judge HaluBench scoring follow before cross-domain evaluation.
+The subsequent [frozen fusion application](HALUBENCH_FUSION_RUN.md),
+[MiniCheck run](HALUBENCH_MINICHECK_RUN.md), [judge continuation](HALUBENCH_CONTINUATION.md)
+and [cross-domain evaluation](HALUBENCH_EVALUATION.md) are complete. They retain
+the fixed TRAIN normalization and thresholds.

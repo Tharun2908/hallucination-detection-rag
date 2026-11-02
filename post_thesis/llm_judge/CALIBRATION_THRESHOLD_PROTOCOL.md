@@ -1,5 +1,9 @@
 # Post-thesis calibration and operating-threshold protocol
 
+**Recorded outcome:** Implemented; fitted parameters and threshold frozen. See the [completed-stage record](../../results/post_thesis/llm_judge/development_fit_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 **Design v1, 2026-09-20. Commit before collecting scores for either reserved arm.**
 The [configuration](configs/label_score_fit_v1.json) fixes the statistical choices;
 it is not an inference or fitting command. No reserved-arm scores were available
@@ -155,11 +159,20 @@ HaluBench labels or create a new split. Raw and calibrated results remain separa
 
 The reservation establishes disjointness under the recorded native/exact-overlap
 components only. Strict underlying document disjointness, fuzzy/partial overlap,
-HaluBench overlap and baseline training exposure remain unverified. Subsequent
-reports must preserve those limitations and the post-thesis designation.
+and baseline training exposure remain unverified. Later HaluBench preparation
+quantified exact-passage overlap; broader independence remains unproven.
+Reports preserve these limitations and the post-thesis designation.
 
-Next: the [CPU token-length auditor](DEVELOPMENT_TOKEN_AUDIT.md) is implemented for these exact 1,200 reserved inputs and locally validated with the pinned tokenizer. The cluster audit and replay now match; the [separate bounded scoring configuration](DEVELOPMENT_SCORING_RUN.md) pins its identity and permits one request per reserved input. No fitting code, parameter estimates, selected threshold or new model calls are introduced.
+## Completed implementation
 
-Implementation update after completed reserved scoring: [CPU-only fitting](OFFLINE_FITTING.md) now implements this unchanged statistical design. Parameter estimates and the selected threshold remain pending on the pod; the original configuration is preserved as the preregistration artifact.
+The [CPU token audit](DEVELOPMENT_TOKEN_AUDIT.md),
+[reserved-arm scoring](DEVELOPMENT_SCORING_RUN.md) and [CPU fitting](OFFLINE_FITTING.md)
+completed under separate recorded plans. The original configuration is preserved
+as the preregistration artifact; the audit itself grants no generation allowance.
+
+The accepted calibration has `a = 0.3808096416654668` and
+`b = 0.3575745057816423`; the operating decision is raw margin `>= -1.25`.
+These values were frozen before new TEST inference and transferred unchanged
+to HaluBench.
 
 Cluster outcome: the [accepted fit and frozen operating threshold](../../results/post_thesis/llm_judge/development_fit_cluster_20260920.md) are recorded, with identical cached replay. This statistical design and its configuration remain unchanged.

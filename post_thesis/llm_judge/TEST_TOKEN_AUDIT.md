@@ -1,5 +1,9 @@
 # Post-thesis RAGTruth TEST token audit
 
+**Recorded outcome:** Completed: all 2,700 inputs fit. See the [completed-stage record](../../results/post_thesis/llm_judge/test_token_audit_cluster_20260920.md).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 This CPU-only step follows the completed [metadata-free fusion reconstruction](../../results/post_thesis/llm_judge/fusion_recovery_cluster_20260920.md).
 It belongs to the post-thesis extension, not the submitted thesis.
 

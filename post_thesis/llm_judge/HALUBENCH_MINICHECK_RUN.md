@@ -1,5 +1,9 @@
 # Post-thesis fresh MiniCheck on canonical HaluBench
 
+**Recorded outcome:** Completed: 8,000/8,000 scores and identical replay. See the [completed-stage record](../../results/post_thesis/llm_judge/minicheck_halubench_cluster_20260928.json).
+This guide retains the original procedure and scope; it is not an outstanding
+release task. See the [documentation index](DOCUMENTATION_INDEX.md) for later stages.
+
 The fresh S2, S4 and frozen metadata-free fusion HaluBench runs have completed.
 This step scores the unchanged canonical 8,000 TEST rows with the MiniCheck
 runtime already validated on RAGTruth. It is excluded from submitted thesis
@@ -103,5 +107,5 @@ example, with model loading reported separately; they are not directly comparabl
 to S2/S4 CUDA-only times.
 
 Local execution tests use artificial model responses. CPU input preparation is
-recorded separately from GPU compatibility: live HaluBench scoring remains for
-the pod. Frozen Qwen scoring and cross-domain evaluation follow this step.
+recorded separately from GPU compatibility. The pod run, its cached replay and
+the subsequent [frozen four-system evaluation](HALUBENCH_EVALUATION.md) are complete.
