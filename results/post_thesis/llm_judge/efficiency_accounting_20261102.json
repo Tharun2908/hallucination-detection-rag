@@ -1,0 +1,211 @@
+{
+  "study_stage": "post_thesis",
+  "record_type": "verified_frozen_report_efficiency_extract",
+  "recorded_date": "2026-11-02",
+  "source_code_revision": "009bd2ceed7fd3edb9248a84494e91bd569a3ba4",
+  "verification_scope": "Recomputed canonical JSON content hashes and compared published aggregate point metrics; no inference or evaluation rerun.",
+  "generation_calls": 0,
+  "fitting_calls": 0,
+  "metrics_recomputed": false,
+  "benchmarks": {
+    "ragtruth": {
+      "source_filename": "ragtruth_evaluation_report.json",
+      "source_file_sha256": "4d906f98199ca39c433eaa73fbdd84f57e1f9bf2610512a37bcae8f3026518e3",
+      "source_report_sha256": "7bdf3e9c5de63e585a07044f7e33b14f960490c01b1e682f08494da9148d3aac",
+      "canonical_report_hash_verified": true,
+      "published_point_metrics_match": true,
+      "examples": 2700,
+      "efficiency": {
+        "MiniCheck_7B": {
+          "known_token_totals": {
+            "input_tokens": 13661600,
+            "output_tokens": 18935
+          },
+          "recorded_timing": {
+            "known_example_seconds": 558.9951405017637,
+            "known_initialization_seconds": 26.604065424762666,
+            "unknown_initializations": 0,
+            "unknown_timing_examples": 0
+          },
+          "scope": "per-example time; initialization recorded separately",
+          "workload": {
+            "all_inputs_fit": true,
+            "examples": 2700,
+            "input_tokens": 13661600,
+            "max_input_tokens": 2236,
+            "min_input_tokens": 240,
+            "output_token_allowance": 18935,
+            "sentence_requests": 18935,
+            "truncated_prompts": 0
+          }
+        },
+        "S2_S4_metadata_free": {
+          "fusion_application_seconds": null,
+          "scope": "fresh S2/S4 measurements above; fusion application time not measured"
+        },
+        "S2_dependency": {
+          "recorded_timing": {
+            "known_cuda_forward_seconds": 201.14531651698053,
+            "known_example_seconds": 453.95719652296975,
+            "unknown_timing_examples": 0
+          },
+          "scope": "shared GPU; example and CUDA-forward sums; loading excluded",
+          "truncated_pairs": {
+            "answer_pairs": 0,
+            "context_pairs": 159
+          }
+        },
+        "S4": {
+          "recorded_timing": {
+            "known_batch_seconds": 33.94294817419723,
+            "known_cuda_forward_seconds": 18.275184537749738,
+            "unknown_timing_batches": 0
+          },
+          "scope": "shared GPU; batch and CUDA-forward sums; loading excluded",
+          "truncated_examples": {
+            "answer": 228,
+            "context": 1740
+          }
+        },
+        "comparison": "descriptive_only_no_speedup_claim",
+        "judge": {
+          "client_seconds": 3535.408586259,
+          "client_seconds_per_example": 1.3094105875033333,
+          "cost_basis": "billable duration/rate not supplied",
+          "examples": 2700,
+          "known_token_totals": {
+            "input_tokens": 3334607,
+            "output_tokens": 2700
+          },
+          "monetary_cost": null,
+          "request_latency_mean_seconds": 0.13824843062984724,
+          "request_latency_median_seconds": 0.13309891754761338,
+          "request_latency_p95_seconds": 0.2079833566676825,
+          "request_latency_sum_seconds": 373.2707627005875,
+          "scope": "sequential client requests; client total includes preflight/journal work, excludes preparation and server startup/idle",
+          "server_lifetime_seconds": null,
+          "unknown_usage_attempts": {
+            "input_tokens": 0,
+            "output_tokens": 0
+          },
+          "warmup_policy": "no observations discarded; first request included"
+        },
+        "limitations": [
+          "Native tokenizer token counts are not directly comparable compute units.",
+          "No common warmup, concurrency or GPU-sharing experiment; no speedup ratios.",
+          "GPU rental cost includes startup and idle time; unknown costs are not zero."
+        ]
+      }
+    },
+    "halubench": {
+      "source_filename": "halubench_evaluation_report.json",
+      "source_file_sha256": "6003045b89546205db0e2bda989c3db965c2361b558cc22886384da2dcd84dab",
+      "source_report_sha256": "6919ae8e3d137fc40803a351a15216628d8df2b89fd3c9b2d5908a1fd2e571d0",
+      "canonical_report_hash_verified": true,
+      "published_point_metrics_match": true,
+      "examples": 8000,
+      "efficiency": {
+        "MiniCheck_7B": {
+          "known_token_totals": {
+            "input_tokens": 4905370,
+            "output_tokens": 9158
+          },
+          "recorded_timing": {
+            "known_example_seconds": 427.1713758078404,
+            "known_initialization_seconds": 97.87437587138265,
+            "unknown_initializations": 0,
+            "unknown_timing_examples": 0
+          },
+          "scope": "per-example time; initialization recorded separately",
+          "workload": {
+            "all_inputs_fit": true,
+            "examples": 8000,
+            "input_tokens": 4905370,
+            "max_input_tokens": 6756,
+            "min_input_tokens": 102,
+            "output_token_allowance": 9158,
+            "sentence_requests": 9158,
+            "truncated_prompts": 0
+          }
+        },
+        "S2_S4_metadata_free": {
+          "fusion_application_seconds": null,
+          "scope": "fresh S2/S4 measurements above; fusion application time not measured"
+        },
+        "S2_dependency": {
+          "empty_pair_examples": 1886,
+          "recorded_timing": {
+            "known_cuda_forward_seconds": 78.99900397984311,
+            "known_example_seconds": 130.62203273642808,
+            "unknown_timing_examples": 0
+          },
+          "scope": "shared GPU; example and CUDA-forward sums; loading excluded",
+          "truncated_pairs": {
+            "answer_pairs": 0,
+            "context_pairs": 35
+          }
+        },
+        "S4": {
+          "recorded_timing": {
+            "known_batch_seconds": 69.6534190387465,
+            "known_cuda_forward_seconds": 41.682654801756144,
+            "unknown_timing_batches": 0
+          },
+          "scope": "shared GPU; batch and CUDA-forward sums; loading excluded",
+          "truncated_examples": {
+            "answer": 0,
+            "context": 850
+          }
+        },
+        "comparison": "descriptive_only_no_speedup_claim",
+        "judge": {
+          "client_seconds": 14979.674194816034,
+          "client_seconds_per_example": 1.8724592743520043,
+          "client_total_scope": "both parent and continuation, including interrupted window; preparation/server startup/idle excluded",
+          "cost_basis": "billable duration/rate not supplied",
+          "examples": 8000,
+          "known_token_totals": {
+            "input_tokens": 7794485,
+            "output_tokens": 8000
+          },
+          "monetary_cost": null,
+          "request_latency_mean_seconds": 0.11465222219139105,
+          "request_latency_median_seconds": 0.0758976407814771,
+          "request_latency_p95_seconds": 0.42672880666796115,
+          "request_latency_scope": "8000 successful requests only; interrupted request latency unavailable",
+          "request_latency_sum_seconds": 917.2177775311284,
+          "scope": "sequential client requests; client total includes preflight/journal work, excludes preparation and server startup/idle",
+          "server_lifetime_seconds": null,
+          "total_client_attempts": 8001,
+          "unique_valid_scores": 8000,
+          "unknown_usage_attempts": {
+            "input_tokens": 1,
+            "output_tokens": 1
+          },
+          "warmup_policy": "no observations discarded; first request included"
+        },
+        "limitations": [
+          "Native tokenizer token counts are not directly comparable compute units.",
+          "No common warmup, concurrency or GPU-sharing experiment; no speedup ratios.",
+          "GPU rental cost includes startup and idle time; unknown costs are not zero.",
+          "One original interrupted attempt retains unknown token usage; known totals are incomplete cost accounting."
+        ]
+      }
+    }
+  },
+  "cost_accounting": {
+    "monetary_cost": null,
+    "currency": null,
+    "billing_rate": null,
+    "billable_duration_seconds": null,
+    "reason": "No billing rate or billable duration supplied. Client and request sums exclude preparation, server startup and idle time; they are not billed GPU hours.",
+    "scope": "Recorded final TEST inference only; not total development, failed setup, training, or project cost."
+  },
+  "limitations": [
+    "Timing scopes differ across systems; no controlled speedup comparison.",
+    "Baseline median and p95 latencies are not present in these reports and cannot be recovered from aggregate sums.",
+    "Fusion application time was not measured.",
+    "The HaluBench interrupted attempt has unknown input/output usage and unavailable request latency; known totals are incomplete.",
+    "Verifying a report hash does not independently reproduce inference or prove historical training provenance."
+  ]
+}

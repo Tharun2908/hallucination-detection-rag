@@ -1,5 +1,7 @@
 # Post-thesis LLM judge results
 
+The [verified inference accounting](efficiency_accounting_20261102.md) consolidates both frozen evaluation reports: request latency, client time, baseline timing scopes, token usage and the retained interrupted attempt. Monetary cost remains unknown; these measurements do not support controlled speedup claims.
+
 Results collected after thesis submission. These post-thesis artifacts are
 excluded from the submitted thesis results. **Frozen RAGTruth TEST evaluation is complete.** The judge trails all three baselines on AUROC, AP and F1; see the [findings](ragtruth_frozen_evaluation_20260928.md) and [reported metrics](ragtruth_frozen_evaluation_20260928.json). The [canonical HaluBench 8k evaluation and replay](halubench_frozen_evaluation_20260929.md) are complete; [recorded metrics](halubench_frozen_evaluation_20260929.json) show a benchmark-dependent ranking reversal and substantial source heterogeneity. [Fresh S2 inference and replay](s2_halubench_cluster_20260928.json) are complete; [frozen CPU fusion application and replay](halubench_fusion_cluster_20260928.json) are also complete. [Fresh MiniCheck inference and replay](minicheck_halubench_cluster_20260928.json) are complete. The [bounded frozen Qwen run](../../../post_thesis/llm_judge/HALUBENCH_JUDGE_RUN.md) is prepared; cross-domain metrics are now recorded.
 

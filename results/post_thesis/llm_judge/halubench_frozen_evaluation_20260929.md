@@ -1,5 +1,11 @@
 # Post-thesis frozen HaluBench findings — 2026-09-29
 
+**Verification update (2026-11-02):** The full uploaded report now matches its
+previously recorded canonical hash, and its aggregate point metrics match the
+public JSON exactly. See [verified inference accounting](efficiency_accounting_20261102.md).
+Earlier provenance statements below describe the original console-only record;
+this update adds report-integrity verification, not an inference or metrics rerun.
+
 These experiments were conducted after thesis submission and are not part of the
 submitted thesis results. The canonical 8,000-example evaluation and cached replay
 completed with identical reported hash:
